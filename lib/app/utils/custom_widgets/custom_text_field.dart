@@ -4,14 +4,21 @@ class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final bool isPassword;
+  final bool? isEnabled;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final bool validateOnChange;
   final double? horizontalPadding;
+  final Widget? prefixIcon;
+  final Widget? suffixIcon;
+
   const CustomTextField({
     Key? key,
+    this.isEnabled,
     required this.controller,
     required this.hintText,
+    this.prefixIcon,
+    this.suffixIcon,
     this.isPassword = false,
     this.keyboardType,
     this.validator,

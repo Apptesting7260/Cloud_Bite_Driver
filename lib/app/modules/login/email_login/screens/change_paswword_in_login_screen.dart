@@ -7,8 +7,7 @@ class ChangePasswordScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration:
-        const BoxDecoration(gradient: AppTheme.primaryGradientHorizontal),
+        decoration: const BoxDecoration(gradient: AppTheme.primaryGradientHorizontal),
         child: SafeArea(
           bottom: false,
           child: Scaffold(

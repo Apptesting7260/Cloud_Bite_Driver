@@ -27,6 +27,8 @@ export 'package:cloud_bites_driver/app/modules/login/email_login/screens/change_
 export 'package:cloud_bites_driver/app/modules/login/email_login/screens/email_login_screen.dart';
 export 'package:cloud_bites_driver/app/modules/login/email_login/screens/forgot_otp_verify_in_login.dart';
 export 'package:cloud_bites_driver/app/modules/login/email_login/screens/forgot_password_screen.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/screens/delivery_method_screen.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/screens/signup_screen.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Models Exports ↓ ↓ ↓ ↓ ↓
@@ -40,6 +42,8 @@ export 'package:cloud_bites_driver/app/modules/login/email_login/controller/forg
 export 'package:cloud_bites_driver/app/modules/login/email_login/controller/change_password_in_login_controller.dart';
 export 'package:cloud_bites_driver/app/modules/login/email_login/controller/email_login_controller.dart';
 export 'package:cloud_bites_driver/app/modules/login/email_login/controller/forgot_password_controller.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/controller/signup_controller.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/controller/delivery_method_controller.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Theme & Constants Exports ↓ ↓ ↓ ↓ ↓

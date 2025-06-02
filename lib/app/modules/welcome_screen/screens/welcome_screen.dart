@@ -122,7 +122,7 @@ class WelcomeScreen extends StatelessWidget{
                       TextButton(
                         style: ButtonStyle(padding: WidgetStatePropertyAll(EdgeInsets.all(0))),
                         onPressed: (){
-                          //Get.toNamed(Routes.LOGIN_PHONE, arguments: true);
+                          Get.toNamed(Routes.signUpScreen);
                         },
                         child: Text(
                           'Sign Up',

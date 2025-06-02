@@ -1,5 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-
+import 'package:cloud_bites_driver/app/modules/sign_up/screens/document_verification_screen.dart';
 
 class Routes {
   static const splash = '/splash';
@@ -11,6 +11,9 @@ class Routes {
   static const forgotPasswordInLogin = '/forgotPasswordInLogin';
   static const forgotOtpVerifyInLogin = '/forgotOtpVerifyInLogin';
   static const changePasswordInLogin = '/changePasswordInLogin';
+  static const signUpScreen = '/signUpScreen';
+  static const deliveryMethodScreen = '/deliveryMethodScreen';
+  static const documentVerificationScreen = '/documentVerificationScreen';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen()),
@@ -22,5 +25,8 @@ class Routes {
     GetPage(name: forgotPasswordInLogin, page: () => ForgotPasswordScreen()),
     GetPage(name: forgotOtpVerifyInLogin, page: () => ForgotOtpVerifyInLogin()),
     GetPage(name: changePasswordInLogin, page: () => ChangePasswordScreen()),
+    GetPage(name: signUpScreen, page: () => SignUpScreen()),
+    GetPage(name: deliveryMethodScreen, page: () => DeliveryMethodScreen()),
+    GetPage(name: documentVerificationScreen, page: () => DocumentVerificationScreen()),
   ];
 }

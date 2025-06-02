@@ -127,7 +127,9 @@ class EmailLoginScreen extends StatelessWidget{
                       TextButton(
                         style: const ButtonStyle(
                             padding: WidgetStatePropertyAll(EdgeInsets.all(0))),
-                        onPressed: (){},
+                        onPressed: (){
+                          Get.toNamed(Routes.signUpScreen);
+                        },
                         child: const Text(
                           'Sign Up',
                           style: TextStyle(
