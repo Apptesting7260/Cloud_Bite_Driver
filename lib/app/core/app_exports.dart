@@ -29,7 +29,8 @@ export 'package:cloud_bites_driver/app/modules/login/email_login/screens/forgot_
 export 'package:cloud_bites_driver/app/modules/login/email_login/screens/forgot_password_screen.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/screens/delivery_method_screen.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/screens/signup_screen.dart';
-
+export 'package:cloud_bites_driver/app/modules/sign_up/screens/document_verification_screen.dart';
+export 'package:cloud_bites_driver/app/modules/personal_documents/screen/personal_document_screen.dart';
 
 /// ↓ ↓ ↓ ↓ ↓ Models Exports ↓ ↓ ↓ ↓ ↓
 
@@ -44,6 +45,11 @@ export 'package:cloud_bites_driver/app/modules/login/email_login/controller/emai
 export 'package:cloud_bites_driver/app/modules/login/email_login/controller/forgot_password_controller.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/controller/signup_controller.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/controller/delivery_method_controller.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/controller/document_verification_controller.dart';
+export 'package:cloud_bites_driver/app/modules/personal_documents/controller/personal_document_controller.dart';
+export 'package:cloud_bites_driver/app/modules/vehicle_details/controller/vehicle_detail_controller.dart';
+export 'package:cloud_bites_driver/app/modules/bank_details/controller/bank_details_controller.dart';
+export 'package:cloud_bites_driver/app/modules/personal_documents/screen/profile_photo/controller/profile_photo_controller.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Theme & Constants Exports ↓ ↓ ↓ ↓ ↓
@@ -59,6 +65,10 @@ export 'package:cloud_bites_driver/app/utils/custom_widgets/custom_app_bar.dart'
 export 'package:cloud_bites_driver/app/utils/custom_widgets/cutom_text_form_field.dart';
 export 'package:cloud_bites_driver/app/utils/validators/form_validators.dart';
 export 'package:cloud_bites_driver/app/utils/custom_widgets/custom_text_field.dart';
-
+export 'package:cloud_bites_driver/app/utils/custom_widgets/gradient_dotted_border.dart';
+export 'package:image_cropper/image_cropper.dart';
+export 'package:image_picker/image_picker.dart';
+export 'package:cloud_bites_driver/app/utils/custom_widgets/custom_snakbar.dart';
+export 'package:cloud_bites_driver/app/utils/custom_widgets/custom_image_cropper_ratio.dart';
 
 

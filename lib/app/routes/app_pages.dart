@@ -1,5 +1,9 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/modules/sign_up/screens/document_verification_screen.dart';
+import 'package:cloud_bites_driver/app/modules/bank_details/screen/bank_details_screen.dart';
+import 'package:cloud_bites_driver/app/modules/personal_documents/screen/identity_verification/screen/identity_verification_screen.dart';
+import 'package:cloud_bites_driver/app/modules/personal_documents/screen/profile_photo/screen/profile_photo_screen.dart';
+import 'package:cloud_bites_driver/app/modules/vehicle_details/screen/vehicle_detail_screen.dart';
+
 
 class Routes {
   static const splash = '/splash';
@@ -14,6 +18,11 @@ class Routes {
   static const signUpScreen = '/signUpScreen';
   static const deliveryMethodScreen = '/deliveryMethodScreen';
   static const documentVerificationScreen = '/documentVerificationScreen';
+  static const personalDocumentsScreen = '/personalDocumentsScreen';
+  static const vehicleDetailsScreen = '/vehicleDetailsScreen';
+  static const bankDetailsScreen = '/bankDetailsScreen';
+  static const profilePhotoScreen = '/profilePhotoScreen';
+  static const identityVerificationScreen = '/identityVerificationScreen';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen()),
@@ -28,5 +37,10 @@ class Routes {
     GetPage(name: signUpScreen, page: () => SignUpScreen()),
     GetPage(name: deliveryMethodScreen, page: () => DeliveryMethodScreen()),
     GetPage(name: documentVerificationScreen, page: () => DocumentVerificationScreen()),
+    GetPage(name: personalDocumentsScreen, page: () => PersonalDocumentScreen()),
+    GetPage(name: vehicleDetailsScreen, page: () => VehicleDetailsScreen()),
+    GetPage(name: bankDetailsScreen, page: () => BankDetailsScreen()),
+    GetPage(name: profilePhotoScreen, page: () => ProfilePhotoScreen()),
+    GetPage(name: identityVerificationScreen, page: () => IdentityVerificationScreen()),
   ];
 }

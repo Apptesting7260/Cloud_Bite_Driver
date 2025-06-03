@@ -1,0 +1,103 @@
+import 'dart:io';
+
+import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/modules/personal_documents/screen/identity_verification/controller/identty_verification_controller.dart';
+
+class IdentityVerificationScreen extends StatelessWidget{
+
+  final IdentityVerificationController controller = Get.put(IdentityVerificationController());
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomBackButtonAppBar(title: 'Identity Verification'),
+      body: Padding(
+        padding: const EdgeInsets.all(15),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            WidgetDesigns.hBox(20),
+            photoContainer('1', 'Front side photo of your\nIdentity Card'),
+            WidgetDesigns.hBox(20),
+            photoContainer('2', 'Back side photo of your\nIdentity Card'),
+            WidgetDesigns.hBox(20),
+            CustomAnimatedButton(
+                onTap: (){},
+                text: 'Submit')
+          ],
+        ),
+      )
+    );
+  }
+
+  Widget photoContainer(String type, String text){
+    return Obx((){
+      File? image = type == '1'
+          ? controller.frontImage.value
+          : controller.backImage.value;
+      return GradientDottedBorder(
+        strokeWidth: 2,
+        radius: Radius.circular(15),
+        gradientColors: [Color(0xFFB6568E), Color(0xFF5FB6E3)],
+        child: Container(
+          height: 200,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppTheme.white,
+            borderRadius: BorderRadius.circular(15),
+            image: image != null ? DecorationImage(image: FileImage(image), fit: BoxFit.fill) : null
+          ),
+          child: image == null
+          ? Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                text,
+                style: AppFontStyle.text_14_400(AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular),
+                textAlign: TextAlign.center,
+              ),
+              WidgetDesigns.hBox(20),
+              GestureDetector(
+                onTap: () {
+                  if(type == '1'){
+                    controller.pickImage(controller.frontImage);
+                  }else{
+                    controller.pickImage(controller.backImage);
+                  }
+                },
+                child: Container(
+                  width: 150,
+                  height: 40,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(25),
+                      gradient: AppTheme.primaryGradientHorizontal
+                  ),
+                  child: Container(
+                    margin: EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(23),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Icon(Icons.camera_alt, size: 14, color: AppTheme.primaryColor),
+                          WidgetDesigns.wBox(10),
+                          Text(
+                            'Upload Photo',
+                            style: AppFontStyle.text_14_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansRegular),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ) : null
+        ),
+      );
+    });
+  }
+}

@@ -59,6 +59,7 @@ class DeliveryMethodScreen extends StatelessWidget {
       ),
     );
   }
+
   Widget deliveryOption(){
     return Obx( () {
       return Column(
@@ -66,7 +67,7 @@ class DeliveryMethodScreen extends StatelessWidget {
         children: [
           Text("Select Delivery Method",
               style: AppFontStyle.text_16_400(
-                  AppTheme.black, fontFamily: AppFontFamily.generalSansRegular)
+                  AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
           ),
           WidgetDesigns.hBox(20),
           deliveryOptionWidget(
@@ -107,7 +108,7 @@ class DeliveryMethodScreen extends StatelessWidget {
         width: Get.width,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30),
-          color: AppTheme.lightGrey,
+          color: AppTheme.white,
           border: Border.all(
             color: isSelected ? AppTheme.primaryColor : AppTheme.primaryColor.withOpacity(0.2)
           )
@@ -118,7 +119,7 @@ class DeliveryMethodScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               title,
-              style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
+              style: AppFontStyle.text_16_400(isSelected ? AppTheme.primaryColor : AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
               textAlign: TextAlign.center,
             ),
           ),

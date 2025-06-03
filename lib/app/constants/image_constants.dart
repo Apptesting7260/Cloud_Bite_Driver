@@ -8,6 +8,10 @@ class ImageConstants{
   static const String onboarding3 = "$imagePath/onboarding3.svg";
   static const String downArrow = "$imagePath/downArrow.svg";
   static String passwordChangedIon= "$imagePath/password_changed_icon.svg";
+  static String personalDocImage= "$imagePath/personal_doc_image.svg";
+  static String vehicleDetailImage= "$imagePath/vehicle_detail_image.svg";
+  static String bankAccountImage= "$imagePath/bank_detail_image.svg";
+  static String profileImage= "$imagePath/profile_image.svg";
 
   // PNG Images
   static String splashImage= "$imagePath/splash.png";
