@@ -50,6 +50,7 @@ export 'package:cloud_bites_driver/app/modules/personal_documents/controller/per
 export 'package:cloud_bites_driver/app/modules/vehicle_details/controller/vehicle_detail_controller.dart';
 export 'package:cloud_bites_driver/app/modules/bank_details/controller/bank_details_controller.dart';
 export 'package:cloud_bites_driver/app/modules/personal_documents/screen/profile_photo/controller/profile_photo_controller.dart';
+export 'package:cloud_bites_driver/app/modules/personal_documents/screen/identity_verification/controller/identty_verification_controller.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Theme & Constants Exports ↓ ↓ ↓ ↓ ↓

@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/modules/personal_documents/screen/identity_verification/controller/identty_verification_controller.dart';
 
 class IdentityVerificationScreen extends StatelessWidget{
 
