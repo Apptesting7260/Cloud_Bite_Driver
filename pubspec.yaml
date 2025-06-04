@@ -45,6 +45,9 @@ dependencies:
   pinput: ^5.0.1
   image_picker: ^1.1.2
   image_cropper: ^8.1.0
+  dropdown_button2: ^2.3.9
+  location: ^5.0.0
+  google_maps_flutter: ^2.12.2
 
 dev_dependencies:
   flutter_test:

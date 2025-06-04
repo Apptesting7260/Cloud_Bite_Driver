@@ -2,23 +2,23 @@ import 'dart:io';
 
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
-class IdentityVerificationScreen extends StatelessWidget{
+class DrivingLicenseScreen extends StatelessWidget{
 
-  final IdentityVerificationController controller = Get.put(IdentityVerificationController());
+  final DrivingLicenseController controller = Get.put(DrivingLicenseController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomBackButtonAppBar(title: 'Identity Verification'),
+      appBar: CustomBackButtonAppBar(title: "Driving License"),
       body: Padding(
-        padding: const EdgeInsets.all(15),
+        padding: EdgeInsets.all(15.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             WidgetDesigns.hBox(20),
-            photoContainer('1', 'Front side photo of your\nIdentity Card'),
+            photoContainer('1', 'Front side photo of your\nDriving License'),
             WidgetDesigns.hBox(20),
-            photoContainer('2', 'Back side photo of your\nIdentity Card'),
+            photoContainer('2', 'Back side photo of your\nDriving License'),
             WidgetDesigns.hBox(20),
             CustomAnimatedButton(
                 onTap: (){},
@@ -26,25 +26,23 @@ class IdentityVerificationScreen extends StatelessWidget{
             )
           ],
         ),
-      )
+      ),
     );
   }
 
   Widget photoContainer(String type, String text){
-    return Obx((){
-      File? image = type == '1'
-          ? controller.frontImage.value
-          : controller.backImage.value;
+    return Obx(() {
+      File? image = type == "1" ? controller.frontImage.value : controller.backImage.value;
       return GradientDottedBorder(
         strokeWidth: 2,
-        radius: Radius.circular(15),
+        radius: Radius.circular(15.0),
         gradientColors: [Color(0xFFB6568E), Color(0xFF5FB6E3)],
         child: Container(
           height: 200,
           width: double.infinity,
           decoration: BoxDecoration(
             color: AppTheme.white,
-            borderRadius: BorderRadius.circular(15),
+            borderRadius: BorderRadius.circular(15.0),
             image: image != null ? DecorationImage(image: FileImage(image), fit: BoxFit.fill) : null
           ),
           child: image == null
@@ -58,8 +56,8 @@ class IdentityVerificationScreen extends StatelessWidget{
               ),
               WidgetDesigns.hBox(20),
               GestureDetector(
-                onTap: () {
-                  if(type == '1'){
+                onTap: (){
+                  if(type == "1"){
                     controller.pickImage(controller.frontImage);
                   }else{
                     controller.pickImage(controller.backImage);
@@ -79,7 +77,7 @@ class IdentityVerificationScreen extends StatelessWidget{
                       borderRadius: BorderRadius.circular(23),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                      padding: EdgeInsets.all(8.0),
                       child: Row(
                         children: [
                           Icon(Icons.camera_alt, size: 14, color: AppTheme.primaryColor),
@@ -95,13 +93,14 @@ class IdentityVerificationScreen extends StatelessWidget{
                 ),
               )
             ],
-          ) : Stack(
+          ) :
+          Stack(
             children: [
               Positioned(
                 top: 8,
                 right: 8,
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: (){
                     if(type == '1'){
                       controller.frontImage.value = null;
                     }else{
@@ -111,14 +110,14 @@ class IdentityVerificationScreen extends StatelessWidget{
                   child: Container(
                     padding: EdgeInsets.all(4),
                     decoration: BoxDecoration(
-                      color: AppTheme.primaryColor,
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.black,
-                          blurRadius: 4
-                        )
-                      ]
+                        color: AppTheme.primaryColor,
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                              color: AppTheme.black,
+                              blurRadius: 4
+                          )
+                        ]
                     ),
                     child: Icon(
                       Icons.delete_forever,
@@ -129,8 +128,9 @@ class IdentityVerificationScreen extends StatelessWidget{
                 ),
               )
             ],
-          ))
-        );
+          )
+        ),
+      );
     });
   }
 }

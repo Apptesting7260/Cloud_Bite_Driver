@@ -74,6 +74,29 @@ class SignUpScreen extends StatelessWidget{
         CustomTextFormField(
           controller: controller.dobController,
           hintText: "Date Of Birth",
+          suffix: GestureDetector(
+              onTap: () async {
+                DateTime? pickedDate = await showDatePicker(
+                    context: Get.context!,
+                    initialDate: DateTime.now().subtract(Duration(days: 365 * 18)),
+                    firstDate: DateTime(1900),
+                    lastDate: DateTime.now(),
+                    builder: (context, child) {
+                      return Theme(
+                        data: Theme.of(context).copyWith(
+                          colorScheme: ColorScheme.light(
+                            primary: AppTheme.primaryColor, // Header background color
+                            onPrimary: Colors.white, // Header text color
+                            onSurface: Colors.black, // Body text color
+                          ),
+                          dialogBackgroundColor: Colors.white,
+                        ),
+                        child: child!,
+                      );
+                    }
+                );
+              },
+              child: Icon(Icons.calendar_month, color: AppTheme.primaryColor, size: 20)),
           //validator: FormValidators.validatePassword,
         ),
         WidgetDesigns.hBox(16),
@@ -182,12 +205,6 @@ class SignUpScreen extends StatelessWidget{
         CustomTextFormField(
           controller: controller.passwordController,
           hintText: "Password",
-        ),
-        WidgetDesigns.hBox(16),
-
-        CustomTextFormField(
-          controller: controller.confirmPasswordController,
-          hintText: "Confirm Password",
         ),
         WidgetDesigns.hBox(16),
 

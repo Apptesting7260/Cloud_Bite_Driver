@@ -20,4 +20,5 @@ class ImageConstants{
   static String googleLoginImage= "$imagePath/google.png";
   static String twitterLoginImage= "$imagePath/x.png";
   static String appleLoginImage= "$imagePath/apple.png";
+  static String mapImage= "$imagePath/map_image.png";
 }

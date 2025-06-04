@@ -95,7 +95,7 @@ class DocumentVerificationScreen extends StatelessWidget{
         WidgetDesigns.hBox(20),
         CustomAnimatedButton(
             onTap: () {
-              Get.toNamed('');
+              Get.toNamed(Routes.registrationCompleteScreen);
             },
             text: "Continue"
         )

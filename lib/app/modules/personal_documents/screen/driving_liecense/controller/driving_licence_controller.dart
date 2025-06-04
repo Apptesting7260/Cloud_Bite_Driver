@@ -2,29 +2,7 @@ import 'dart:io';
 
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
-class VehicleDetailController extends GetxController{
-  TextEditingController vehicleNameController = TextEditingController();
-  TextEditingController registrationNumberController = TextEditingController();
-  TextEditingController manufacturerYearController = TextEditingController();
-
-  final RxString selectedVehicleType = ''.obs;
-  final List<String> vehicleTypes = [
-    'Sedan',
-    'SUV',
-    'Truck',
-    'Motorcycle',
-    'Van'
-  ];
-
-  final RxString selectedFuelType = ''.obs;
-  final List<String> fuelType = [
-    'Petrol',
-    'Diesel',
-    'CNG',
-    'Electric',
-  ];
-
-  // Image Picker and Cropper Code
+class DrivingLicenseController extends GetxController{
   final ImagePicker _picker = ImagePicker();
   Rx<File?> frontImage = Rx<File?>(null);
   Rx<File?> backImage = Rx<File?>(null);

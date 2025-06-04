@@ -46,7 +46,7 @@ class PersonalDocumentScreen extends StatelessWidget{
         WidgetDesigns.hBox(20),
         pendingDocumentsNames(
                 "Driving License",
-                () => ''),
+                () => Get.toNamed(Routes.drivingLicenseScreen)),
       ],
     );
   }

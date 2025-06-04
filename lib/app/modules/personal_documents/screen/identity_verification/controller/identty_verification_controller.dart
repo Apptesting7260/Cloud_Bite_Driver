@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
 class IdentityVerificationController extends GetxController{

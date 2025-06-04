@@ -50,6 +50,11 @@ class AppFontStyle {
         height: height, fontFamily: fontFamily);
   }
 
+  static text_12_500(Color color, {fontFamily, height, overflow}) {
+    return _textStyle(color, 12, FontWeight.w500, overflow: overflow,
+        height: height, fontFamily: fontFamily);
+  }
+
   static text_12_200(Color color, {fontFamily, height}) {
     return _textStyle(color, 12, FontWeight.w200,
         height: height, fontFamily: fontFamily);

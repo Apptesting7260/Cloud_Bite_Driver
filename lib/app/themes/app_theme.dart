@@ -20,6 +20,7 @@ class AppTheme {
   static const Color hintText =  Color(0xFF929090);
   static const Color darkText =  Color(0xFF212121);
   static const Color darkText14 =  Color(0x23181725);
+  static const Color yellow =  Color(0xFFE3C429);
 
   static const Color red =  Color.fromRGBO(227, 54, 41, 1);
   static const Color white30 =  Color.fromRGBO(255, 255, 255, 0.3);
