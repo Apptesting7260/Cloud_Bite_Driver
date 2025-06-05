@@ -19,14 +19,19 @@ class HomeScreen extends StatelessWidget{
                   child: Row(
                     children: [
                       WidgetDesigns.hBox(20),
-                      Container(
-                        width: 44,
-                        height: 44,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(12.0),
-                          gradient: AppTheme.newLightGradient,
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.myProfileScreen);
+                        },
+                        child: Container(
+                          width: 44,
+                          height: 44,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.0),
+                            gradient: AppTheme.newLightGradient,
+                          ),
+                          child: Icon(Icons.menu, size: 22, color: AppTheme.primaryColor),
                         ),
-                        child: Icon(Icons.menu, size: 22, color: AppTheme.primaryColor),
                       ),
                       Spacer(),
                       Container(

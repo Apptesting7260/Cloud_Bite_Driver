@@ -12,6 +12,24 @@ class ImageConstants{
   static String vehicleDetailImage= "$imagePath/vehicle_detail_image.svg";
   static String bankAccountImage= "$imagePath/bank_detail_image.svg";
   static String profileImage= "$imagePath/profile_image.svg";
+  static String personalDetailsIcon= "$imagePath/personal_details_icon.svg";
+  static String documentsIcon= "$imagePath/documents_icon.svg";
+  static String earningsIcon= "$imagePath/my_earnings_icon.svg";
+  static String walletIcon= "$imagePath/wallet_icon.svg";
+  static String helpCenter= "$imagePath/helpCenter_icon.svg";
+  static String settingsIcon= "$imagePath/settings_icon.svg";
+  static String logoutIcon= "$imagePath/logout_icon.svg";
+
+  static String profileNameIcon= "$imagePath/profile_name_icon.svg";
+  static String profileDobIcon= "$imagePath/profile_dob_icon.svg";
+  static String profilePhoneIcon= "$imagePath/profile_phone_icon.svg";
+  static String profileEmailIcon= "$imagePath/profile_email_icon.svg";
+  static String profileAddressIcon= "$imagePath/profile_address_icon.svg";
+
+  static String notificationIcon = "$imagePath/notifiction_icon.svg";
+  static String passwordIcon = "$imagePath/password_icon.svg";
+  static String supportIcon = "$imagePath/support_icon.svg";
+  static String policyIcon = "$imagePath/terms_condition_icon.svg";
 
   // PNG Images
   static String splashImage= "$imagePath/splash.png";
@@ -21,4 +39,5 @@ class ImageConstants{
   static String twitterLoginImage= "$imagePath/x.png";
   static String appleLoginImage= "$imagePath/apple.png";
   static String mapImage= "$imagePath/map_image.png";
+  static String profile = "$imagePath/profile.png";
 }

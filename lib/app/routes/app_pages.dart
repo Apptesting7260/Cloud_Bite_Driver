@@ -1,6 +1,4 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/modules/delivery_process/screens/home_screen.dart';
-import 'package:cloud_bites_driver/app/modules/registration_complete_screen/screen/registration_complete_screen.dart';
 
 
 class Routes {
@@ -24,6 +22,11 @@ class Routes {
   static const drivingLicenseScreen = '/drivingLicenseScreen';
   static const registrationCompleteScreen = '/registrationCompleteScreen';
   static const homeScreen = '/homeScreen';
+  static const myProfileScreen = '/myProfileScreen';
+  static const personalDetailsScreen = '/personalDetailsScreen';
+  static const editPersonalDetailsScreen = '/editPersonalDetailsScreen';
+  static const settingsScreen = '/settingsScreen';
+  static const helpCenterScreen = '/helpCenterScreen';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen()),
@@ -46,5 +49,10 @@ class Routes {
     GetPage(name: drivingLicenseScreen, page: () => DrivingLicenseScreen()),
     GetPage(name: registrationCompleteScreen, page: () => RegistrationCompleteScreen()),
     GetPage(name: homeScreen, page: () => HomeScreen()),
+    GetPage(name: myProfileScreen, page: () => MyProfileScreen()),
+    GetPage(name: personalDetailsScreen, page: () => PersonalDetailsScreen()),
+    GetPage(name: editPersonalDetailsScreen, page: () => EditPerosnalDetails()),
+    GetPage(name: settingsScreen, page: () => SettingsScreen()),
+    GetPage(name: helpCenterScreen, page: () => HelpCenterScreen()),
   ];
 }
