@@ -37,8 +37,7 @@ class DocumentVerificationScreen extends StatelessWidget{
                 ),
               ),
               WidgetDesigns.hBox(30),
-              Flexible(
-                flex: 2,
+              Expanded(
                 child: SizedBox(
                   width: double.infinity,
                   child: Material(
@@ -62,44 +61,60 @@ class DocumentVerificationScreen extends StatelessWidget{
   }
 
   Widget pendingDocuments()  {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Pending Documents",
-            style: AppFontStyle.text_16_400(
-                AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
-        ),
-        WidgetDesigns.hBox(20),
-        pendingDocumentsNames(
-                "Personal Documents",
-                ImageConstants.personalDocImage,
-                () => Get.toNamed(Routes.personalDocumentsScreen)
-        ),
-        WidgetDesigns.hBox(20),
-        pendingDocumentsNames(
-            "Vehicle Details",
-            ImageConstants.vehicleDetailImage,
-            () => Get.toNamed(Routes.vehicleDetailsScreen)
-        ),
-        WidgetDesigns.hBox(20),
-        pendingDocumentsNames(
-            "Bank Account Details",
-            ImageConstants.vehicleDetailImage,
-            () => Get.toNamed(Routes.bankDetailsScreen)),
-
-        WidgetDesigns.hBox(20),
-        Text("Completed Documents",
-            style: AppFontStyle.text_16_400(
-                AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
-        ),
-        WidgetDesigns.hBox(20),
-        CustomAnimatedButton(
-            onTap: () {
-              Get.toNamed(Routes.registrationCompleteScreen);
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Pending Documents",
+              style: AppFontStyle.text_16_400(
+                  AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
+          ),
+          WidgetDesigns.hBox(20),
+      
+          ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: controller.pendingDocsList.length,
+            shrinkWrap: true,
+            separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+            itemBuilder: (context, index) {
+              final doc = controller.pendingDocsList[index];
+              return pendingDocumentsNames(
+                doc["title"], doc["image"], () => Get.toNamed(doc["route"]),
+              );
             },
-            text: "Continue"
-        )
-      ],
+          ),
+      
+          WidgetDesigns.hBox(20),
+          Text("Completed Documents",
+              style: AppFontStyle.text_16_400(
+                  AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
+          ),
+          WidgetDesigns.hBox(20),
+      
+          ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: controller.pendingDocsList.length,
+            shrinkWrap: true,
+            separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+            itemBuilder: (context, index) {
+              final doc = controller.pendingDocsList[index];
+              return pendingDocumentsNames(
+                doc["title"],
+                doc["image"],
+                    () => Get.toNamed(doc["route"]),
+              );
+            },
+          ),
+          WidgetDesigns.hBox(20),
+      
+          CustomAnimatedButton(
+              onTap: () {
+                Get.toNamed(Routes.registrationCompleteScreen);
+              },
+              text: "Continue"
+          )
+        ],
+      ),
     );
   }
 

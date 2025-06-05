@@ -34,24 +34,26 @@ class PersonalDocumentScreen extends StatelessWidget{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        pendingDocumentsNames(
-                "Profile Photo",
-                () => Get.toNamed(Routes.profilePhotoScreen)),
 
-        WidgetDesigns.hBox(20),
-        pendingDocumentsNames(
-                "Identity Verification",
-                () => Get.toNamed(Routes.identityVerificationScreen)),
+        ListView.separated(
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: controller.documentList.length,
+          shrinkWrap: true,
+          separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+          itemBuilder: (context, index) {
+            final doc = controller.documentList[index];
+            return documentTypeName(
+              doc["title"],
+                  () => Get.toNamed(doc["route"]),
+            );
+          },
+        ),
 
-        WidgetDesigns.hBox(20),
-        pendingDocumentsNames(
-                "Driving License",
-                () => Get.toNamed(Routes.drivingLicenseScreen)),
       ],
     );
   }
 
-  Widget pendingDocumentsNames(String title, VoidCallback onTap) {
+  Widget documentTypeName(String title, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
