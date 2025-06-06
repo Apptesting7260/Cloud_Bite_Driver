@@ -43,6 +43,12 @@ export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub
 export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/personal_details_screen.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/settings_screen.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/help_center_screen.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/change_password_process_screen.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/forgot_password_screen.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/forgot_password_otp_verify_screen.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/change_password_screen.dart';
+export 'package:cloud_bites_driver/app/modules/delivery_process/screens/notification_screen.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/documents_screen.dart';
 
 /// ↓ ↓ ↓ ↓ ↓ Models Exports ↓ ↓ ↓ ↓ ↓
 
@@ -54,7 +60,7 @@ export 'package:cloud_bites_driver/app/modules/login/phone_login/controllers/pho
 export 'package:cloud_bites_driver/app/modules/login/email_login/controller/forgot_otp_verify_in_login_controller.dart';
 export 'package:cloud_bites_driver/app/modules/login/email_login/controller/change_password_in_login_controller.dart';
 export 'package:cloud_bites_driver/app/modules/login/email_login/controller/email_login_controller.dart';
-export 'package:cloud_bites_driver/app/modules/login/email_login/controller/forgot_password_controller.dart';
+export 'package:cloud_bites_driver/app/modules/login/email_login/controller/forgot_password_controller_in_login.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/controller/signup_controller.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/controller/delivery_method_controller.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/controller/document_verification_controller.dart';
@@ -67,6 +73,12 @@ export 'package:cloud_bites_driver/app/modules/personal_documents/screen/driving
 export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/edit_personal_details_controller.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/peronal_details_controller.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_controller.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/change_password_process_controller.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/forgot_password_controller.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/forgot_password_otp_verify_controller.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/change_password_controller.dart';
+export 'package:cloud_bites_driver/app/modules/delivery_process/controller/notification_controller.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/documnts_controller.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Theme & Constants Exports ↓ ↓ ↓ ↓ ↓

@@ -1,6 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
-
 class Routes {
   static const splash = '/splash';
   static const onboarding = '/onboarding';
@@ -27,6 +26,12 @@ class Routes {
   static const editPersonalDetailsScreen = '/editPersonalDetailsScreen';
   static const settingsScreen = '/settingsScreen';
   static const helpCenterScreen = '/helpCenterScreen';
+  static const changePasswordProcessScreen = '/changePasswordProcessScreen';
+  static const forgotPasswordScreen = '/forgotPasswordScreen';
+  static const forgotPasswordOtpVerifyScreen = '/forgotPasswordOtpVerifyScreen';
+  static const changePasswordScreen = '/changePasswordScreen';
+  static const notificationScreen = '/notificationScreen';
+  static const documentsScreen = '/documentsScreen';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen()),
@@ -35,9 +40,9 @@ class Routes {
     GetPage(name: phoneLogin, page: () => PhoneLoginView()),
     GetPage(name: phoneLoginOtpVerify, page: () => PhoneOtpVerifyScreen()),
     GetPage(name: emailLogin, page: () => EmailLoginScreen()),
-    GetPage(name: forgotPasswordInLogin, page: () => ForgotPasswordScreen()),
+    GetPage(name: forgotPasswordInLogin, page: () => ForgotPasswordScreenInLogin()),
     GetPage(name: forgotOtpVerifyInLogin, page: () => ForgotOtpVerifyInLogin()),
-    GetPage(name: changePasswordInLogin, page: () => ChangePasswordScreen()),
+    GetPage(name: changePasswordInLogin, page: () => ChangePasswordInLoginScreen()),
     GetPage(name: signUpScreen, page: () => SignUpScreen()),
     GetPage(name: deliveryMethodScreen, page: () => DeliveryMethodScreen()),
     GetPage(name: documentVerificationScreen, page: () => DocumentVerificationScreen()),
@@ -54,5 +59,11 @@ class Routes {
     GetPage(name: editPersonalDetailsScreen, page: () => EditPerosnalDetails()),
     GetPage(name: settingsScreen, page: () => SettingsScreen()),
     GetPage(name: helpCenterScreen, page: () => HelpCenterScreen()),
+    GetPage(name: changePasswordProcessScreen, page: () => ChangePasswordProcessScreen()),
+    GetPage(name: forgotPasswordScreen, page: () => ForgotPasswordScreen()),
+    GetPage(name: forgotPasswordOtpVerifyScreen, page: () => ForgotPasswordOtpVerifyScreen()),
+    GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
+    GetPage(name: notificationScreen, page: () => NotificationScreen()),
+    GetPage(name: documentsScreen, page: () => DocumentsScreen()),
   ];
 }

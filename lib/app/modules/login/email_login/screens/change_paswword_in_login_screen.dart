@@ -1,6 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
-class ChangePasswordScreen extends StatelessWidget{
+class ChangePasswordInLoginScreen extends StatelessWidget{
 
   final ChangePasswordInLoginController controller = Get.put(ChangePasswordInLoginController());
 

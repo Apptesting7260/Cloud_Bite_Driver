@@ -9,24 +9,26 @@ class VehicleDetailsScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomBackButtonAppBar(),
-      body: Padding(
-        padding: EdgeInsets.all(14.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Vehicle Details",
-              style: AppFontStyle.text_24_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
-            ),
-            WidgetDesigns.hBox(20),
-            Text(
-              'Please add your vehicle details to complete\nthe registration process.',
-              style: AppFontStyle.text_16_400(AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular),
-            ),
-            WidgetDesigns.hBox(20),
-            Expanded(child: vehicleForm())
-          ],
+      appBar: CustomBackButtonAppBar(backgroundColor: Colors.white),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(14.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Vehicle Details",
+                style: AppFontStyle.text_24_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+              ),
+              WidgetDesigns.hBox(20),
+              Text(
+                'Please add your vehicle details to complete\nthe registration process.',
+                style: AppFontStyle.text_16_400(AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular),
+              ),
+              WidgetDesigns.hBox(20),
+              Expanded(child: vehicleForm())
+            ],
+          ),
         ),
       ),
     );

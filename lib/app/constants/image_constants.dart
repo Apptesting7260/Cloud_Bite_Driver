@@ -30,6 +30,7 @@ class ImageConstants{
   static String passwordIcon = "$imagePath/password_icon.svg";
   static String supportIcon = "$imagePath/support_icon.svg";
   static String policyIcon = "$imagePath/terms_condition_icon.svg";
+  static String passwordChangedIcon = "$imagePath/password_changed_icon.svg";
 
   // PNG Images
   static String splashImage= "$imagePath/splash.png";

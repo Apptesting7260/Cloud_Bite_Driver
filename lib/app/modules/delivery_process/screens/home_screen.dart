@@ -34,24 +34,29 @@ class HomeScreen extends StatelessWidget{
                         ),
                       ),
                       Spacer(),
-                      Container(
-                        height: 50,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(40),
-                          gradient: LinearGradient(
-                            begin: Alignment.centerLeft,
-                            end: Alignment.centerRight,
-                            colors: [
-                              AppTheme.primaryColor.withOpacity(0.8),
-                              AppTheme.blueColor.withOpacity(0.8),
-                            ],
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed(Routes.notificationScreen);
+                        },
+                        child: Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(40),
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                AppTheme.primaryColor.withOpacity(0.8),
+                                AppTheme.blueColor.withOpacity(0.8),
+                              ],
+                            ),
                           ),
-                        ),
-                        child: const Icon(
-                          Icons.notifications_none,
-                          color: Colors.white,
-                          size: 30,
+                          child: const Icon(
+                            Icons.notifications_none,
+                            color: Colors.white,
+                            size: 30,
+                          ),
                         ),
                       ),
                     ],

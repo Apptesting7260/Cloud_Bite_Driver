@@ -210,7 +210,7 @@ class SignUpScreen extends StatelessWidget{
 
         CustomTextFormField(
           controller: controller.locationController,
-          hintText: "Location",
+          hintText: "Address",
         ),
         WidgetDesigns.hBox(20),
 

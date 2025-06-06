@@ -6,16 +6,18 @@ class SettingsScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomBackButtonAppBar(title: 'Settings'),
-      body: Padding(
-        padding: EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            WidgetDesigns.hBox(20),
-            settingsOption('',ImageConstants.notificationIcon, 'Notification'),
-            WidgetDesigns.hBox(20),
-            settingsOption('',ImageConstants.passwordIcon, 'Change Password'),
-          ],
+      appBar: CustomBackButtonAppBar(backgroundColor: Colors.white,title: 'Settings'),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(12.0),
+          child: Column(
+            children: [
+              WidgetDesigns.hBox(20),
+              settingsOption('',ImageConstants.notificationIcon, 'Notification'),
+              WidgetDesigns.hBox(20),
+              settingsOption(Routes.changePasswordProcessScreen,ImageConstants.passwordIcon, 'Change Password'),
+            ],
+          ),
         ),
       ),
     );

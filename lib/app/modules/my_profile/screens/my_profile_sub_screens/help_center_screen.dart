@@ -4,18 +4,20 @@ class HelpCenterScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomBackButtonAppBar(title: 'Help Center'),
-      body: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            WidgetDesigns.hBox(20),
-            helpCenterOption('',ImageConstants.supportIcon, 'Support'),
-            WidgetDesigns.hBox(20),
-            helpCenterOption('',ImageConstants.supportIcon, 'Privacy Policy'),
-            WidgetDesigns.hBox(20),
-            helpCenterOption('',ImageConstants.supportIcon, 'Terms & Conditions'),
-          ],
+      appBar: CustomBackButtonAppBar(backgroundColor: Colors.white,title: 'Help Center'),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              WidgetDesigns.hBox(20),
+              helpCenterOption('',ImageConstants.supportIcon, 'Support'),
+              WidgetDesigns.hBox(20),
+              helpCenterOption('',ImageConstants.supportIcon, 'Privacy Policy'),
+              WidgetDesigns.hBox(20),
+              helpCenterOption('',ImageConstants.supportIcon, 'Terms & Conditions'),
+            ],
+          ),
         ),
       ),
     );

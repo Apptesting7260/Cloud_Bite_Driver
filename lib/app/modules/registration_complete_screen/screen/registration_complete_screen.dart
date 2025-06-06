@@ -8,37 +8,39 @@ class RegistrationCompleteScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomBackButtonAppBar(),
-      body: Padding(
-        padding: const EdgeInsets.all(14.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            WidgetDesigns.hBox(10),
-            Text(
-              'Registration Complete',
-              style: AppFontStyle.text_24_500(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
-            ),
-            WidgetDesigns.hBox(20),
-            Text(
-              'Your application is under Verification',
-              style: AppFontStyle.text_16_400(AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular),
-            ),
-            WidgetDesigns.hBox(10),
-            Text(
-              'Account will get activated in 24hrs',
-              style: AppFontStyle.text_14_400(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
-            ),
-            WidgetDesigns.hBox(40),
-            documentsOptions(),
-            WidgetDesigns.hBox(20),
-            CustomAnimatedButton(
-                onTap: (){
-                  Get.toNamed(Routes.homeScreen);
-                },
-                text: 'Go To Home'
-            )
-          ],
+      appBar: CustomBackButtonAppBar(backgroundColor: Colors.white),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(14.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              WidgetDesigns.hBox(10),
+              Text(
+                'Registration Complete',
+                style: AppFontStyle.text_24_500(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
+              ),
+              WidgetDesigns.hBox(20),
+              Text(
+                'Your application is under Verification',
+                style: AppFontStyle.text_16_400(AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular),
+              ),
+              WidgetDesigns.hBox(10),
+              Text(
+                'Account will get activated in 24hrs',
+                style: AppFontStyle.text_14_400(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
+              ),
+              WidgetDesigns.hBox(40),
+              documentsOptions(),
+              WidgetDesigns.hBox(20),
+              CustomAnimatedButton(
+                  onTap: (){
+                    Get.toNamed(Routes.homeScreen);
+                  },
+                  text: 'Go To Home'
+              )
+            ],
+          ),
         ),
       ),
     );

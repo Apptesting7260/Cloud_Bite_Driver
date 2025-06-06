@@ -7,32 +7,34 @@ class PersonalDetailsScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
    return Scaffold(
-     appBar: CustomBackButtonAppBar(title: 'Personal Details'),
-     body: Padding(
-       padding: EdgeInsets.all(10.0),
-       child: Column(
-         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-         children: [
-           Column(
-             children: [
-               WidgetDesigns.hBox(20),
-               personalInfo(ImageConstants.profileNameIcon, 'First and Last Name' ,'Thato Setlhare'),
-               WidgetDesigns.hBox(30),
-               personalInfo(ImageConstants.profileDobIcon, 'Date Of Birth' ,'15/09/2000'),
-               WidgetDesigns.hBox(30),
-               personalInfo(ImageConstants.profilePhoneIcon, 'Phone Number' ,'+267 70000000'),
-               WidgetDesigns.hBox(30),
-               personalInfo(ImageConstants.profileEmailIcon, 'Email Address' ,'yourname@gmail.com'),
-               WidgetDesigns.hBox(30),
-               personalInfo(ImageConstants.profileAddressIcon, 'Address' ,'D 888 Abc Road, Greenfield, Abc....'),
-             ],
-           ),
-           CustomAnimatedButton(
-               onTap: (){
-                 Get.toNamed(Routes.editPersonalDetailsScreen);
-               },
-               text: 'Edit Details')
-         ],
+     appBar: CustomBackButtonAppBar(backgroundColor: Colors.white,title: 'Personal Details'),
+     body: SafeArea(
+       child: Padding(
+         padding: EdgeInsets.all(10.0),
+         child: Column(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: [
+             Column(
+               children: [
+                 WidgetDesigns.hBox(20),
+                 personalInfo(ImageConstants.profileNameIcon, 'First and Last Name' ,'Thato Setlhare'),
+                 WidgetDesigns.hBox(30),
+                 personalInfo(ImageConstants.profileDobIcon, 'Date Of Birth' ,'15/09/2000'),
+                 WidgetDesigns.hBox(30),
+                 personalInfo(ImageConstants.profilePhoneIcon, 'Phone Number' ,'+267 70000000'),
+                 WidgetDesigns.hBox(30),
+                 personalInfo(ImageConstants.profileEmailIcon, 'Email Address' ,'yourname@gmail.com'),
+                 WidgetDesigns.hBox(30),
+                 personalInfo(ImageConstants.profileAddressIcon, 'Address' ,'D 888 Abc Road, Greenfield, Abc....'),
+               ],
+             ),
+             CustomAnimatedButton(
+                 onTap: (){
+                   Get.toNamed(Routes.editPersonalDetailsScreen);
+                 },
+                 text: 'Edit Details')
+           ],
+         ),
        ),
      ),
    );

@@ -9,22 +9,24 @@ class IdentityVerificationScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomBackButtonAppBar(title: 'Identity Verification'),
-      body: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            WidgetDesigns.hBox(20),
-            photoContainer('1', 'Front side photo of your\nIdentity Card'),
-            WidgetDesigns.hBox(20),
-            photoContainer('2', 'Back side photo of your\nIdentity Card'),
-            WidgetDesigns.hBox(20),
-            CustomAnimatedButton(
-                onTap: (){},
-                text: 'Submit'
-            )
-          ],
+      appBar: CustomBackButtonAppBar(backgroundColor: Colors.white, title: 'Identity Verification'),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              WidgetDesigns.hBox(20),
+              photoContainer('1', 'Front side photo of your\nIdentity Card'),
+              WidgetDesigns.hBox(20),
+              photoContainer('2', 'Back side photo of your\nIdentity Card'),
+              WidgetDesigns.hBox(20),
+              CustomAnimatedButton(
+                  onTap: (){},
+                  text: 'Submit'
+              )
+            ],
+          ),
         ),
       )
     );

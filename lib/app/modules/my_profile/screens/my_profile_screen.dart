@@ -7,141 +7,143 @@ class MyProfileScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomBackButtonAppBar(title: 'My Profile'),
-      body: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            WidgetDesigns.hBox(20),
-            Container(
-              width: double.infinity,
-              height: 120,
-              decoration: BoxDecoration(
-                gradient: AppTheme.primaryGradient,
-                borderRadius: BorderRadius.circular(25),
-              ),
-              child: Padding(
-                  padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Image.asset(ImageConstants.profile),
-                    WidgetDesigns.wBox(10),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Thato Setlhare ',
-                          style: AppFontStyle.text_24_500(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
-                        ),
-                        Text(
-                          'yourname@gmail.com',
-                          style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
-                        )
-                      ],
-                    )
-                  ],
+      appBar: CustomBackButtonAppBar(backgroundColor: Colors.white, title: 'My Profile'),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              WidgetDesigns.hBox(20),
+              Container(
+                width: double.infinity,
+                height: 120,
+                decoration: BoxDecoration(
+                  gradient: AppTheme.primaryGradient,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+                child: Padding(
+                    padding: EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Image.asset(ImageConstants.profile),
+                      WidgetDesigns.wBox(10),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Thato Setlhare ',
+                            style: AppFontStyle.text_24_500(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
+                          ),
+                          Text(
+                            'yourname@gmail.com',
+                            style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            WidgetDesigns.hBox(10),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Expanded(
-                          child: Container(
-                            height: 110,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient: AppTheme.newLightGradient
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '500',
-                                  style: AppFontStyle.text_24_500(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
-                                ),
-                                WidgetDesigns.hBox(5),
-                                Text(
-                                  'Deliveries',
-                                  style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
-                                )
-                              ],
+              WidgetDesigns.hBox(10),
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 110,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: AppTheme.newLightGradient
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '500',
+                                    style: AppFontStyle.text_24_500(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
+                                  ),
+                                  WidgetDesigns.hBox(5),
+                                  Text(
+                                    'Deliveries',
+                                    style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
+                                  )
+                                ],
+                              ),
                             ),
                           ),
+                          WidgetDesigns.wBox(10),
+                          Expanded(
+                            child: Container(
+                              height: 110,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  gradient: AppTheme.newLightGradient
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    '4.5',
+                                    style: AppFontStyle.text_24_500(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
+                                  ),
+                                  WidgetDesigns.hBox(5),
+                                  Text(
+                                    'Ratings',
+                                    style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      WidgetDesigns.hBox(30),
+                      myProfileLists('Personal Details', ImageConstants.personalDetailsIcon, () => Get.toNamed(Routes.personalDetailsScreen)),
+                      WidgetDesigns.hBox(20),
+                      myProfileLists('Documents', ImageConstants.documentsIcon, () => Get.toNamed(Routes.documentsScreen)),
+                      WidgetDesigns.hBox(20),
+                      Container(
+                        padding: EdgeInsets.all(1.0),
+                        decoration: BoxDecoration(
+                            color: AppTheme.lightGrey
                         ),
-                        WidgetDesigns.wBox(10),
-                        Expanded(
-                          child: Container(
-                            height: 110,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                gradient: AppTheme.newLightGradient
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  '4.5',
-                                  style: AppFontStyle.text_24_500(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
-                                ),
-                                WidgetDesigns.hBox(5),
-                                Text(
-                                  'Ratings',
-                                  style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
-                                )
-                              ],
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                    WidgetDesigns.hBox(30),
-                    myProfileLists('Personal Details', ImageConstants.personalDetailsIcon, () => Get.toNamed(Routes.personalDetailsScreen)),
-                    WidgetDesigns.hBox(20),
-                    myProfileLists('Documents', ImageConstants.documentsIcon, () => ''),
-                    WidgetDesigns.hBox(20),
-                    Container(
-                      padding: EdgeInsets.all(1.0),
-                      decoration: BoxDecoration(
-                          color: AppTheme.lightGrey
                       ),
-                    ),
-                    WidgetDesigns.hBox(20),
-                    myProfileLists('Earnings', ImageConstants.earningsIcon, () => ''),
-                    WidgetDesigns.hBox(20),
-                    myProfileLists('My Wallet', ImageConstants.walletIcon, () => ''),
-                    WidgetDesigns.hBox(20),
-                    Container(
-                      padding: EdgeInsets.all(1.0),
-                      decoration: BoxDecoration(
-                          color: AppTheme.lightGrey
+                      WidgetDesigns.hBox(20),
+                      myProfileLists('Earnings', ImageConstants.earningsIcon, () => ''),
+                      WidgetDesigns.hBox(20),
+                      myProfileLists('My Wallet', ImageConstants.walletIcon, () => ''),
+                      WidgetDesigns.hBox(20),
+                      Container(
+                        padding: EdgeInsets.all(1.0),
+                        decoration: BoxDecoration(
+                            color: AppTheme.lightGrey
+                        ),
                       ),
-                    ),
-                    WidgetDesigns.hBox(20),
-                    myProfileLists('Help Center', ImageConstants.helpCenter, () => Get.toNamed(Routes.helpCenterScreen)),
-                    WidgetDesigns.hBox(20),
-                    myProfileLists('Settings', ImageConstants.settingsIcon, () => Get.toNamed(Routes.settingsScreen)),
-                    WidgetDesigns.hBox(20),
-                    Container(
-                      padding: EdgeInsets.all(1.0),
-                      decoration: BoxDecoration(
-                          color: AppTheme.lightGrey
+                      WidgetDesigns.hBox(20),
+                      myProfileLists('Help Center', ImageConstants.helpCenter, () => Get.toNamed(Routes.helpCenterScreen)),
+                      WidgetDesigns.hBox(20),
+                      myProfileLists('Settings', ImageConstants.settingsIcon, () => Get.toNamed(Routes.settingsScreen)),
+                      WidgetDesigns.hBox(20),
+                      Container(
+                        padding: EdgeInsets.all(1.0),
+                        decoration: BoxDecoration(
+                            color: AppTheme.lightGrey
+                        ),
                       ),
-                    ),
-                    WidgetDesigns.hBox(20),
-                    myProfileLists('Logout', ImageConstants.logoutIcon, () => showLogoutDialog(Get.context!)),
-                    WidgetDesigns.hBox(50),
-                  ],
+                      WidgetDesigns.hBox(20),
+                      myProfileLists('Logout', ImageConstants.logoutIcon, () => showLogoutDialog(Get.context!)),
+                      WidgetDesigns.hBox(50),
+                    ],
+                  ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
     );

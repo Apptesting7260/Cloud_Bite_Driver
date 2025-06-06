@@ -1,0 +1,23 @@
+import 'package:cloud_bites_driver/app/core/app_exports.dart';
+
+class DocumentsController extends GetxController{
+
+  RxList<Map<String, dynamic>> pendingDocsList = <Map<String, dynamic>>[
+    {
+      "title": "Personal Documents",
+      "image": ImageConstants.personalDocImage
+    },
+    {
+      "title": "Vehicle Details",
+      "image": ImageConstants.vehicleDetailImage
+    },
+    {
+      "title": "Bank Account Details",
+      "image": ImageConstants.vehicleDetailImage
+    },
+  ].obs;
+
+  void updateDocumentsFromApi(List<Map<String, dynamic>> apiData) {
+    pendingDocsList.value = apiData;
+  }
+}

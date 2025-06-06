@@ -7,14 +7,16 @@ class EditPerosnalDetails extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomBackButtonAppBar(title: 'Edit Details'),
-      body: Padding(
-        padding: EdgeInsets.all(10.0),
-        child: Column(
-          children: [
-            WidgetDesigns.hBox(20),
-            editPersonalDetailsFields()
-          ],
+      appBar: CustomBackButtonAppBar(backgroundColor: Colors.white,title: 'Edit Details'),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(10.0),
+          child: Column(
+            children: [
+              WidgetDesigns.hBox(20),
+              editPersonalDetailsFields()
+            ],
+          ),
         ),
       ),
     );

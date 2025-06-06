@@ -1,8 +1,8 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
-class ForgotPasswordScreen extends StatelessWidget{
+class ForgotPasswordScreenInLogin extends StatelessWidget{
 
-  final ForgotPasswordController controller = Get.put(ForgotPasswordController());
+  final ForgotPasswordControllerInLogin controller = Get.put(ForgotPasswordControllerInLogin());
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,7 @@ class ForgotPasswordScreen extends StatelessWidget{
                         const SizedBox(height: 20,),
                         Column(
                           children: [
-                            GetBuilder<ForgotPasswordController>(
+                            GetBuilder<ForgotPasswordControllerInLogin>(
                                 builder: (context) {
                                   return Form(
                                     key: controller.formKey,

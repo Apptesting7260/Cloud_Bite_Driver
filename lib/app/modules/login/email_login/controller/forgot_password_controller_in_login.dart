@@ -1,6 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
-class ForgotPasswordController extends GetxController{
+class ForgotPasswordControllerInLogin extends GetxController{
 
   final TextEditingController emailController = TextEditingController();
   final remainingTime = 60.obs;
