@@ -65,8 +65,9 @@ class HomeScreen extends StatelessWidget{
                 WidgetDesigns.hBox(20),
                 Flexible(
                   flex: 2,
-                  child: Obx(() {
-                    if (controller.initialCameraPosition.value == null) {
+                  child: Image.asset(ImageConstants.mapImage),
+                  /*child: Obx(() {
+                    *//*if (controller.initialCameraPosition.value == null) {
                       return Image.asset(ImageConstants.mapImage);
                     } else {
                       return GoogleMap(
@@ -77,8 +78,8 @@ class HomeScreen extends StatelessWidget{
                         myLocationEnabled: true,
                         myLocationButtonEnabled: true,
                       );
-                    }
-                  }),
+                    }*//*
+                  }),*/
                 ),
               ],
             ),

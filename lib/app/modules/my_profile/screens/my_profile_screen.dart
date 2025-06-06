@@ -116,7 +116,7 @@ class MyProfileScreen extends StatelessWidget{
                       WidgetDesigns.hBox(20),
                       myProfileLists('Earnings', ImageConstants.earningsIcon, () => ''),
                       WidgetDesigns.hBox(20),
-                      myProfileLists('My Wallet', ImageConstants.walletIcon, () => ''),
+                      myProfileLists('My Wallet', ImageConstants.walletIcon, () => Get.toNamed(Routes.myWalletScreen)),
                       WidgetDesigns.hBox(20),
                       Container(
                         padding: EdgeInsets.all(1.0),

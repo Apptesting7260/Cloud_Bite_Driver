@@ -32,6 +32,8 @@ class Routes {
   static const changePasswordScreen = '/changePasswordScreen';
   static const notificationScreen = '/notificationScreen';
   static const documentsScreen = '/documentsScreen';
+  static const myWalletScreen = '/myWalletScreen';
+  static const withdrawScreen = '/withdrawScreen';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen()),
@@ -65,5 +67,7 @@ class Routes {
     GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
     GetPage(name: notificationScreen, page: () => NotificationScreen()),
     GetPage(name: documentsScreen, page: () => DocumentsScreen()),
+    GetPage(name: myWalletScreen, page: () => MyWalletScreen()),
+    GetPage(name: withdrawScreen, page: () => WithdrawScreen()),
   ];
 }
