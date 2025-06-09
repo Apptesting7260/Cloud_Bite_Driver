@@ -3,6 +3,8 @@ export 'package:flutter/material.dart';
 export 'package:flutter/services.dart';
 export 'dart:async';
 export 'dart:convert';
+export 'package:get/get_core/src/get_main.dart';
+export 'package:get/get_instance/src/bindings_interface.dart';
 
 /// ↓ ↓ ↓ ↓ ↓ Pub Dev Exports ↓ ↓ ↓ ↓ ↓
 export 'package:get/get.dart';
@@ -14,8 +16,17 @@ export 'package:fluttertoast/fluttertoast.dart';
 export 'package:country_code_picker/country_code_picker.dart';
 export 'package:flutter_svg/svg.dart';
 export 'package:pinput/pinput.dart';
+export 'package:lottie/lottie.dart';
+export 'package:geolocator/geolocator.dart';
 
 /// ↓ ↓ ↓ ↓ ↓ Network Exports ↓ ↓ ↓ ↓ ↓
+export 'package:cloud_bites_driver/app/utils/network/base_api_services.dart';
+export 'package:flutter/foundation.dart';
+export 'package:cloud_bites_driver/app/utils/network/request_time_out.dart';
+export 'package:cloud_bites_driver/app/utils/network/network_api_services.dart';
+export 'package:cloud_bites_driver/app/storage/storageServices.dart';
+export 'package:cloud_bites_driver/app/constants/app_urls.dart';
+export 'package:cloud_bites_driver/app/utils/repository/repository.dart';
 
 /// ↓ ↓ ↓ ↓ ↓ Screen Exports ↓ ↓ ↓ ↓ ↓
 export 'package:cloud_bites_driver/app/modules/splash/screens/splash_screen.dart';
@@ -51,8 +62,17 @@ export 'package:cloud_bites_driver/app/modules/delivery_process/screens/notifica
 export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/documents_screen.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/my_wallet_screen.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/withdraw_screen.dart';
+export 'package:cloud_bites_driver/app/modules/add_address/screen/add_addres_screen.dart';
+
 
 /// ↓ ↓ ↓ ↓ ↓ Models Exports ↓ ↓ ↓ ↓ ↓
+export 'package:cloud_bites_driver/app/modules/sign_up/model/get_otp_model_for_verify.dart';
+export 'package:cloud_bites_driver/app/modules/add_address/models/location_models.dart';
+export 'package:cloud_bites_driver/app/modules/add_address/models/location_response.dart';
+export 'package:cloud_bites_driver/app/modules/add_address/models/search_place_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/get_email_otp_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/get_email_verify_success_model.dart';
+
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓
 export 'package:cloud_bites_driver/app/modules/onboarding/controller/onboarding_controller.dart';
@@ -82,6 +102,8 @@ export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_
 export 'package:cloud_bites_driver/app/modules/delivery_process/controller/notification_controller.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/documnts_controller.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/my_wallet_controller.dart';
+export 'package:cloud_bites_driver/app/modules/welcome_screen/controller/welcome_controller.dart';
+export 'package:cloud_bites_driver/app/modules/add_address/controller/location_controller.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Theme & Constants Exports ↓ ↓ ↓ ↓ ↓
@@ -104,7 +126,17 @@ export 'package:cloud_bites_driver/app/utils/custom_widgets/custom_snakbar.dart'
 export 'package:cloud_bites_driver/app/utils/custom_widgets/custom_image_cropper_ratio.dart';
 export 'package:dropdown_button2/dropdown_button2.dart';
 export 'package:cloud_bites_driver/app/utils/custom_widgets/simle_custom_dropdown.dart';
-export 'package:google_maps_flutter/google_maps_flutter.dart';
-export 'package:location/location.dart';
+export 'package:cloud_bites_driver/app/utils/custom_widgets/loading_overlay.dart';
+export 'package:cloud_bites_driver/app/utils/custom_widgets/my_text.dart';
+export 'package:cloud_bites_driver/app/utils/custom_widgets/custom_container.dart';
+export 'package:cloud_bites_driver/app/modules/add_address/places_services.dart';
+
+
+
+//// bindings /////
+export 'package:cloud_bites_driver/app/modules/sign_up/binding/sign_up_binding.dart';
+export 'package:cloud_bites_driver/app/modules/onboarding/binding/onboarding_binding.dart';
+export 'package:cloud_bites_driver/app/modules/splash/binding/splash_binding.dart';
+export 'package:cloud_bites_driver/app/modules/welcome_screen/binding/welcom_screen_binding.dart';
 
 

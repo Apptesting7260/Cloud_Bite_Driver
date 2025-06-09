@@ -55,269 +55,276 @@ class SignUpScreen extends StatelessWidget{
     );
   }
   Widget signUpFormFields(){
-    return Column(
-      children: [
-        CustomTextFormField(
-          controller: controller.firstNameController,
-          hintText: "First Name",
-          //validator: FormValidators.validateName(value),
-        ),
-        WidgetDesigns.hBox(16),
+    return Form(
+      key: controller.formKey,
+      child: Column(
+        children: [
+          CustomTextFormField(
+            controller: controller.firstNameController,
+            hintText: "First Name",
+            hintStyle: AppFontStyle.text_12_400(AppTheme.lightText, fontFamily: AppFontFamily.generalSansRegular),
+            validator: (value){
+              if(controller.firstNameController.text.isEmpty){
+                return "First name is required";
+              }
+              if(controller.firstNameError.value.isNotEmpty){
+                return controller.firstNameError.value;
 
-        CustomTextFormField(
-          controller: controller.lastNameController,
-          hintText: "Last Name",
-          //validator: FormValidators.validatePassword,
-        ),
-        WidgetDesigns.hBox(16),
+              }
+              return null;
+            },
+          ),
+          WidgetDesigns.hBox(16),
 
-        CustomTextFormField(
-          controller: controller.dobController,
-          hintText: "Date Of Birth",
-          suffix: GestureDetector(
-              onTap: () async {
-                DateTime? pickedDate = await showDatePicker(
-                    context: Get.context!,
-                    initialDate: DateTime.now().subtract(Duration(days: 365 * 18)),
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                    builder: (context, child) {
-                      return Theme(
-                        data: Theme.of(context).copyWith(
-                          colorScheme: ColorScheme.light(
-                            primary: AppTheme.primaryColor, // Header background color
-                            onPrimary: Colors.white, // Header text color
-                            onSurface: Colors.black, // Body text color
+          CustomTextFormField(
+            controller: controller.lastNameController,
+            hintText: "Last Name",
+            hintStyle: AppFontStyle.text_12_400(AppTheme.lightText, fontFamily: AppFontFamily.generalSansRegular),
+            validator: (value){
+              if(controller.lastNameController.text.isEmpty){
+                return "Last name is required";
+              }
+              if(controller.lastNameError.value.isNotEmpty){
+                return controller.lastNameError.value;
+
+              }
+              return null;
+            },
+          ),
+          WidgetDesigns.hBox(16),
+
+          CustomTextFormField(
+            controller: controller.dobController,
+            hintText: "Date Of Birth",
+            suffix: GestureDetector(
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                      context: Get.context!,
+                      initialDate: DateTime.now().subtract(Duration(days: 365 * 18)),
+                      firstDate: DateTime(1900),
+                      lastDate: DateTime.now(),
+                      builder: (context, child) {
+                        return Theme(
+                          data: Theme.of(context).copyWith(
+                            colorScheme: ColorScheme.light(
+                              primary: AppTheme.primaryColor, // Header background color
+                              onPrimary: Colors.white, // Header text color
+                              onSurface: Colors.black, // Body text color
+                            ),
+                            dialogBackgroundColor: Colors.white,
                           ),
-                          dialogBackgroundColor: Colors.white,
-                        ),
-                        child: child!,
-                      );
-                    }
-                );
-              },
-              child: Icon(Icons.calendar_month, color: AppTheme.primaryColor, size: 20)),
-          //validator: FormValidators.validatePassword,
-        ),
-        WidgetDesigns.hBox(16),
-
-        CustomTextFormField(
-         controller: controller.phoneController,
-         textInputType: TextInputType.number,
-         inputFormatters: [
-           FilteringTextInputFormatter.digitsOnly,
-           LengthLimitingTextInputFormatter(controller.checkCountryLength.value),
-         ],
-         prefix: Row(
-           mainAxisSize: MainAxisSize.min,
-           mainAxisAlignment: MainAxisAlignment.start,
-           crossAxisAlignment: CrossAxisAlignment.center,
-           children: [
-             Stack(
-               clipBehavior: Clip.none,
-               children: [
-                 CountryCodePicker(
-                   padding: EdgeInsets.zero,
-                   flagWidth: 40,
-                   margin: EdgeInsets.zero,
-                   flagDecoration: const BoxDecoration(
-                       shape: BoxShape.circle
-                   ),
-                   boxDecoration: const BoxDecoration(color: AppTheme.boxBgColor,),
-                   onChanged: (CountryCode countryCode) {
-                     WidgetDesigns.consoleLog("${countryCode.code}","country code --->>");
-                     WidgetDesigns.consoleLog("${countryCode.dialCode}","country dialCode --->>");
-
-                     controller.updateCountryString(countryCode.dialCode.toString());
-
-                     if(controller.countryPhoneDigits[int.parse(countryCode.dialCode.toString().replaceAll("+", ''))] != null){
-                       controller.checkCountryLength.value = controller.countryPhoneDigits[int.parse(countryCode.dialCode.toString().replaceAll("+", ''))]!;
-                     } else {
-                       controller.checkCountryLength.value = 10;
-                     }
-                   },
-                   initialSelection: controller.countryString.value,
-                 ),
-                 Positioned(
-                   right: -6,
-                   top: 2,
-                   bottom: 2,
-                   child: SvgPicture.asset(ImageConstants.downArrow),
-                 ),
-               ],
-             ),
-             WidgetDesigns.wBox(15),
-             Container(width: 1,height: 30,color: AppTheme.darkText14,),
-             WidgetDesigns.wBox(10),
-           ],
-         ),
-         hintText: "Phone Number",
-          suffix: ValueListenableBuilder<TextEditingValue>(
-            valueListenable: controller.phoneController,
-            builder: (context, value, child) {
-              return Visibility(
-                visible: value.text.isNotEmpty,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      customOtpDialog("${controller.countryString.value} ${controller.phoneController.text}", context, "phone");
-                    },
-                    child: Text(
-                      "Verify",
-                      style: AppFontStyle.text_12_200(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansMedium),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-
-        WidgetDesigns.hBox(16),
-
-        CustomTextFormField(
-          controller: controller.emailController,
-          hintText: "Email Address",
-          suffix:  ValueListenableBuilder<TextEditingValue>(
-            valueListenable: controller.emailController,
-            builder: (context, value, child) {
-              return Visibility(
-                visible: value.text.isNotEmpty,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 16.0),
-                  child: GestureDetector(
-                    onTap: () {
-                      customOtpDialog("${controller.emailController.text}", context, "email");
-                    },
-                    child: Text(
-                      "Verify",
-                      style: AppFontStyle.text_12_200(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansMedium),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-        WidgetDesigns.hBox(16),
-
-        CustomTextFormField(
-          controller: controller.passwordController,
-          hintText: "Password",
-        ),
-        WidgetDesigns.hBox(16),
-
-        CustomTextFormField(
-          controller: controller.locationController,
-          hintText: "Address",
-        ),
-        WidgetDesigns.hBox(20),
-
-        CustomAnimatedButton(
-            onTap: () {
-              Get.toNamed(Routes.deliveryMethodScreen);
-            },
-            text: "Continue"
-        )
-      ],
-    );
-  }
-
-  customOtpDialog(title, context, type)  {
-    return Get.dialog(
-      barrierDismissible: false,
-      Dialog(
-        surfaceTintColor: Colors.white,
-        backgroundColor: Colors.white,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          padding: EdgeInsets.all(30),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Text("Verification", style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular)),
-              Text("Send an OTP to: $title", style: AppFontStyle.text_12_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular)).paddingOnly(bottom: 30),
-              Pinput(
-                length: 6, controller: controller.otpController,
-              ),
-              Obx(() {
-                return controller.otpError.value !=""?Text(controller.otpError.value, style: AppFontStyle.text_12_200(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular)).paddingOnly(top: 10):SizedBox();
-              },),
-              Obx(
-                    () => TextButton(
-                  onPressed: () {
-                    if (controller.resendEnabled.value) {
-                      if (type == "phone") {
-                        //controller.phoneAuth(true);
-                      } else {
-
+                          child: child!,
+                        );
                       }
+                  );
+                },
+                child: Icon(Icons.calendar_month, color: AppTheme.primaryColor, size: 20)),
+            //validator: FormValidators.validatePassword,
+          ),
+          WidgetDesigns.hBox(16),
+
+          CustomTextFormField(
+           controller: controller.phoneController,
+           textInputType: TextInputType.number,
+           inputFormatters: [
+             FilteringTextInputFormatter.digitsOnly,
+             LengthLimitingTextInputFormatter(controller.checkCountryLength.value),
+           ],
+            validator: (value){
+              if(controller.phoneController.text.isEmpty){
+                return "Phone number is required";
+              }
+              if(controller.phoneError.value.isNotEmpty){
+                return controller.phoneError.value;
+              }
+              return null;
+            },
+           prefix: Row(
+             mainAxisSize: MainAxisSize.min,
+             mainAxisAlignment: MainAxisAlignment.start,
+             crossAxisAlignment: CrossAxisAlignment.center,
+             children: [
+               Stack(
+                 clipBehavior: Clip.none,
+                 children: [
+                   CountryCodePicker(
+                     padding: EdgeInsets.zero,
+                     flagWidth: 40,
+                     margin: EdgeInsets.zero,
+                     flagDecoration: const BoxDecoration(
+                         shape: BoxShape.circle
+                     ),
+                     boxDecoration: const BoxDecoration(color: AppTheme.boxBgColor,),
+                     onChanged: (CountryCode countryCode) {
+                       WidgetDesigns.consoleLog("${countryCode.code}","country code --->>");
+                       WidgetDesigns.consoleLog("${countryCode.dialCode}","country dialCode --->>");
+
+                       controller.updateCountryString(countryCode.dialCode.toString());
+
+                       if(controller.countryPhoneDigits[int.parse(countryCode.dialCode.toString().replaceAll("+", ''))] != null){
+                         controller.checkCountryLength.value = controller.countryPhoneDigits[int.parse(countryCode.dialCode.toString().replaceAll("+", ''))]!;
+                       } else {
+                         controller.checkCountryLength.value = 10;
+                       }
+                     },
+                     initialSelection: controller.countryString.value,
+                   ),
+                   Positioned(
+                     right: -6,
+                     top: 2,
+                     bottom: 2,
+                     child: SvgPicture.asset(ImageConstants.downArrow),
+                   ),
+                 ],
+               ),
+               WidgetDesigns.wBox(15),
+               Container(width: 1,height: 30,color: AppTheme.darkText14,),
+               WidgetDesigns.wBox(10),
+             ],
+           ),
+           hintText: "Phone Number",
+            suffix: Obx(() {
+              // Show green tick if current pjone is verified
+              if (controller.verifiedPhone.value ==
+                  "${controller.countryString.value}${controller.phoneController.text}") {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Icon(
+                    Icons.verified_outlined,
+                    color: Colors.green,
+                    size: 20,
+                  ),
+                );
+              }
+              // Show verify button for unverified numbers
+              return ValueListenableBuilder<TextEditingValue>(
+                valueListenable: controller.phoneController,
+                builder: (context, value, child) {
+                  return Visibility(
+                    visible: value.text.isNotEmpty,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: GestureDetector(
+                        onTap: () => controller.generateOTPForPhone(),
+                        child: Text(
+                          "Verify",
+                          style: AppFontStyle.text_12_200(
+                              AppTheme.primaryColor,
+                              fontFamily: AppFontFamily.generalSansMedium
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            }),
+          ),
+
+          WidgetDesigns.hBox(16),
+
+          CustomTextFormField(
+            controller: controller.emailController,
+            hintText: "Email Address",
+            validator: (value){
+              if(controller.emailController.text.isEmpty){
+                return "Email is required";
+              }
+              if(controller.emailError.value.isNotEmpty){
+                return controller.emailError.value;
+              }
+              return null;
+            },
+            suffix: Obx((){
+              if (controller.isEmailVerified.value &&
+                  controller.verifiedEmail.value == controller.emailController.text) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 4.0),
+                  child: Icon(
+                    Icons.verified_outlined,
+                    color: Colors.green,
+                    size: 20,
+                  ),
+                );
+              }
+              return ValueListenableBuilder<TextEditingValue>(
+                valueListenable: controller.emailController,
+                builder: (context, value, child) {
+                  return Visibility(
+                    visible: value.text.isNotEmpty,
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: GestureDetector(
+                        onTap: () => controller.generateOTPForEmail(),
+                        child: Text(
+                          "Verify",
+                          style: AppFontStyle.text_12_200(
+                              AppTheme.primaryColor,
+                              fontFamily: AppFontFamily.generalSansMedium
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            })
+          ),
+          WidgetDesigns.hBox(16),
+
+          CustomTextFormField(
+            controller: controller.passwordController,
+            hintText: "Password",
+            validator: (value){
+              if(controller.passwordController.text.isEmpty){
+                return "Password is required";
+              }
+              if(controller.passwordError.value.isNotEmpty){
+                return controller.passwordError.value;
+              }
+              return null;
+            },
+          ),
+          WidgetDesigns.hBox(16),
+
+          CustomTextFormField(
+            controller: controller.locationController,
+            hintText: "Address",
+            validator: (value){
+              if(controller.locationController.text.isEmpty){
+                return "Please choose precise location";
+              }
+              return null;
+            },
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              GestureDetector(
+                  onTap: () async{
+                    final result = await Get.toNamed(Routes.addNewAddress);
+                    if (result is Map<String, dynamic>) {
+                      controller.locationAddress = result;
+                      controller.locationController.text = result['address'] as String;
                     }
                   },
-                  child: Text(
-                    controller.resendEnabled.value
-                        ? 'Resend Code'
-                        : 'Resend Code in ${controller.remainingTime.value}s',
-                    style: TextStyle(
-                      color:
-                      controller.resendEnabled.value
-                          ? AppTheme.primaryColor
-                          : Colors.grey,
-                      decoration:
-                      controller.resendEnabled.value
-                          ? TextDecoration.underline
-                          : null,
-                      decorationColor: AppTheme.primaryColor,
-                      decorationThickness: 2,
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 30),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomAnimatedButton(
-                      onTap: () {
-                        Get.back();
-                      },
-                      text: "Cancel",
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: CustomAnimatedButton(
-                      onTap: () async {
-                        /*if (type == "phone") {
-                          await controller.phoneAuth(false);
-
-                          if (controller.isPhoneVerified.value &&
-                              (Get.isDialogOpen ?? false)) {
-                            Navigator.pop(context);
-                          }
-                        } else{
-                          await controller.emailAuth(false);
-
-                          if (controller.isEmailVerified.value &&
-                              (Get.isDialogOpen ?? false)) {
-                            Navigator.pop(context);
-                          }
-                        }*/
-                      },
-                      text: "Ok",
-                    ),
-                  ),
-                ],
-              ),
+                  child: Text("Choose precise location", style: AppFontStyle.text_14_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansMedium),)),
             ],
           ),
-        ),
+          WidgetDesigns.hBox(20),
+
+          CustomAnimatedButton(
+              onTap: () {
+                if(controller.formKey.currentState!.validate()){
+                  controller.registerDriverAPI();
+                }
+              },
+              text: "Continue"
+          )
+        ],
       ),
     );
   }
+
+
 }

@@ -1,6 +1,8 @@
 import 'app/core/app_exports.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Get.putAsync(() => StorageServices().init());
 
   SystemChrome.setPreferredOrientations(
       [

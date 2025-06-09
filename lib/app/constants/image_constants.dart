@@ -1,6 +1,7 @@
 class ImageConstants{
 
   static const String imagePath = "assets/images";
+  static const String jsonPath = "assets/animation";
 
   // SVG Images
   static const String onboarding1 = "$imagePath/onboarding1.svg";
@@ -31,6 +32,7 @@ class ImageConstants{
   static String supportIcon = "$imagePath/support_icon.svg";
   static String policyIcon = "$imagePath/terms_condition_icon.svg";
   static String passwordChangedIcon = "$imagePath/password_changed_icon.svg";
+  static String bankImages = "$imagePath/bank_images.svg";
 
   // PNG Images
   static String splashImage= "$imagePath/splash.png";
@@ -41,4 +43,15 @@ class ImageConstants{
   static String appleLoginImage= "$imagePath/apple.png";
   static String mapImage= "$imagePath/map_image.png";
   static String profile = "$imagePath/profile.png";
+  static String placeHomeImage = "$imagePath/placeHome.png";
+  static String placeLocationImage = "$imagePath/placeLocation.png";
+  static String placeOfficeImage = "$imagePath/placeOffice.png";
+  static String backIconImage = "$imagePath/backIcon.png";
+  static String wsearchIconImage = "$imagePath/wsearch.png";
+  static String mapBackImage = "$imagePath/back.png";
+  static String mapPinImage = '$imagePath/location.png';
+
+
+  // lottie anim
+  static String loaderJson = '$jsonPath/cloudLoader.json';
 }

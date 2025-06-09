@@ -1,5 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
+
 class Routes {
   static const splash = '/splash';
   static const onboarding = '/onboarding';
@@ -34,18 +35,19 @@ class Routes {
   static const documentsScreen = '/documentsScreen';
   static const myWalletScreen = '/myWalletScreen';
   static const withdrawScreen = '/withdrawScreen';
+  static const addNewAddress = '/addNewAddress';
 
   static final routes = [
-    GetPage(name: splash, page: () => SplashScreen()),
-    GetPage(name: onboarding, page: () => OnboardingScreen()),
-    GetPage(name: welcome, page: () => WelcomeScreen()),
+    GetPage(name: splash, page: () => SplashScreen(), binding: SplashBinding()),
+    GetPage(name: onboarding, page: () => OnboardingScreen(), binding: OnboardingBinding()),
+    GetPage(name: welcome, page: () => WelcomeScreen(), binding: WelcomeScreenBinding()),
     GetPage(name: phoneLogin, page: () => PhoneLoginView()),
     GetPage(name: phoneLoginOtpVerify, page: () => PhoneOtpVerifyScreen()),
     GetPage(name: emailLogin, page: () => EmailLoginScreen()),
     GetPage(name: forgotPasswordInLogin, page: () => ForgotPasswordScreenInLogin()),
     GetPage(name: forgotOtpVerifyInLogin, page: () => ForgotOtpVerifyInLogin()),
     GetPage(name: changePasswordInLogin, page: () => ChangePasswordInLoginScreen()),
-    GetPage(name: signUpScreen, page: () => SignUpScreen()),
+    GetPage(name: signUpScreen, page: () => SignUpScreen(), binding: SignupBinding()),
     GetPage(name: deliveryMethodScreen, page: () => DeliveryMethodScreen()),
     GetPage(name: documentVerificationScreen, page: () => DocumentVerificationScreen()),
     GetPage(name: personalDocumentsScreen, page: () => PersonalDocumentScreen()),
@@ -69,5 +71,6 @@ class Routes {
     GetPage(name: documentsScreen, page: () => DocumentsScreen()),
     GetPage(name: myWalletScreen, page: () => MyWalletScreen()),
     GetPage(name: withdrawScreen, page: () => WithdrawScreen()),
+    GetPage(name: addNewAddress, page: () => AddNewAddress()),
   ];
 }

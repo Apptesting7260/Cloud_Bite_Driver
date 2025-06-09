@@ -18,6 +18,14 @@ class StorageServices extends GetxService{
     return await _prefs.setString('ID', token);
   }
 
+  Future<bool> saveOTP(String otp) async {
+    return await _prefs.setString('OTP', otp);
+  }
+
+  Future<bool> saveEmailOTP(String otp) async {
+    return await _prefs.setString('email_OTP', otp);
+  }
+
   Future<bool> saveEmail(String token) async {
     return await _prefs.setString('email', token);
   }
@@ -29,17 +37,27 @@ class StorageServices extends GetxService{
 
   // Get Methods
   String getID() {
-    WidgetDesigns.consoleLog(_prefs.getString('ID').toString(), 'vendorId');
+    WidgetDesigns.consoleLog(_prefs.getString('ID').toString(), 'driverId');
     return _prefs.getString('ID') ?? '';
   }
 
   String getEmail() {
-    WidgetDesigns.consoleLog(_prefs.getString('email').toString(), 'vendorEmail');
+    WidgetDesigns.consoleLog(_prefs.getString('email').toString(), 'driverEmail');
     return _prefs.getString('email') ?? '';
   }
 
+  String getOTP() {
+    WidgetDesigns.consoleLog(_prefs.getString('OTP').toString(), 'driverOTP');
+    return _prefs.getString('OTP') ?? '';
+  }
+
+  String getEmailOTP() {
+    WidgetDesigns.consoleLog(_prefs.getString('email_OTP').toString(), 'driverOTP');
+    return _prefs.getString('email_OTP') ?? '';
+  }
+
   String getMobile() {
-    WidgetDesigns.consoleLog(_prefs.getString('mobile').toString(), 'vendorEmail');
+    WidgetDesigns.consoleLog(_prefs.getString('mobile').toString(), 'driverMobile');
     return _prefs.getString('mobile') ?? '';
   }
 

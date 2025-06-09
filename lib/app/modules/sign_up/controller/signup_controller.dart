@@ -1,6 +1,16 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:google_places_flutter/model/place_details.dart';
+import 'package:http/http.dart' as http;
 
 class SignUpController extends GetxController{
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
+  final Repository _repository = Repository();
+
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController dobController = TextEditingController();
@@ -13,15 +23,259 @@ class SignUpController extends GetxController{
 
   RxInt checkCountryLength = 10.obs;
   RxString countryString = "+91".obs;
+
+  var phoneError="".obs;
+  var firstNameError="".obs;
+  var lastNameError="".obs;
+  var emailError="".obs;
+  var passwordError="".obs;
   var otpError="".obs;
 
   var resendEnabled = false.obs;
   var remainingTime = 60.obs;
+
+  RxString verifiedPhone = ''.obs;
   RxBool isPhoneVerified = false.obs;
+
+  RxString verifiedEmail = ''.obs;
+  RxBool isEmailVerified = false.obs;
+
   var countryCode = "91".obs;
 
   updateCountryString(String value){
     countryString.value = value;
+  }
+
+  updatePhoneError(String value) {
+    phoneError.value = value;
+    update();
+  }
+
+  updateEmailError(String value) {
+    emailError.value = value;
+    update();
+  }
+
+  updateOTPError(String value) {
+    otpError.value = value;
+    update();
+  }
+
+  Map<String, dynamic>? locationAddress;
+
+  // Generate OTP for Phone
+  Future<void> generateOTPForPhone() async {
+    updatePhoneError('');
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+        "type": "phone",
+        "otpType": "generate",
+        "phone": phoneController.text,
+        "country_code": countryCode.value,
+      };
+
+      final response = await _repository.getPhoneOTPAPI(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        customOtpDialog("${countryString.value} ${phoneController.text}", Get.context, "phone");
+        print(response.message);
+        storageServices.saveToken(response.token!);
+        storageServices.saveOTP(response.otp.toString());
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        CustomSnackBar.show(message: response.otp.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else if(response.status == false && response.type == 'otp'){
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        updatePhoneError(response.message.toString());
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Generate OTP');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      print(e);
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
+  }
+
+  // Verify OTP for Phone
+  Future<void> verifyOTPForPhone() async {
+    updateOTPError('');
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+        "type": "phone",
+        "otpType": "verify",
+        "phone": phoneController.text,
+        "otp": storageServices.getOTP(),
+      };
+
+      final response = await _repository.verifyOTpForPhone(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        customOtpDialog("${countryString.value} ${phoneController.text}", Get.context, "phone");
+        print(response.message);
+        isPhoneVerified.value = true;
+        verifiedPhone.value = "${countryString.value}${phoneController.text}";
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else if(response.status == false && response.type == 'otp'){
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        updateOTPError(response.message.toString());
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Verify OTP');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      print(e);
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
+  }
+
+  // Generate OTP for Email
+  Future<void> generateOTPForEmail() async {
+    updateEmailError('');
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+        "type": "email",
+        "otpType": "generate",
+        "email": emailController.text,
+      };
+
+      final response = await _repository.getEmailOTPAPI(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        customOtpDialog("${emailController.text}", Get.context, "email");
+        print(response.message);
+        storageServices.saveEmailOTP(response.otp!);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        CustomSnackBar.show(message: response.otp.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else if(response.status == false && response.type == 'otp'){
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        updateEmailError(response.message.toString());
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Generate OTP');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      print(e);
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
+  }
+
+  // Verify OTP for Email
+  Future<void> verifyOTPForEmail() async {
+    updateOTPError('');
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+        "type": "email",
+        "otpType": "verify",
+        "email": emailController.text,
+        "otp": storageServices.getEmailOTP(),
+      };
+
+      final response = await _repository.verifyOTpForPhone(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        customOtpDialog(emailController.text, Get.context, "email");
+        print(response.message);
+        isEmailVerified.value = true;
+        verifiedEmail.value = emailController.text;
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else if(response.status == false && response.type == 'otp'){
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        updateOTPError(response.message.toString());
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Verify OTP');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      print(e);
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
+  }
+
+  // Register API
+  Future<void> registerDriverAPI() async {
+
+    if (isPhoneVerified.value==false) {
+      phoneError.value = "Please verify phone no.";
+      update();
+      return;
+    }else if (isEmailVerified.value==false) {
+      emailError.value = "Please verify email address";
+      update();
+      return;
+    }
+
+    LoadingOverlay().showLoading();
+    try{
+      final data = {
+        "first_name": firstNameController.text,
+        "last_name": lastNameController.text,
+        "dob": dobController.text,
+        "password": passwordController.text,
+        "phone": phoneController.text,
+        "email": emailController.text,
+        "latitude": locationAddress?['lat'].toString(),
+        "longitude": locationAddress?['lng'].toString()
+      };
+
+      final response = await _repository.registerDriverAPI(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        Get.toNamed(Routes.deliveryMethodScreen);
+      }
+      else if(response.status == false && response.type == 'otp'){
+        LoadingOverlay().hideLoading();
+        print(response.message);
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Verify OTP');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+
+    }catch(e){
+      LoadingOverlay().hideLoading();
+    }finally{
+      LoadingOverlay().hideLoading();
+    }
   }
 
   final Map<int, int> countryPhoneDigits = {
@@ -214,4 +468,167 @@ class SignUpController extends GetxController{
     260: 9,   // Zambia
     263: 9,   // Zimbabwe
   };
+
+  customOtpDialog(title, context, type)  {
+    return Get.dialog(
+      barrierDismissible: false,
+      Dialog(
+        surfaceTintColor: Colors.white,
+        backgroundColor: Colors.white,
+        child: Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(20),
+          ),
+          padding: EdgeInsets.all(30),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text("Verification", style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular)),
+              Text("Send an OTP to: $title", style: AppFontStyle.text_12_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular)).paddingOnly(bottom: 30),
+              Pinput(
+                length: 5, controller: otpController,
+              ),
+              Obx(() {
+                return phoneError.value !=""?Text(phoneError.value, style: AppFontStyle.text_12_200(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular)).paddingOnly(top: 10):SizedBox();
+              },),
+              Obx(
+                    () => TextButton(
+                  onPressed: () {
+                    if (resendEnabled.value) {
+                      if (type == "phone") {
+                        generateOTPForPhone();
+                      } else {
+                        generateOTPForEmail();
+                      }
+                    }
+                  },
+                  child: Text(
+                    resendEnabled.value
+                        ? 'Resend Code'
+                        : 'Resend Code in ${remainingTime.value}s',
+                    style: TextStyle(
+                      color:
+                      resendEnabled.value
+                          ? AppTheme.primaryColor
+                          : Colors.grey,
+                      decoration:
+                      resendEnabled.value
+                          ? TextDecoration.underline
+                          : null,
+                      decorationColor: AppTheme.primaryColor,
+                      decorationThickness: 2,
+                    ),
+                  ),
+                ),
+              ),
+
+              SizedBox(height: 30),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomAnimatedButton(
+                      onTap: () {
+                        Get.back();
+                      },
+                      text: "Cancel",
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  Expanded(
+                    child: CustomAnimatedButton(
+                      onTap: () async {
+                        if (type == "phone") {
+                          await verifyOTPForPhone();
+                          Get.back();
+                        } else{
+                          await verifyOTPForEmail();
+                          Get.back();
+                        }
+                      },
+                      text: "Ok",
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+
+  final GlobalKey addressKey = GlobalKey();
+  var latitude = 0.0.obs;
+  var longitude = 0.0.obs;
+  // final locationController = TextEditingController();
+  RxBool isValidAddress = true.obs;
+
+  String googleAPIKey = "AIzaSyDzQVQbsU8deMxfBC-0SPO2ixd8TGaTNB";
+
+  Future<List<Predictions>> searchAutocomplete(String query) async {
+    Uri uri = Uri.https("maps.googleapis.com", "maps/api/place/autocomplete/json", {
+      "input": query,
+      "key": googleAPIKey,
+    });
+
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final parse = jsonDecode(response.body);
+        if (parse['status'] == "OK") {
+          SearchPlaceModel searchPlaceModel = SearchPlaceModel.fromJson(parse);
+          return searchPlaceModel.predictions ?? [];
+        }
+      }
+    } catch (err) {
+      debugPrint("Error: $err");
+    }
+    return [];
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    _handleLocationPermission(Get.context!);
+  }
+
+  double? _latitude;
+  double? _longitude;
+
+
+  void _handleLocationPermission(BuildContext context) async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      CustomSnackBar.show(message: "Location services are disabled.", tColor: AppTheme.white, color: AppTheme.redText);
+      return;
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      CustomSnackBar.show(message: "Permission permanently denied.", tColor: AppTheme.white, color: AppTheme.redText);
+      return;
+    }
+
+    if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
+      try {
+        Position locData = await Geolocator.getCurrentPosition();
+        print("Position fetched: ${locData.latitude}, ${locData.longitude}");
+        _latitude = locData.latitude;
+        _longitude = locData.longitude;
+
+        print("Notifier values: $_latitude, $_longitude");
+
+        WidgetDesigns.consoleLog("Latitude: $_latitude", "");
+        WidgetDesigns.consoleLog("Longitude: $_longitude", "");
+      } catch (e) {
+        CustomSnackBar.show(message: "Error getting location: $e", tColor: AppTheme.white, color: AppTheme.redText);
+      }
+    }
+  }
 }
