@@ -66,12 +66,17 @@ export 'package:cloud_bites_driver/app/modules/add_address/screen/add_addres_scr
 
 
 /// ↓ ↓ ↓ ↓ ↓ Models Exports ↓ ↓ ↓ ↓ ↓
-export 'package:cloud_bites_driver/app/modules/sign_up/model/get_otp_model_for_verify.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/get_otp_model_for_phone.dart';
 export 'package:cloud_bites_driver/app/modules/add_address/models/location_models.dart';
 export 'package:cloud_bites_driver/app/modules/add_address/models/location_response.dart';
 export 'package:cloud_bites_driver/app/modules/add_address/models/search_place_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/get_email_otp_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/get_email_verify_success_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/delivery_method_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/register_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/resend_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/select_delivery_method_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/document_list_model.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓
@@ -130,7 +135,8 @@ export 'package:cloud_bites_driver/app/utils/custom_widgets/loading_overlay.dart
 export 'package:cloud_bites_driver/app/utils/custom_widgets/my_text.dart';
 export 'package:cloud_bites_driver/app/utils/custom_widgets/custom_container.dart';
 export 'package:cloud_bites_driver/app/modules/add_address/places_services.dart';
-
+export 'package:cloud_bites_driver/app/utils/response/api_status.dart';
+export 'package:cloud_bites_driver/app/utils/response/api_response.dart';
 
 
 //// bindings /////

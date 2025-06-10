@@ -62,6 +62,7 @@ class DeliveryMethodScreen extends StatelessWidget {
 
   Widget deliveryOption(){
     return Obx( () {
+      bool isLoading = controller.deliveryMethodListData.value.data == null;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -70,24 +71,35 @@ class DeliveryMethodScreen extends StatelessWidget {
                   AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
           ),
           WidgetDesigns.hBox(20),
+          isLoading ? buildShimmerOption() :
           deliveryOptionWidget(
-              title: "Delivery by Car",
-              index: 0
+              title: controller.deliveryMethodListData.value.data?.data?[0].name.toString() ?? '',
+              index: controller.deliveryMethodListData.value.data?.data?[0].id ?? ''
           ),
           WidgetDesigns.hBox(20),
+          isLoading ? buildShimmerOption() :
           deliveryOptionWidget(
-              title: "Delivery by Scooter",
-              index: 1
+              title: controller.deliveryMethodListData.value.data?.data?[1].name.toString() ?? '',
+              index: controller.deliveryMethodListData.value.data?.data?[1].id ?? ''
           ),
           WidgetDesigns.hBox(20),
+          isLoading ? buildShimmerOption() :
           deliveryOptionWidget(
-              title: "Delivery by Bicycle or on Foot",
-              index: 2
+              title: controller.deliveryMethodListData.value.data?.data?[2].name.toString() ?? '',
+              index: controller.deliveryMethodListData.value.data?.data?[2].id ?? ''
           ),
           WidgetDesigns.hBox(20),
           CustomAnimatedButton(
               onTap: () {
-                Get.toNamed(Routes.documentVerificationScreen);
+                if (controller.selectedOptionIndex.value != "0") {
+                  controller.selectDeliveryMethodAPI();
+                } else {
+                  CustomSnackBar.show(
+                      message: "Please select a delivery method",
+                      color: AppTheme.redText,
+                      tColor: AppTheme.white
+                  );
+                }
               },
               text: "Continue"
           )
@@ -98,7 +110,7 @@ class DeliveryMethodScreen extends StatelessWidget {
 
   Widget deliveryOptionWidget({
     required String title,
-    required int index
+    required String index
   }) {
     bool isSelected = controller.selectedOptionIndex.value == index;
     return InkWell(
@@ -123,6 +135,21 @@ class DeliveryMethodScreen extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildShimmerOption() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: Get.width,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.white,
         ),
       ),
     );

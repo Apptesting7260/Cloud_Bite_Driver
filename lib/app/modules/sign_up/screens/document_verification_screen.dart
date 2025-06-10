@@ -61,6 +61,7 @@ class DocumentVerificationScreen extends StatelessWidget{
   }
 
   Widget pendingDocuments()  {
+    bool isLoading = controller.documentListData.value.data == null;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,41 +71,22 @@ class DocumentVerificationScreen extends StatelessWidget{
                   AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
           ),
           WidgetDesigns.hBox(20),
-      
-          ListView.separated(
+
+        Obx(() =>
+           ListView.separated(
             physics: NeverScrollableScrollPhysics(),
-            itemCount: controller.pendingDocsList.length,
+            itemCount: controller.documentListData.value.data?.data?.length ?? 0,
             shrinkWrap: true,
             separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
             itemBuilder: (context, index) {
               final doc = controller.pendingDocsList[index];
               return pendingDocumentsNames(
-                doc["title"], doc["image"], () => Get.toNamed(doc["route"]),
+                controller.documentListData.value.data?.data?[index].name.toString() ?? '', doc["image"], () => Get.toNamed(doc["route"]),
               );
             },
           ),
-      
-          WidgetDesigns.hBox(20),
-          Text("Completed Documents",
-              style: AppFontStyle.text_16_400(
-                  AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
-          ),
-          WidgetDesigns.hBox(20),
-      
-          ListView.separated(
-            physics: NeverScrollableScrollPhysics(),
-            itemCount: controller.pendingDocsList.length,
-            shrinkWrap: true,
-            separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
-            itemBuilder: (context, index) {
-              final doc = controller.pendingDocsList[index];
-              return pendingDocumentsNames(
-                doc["title"],
-                doc["image"],
-                    () => Get.toNamed(doc["route"]),
-              );
-            },
-          ),
+        ),
+
           WidgetDesigns.hBox(20),
       
           CustomAnimatedButton(
@@ -141,6 +123,21 @@ class DocumentVerificationScreen extends StatelessWidget{
             ],
           ),
         )
+      ),
+    );
+  }
+
+  Widget buildShimmerOption() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: Get.width,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.white,
+        ),
       ),
     );
   }

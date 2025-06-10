@@ -1,5 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/modules/sign_up/model/register_model.dart';
+
 
 
 class Repository {
@@ -31,7 +31,6 @@ class Repository {
   // Email Verify
   Future<GetVerifyOTPSucessModel> verifyOTpForEmail(Map<String, dynamic> data) async {
     dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, "Bearer ${storageService.getToken()}");
-    print("Bearer ${storageService.getToken()}");
     return GetVerifyOTPSucessModel.fromJson(response);
   }
 
@@ -40,6 +39,34 @@ class Repository {
     dynamic response = await _apiService.postApi(data, AppUrls.registerAPI, "Bearer ${storageService.getToken()}");
     return RegisterModel.fromJson(response);
   }
+
+  // Resend OTP
+  Future<ResendModel> resendOTPAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.resendOTPAPI, "Bearer ${storageService.getToken()}");
+    return ResendModel.fromJson(response);
+  }
+
+  // List Delivery Method API
+  Future<DeliveryMethodModel> listDeliveryMethodAPI() async {
+    WidgetDesigns.consoleLog(storageService.getToken(), "Bearer Token");
+    dynamic response = await _apiService.getApi(AppUrls.listDeliveryMethodAPI, "Bearer ${storageService.getToken()}");
+    return DeliveryMethodModel.fromJson(response);
+  }
+
+  // Select Delivery Method API
+  Future<SetDeliveryMethodModel> setDeliveryMethodAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.selectDeliveryMethodAPI, "Bearer ${storageService.getToken()}");
+    return SetDeliveryMethodModel.fromJson(response);
+  }
+
+
+  //Get List Of Documents API
+  Future<DocumentListModel> documentsListAPI() async {
+    WidgetDesigns.consoleLog(storageService.getToken(), "Bearer Token");
+    dynamic response = await _apiService.getApi(AppUrls.documentListAPI, "Bearer ${storageService.getToken()}");
+    return DocumentListModel.fromJson(response);
+  }
+
 
   Future<LocationResponse> addNewAddressApi(data) async {
     print(data);

@@ -21,18 +21,14 @@ class SignUpController extends GetxController{
   TextEditingController locationController = TextEditingController();
   TextEditingController otpController = TextEditingController();
 
-  RxInt checkCountryLength = 10.obs;
-  RxString countryString = "+91".obs;
-
   var phoneError="".obs;
   var firstNameError="".obs;
   var lastNameError="".obs;
   var emailError="".obs;
   var passwordError="".obs;
   var otpError="".obs;
-
-  var resendEnabled = false.obs;
-  var remainingTime = 60.obs;
+  var dobError="".obs;
+  var addressError="".obs;
 
   RxString verifiedPhone = ''.obs;
   RxBool isPhoneVerified = false.obs;
@@ -42,12 +38,19 @@ class SignUpController extends GetxController{
 
   var countryCode = "91".obs;
 
+  RxInt checkCountryLength = 10.obs;
+  RxString countryString = "+91".obs;
   updateCountryString(String value){
     countryString.value = value;
   }
 
-  updatePhoneError(String value) {
-    phoneError.value = value;
+  updateFirstNameError(String value) {
+    firstNameError.value = value;
+    update();
+  }
+
+  updateLastNameError(String value) {
+    lastNameError.value = value;
     update();
   }
 
@@ -56,10 +59,64 @@ class SignUpController extends GetxController{
     update();
   }
 
+  updatePhoneError(String value) {
+    phoneError.value = value;
+    update();
+  }
+
+
   updateOTPError(String value) {
     otpError.value = value;
     update();
   }
+
+  updateDOBError(String value) {
+    dobError.value = value;
+    update();
+  }
+
+  updatePasswordError(String value) {
+    passwordError.value = value;
+    update();
+  }
+
+  updateAddressError(String value) {
+    addressError.value = value;
+    update();
+  }
+
+  RxBool obscurePassword = true.obs;
+  void togglePasswordVisibility() {
+    obscurePassword.value = !obscurePassword.value;
+    update();
+  }
+
+
+  final resendEnabled = false.obs;
+  final remainingTime = 60.obs;
+  Timer? _timer;
+
+// Timer methods
+  void startTimer() {
+    resendEnabled.value = false;
+    remainingTime.value = 30;
+    _timer?.cancel();
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (remainingTime.value > 0) {
+        remainingTime.value--;
+      } else {
+        resendEnabled.value = true;
+        timer.cancel();
+      }
+    });
+  }
+
+  void stopTimer() {
+    resendEnabled.value = false;
+    _timer?.cancel();
+    _timer = null;
+  }
+
 
   Map<String, dynamic>? locationAddress;
 
@@ -82,10 +139,11 @@ class SignUpController extends GetxController{
         print(response.message);
         storageServices.saveToken(response.token!);
         storageServices.saveOTP(response.otp.toString());
+        storageServices.saveMobile(phoneController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         CustomSnackBar.show(message: response.otp.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
-      else if(response.status == false && response.type == 'otp'){
+      else if(response.status == false && response.type == "phone"){
         LoadingOverlay().hideLoading();
         print(response.message);
         updatePhoneError(response.message.toString());
@@ -115,7 +173,7 @@ class SignUpController extends GetxController{
         "type": "phone",
         "otpType": "verify",
         "phone": phoneController.text,
-        "otp": storageServices.getOTP(),
+        "otp": otpController.text,
       };
 
       final response = await _repository.verifyOTpForPhone(data);
@@ -126,8 +184,11 @@ class SignUpController extends GetxController{
         isPhoneVerified.value = true;
         verifiedPhone.value = "${countryString.value}${phoneController.text}";
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
       }
-      else if(response.status == false && response.type == 'otp'){
+      else if(response.status == false &&  response.type.toString() == "phone"){
         LoadingOverlay().hideLoading();
         print(response.message);
         updateOTPError(response.message.toString());
@@ -163,10 +224,11 @@ class SignUpController extends GetxController{
         customOtpDialog("${emailController.text}", Get.context, "email");
         print(response.message);
         storageServices.saveEmailOTP(response.otp!);
+        storageServices.saveEmail(emailController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         CustomSnackBar.show(message: response.otp.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
-      else if(response.status == false && response.type == 'otp'){
+      else if(response.status == false && response.type == 'email'){
         LoadingOverlay().hideLoading();
         print(response.message);
         updateEmailError(response.message.toString());
@@ -196,7 +258,7 @@ class SignUpController extends GetxController{
         "type": "email",
         "otpType": "verify",
         "email": emailController.text,
-        "otp": storageServices.getEmailOTP(),
+        "otp": otpController.text,
       };
 
       final response = await _repository.verifyOTpForPhone(data);
@@ -207,11 +269,14 @@ class SignUpController extends GetxController{
         isEmailVerified.value = true;
         verifiedEmail.value = emailController.text;
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        if (Get.isDialogOpen!) {
+          Get.back();
+        }
       }
-      else if(response.status == false && response.type == 'otp'){
+      else if(response.status == false && response.type.toString() == "email"){
         LoadingOverlay().hideLoading();
         print(response.message);
-        updateOTPError(response.message.toString());
+        updateOTPError(response.message.toString() ?? "Something Went Wrong");
       }
       else {
         LoadingOverlay().hideLoading();
@@ -260,7 +325,7 @@ class SignUpController extends GetxController{
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         Get.toNamed(Routes.deliveryMethodScreen);
       }
-      else if(response.status == false && response.type == 'otp'){
+      else if(response.status == false && response.type == 'sign-up'){
         LoadingOverlay().hideLoading();
         print(response.message);
       }
@@ -274,6 +339,42 @@ class SignUpController extends GetxController{
     }catch(e){
       LoadingOverlay().hideLoading();
     }finally{
+      LoadingOverlay().hideLoading();
+    }
+  }
+
+  // Resend OTP For Phone
+  Future<void> resendOTPForPhone(String type, String title) async {
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+        "type": type,
+        "otpType": title,
+      };
+
+      final response = await _repository.resendOTPAPI(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        CustomSnackBar.show(message: response.otpCode.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else if(response.status == false){
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Generate OTP');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      print(e);
+    } finally {
       LoadingOverlay().hideLoading();
     }
   }
@@ -470,6 +571,8 @@ class SignUpController extends GetxController{
   };
 
   customOtpDialog(title, context, type)  {
+    otpController.clear();
+    startTimer();
     return Get.dialog(
       barrierDismissible: false,
       Dialog(
@@ -488,40 +591,49 @@ class SignUpController extends GetxController{
               Text("Send an OTP to: $title", style: AppFontStyle.text_12_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular)).paddingOnly(bottom: 30),
               Pinput(
                 length: 5, controller: otpController,
+                onChanged: (value) {
+                  updateOTPError('');
+                },
+                validator: (value) {
+                  if(otpController.text == "" || otpController.text.isEmpty){
+                    return "Enter OTP";
+                  }
+                  if(otpController.text.length != 5){
+                    return "Enter 6 digit OTP";
+                  }
+                  return null;
+                },
               ),
               Obx(() {
-                return phoneError.value !=""?Text(phoneError.value, style: AppFontStyle.text_12_200(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular)).paddingOnly(top: 10):SizedBox();
+                return otpError.value !=""?Text(otpError.value, style: AppFontStyle.text_12_200(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular), textAlign: TextAlign.start).paddingOnly(top: 10):SizedBox();
               },),
-              Obx(
-                    () => TextButton(
-                  onPressed: () {
-                    if (resendEnabled.value) {
-                      if (type == "phone") {
-                        generateOTPForPhone();
-                      } else {
-                        generateOTPForEmail();
-                      }
-                    }
-                  },
-                  child: Text(
-                    resendEnabled.value
-                        ? 'Resend Code'
-                        : 'Resend Code in ${remainingTime.value}s',
-                    style: TextStyle(
-                      color:
-                      resendEnabled.value
-                          ? AppTheme.primaryColor
-                          : Colors.grey,
-                      decoration:
-                      resendEnabled.value
-                          ? TextDecoration.underline
-                          : null,
-                      decorationColor: AppTheme.primaryColor,
-                      decorationThickness: 2,
-                    ),
+              Obx(() => TextButton(
+                onPressed: resendEnabled.value ? () {
+                  // Reset timer and resend OTP
+                  startTimer();
+                  if (type == "phone") {
+                    resendOTPForPhone(type, title);
+                  } else {
+                    resendOTPForPhone(type, title);
+                  }
+                } : null,
+                child: Text(
+                  resendEnabled.value
+                      ? 'Resend Code'
+                      : 'Resend Code in ${remainingTime.value}s',
+                  style: TextStyle(
+                    color: resendEnabled.value
+                        ? AppTheme.primaryColor
+                        : Colors.grey,
+                    decoration: resendEnabled.value
+                        ? TextDecoration.underline
+                        : null,
+                    decorationColor: AppTheme.primaryColor,
+                    decorationThickness: 2,
                   ),
                 ),
-              ),
+              )),
+
 
               SizedBox(height: 30),
               Row(
@@ -529,6 +641,7 @@ class SignUpController extends GetxController{
                   Expanded(
                     child: CustomAnimatedButton(
                       onTap: () {
+                        stopTimer();
                         Get.back();
                       },
                       text: "Cancel",
@@ -540,10 +653,14 @@ class SignUpController extends GetxController{
                       onTap: () async {
                         if (type == "phone") {
                           await verifyOTPForPhone();
-                          Get.back();
+                          if (Get.isDialogOpen!) {
+                            Navigator.of(Get.context!, rootNavigator: true).pop();
+                          }
                         } else{
                           await verifyOTPForEmail();
-                          Get.back();
+                          if (Get.isDialogOpen!) {
+                            Navigator.of(Get.context!, rootNavigator: true).pop();
+                          }
                         }
                       },
                       text: "Ok",
@@ -562,7 +679,6 @@ class SignUpController extends GetxController{
   final GlobalKey addressKey = GlobalKey();
   var latitude = 0.0.obs;
   var longitude = 0.0.obs;
-  // final locationController = TextEditingController();
   RxBool isValidAddress = true.obs;
 
   String googleAPIKey = "AIzaSyDzQVQbsU8deMxfBC-0SPO2ixd8TGaTNB";
@@ -588,10 +704,21 @@ class SignUpController extends GetxController{
     return [];
   }
 
+  /*Future<void> getLatLang(String address) async {
+    List<Location> locations = await locationFromAddress(address);
+    if (locations.isNotEmpty) {
+      var first = locations.first;
+      latitude.value = first.latitude;
+      longitude.value = first.longitude;
+      debugPrint("Latitude: ${latitude.value}, Longitude: ${longitude.value}");
+    }
+  }*/
+
   @override
   void onInit() {
     super.onInit();
     _handleLocationPermission(Get.context!);
+    startTimer();
   }
 
   double? _latitude;
@@ -630,5 +757,12 @@ class SignUpController extends GetxController{
         CustomSnackBar.show(message: "Error getting location: $e", tColor: AppTheme.white, color: AppTheme.redText);
       }
     }
+  }
+
+  @override
+  void onClose() {
+    _timer?.cancel();
+    otpController.dispose();
+    super.onClose();
   }
 }

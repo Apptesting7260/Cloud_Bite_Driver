@@ -14,8 +14,8 @@ class StorageServices extends GetxService{
     return await _prefs.setString(_tokenKey, token);
   }
 
-  Future<bool> saveID(String token) async {
-    return await _prefs.setString('ID', token);
+  Future<bool> saveDeliveryID(String id) async {
+    return await _prefs.setString('deliveryId', id);
   }
 
   Future<bool> saveOTP(String otp) async {
@@ -36,9 +36,9 @@ class StorageServices extends GetxService{
 
 
   // Get Methods
-  String getID() {
-    WidgetDesigns.consoleLog(_prefs.getString('ID').toString(), 'driverId');
-    return _prefs.getString('ID') ?? '';
+  String getDeliveryID() {
+    WidgetDesigns.consoleLog(_prefs.getString('deliveryId').toString(), 'deliveryId');
+    return _prefs.getString('deliveryId') ?? '';
   }
 
   String getEmail() {

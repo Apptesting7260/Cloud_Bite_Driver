@@ -7,5 +7,8 @@ class AppUrls{
   static const String allAddressUrl = "$baseUrl/user-address";
   static const String addNewAddressUrl = "$baseUrl/add-user-address";
   static const String registerAPI = '$baseUrl/register';
-
+  static const String resendOTPAPI = '$baseUrl/resend';
+  static const String listDeliveryMethodAPI = '$baseUrl/ListDeliveryMethod';
+  static const String selectDeliveryMethodAPI = '$baseUrl/setDeliveryModel';
+  static const String documentListAPI = '$baseUrl/Listdocs';
 }
