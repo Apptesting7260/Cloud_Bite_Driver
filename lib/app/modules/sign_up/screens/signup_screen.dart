@@ -350,6 +350,7 @@ class SignUpScreen extends StatelessWidget{
                 }
                 return null;
               },
+              enabled: false,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,

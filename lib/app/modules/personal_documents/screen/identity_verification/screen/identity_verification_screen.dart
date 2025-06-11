@@ -22,7 +22,13 @@ class IdentityVerificationScreen extends StatelessWidget{
               photoContainer('2', 'Back side photo of your\nIdentity Card'),
               WidgetDesigns.hBox(20),
               CustomAnimatedButton(
-                  onTap: (){},
+                  onTap: (){
+                    if(controller.frontImage.value != null && controller.backImage.value != null){
+                      controller.identityUploadAPI();
+                    }else{
+                      CustomSnackBar.show(message: 'Please Upload Front and Back Side of RC Image', color: AppTheme.redText, tColor: AppTheme.white);
+                    }
+                  },
                   text: 'Submit'
               )
             ],
@@ -62,9 +68,9 @@ class IdentityVerificationScreen extends StatelessWidget{
               GestureDetector(
                 onTap: () {
                   if(type == '1'){
-                    controller.pickImage(controller.frontImage);
+                    controller.pickImage(controller.frontImage,fillImageArray: true);
                   }else{
-                    controller.pickImage(controller.backImage);
+                    controller.pickImage(controller.backImage,fillImageArray: true);
                   }
                 },
                 child: Container(

@@ -35,74 +35,130 @@ class VehicleDetailsScreen extends StatelessWidget{
   }
 
   Widget vehicleForm(){
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          WidgetDesigns.hBox(20),
-          CustomTextFormField(
-            controller: controller.vehicleNameController,
-            hintText: "Vehicle Name",
-            //validator: FormValidators.validateName(value),
+    return Obx((){
+      return SingleChildScrollView(
+        child: Form(
+          key: controller.formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              WidgetDesigns.hBox(20),
+              CustomTextFormField(
+                controller: controller.vehicleNameController,
+                hintText: "Vehicle Name",
+                onChanged: (value) {
+                  controller.updateVehicleNameError('');
+                },
+                validator: (value) {
+                  if(controller.vehicleNameController.text.isEmpty){
+                    return 'Vehicle name is required';
+                  }
+
+                  if(controller.vehicleNameError.value.isNotEmpty){
+                    return controller.vehicleNameError.value;
+
+                  }
+                  return null;
+                },
+              ),
+
+              WidgetDesigns.hBox(16),
+              CustomTextFormField(
+                controller: controller.brandNameController,
+                hintText: "Brand",
+                onChanged: (value) {
+                  controller.updateBrandNameError('');
+                },
+                validator: (value) {
+                  if(controller.brandNameController.text.isEmpty){
+                    return 'Brand name is required';
+                  }
+
+                  if(controller.brandNameError.value.isNotEmpty){
+                    return controller.brandNameError.value;
+
+                  }
+                  return null;
+                },
+              ),
+
+
+              WidgetDesigns.hBox(16),
+              CustomTextFormField(
+                controller: controller.manufacturerYearController,
+                hintText: "Year Of Manufacture",
+                onChanged: (value) {
+                  controller.updateManufactureYearError('');
+                },
+                validator: (value) {
+                  if(controller.manufacturerYearController.text.isEmpty){
+                    return 'Manufacturer year is required';
+                  }
+
+                  if(controller.yearOfManufactureError.value.isNotEmpty){
+                    return controller.yearOfManufactureError.value;
+
+                  }
+                  return null;
+                },
+              ),
+
+              WidgetDesigns.hBox(16),
+              CustomTextFormField(
+                controller: controller.registrationNumberController,
+                hintText: "Registration Number",
+                onChanged: (value) {
+                  controller.updateRegistrationNameError('');
+                },
+                validator: (value) {
+                  if(controller.registrationNumberController.text.isEmpty){
+                    return 'Registration number is required';
+                  }
+
+                  if(controller.registrationNumError.value.isNotEmpty){
+                    return controller.yearOfManufactureError.value;
+
+                  }
+                  return null;
+                },
+              ),
+
+              WidgetDesigns.hBox(16),
+
+              SimpleCustomDropdown(
+                items: controller.fuelType,
+                selectedValue: controller.selectedFuelType.value,
+                hintText: 'Fuel Type',
+                onChanged: (p0) {
+                  controller.selectedFuelType.value = p0 ?? '';
+                },
+                validator: (value) => value == null ? 'Select Fuel type' : null,
+              ),
+
+              WidgetDesigns.hBox(16),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: photoContainer('1', 'Front side photo of your\nRegistration Certificate'),
+              ),
+              WidgetDesigns.hBox(16),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: photoContainer('2', 'Back side photo of your\nRegistration Certificate'),
+              ),
+              WidgetDesigns.hBox(20),
+              CustomAnimatedButton(
+                  onTap: (){
+                    if(controller.formKey.currentState!.validate()){
+                      controller.vehicleDetailsUploadAPI();
+                    }
+                  },
+                  text: 'Submit'
+              )
+            ],
           ),
-      
-          WidgetDesigns.hBox(16),
-          Obx((){
-            return SimpleCustomDropdown(
-              items: controller.vehicleTypes,
-              selectedValue: controller.selectedVehicleType.value,
-              hintText: 'Brand',
-              onChanged: (p0) {
-                controller.selectedVehicleType.value = p0 ?? '';
-              },
-              validator: (value) => value == null ? 'Select vehicle type' : null,
-            );
-          }),
-      
-          WidgetDesigns.hBox(16),
-          CustomTextFormField(
-            controller: controller.manufacturerYearController,
-            hintText: "Year Of Manufacture",
-            //validator: FormValidators.validateName(value),
-          ),
-      
-          WidgetDesigns.hBox(16),
-          CustomTextFormField(
-            controller: controller.registrationNumberController,
-            hintText: "Registration Number",
-            //validator: FormValidators.validateName(value),
-          ),
-      
-          WidgetDesigns.hBox(16),
-          Obx((){
-            return SimpleCustomDropdown(
-              items: controller.fuelType,
-              selectedValue: controller.selectedFuelType.value,
-              hintText: 'Fuel Type',
-              onChanged: (p0) {
-                controller.selectedFuelType.value = p0 ?? '';
-              },
-              validator: (value) => value == null ? 'Select Fuel type' : null,
-            );
-          }),
-          WidgetDesigns.hBox(16),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: photoContainer('1', 'Front side photo of your\nRegistration Certificate'),
-          ),
-          WidgetDesigns.hBox(16),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: photoContainer('2', 'Back side photo of your\nRegistration Certificate'),
-          ),
-          WidgetDesigns.hBox(20),
-          CustomAnimatedButton(
-              onTap: (){},
-              text: 'Submit'
-          )
-        ],
-      ),
-    );
+        ),
+      );
+    });
   }
 
   Widget photoContainer(String type, String text){
@@ -133,9 +189,9 @@ class VehicleDetailsScreen extends StatelessWidget{
                 GestureDetector(
                   onTap: (){
                     if(type == "1"){
-                      controller.pickImage(controller.frontImage);
+                      controller.pickImage(controller.frontImage,fillImageArray: true);
                     }else{
-                      controller.pickImage(controller.backImage);
+                      controller.pickImage(controller.backImage, fillImageArray: true);
                     }
                   },
                   child: Container(

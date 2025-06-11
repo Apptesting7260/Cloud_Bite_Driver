@@ -1,7 +1,7 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
 class DocumentVerificationController extends GetxController{
-
+  var isLoading = true.obs;
 
   @override
   void onInit() {
@@ -33,6 +33,7 @@ class DocumentVerificationController extends GetxController{
 
   getDocumentListData() async{
     setDocumentListData(ApiResponse.loading());
+    isLoading.value = true;
     try{
       final apiData = await _repository.documentsListAPI();
       if(apiData.status == true){
@@ -49,7 +50,8 @@ class DocumentVerificationController extends GetxController{
       WidgetDesigns.consoleLog(e.toString(), "error while get document list data");
       CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
     }
+    finally{
+      isLoading.value = false;
+    }
   }
-
-
 }

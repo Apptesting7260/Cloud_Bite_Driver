@@ -29,7 +29,7 @@
 
             <meta-data
                 android:name="com.google.android.geo.API_KEY"
-                android:value="AIzaSyDzQVQbsU8deMxfBC-0SPO2ixd8TGaTNBo" />
+                android:value="AIzaSyDASK3pVdsSZTlXZ1Tqjt8Nbqy28NK4fKI" />
 
             <meta-data
               android:name="io.flutter.embedding.android.NormalTheme"

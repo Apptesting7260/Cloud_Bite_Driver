@@ -54,7 +54,10 @@ dependencies:
   loading_animation_widget: ^1.3.0
   lottie: ^3.1.3
   geocoding: ^3.0.0
-
+  flutter_dotenv: ^5.2.1
+  firebase_core: ^3.13.0
+  firebase_messaging: ^15.2.5
+  dio: ^5.3.2
 
 dev_dependencies:
   flutter_test:
@@ -81,6 +84,7 @@ flutter:
   assets:
     - assets/images/
     - assets/animation/
+    - assets/.env
 
   fonts:
     - family: GeneralSans-Regular

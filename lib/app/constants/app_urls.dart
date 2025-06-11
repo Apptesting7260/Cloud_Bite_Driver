@@ -11,4 +11,8 @@ class AppUrls{
   static const String listDeliveryMethodAPI = '$baseUrl/ListDeliveryMethod';
   static const String selectDeliveryMethodAPI = '$baseUrl/setDeliveryModel';
   static const String documentListAPI = '$baseUrl/Listdocs';
+  static const String listPersonalDocument = '$baseUrl/list_personal_documents';
+  static const String vehicleDetailsUploadAPI = '$baseUrl/vehicle';
+  static const String profilePhotoUploadAPI = '$baseUrl/personalUploads/profile_photo';
+  static const String identityPhotoUploadAPI = '$baseUrl/personalUploads/identity';
 }

@@ -24,7 +24,23 @@ class PersonalDocumentScreen extends StatelessWidget{
                 style: AppFontStyle.text_16_400(AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular),
               ),
               WidgetDesigns.hBox(20),
-              pendingDocuments()
+              //pendingDocuments()
+              Obx(() {
+                // Show shimmer when loading
+                if (controller.isLoading.value) {
+                  return Expanded(
+                    child: ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: 3,
+                      shrinkWrap: true,
+                      separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+                      itemBuilder: (context, index) => buildShimmerOption(),
+                    ),
+                  );
+                }
+                // Show actual data when loaded
+                return pendingDocuments();
+              }),
             ],
           ),
         ),
@@ -36,20 +52,20 @@ class PersonalDocumentScreen extends StatelessWidget{
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-
-        ListView.separated(
-          physics: NeverScrollableScrollPhysics(),
-          itemCount: controller.documentList.length,
-          shrinkWrap: true,
-          separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
-          itemBuilder: (context, index) {
-            final doc = controller.documentList[index];
-            return documentTypeName(
-              doc["title"],
-                  () => Get.toNamed(doc["route"]),
-            );
-          },
-        ),
+        Obx((){
+          return ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: controller.listPersonalDocumentData.value.data?.data?.length ?? 0,
+            shrinkWrap: true,
+            separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+            itemBuilder: (context, index) {
+              final doc = controller.documentList[index];
+              return documentTypeName(
+                controller.listPersonalDocumentData.value.data?.data?[index].name ?? "", () => Get.toNamed(doc["route"]),
+              );
+            },
+          );
+        }),
 
       ],
     );
@@ -78,6 +94,21 @@ class PersonalDocumentScreen extends StatelessWidget{
               ],
             ),
           )
+      ),
+    );
+  }
+
+  Widget buildShimmerOption() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: Get.width,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.white,
+        ),
       ),
     );
   }

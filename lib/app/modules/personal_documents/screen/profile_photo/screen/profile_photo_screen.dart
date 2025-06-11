@@ -54,7 +54,7 @@ class ProfilePhotoScreen extends StatelessWidget{
                         WidgetDesigns.hBox(20),
                         GestureDetector(
                           onTap: () {
-                            controller.pickImage(controller.profileImage);
+                            controller.pickImage(controller.profileImage,fillImageArray: true);
                           },
                           child: Container(
                             width: 150,
@@ -76,10 +76,10 @@ class ProfilePhotoScreen extends StatelessWidget{
                                     Icon(Icons.camera_alt, size: 14, color: AppTheme.primaryColor),
                                     WidgetDesigns.wBox(10),
                                     if (controller.profileImage.value == null)
-                                    Text(
-                                      'Upload Photo',
-                                      style: AppFontStyle.text_14_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansRegular),
-                                    )else
+                                      Text(
+                                        'Upload Photo',
+                                        style: AppFontStyle.text_14_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansRegular),
+                                      )else
                                       Text(
                                         'Change Photo',
                                         style: AppFontStyle.text_14_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansRegular),
@@ -97,7 +97,13 @@ class ProfilePhotoScreen extends StatelessWidget{
               }),
               WidgetDesigns.hBox(30),
               CustomAnimatedButton(
-                  onTap: () {},
+                  onTap: () {
+                    if(controller.profileImage.value != null){
+                      controller.uploadProfilePhotoAPI();
+                    }else{
+                      CustomSnackBar.show(message: "Please Upload Profile Image", color: AppTheme.redText, tColor: AppTheme.white);
+                    }
+                  },
                   text: "Save"
               )
             ],

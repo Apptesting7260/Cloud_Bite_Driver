@@ -18,6 +18,9 @@ export 'package:flutter_svg/svg.dart';
 export 'package:pinput/pinput.dart';
 export 'package:lottie/lottie.dart';
 export 'package:geolocator/geolocator.dart';
+export 'package:geocoding/geocoding.dart';
+export 'package:flutter_dotenv/flutter_dotenv.dart';
+
 
 /// ↓ ↓ ↓ ↓ ↓ Network Exports ↓ ↓ ↓ ↓ ↓
 export 'package:cloud_bites_driver/app/utils/network/base_api_services.dart';
@@ -77,6 +80,10 @@ export 'package:cloud_bites_driver/app/modules/sign_up/model/register_model.dart
 export 'package:cloud_bites_driver/app/modules/sign_up/model/resend_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/select_delivery_method_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/document_list_model.dart';
+export 'package:cloud_bites_driver/app/modules/personal_documents/model/list_personal_document_model.dart';
+export 'package:cloud_bites_driver/app/modules/vehicle_details/model/vehicle_details_upload_model.dart';
+export 'package:cloud_bites_driver/app/modules/personal_documents/screen/profile_photo/model/profile_photo_upload_model.dart';
+export 'package:cloud_bites_driver/app/modules/personal_documents/screen/identity_verification/model/identity_verification_upload_model.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓

@@ -124,7 +124,7 @@ class NetworkApiServices extends BaseApiServices {
     try {
 
       var headers = {
-        'Authorization': 'Bearer $token'
+        'Authorization': token
       };
 
       var request = http.MultipartRequest('POST', Uri.parse(url));
@@ -145,6 +145,7 @@ class NetworkApiServices extends BaseApiServices {
         if (value.runtimeType == String) {
           // Single file path
           request.files.add(await http.MultipartFile.fromPath(key, value));
+          WidgetDesigns.consoleLog('eroor', value);
         } else if (value.runtimeType == List<String>) {
           // Multiple file paths
           for(int i=0;i<value.length;i++){
@@ -155,10 +156,6 @@ class NetworkApiServices extends BaseApiServices {
           throw Exception("Unsupported file input type for key '$key'");
         }
       }
-
-
-
-      log(request.files[0].filename.toString(), name: "multi part files");
 
       request.headers.addAll(headers);
 

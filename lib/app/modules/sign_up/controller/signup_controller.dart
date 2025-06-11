@@ -1,6 +1,4 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:geocoding/geocoding.dart';
-import 'package:google_places_flutter/model/place_details.dart';
 import 'package:http/http.dart' as http;
 
 class SignUpController extends GetxController{
@@ -681,7 +679,7 @@ class SignUpController extends GetxController{
   var longitude = 0.0.obs;
   RxBool isValidAddress = true.obs;
 
-  String googleAPIKey = "AIzaSyDzQVQbsU8deMxfBC-0SPO2ixd8TGaTNB";
+  String googleAPIKey = "${dotenv.env['googleAPIKey']}";
 
   Future<List<Predictions>> searchAutocomplete(String query) async {
     Uri uri = Uri.https("maps.googleapis.com", "maps/api/place/autocomplete/json", {
@@ -704,7 +702,7 @@ class SignUpController extends GetxController{
     return [];
   }
 
-  /*Future<void> getLatLang(String address) async {
+  Future<void> getLatLang(String address) async {
     List<Location> locations = await locationFromAddress(address);
     if (locations.isNotEmpty) {
       var first = locations.first;
@@ -712,7 +710,7 @@ class SignUpController extends GetxController{
       longitude.value = first.longitude;
       debugPrint("Latitude: ${latitude.value}, Longitude: ${longitude.value}");
     }
-  }*/
+  }
 
   @override
   void onInit() {

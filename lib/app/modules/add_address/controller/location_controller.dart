@@ -4,6 +4,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 
+
 class LocationController extends GetxController {
   //TODO: Implement LocationController
   // add new address fields
@@ -11,7 +12,6 @@ class LocationController extends GetxController {
   var houseController = TextEditingController();
   var addressController = TextEditingController();
   var isDefault = true.obs;
-  // var api = LocationRepository();
   var type = "".obs;
   var isValidAddress = true.obs;
   var isFetchLocation = false.obs;

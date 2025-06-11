@@ -1,7 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
 
-
 class Repository {
 
   final _apiService = NetworkApiServices();
@@ -67,6 +66,30 @@ class Repository {
     return DocumentListModel.fromJson(response);
   }
 
+  // Get List of Personal Document API
+  Future<ListPersonalDocumentModel> listPersonalDocumentAPI() async {
+    WidgetDesigns.consoleLog(storageService.getToken(), "Bearer Token");
+    dynamic response = await _apiService.getApi(AppUrls.listPersonalDocument, "Bearer ${storageService.getToken()}");
+    return ListPersonalDocumentModel.fromJson(response);
+  }
+
+  // Vehicle Details Upload API
+  Future<VehicleDetailsUploadModel> uploadVehicleDetailsAPI(Map<String, String> fields, Map<String, dynamic> files) async {
+    dynamic response = await _apiService.postApiMultiPart(AppUrls.vehicleDetailsUploadAPI, "Bearer ${storageService.getToken()}", fields, files);
+    return VehicleDetailsUploadModel.fromJson(response);
+  }
+
+  // Profile Photo Upload API
+  Future<ProfilePhotoUploadModel> uploadProfilePhotoAPI(Map<String, String> fields, Map<String, dynamic> files) async {
+    dynamic response = await _apiService.postApiMultiPart(AppUrls.profilePhotoUploadAPI, "Bearer ${storageService.getToken()}", fields, files);
+    return ProfilePhotoUploadModel.fromJson(response);
+  }
+
+  // Identity Photo Upload API
+  Future<UploadIdentityVerificationModel> uploadIdentityPhotoAPI(Map<String, String> fields, Map<String, dynamic> files) async {
+    dynamic response = await _apiService.postApiMultiPart(AppUrls.identityPhotoUploadAPI, "Bearer ${storageService.getToken()}", fields, files);
+    return UploadIdentityVerificationModel.fromJson(response);
+  }
 
   Future<LocationResponse> addNewAddressApi(data) async {
     print(data);
@@ -78,5 +101,4 @@ class Repository {
     var response = await _apiService.getApi(AppUrls.allAddressUrl, "" );
     return AllLocationResponse.fromJson(response);
   }
-
 }

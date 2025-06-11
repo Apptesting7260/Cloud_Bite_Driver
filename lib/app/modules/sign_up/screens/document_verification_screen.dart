@@ -48,7 +48,22 @@ class DocumentVerificationScreen extends StatelessWidget{
                     ),
                     child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: pendingDocuments()
+                        child: Obx(() {
+                          // Show shimmer when loading
+                          if (controller.isLoading.value) {
+                            return Expanded(
+                              child: ListView.separated(
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: 3,
+                                shrinkWrap: true,
+                                separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+                                itemBuilder: (context, index) => buildShimmerOption(),
+                              ),
+                            );
+                          }
+                          // Show actual data when loaded
+                          return pendingDocuments();
+                        }),
                     ),
                   ),
                 ),
@@ -61,7 +76,6 @@ class DocumentVerificationScreen extends StatelessWidget{
   }
 
   Widget pendingDocuments()  {
-    bool isLoading = controller.documentListData.value.data == null;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

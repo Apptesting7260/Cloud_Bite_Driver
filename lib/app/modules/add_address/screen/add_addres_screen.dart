@@ -29,10 +29,12 @@ class AddNewAddress extends StatelessWidget {
                   ),
                   child: GoogleMap(
                     initialCameraPosition: CameraPosition(
-                      target: locCtrl.currentLatLng.value!,
+                      target: locCtrl.currentLatLng.value ?? const LatLng(0, 0),
                       zoom: 15,
                     ),
-                    onMapCreated: locCtrl.setMapController,
+                    onMapCreated: (controller) {
+                      locCtrl.setMapController(controller);
+                    },
                     onCameraMove: (position) {
                       locCtrl.tempLatLng.value = position.target;
                     },
