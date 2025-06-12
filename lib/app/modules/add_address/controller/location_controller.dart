@@ -45,7 +45,7 @@ class LocationController extends GetxController {
   var otherController = TextEditingController();
   var address = ''.obs;
   final searchTextController = TextEditingController();
-  static var apiKey = 'AIzaSyDzQVQbsU8deMxfBC-0SPO2ixd8TGaTNBo';
+  static var apiKey = 'AIzaSyDASK3pVdsSZTlXZ1Tqjt8Nbqy28NK4fKI';
   final placesService = PlacesService(apiKey);
   var suggestions = <Map<String, dynamic>>[].obs;
   late GoogleMapController mapController;

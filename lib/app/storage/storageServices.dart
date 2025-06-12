@@ -34,6 +34,9 @@ class StorageServices extends GetxService{
     return await _prefs.setString('mobile', mobile);
   }
 
+  Future<bool> saveStages(String stage) async {
+    return await _prefs.setString('stage', stage);
+  }
 
   // Get Methods
   String getDeliveryID() {
@@ -59,6 +62,11 @@ class StorageServices extends GetxService{
   String getMobile() {
     WidgetDesigns.consoleLog(_prefs.getString('mobile').toString(), 'driverMobile');
     return _prefs.getString('mobile') ?? '';
+  }
+
+  String getStages() {
+    WidgetDesigns.consoleLog(_prefs.getString('stage').toString(), 'stage');
+    return _prefs.getString('stage') ?? '';
   }
 
   String getToken() {

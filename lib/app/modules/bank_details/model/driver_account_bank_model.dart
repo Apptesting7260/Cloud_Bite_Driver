@@ -1,16 +1,19 @@
-class DriverAccountModel {
+class DriverAccountDetailsModel {
   String? type;
   String? message;
-  Data? data;
+  DriverBankAccountData? data;
   bool? status;
+  String? stage;
 
-  DriverAccountModel({this.type, this.message, this.data, this.status});
+  DriverAccountDetailsModel(
+      {this.type, this.message, this.data, this.status, this.stage});
 
-  DriverAccountModel.fromJson(Map<String, dynamic> json) {
+  DriverAccountDetailsModel.fromJson(Map<String, dynamic> json) {
     type = json['type'];
     message = json['message'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? new DriverBankAccountData.fromJson(json['data']) : null;
     status = json['status'];
+    stage = json['stage'];
   }
 
   Map<String, dynamic> toJson() {
@@ -21,13 +24,14 @@ class DriverAccountModel {
       data['data'] = this.data!.toJson();
     }
     data['status'] = this.status;
+    data['stage'] = this.stage;
     return data;
   }
 }
 
-class Data {
-  int? id;
-  int? driverId;
+class DriverBankAccountData {
+  String? id;
+  String? driverId;
   String? bankName;
   String? accountHolderName;
   String? accountNumber;
@@ -37,7 +41,7 @@ class Data {
   String? createdAt;
   String? updatedAt;
 
-  Data(
+  DriverBankAccountData(
       {this.id,
         this.driverId,
         this.bankName,
@@ -49,17 +53,17 @@ class Data {
         this.createdAt,
         this.updatedAt});
 
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    driverId = json['driver_id'];
-    bankName = json['bank_name'];
-    accountHolderName = json['account_holder_name'];
-    accountNumber = json['account_number'];
-    retypeAccountNumber = json['retype_account_number'];
-    accountType = json['account_type'];
-    ifscCode = json['ifsc_code'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+  DriverBankAccountData.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString();
+    driverId = json['driver_id'].toString();
+    bankName = json['bank_name'].toString();
+    accountHolderName = json['account_holder_name'].toString();
+    accountNumber = json['account_number'].toString();
+    retypeAccountNumber = json['retype_account_number'].toString();
+    accountType = json['account_type'].toString();
+    ifscCode = json['ifsc_code'].toString();
+    createdAt = json['created_at'].toString();
+    updatedAt = json['updated_at'].toString();
   }
 
   Map<String, dynamic> toJson() {

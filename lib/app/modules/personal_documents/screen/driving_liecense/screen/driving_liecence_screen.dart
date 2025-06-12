@@ -9,20 +9,29 @@ class DrivingLicenseScreen extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomBackButtonAppBar(backgroundColor: Colors.white, title: "Driving License"),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(15.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              Text(
+                'Driving License',
+                style: AppFontStyle.text_24_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+              ),
               WidgetDesigns.hBox(20),
               photoContainer('1', 'Front side photo of your\nDriving License'),
               WidgetDesigns.hBox(20),
               photoContainer('2', 'Back side photo of your\nDriving License'),
               WidgetDesigns.hBox(20),
               CustomAnimatedButton(
-                  onTap: (){},
+                  onTap: (){
+                    if(controller.frontImage.value != null && controller.backImage.value != null){
+                      controller.licenseUploadAPI();
+                    }else{
+                      CustomSnackBar.show(message: 'Please Upload Front and Back Side of Driving License', color: AppTheme.redText, tColor: AppTheme.white);
+                    }
+                  },
                   text: 'Submit'
               )
             ],
@@ -60,9 +69,9 @@ class DrivingLicenseScreen extends StatelessWidget{
               GestureDetector(
                 onTap: (){
                   if(type == "1"){
-                    controller.pickImage(controller.frontImage);
+                    controller.pickImage(controller.frontImage,fillImageArray: true);
                   }else{
-                    controller.pickImage(controller.backImage);
+                    controller.pickImage(controller.backImage,fillImageArray: true);
                   }
                 },
                 child: Container(

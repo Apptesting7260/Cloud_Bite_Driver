@@ -79,6 +79,12 @@ class Repository {
     return VehicleDetailsUploadModel.fromJson(response);
   }
 
+  // Bank Details Upload API
+  Future<DriverAccountDetailsModel> uploadBankDetailsAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.bankDetailsUploadAPI, "Bearer ${storageService.getToken()}");
+    return DriverAccountDetailsModel.fromJson(response);
+  }
+
   // Profile Photo Upload API
   Future<ProfilePhotoUploadModel> uploadProfilePhotoAPI(Map<String, String> fields, Map<String, dynamic> files) async {
     dynamic response = await _apiService.postApiMultiPart(AppUrls.profilePhotoUploadAPI, "Bearer ${storageService.getToken()}", fields, files);
@@ -89,6 +95,12 @@ class Repository {
   Future<UploadIdentityVerificationModel> uploadIdentityPhotoAPI(Map<String, String> fields, Map<String, dynamic> files) async {
     dynamic response = await _apiService.postApiMultiPart(AppUrls.identityPhotoUploadAPI, "Bearer ${storageService.getToken()}", fields, files);
     return UploadIdentityVerificationModel.fromJson(response);
+  }
+
+  // License Photo Upload API
+  Future<LicenseUploadModel> uploadLicensePhotoAPI(Map<String, String> fields, Map<String, dynamic> files) async {
+    dynamic response = await _apiService.postApiMultiPart(AppUrls.licensePhotoUploadAPI, "Bearer ${storageService.getToken()}", fields, files);
+    return LicenseUploadModel.fromJson(response);
   }
 
   Future<LocationResponse> addNewAddressApi(data) async {

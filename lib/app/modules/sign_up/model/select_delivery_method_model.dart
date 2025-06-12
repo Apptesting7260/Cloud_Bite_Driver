@@ -2,13 +2,15 @@ class SetDeliveryMethodModel {
   String? message;
   String? type;
   bool? status;
+  String? stage;
 
-  SetDeliveryMethodModel({this.message, this.type, this.status});
+  SetDeliveryMethodModel({this.message, this.type, this.status, this.stage});
 
   SetDeliveryMethodModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'].toString();
-    type = json['type'].toString();
-    status = json['status'] == 1 || json['status'] == true;
+    message = json['message'];
+    type = json['type'];
+    status = json['status'];
+    stage = json['stage'];
   }
 
   Map<String, dynamic> toJson() {
@@ -16,6 +18,7 @@ class SetDeliveryMethodModel {
     data['message'] = this.message;
     data['type'] = this.type;
     data['status'] = this.status;
+    data['stage'] = this.stage;
     return data;
   }
 }

@@ -3,6 +3,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class PersonalDocumentScreen extends StatelessWidget{
 
   final PersonalDocumentController controller = Get.put(PersonalDocumentController());
+  final DocumentVerificationController documentController = Get.put(DocumentVerificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +42,17 @@ class PersonalDocumentScreen extends StatelessWidget{
                 // Show actual data when loaded
                 return pendingDocuments();
               }),
+              WidgetDesigns.hBox(30),
+              CustomAnimatedButton(
+                  onTap: (){
+                    if(controller.listPersonalDocumentData.value.data?.isComplete == true){
+                      Get.toNamed(Routes.documentVerificationScreen);
+                      documentController.getDocumentListData();
+                    }else{
+                      CustomSnackBar.show(message: "Please upload all pending personal documents" , color: AppTheme.redText, tColor: AppTheme.white);
+                    }
+                  },
+                  text: 'Continue')
             ],
           ),
         ),
@@ -60,8 +72,9 @@ class PersonalDocumentScreen extends StatelessWidget{
             separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
             itemBuilder: (context, index) {
               final doc = controller.documentList[index];
+              final completeDocs = controller.listPersonalDocumentData.value.data?.data?[index];
               return documentTypeName(
-                controller.listPersonalDocumentData.value.data?.data?[index].name ?? "", () => Get.toNamed(doc["route"]),
+                controller.listPersonalDocumentData.value.data?.data?[index].name ?? "", completeDocs?.isComplete ?? false ,() => Get.toNamed(doc["route"]),
               );
             },
           );
@@ -71,9 +84,9 @@ class PersonalDocumentScreen extends StatelessWidget{
     );
   }
 
-  Widget documentTypeName(String title, VoidCallback onTap) {
+  Widget documentTypeName(String title, bool isCompleted  ,VoidCallback onTap) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: isCompleted ? null : onTap,
       child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15.0),
@@ -90,7 +103,18 @@ class PersonalDocumentScreen extends StatelessWidget{
                   style: AppFontStyle.text_16_500(AppTheme.black),
                 ),
                 Spacer(),
-                Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.grey)
+                Row(
+                  children: [
+                    Icon(
+                        isCompleted ? Icons.check_circle : Icons.hourglass_bottom_rounded,
+                        size: 14,
+                        color: isCompleted ? AppTheme.green : AppTheme.grey
+                    ),
+                    WidgetDesigns.wBox(10),
+                    if(!isCompleted)
+                      Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.grey),
+                  ],
+                )
               ],
             ),
           )

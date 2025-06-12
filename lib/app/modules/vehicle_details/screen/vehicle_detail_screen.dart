@@ -87,6 +87,10 @@ class VehicleDetailsScreen extends StatelessWidget{
               CustomTextFormField(
                 controller: controller.manufacturerYearController,
                 hintText: "Year Of Manufacture",
+                textInputType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 onChanged: (value) {
                   controller.updateManufactureYearError('');
                 },

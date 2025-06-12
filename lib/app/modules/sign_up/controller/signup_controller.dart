@@ -97,7 +97,7 @@ class SignUpController extends GetxController{
 // Timer methods
   void startTimer() {
     resendEnabled.value = false;
-    remainingTime.value = 30;
+    remainingTime.value = 60;
     _timer?.cancel();
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (remainingTime.value > 0) {
@@ -177,14 +177,12 @@ class SignUpController extends GetxController{
       final response = await _repository.verifyOTpForPhone(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
-        customOtpDialog("${countryString.value} ${phoneController.text}", Get.context, "phone");
-        print(response.message);
         isPhoneVerified.value = true;
         verifiedPhone.value = "${countryString.value}${phoneController.text}";
-        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        if (Get.isDialogOpen!) {
+        if (Get.isDialogOpen == true) {
           Get.back();
         }
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
       else if(response.status == false &&  response.type.toString() == "phone"){
         LoadingOverlay().hideLoading();
@@ -224,7 +222,6 @@ class SignUpController extends GetxController{
         storageServices.saveEmailOTP(response.otp!);
         storageServices.saveEmail(emailController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        CustomSnackBar.show(message: response.otp.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
       else if(response.status == false && response.type == 'email'){
         LoadingOverlay().hideLoading();
@@ -262,14 +259,14 @@ class SignUpController extends GetxController{
       final response = await _repository.verifyOTpForPhone(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
-        customOtpDialog(emailController.text, Get.context, "email");
         print(response.message);
         isEmailVerified.value = true;
         verifiedEmail.value = emailController.text;
-        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        update();
         if (Get.isDialogOpen!) {
           Get.back();
         }
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
       else if(response.status == false && response.type.toString() == "email"){
         LoadingOverlay().hideLoading();
@@ -320,6 +317,7 @@ class SignUpController extends GetxController{
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         print(response.message);
+        storageServices.saveStages(response.stage.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         Get.toNamed(Routes.deliveryMethodScreen);
       }
@@ -610,6 +608,7 @@ class SignUpController extends GetxController{
                   // Reset timer and resend OTP
                   startTimer();
                   if (type == "phone") {
+                    otpController.clear();
                     resendOTPForPhone(type, title);
                   } else {
                     resendOTPForPhone(type, title);
@@ -651,9 +650,10 @@ class SignUpController extends GetxController{
                       onTap: () async {
                         if (type == "phone") {
                           await verifyOTPForPhone();
-                          if (Get.isDialogOpen!) {
-                            Navigator.of(Get.context!, rootNavigator: true).pop();
-                          }
+                         /* if (Get.isDialogOpen!) {
+                            Get.back();
+                            // Navigator.of(Get.context!, rootNavigator: true).pop();
+                          }*/
                         } else{
                           await verifyOTPForEmail();
                           if (Get.isDialogOpen!) {

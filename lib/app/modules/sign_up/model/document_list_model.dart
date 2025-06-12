@@ -1,23 +1,31 @@
-import '../../../core/app_exports.dart';
-
 class DocumentListModel {
   String? message;
   String? type;
-  RxList<DocumentListData>? data;
+  List<DocumentVerificationData>? data;
   bool? status;
+  bool? allComplete;
+  String? stage;
 
-  DocumentListModel({this.message, this.type, this.data, this.status});
+  DocumentListModel(
+      {this.message,
+        this.type,
+        this.data,
+        this.status,
+        this.allComplete,
+        this.stage});
 
   DocumentListModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     type = json['type'];
     if (json['data'] != null) {
-      data = <DocumentListData>[].obs;
+      data = <DocumentVerificationData>[];
       json['data'].forEach((v) {
-        data!.add(new DocumentListData.fromJson(v));
+        data!.add(new DocumentVerificationData.fromJson(v));
       });
     }
     status = json['status'];
+    allComplete = json['all_complete'];
+    stage = json['stage'];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,21 +36,25 @@ class DocumentListModel {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
+    data['all_complete'] = this.allComplete;
+    data['stage'] = this.stage;
     return data;
   }
 }
 
-class DocumentListData {
+class DocumentVerificationData {
   String? id;
   String? name;
   bool? status;
+  bool? isComleted;
 
-  DocumentListData({this.id, this.name, this.status});
+  DocumentVerificationData({this.id, this.name, this.status, this.isComleted});
 
-  DocumentListData.fromJson(Map<String, dynamic> json) {
+  DocumentVerificationData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     name = json['name'].toString();
     status = json['status'];
+    isComleted = json['isComleted'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +62,7 @@ class DocumentListData {
     data['id'] = this.id;
     data['name'] = this.name;
     data['status'] = this.status;
+    data['isComleted'] = this.isComleted;
     return data;
   }
 }

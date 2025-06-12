@@ -1,23 +1,24 @@
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-
 class ListPersonalDocumentModel {
   String? message;
   String? type;
-  RxList<PersonalDocumentData>? data;
+  List<ListPersonalDocData>? data;
   bool? status;
+  bool? isComplete;
 
-  ListPersonalDocumentModel({this.message, this.type, this.data, this.status});
+  ListPersonalDocumentModel(
+      {this.message, this.type, this.data, this.status, this.isComplete});
 
   ListPersonalDocumentModel.fromJson(Map<String, dynamic> json) {
     message = json['message'];
     type = json['type'];
     if (json['data'] != null) {
-      data = <PersonalDocumentData>[].obs;
+      data = <ListPersonalDocData>[];
       json['data'].forEach((v) {
-        data!.add(new PersonalDocumentData.fromJson(v));
+        data!.add(new ListPersonalDocData.fromJson(v));
       });
     }
     status = json['status'];
+    isComplete = json['isComplete'];
   }
 
   Map<String, dynamic> toJson() {
@@ -28,21 +29,24 @@ class ListPersonalDocumentModel {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
     data['status'] = this.status;
+    data['isComplete'] = this.isComplete;
     return data;
   }
 }
 
-class PersonalDocumentData {
+class ListPersonalDocData {
   String? id;
   String? name;
   bool? status;
+  bool? isComplete;
 
-  PersonalDocumentData({this.id, this.name, this.status});
+  ListPersonalDocData({this.id, this.name, this.status, this.isComplete});
 
-  PersonalDocumentData.fromJson(Map<String, dynamic> json) {
+  ListPersonalDocData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     name = json['name'].toString();
     status = json['status'];
+    isComplete = json['isComplete'];
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +54,7 @@ class PersonalDocumentData {
     data['id'] = this.id;
     data['name'] = this.name;
     data['status'] = this.status;
+    data['isComplete'] = this.isComplete;
     return data;
   }
 }

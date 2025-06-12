@@ -15,14 +15,13 @@ class DocumentVerificationScreen extends StatelessWidget{
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           backgroundColor: Colors.transparent,
-          appBar: CustomBackButtonAppBar(),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
                 child: Column(
                   children: [
-                    WidgetDesigns.hBox(10),
+                    WidgetDesigns.hBox(30),
                     Text(
                       'Documents Verification',
                       style: AppFontStyle.text_30_600(AppTheme.white, fontFamily: AppFontFamily.generalSansMedium),
@@ -80,7 +79,7 @@ class DocumentVerificationScreen extends StatelessWidget{
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Pending Documents",
+          Text("Documents",
               style: AppFontStyle.text_16_400(
                   AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
           ),
@@ -94,8 +93,11 @@ class DocumentVerificationScreen extends StatelessWidget{
             separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
             itemBuilder: (context, index) {
               final doc = controller.pendingDocsList[index];
+              final docData = controller.documentListData.value.data?.data?[index];
               return pendingDocumentsNames(
-                controller.documentListData.value.data?.data?[index].name.toString() ?? '', doc["image"], () => Get.toNamed(doc["route"]),
+                docData?.name.toString() ?? '',
+                doc["image"],
+                docData?.isComleted ?? false , () => Get.toNamed(doc["route"]),
               );
             },
           ),
@@ -105,7 +107,11 @@ class DocumentVerificationScreen extends StatelessWidget{
       
           CustomAnimatedButton(
               onTap: () {
-                Get.toNamed(Routes.registrationCompleteScreen);
+                if(controller.documentListData.value.data?.allComplete == true){
+                  Get.toNamed(Routes.registrationCompleteScreen);
+                }else{
+                  CustomSnackBar.show(message: "Please upload all pending documents" , color: AppTheme.redText, tColor: AppTheme.white);
+                }
               },
               text: "Continue"
           )
@@ -114,9 +120,9 @@ class DocumentVerificationScreen extends StatelessWidget{
     );
   }
 
-  Widget pendingDocumentsNames(String title, String image, VoidCallback onTap) {
+  Widget pendingDocumentsNames(String title, String image, bool isCompleted ,VoidCallback onTap) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: isCompleted ? null : onTap,
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(15.0),
@@ -133,7 +139,18 @@ class DocumentVerificationScreen extends StatelessWidget{
                 style: AppFontStyle.text_16_500(AppTheme.black),
               ),
               Spacer(),
-              Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.grey)
+              Row(
+                children: [
+                  Icon(
+                      isCompleted ? Icons.check_circle : Icons.hourglass_bottom_rounded,
+                      size: 14,
+                      color: isCompleted ? AppTheme.green : AppTheme.grey
+                  ),
+                  WidgetDesigns.wBox(10),
+                  if(!isCompleted)
+                    Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.grey),
+                ],
+              )
             ],
           ),
         )

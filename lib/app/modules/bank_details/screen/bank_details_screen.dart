@@ -33,57 +33,102 @@ class BankDetailsScreen extends StatelessWidget{
   }
 
   Widget bankDetailsForm(){
-    return Column(
-      children: [
-        WidgetDesigns.hBox(20),
-        CustomTextFormField(
-          controller: controller.bankNameController,
-          hintText: "Bank Name",
-          //validator: FormValidators.validateName(value),
+    return Obx((){
+      return Form(
+        key: controller.formKey,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              WidgetDesigns.hBox(20),
+              CustomTextFormField(
+                controller: controller.bankNameController,
+                hintText: "Bank Name",
+                onChanged: (value) {
+                  controller.updateBankNameError('');
+                },
+                validator: (value) {
+                  if(controller.bankNameController.text.isEmpty){
+                    return 'Bank name is required';
+                  }
+                },
+              ),
+              WidgetDesigns.hBox(16),
+              CustomTextFormField(
+                controller: controller.acHolderNameController,
+                hintText: "Account Holder Name",
+                onChanged: (value) {
+                  controller.updateAcHolderNameError('');
+                },
+                validator: (value) {
+                  if(controller.acHolderNameController.text.isEmpty){
+                    return 'Account holder name is required';
+                  }
+                },
+              ),
+              WidgetDesigns.hBox(16),
+              CustomTextFormField(
+                controller: controller.acNumberController,
+                hintText: "Account No.",
+                onChanged: (value) {
+                  controller.updateACNumberError('');
+                },
+                validator: (value) {
+                  if(controller.acNumberController.text.isEmpty){
+                    return 'Account number is required';
+                  }
+                },
+              ),
+              WidgetDesigns.hBox(16),
+              CustomTextFormField(
+                controller: controller.reTypeController,
+                hintText: "Retype Account No.",
+                onChanged: (value) {
+                  controller.updateReTypeError('');
+                },
+                validator: (value) {
+                  if(controller.reTypeController.text.isEmpty){
+                    return 'Re_Type account number is required';
+                  }
+                },
+              ),
+              WidgetDesigns.hBox(16),
+          
+              SimpleCustomDropdown(
+                items: controller.accountTypes,
+                selectedValue: controller.selectedAccountType.value,
+                hintText: 'Account Type',
+                onChanged: (p0) {
+                  controller.selectedAccountType.value = p0 ?? '';
+                },
+                validator: (value) => value == null ? 'Select vehicle type' : null,
+              ),
+          
+              WidgetDesigns.hBox(16),
+              CustomTextFormField(
+                controller: controller.ifscNameController,
+                hintText: "IFSC",
+                onChanged: (value) {
+                  controller.updateIfscError('');
+                },
+                validator: (value) {
+                  if(controller.ifscNameController.text.isEmpty){
+                    return 'Ifsc number is required';
+                  }
+                },
+              ),
+              WidgetDesigns.hBox(20),
+              CustomAnimatedButton(
+                  onTap: (){
+                    if(controller.formKey.currentState!.validate()){
+                      controller.bankDetailsUploadAPI();
+                    }
+                  },
+                  text: 'Save'
+              )
+            ],
+          ),
         ),
-        WidgetDesigns.hBox(16),
-        CustomTextFormField(
-          controller: controller.bankNameController,
-          hintText: "Account Holder Name",
-          //validator: FormValidators.validateName(value),
-        ),
-        WidgetDesigns.hBox(16),
-        CustomTextFormField(
-          controller: controller.bankNameController,
-          hintText: "Account No.",
-          //validator: FormValidators.validateName(value),
-        ),
-        WidgetDesigns.hBox(16),
-        CustomTextFormField(
-          controller: controller.bankNameController,
-          hintText: "Retype Account No.",
-          //validator: FormValidators.validateName(value),
-        ),
-        WidgetDesigns.hBox(16),
-
-        Obx((){
-          return SimpleCustomDropdown(
-            items: controller.accountTypes,
-            selectedValue: controller.selectedAccountType.value,
-            hintText: 'Account Type',
-            onChanged: (p0) {
-              controller.selectedAccountType.value = p0 ?? '';
-            },
-            validator: (value) => value == null ? 'Select vehicle type' : null,
-          );
-        }),
-        WidgetDesigns.hBox(16),
-        CustomTextFormField(
-          controller: controller.bankNameController,
-          hintText: "IFSC",
-          //validator: FormValidators.validateName(value),
-        ),
-        WidgetDesigns.hBox(20),
-        CustomAnimatedButton(
-            onTap: (){},
-            text: 'Save'
-        )
-      ],
-    );
+      );
+    });
   }
 }

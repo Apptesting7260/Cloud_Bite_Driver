@@ -8,6 +8,8 @@ class VehicleDetailController extends GetxController{
   TextEditingController registrationNumberController = TextEditingController();
   TextEditingController manufacturerYearController = TextEditingController();
 
+  final DocumentVerificationController controller = Get.put(DocumentVerificationController());
+
   var vehicleNameError = ''.obs;
   var brandNameError = ''.obs;
   var registrationNumError = ''.obs;
@@ -114,11 +116,9 @@ class VehicleDetailController extends GetxController{
       Map<String, dynamic> files = {};
       if(frontImage.value != null ){
         files["rc_front_image"] = frontImage.value!.path.toString();
-        WidgetDesigns.consoleLog(frontImage.value!.path.toString(), "cjhcwcojwicwecbhcjdjdvcjnd");
       }
       if(backImage.value != null ){
         files["rc_back_image"] = backImage.value!.path.toString();
-        WidgetDesigns.consoleLog(backImage.value!.path.toString(), "cjhcwcojwicwecbhcjdjdvcjnd");
       }
 
       final response = await _repository.uploadVehicleDetailsAPI({
@@ -136,6 +136,7 @@ class VehicleDetailController extends GetxController{
         print(response.message);
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         Get.toNamed(Routes.documentVerificationScreen);
+        controller.getDocumentListData();
       }
       else if(response.status == false && response.type == 'vehicle-details'){
         LoadingOverlay().hideLoading();
@@ -146,7 +147,6 @@ class VehicleDetailController extends GetxController{
         LoadingOverlay().hideLoading();
         print(response.message);
         print(storageServices.getToken());
-        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Uploading Vehicle Details');
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
       }
 

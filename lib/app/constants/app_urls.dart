@@ -1,7 +1,7 @@
 class AppUrls{
 
   static const String baseUrl = 'https://97tzzv24-8000.inc1.devtunnels.ms/driver';
-
+  // static const String baseUrl = "http://15.207.201.245:8000";
 
   static const String verifyUser = "$baseUrl/verifyUser";
   static const String allAddressUrl = "$baseUrl/user-address";
@@ -15,4 +15,6 @@ class AppUrls{
   static const String vehicleDetailsUploadAPI = '$baseUrl/vehicle';
   static const String profilePhotoUploadAPI = '$baseUrl/personalUploads/profile_photo';
   static const String identityPhotoUploadAPI = '$baseUrl/personalUploads/identity';
+  static const String licensePhotoUploadAPI = '$baseUrl/personalUploads/license';
+  static const String bankDetailsUploadAPI = '$baseUrl/driver-account';
 }

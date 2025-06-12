@@ -111,9 +111,18 @@ class Data {
     backIdentity = json['back_identity'].toString();
     frontLicense = json['front_license'].toString();
     backLicense = json['back_license'].toString();
-    accountStatus = json['account_status'];
+    /*accountStatus = json['account_status'];
     personalDocsStatus = json['personal_docs_status'];
-    vehicleStatus = json['vehicle_status'];
+    vehicleStatus = json['vehicle_status'];*/
+    accountStatus = json['account_status'] is bool
+        ? json['account_status']
+        : (json['account_status'] == 'true' || json['account_status'] == 'verified');
+    personalDocsStatus = json['personal_docs_status'] is bool
+        ? json['personal_docs_status']
+        : (json['personal_docs_status'] == 'true' || json['personal_docs_status'] == 'verified');
+    vehicleStatus = json['vehicle_status'] is bool
+        ? json['vehicle_status']
+        : (json['vehicle_status'] == 'true' || json['vehicle_status'] == 'verified');
   }
 
   Map<String, dynamic> toJson() {

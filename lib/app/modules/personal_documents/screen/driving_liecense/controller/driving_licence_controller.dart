@@ -7,17 +7,23 @@ class DrivingLicenseController extends GetxController{
   Rx<File?> frontImage = Rx<File?>(null);
   Rx<File?> backImage = Rx<File?>(null);
 
-  Future<void> pickImage(Rx<File?> image) async {
+  final PersonalDocumentController controller = Get.put(PersonalDocumentController());
+
+  RxList<String> imagesArray = RxList<String>([]);
+
+  final Repository _repository = Repository();
+
+  Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
     final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       XFile? pickedFile = pickedImage;
-      cropImage(pickedFile, image);
+      cropImage(pickedFile, image, fillImageArray: fillImageArray);
       update();
     }
   }
 
-  Future<void> cropImage(XFile? pickedFile,Rx<File?> image,) async {
+  Future<void> cropImage(XFile? pickedFile,Rx<File?> image,{bool fillImageArray = false}) async {
     if (pickedFile != null) {
       final croppedFile = await ImageCropper().cropImage(
         sourcePath: pickedFile.path,
@@ -46,8 +52,51 @@ class DrivingLicenseController extends GetxController{
       );
       if (croppedFile != null) {
         image.value = File(croppedFile.path);
+        if(fillImageArray && image.value != null){
+          imagesArray.add(image.value!.path);
+        }
       }
 
     }
   }
+  Future<void> licenseUploadAPI() async {
+    LoadingOverlay().showLoading();
+    try{
+
+      Map<String, dynamic> files = {};
+      if(frontImage.value != null ){
+        files["front_license"] = frontImage.value!.path.toString();
+      }
+      if(backImage.value != null ){
+        files["back_license"] = backImage.value!.path.toString();
+      }
+
+      final response = await _repository.uploadLicensePhotoAPI({},
+        files,
+      );
+
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        Get.back();
+        controller.getPersonalDocumentListData();
+      }
+      else if(response.status == false && response.type == 'document-uploads'){
+        LoadingOverlay().hideLoading();
+        print(response.message);
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Uploading Driving License');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+
+    }catch(e){
+      LoadingOverlay().hideLoading();
+      print(e);
+    }
+  }
+
 }

@@ -58,9 +58,9 @@ class DeliveryMethodController extends GetxController{
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         storageServices.saveDeliveryID(selectedId);
-        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), "");
+        storageServices.saveStages(response.stage.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-
         Get.toNamed(Routes.documentVerificationScreen);
       }
       else if(response.status == false &&  response.type.toString() == "setDelivery"){

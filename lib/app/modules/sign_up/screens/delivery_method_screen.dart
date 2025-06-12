@@ -14,14 +14,13 @@ class DeliveryMethodScreen extends StatelessWidget {
         child: Scaffold(
           resizeToAvoidBottomInset: true,
           backgroundColor: Colors.transparent,
-          appBar: CustomBackButtonAppBar(),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
                 child: Column(
                   children: [
-                    WidgetDesigns.hBox(10),
+                    WidgetDesigns.hBox(30),
                     Text(
                       'Delivery Method',
                       style: AppFontStyle.text_30_600(AppTheme.white, fontFamily: AppFontFamily.generalSansMedium),

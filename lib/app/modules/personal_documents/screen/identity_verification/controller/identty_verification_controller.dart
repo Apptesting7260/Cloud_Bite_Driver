@@ -6,6 +6,8 @@ class IdentityVerificationController extends GetxController{
   Rx<File?> frontImage = Rx<File?>(null);
   Rx<File?> backImage = Rx<File?>(null);
 
+  final PersonalDocumentController controller = Get.put(PersonalDocumentController());
+
   RxList<String> imagesArray = RxList<String>([]);
 
   final Repository _repository = Repository();
@@ -78,7 +80,8 @@ class IdentityVerificationController extends GetxController{
         LoadingOverlay().hideLoading();
         print(response.message);
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        Get.toNamed(Routes.personalDocumentsScreen);
+        Get.back();
+        controller.getPersonalDocumentListData();
       }
       else if(response.status == false && response.type == 'document-uploads'){
         LoadingOverlay().hideLoading();

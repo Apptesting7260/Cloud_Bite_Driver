@@ -84,6 +84,8 @@ export 'package:cloud_bites_driver/app/modules/personal_documents/model/list_per
 export 'package:cloud_bites_driver/app/modules/vehicle_details/model/vehicle_details_upload_model.dart';
 export 'package:cloud_bites_driver/app/modules/personal_documents/screen/profile_photo/model/profile_photo_upload_model.dart';
 export 'package:cloud_bites_driver/app/modules/personal_documents/screen/identity_verification/model/identity_verification_upload_model.dart';
+export 'package:cloud_bites_driver/app/modules/personal_documents/screen/driving_liecense/model/license_upload_model.dart';
+export 'package:cloud_bites_driver/app/modules/bank_details/model/driver_account_bank_model.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓

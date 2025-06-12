@@ -7,6 +7,8 @@ class ProfilePhotoController extends GetxController {
   Rx<File?> profileImage = Rx<File?>(null);
   RxList<String> imagesArray = RxList<String>([]);
 
+  final PersonalDocumentController controller = Get.put(PersonalDocumentController());
+
   final Repository _repository = Repository();
 
   Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
@@ -71,7 +73,8 @@ class ProfilePhotoController extends GetxController {
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        Get.toNamed(Routes.personalDocumentsScreen);
+        Get.back();
+        controller.getPersonalDocumentListData();
       }
       else if(response.status == false && response.type == 'document-uploads'){
         LoadingOverlay().hideLoading();
