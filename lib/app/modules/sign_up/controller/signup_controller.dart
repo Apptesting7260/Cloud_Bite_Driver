@@ -136,10 +136,8 @@ class SignUpController extends GetxController{
         customOtpDialog("${countryString.value} ${phoneController.text}", Get.context, "phone");
         print(response.message);
         storageServices.saveToken(response.token!);
-        storageServices.saveOTP(response.otp.toString());
         storageServices.saveMobile(phoneController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        CustomSnackBar.show(message: response.otp.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
       else if(response.status == false && response.type == "phone"){
         LoadingOverlay().hideLoading();
@@ -323,6 +321,7 @@ class SignUpController extends GetxController{
       }
       else if(response.status == false && response.type == 'sign-up'){
         LoadingOverlay().hideLoading();
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         print(response.message);
       }
       else {
@@ -353,7 +352,6 @@ class SignUpController extends GetxController{
         LoadingOverlay().hideLoading();
         print(response.message);
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        CustomSnackBar.show(message: response.otpCode.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
       else if(response.status == false){
         LoadingOverlay().hideLoading();
@@ -568,6 +566,7 @@ class SignUpController extends GetxController{
 
   customOtpDialog(title, context, type)  {
     otpController.clear();
+    otpError.value = '';
     startTimer();
     return Get.dialog(
       barrierDismissible: false,
@@ -609,6 +608,7 @@ class SignUpController extends GetxController{
                   startTimer();
                   if (type == "phone") {
                     otpController.clear();
+                    otpError.value ='';
                     resendOTPForPhone(type, title);
                   } else {
                     resendOTPForPhone(type, title);
@@ -650,15 +650,8 @@ class SignUpController extends GetxController{
                       onTap: () async {
                         if (type == "phone") {
                           await verifyOTPForPhone();
-                         /* if (Get.isDialogOpen!) {
-                            Get.back();
-                            // Navigator.of(Get.context!, rootNavigator: true).pop();
-                          }*/
                         } else{
                           await verifyOTPForEmail();
-                          if (Get.isDialogOpen!) {
-                            Navigator.of(Get.context!, rootNavigator: true).pop();
-                          }
                         }
                       },
                       text: "Ok",

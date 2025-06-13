@@ -3,6 +3,7 @@ class GetEmailOTPModel {
   String? otp;
   String? message;
   bool? status;
+  String? token;
 
   GetEmailOTPModel({this.type, this.otp, this.message, this.status});
 
@@ -11,6 +12,7 @@ class GetEmailOTPModel {
     otp = json['otp'].toString();
     message = json['message'].toString();
     status = json['status'];
+    token = json['token'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -19,6 +21,7 @@ class GetEmailOTPModel {
     data['otp'] = this.otp;
     data['message'] = this.message;
     data['status'] = this.status;
+    data['token'] = this.token;
     return data;
   }
 }

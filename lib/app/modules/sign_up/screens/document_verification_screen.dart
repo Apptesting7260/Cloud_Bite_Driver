@@ -53,7 +53,7 @@ class DocumentVerificationScreen extends StatelessWidget{
                             return Expanded(
                               child: ListView.separated(
                                 physics: NeverScrollableScrollPhysics(),
-                                itemCount: 3,
+                                itemCount: controller.documentListData.value.data?.data?.length ?? 0,
                                 shrinkWrap: true,
                                 separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
                                 itemBuilder: (context, index) => buildShimmerOption(),

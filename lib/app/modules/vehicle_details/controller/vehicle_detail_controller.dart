@@ -49,10 +49,10 @@ class VehicleDetailController extends GetxController{
 
   final RxString selectedFuelType = ''.obs;
   final List<String> fuelType = [
-    'diesel',
-    'petrol',
-    'cng',
-    'electric'
+    'Diesel',
+    'Petrol',
+    'Cng',
+    'Electric'
   ];
 
   // Image Picker and Cropper Code
