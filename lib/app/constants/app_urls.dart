@@ -1,7 +1,7 @@
 class AppUrls{
 
   // static const String baseUrl = 'https://97tzzv24-8000.inc1.devtunnels.ms/driver';
-  static const String baseUrl = 'https://bpd5zg92-8000.inc1.devtunnels.ms/';
+  static const String baseUrl = 'https://bpd5zg92-8000.inc1.devtunnels.ms/driver';
 
 
   static const String verifyUser = "$baseUrl/verifyUser";
