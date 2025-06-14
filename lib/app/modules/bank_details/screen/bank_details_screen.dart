@@ -106,13 +106,13 @@ class BankDetailsScreen extends StatelessWidget{
               WidgetDesigns.hBox(16),
               CustomTextFormField(
                 controller: controller.ifscNameController,
-                hintText: "IFSC",
+                hintText: "Branch Code",
                 onChanged: (value) {
                   controller.updateIfscError('');
                 },
                 validator: (value) {
                   if(controller.ifscNameController.text.isEmpty){
-                    return 'Ifsc number is required';
+                    return 'Branch code is required';
                   }
                 },
               ),

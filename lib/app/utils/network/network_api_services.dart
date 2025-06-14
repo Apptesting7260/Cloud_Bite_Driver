@@ -62,7 +62,7 @@ class NetworkApiServices extends BaseApiServices {
   }
 
   @override
-  Future<dynamic> postApi(var data, String url, String token,) async {
+  Future<dynamic> postApi(var data, String url, String token) async {
 
     dynamic responseJson;
     try {

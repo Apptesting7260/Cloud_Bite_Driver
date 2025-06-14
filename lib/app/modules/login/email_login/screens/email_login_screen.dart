@@ -81,11 +81,11 @@ class EmailLoginScreen extends StatelessWidget{
                             const SizedBox(height: 8),
                             const SizedBox(height: 30),
                             CustomAnimatedButton(
-                              // isEnabled: controller.isFormValid,
                               onTap: () {
                                 /*if(controller.formkey.currentState!.validate()){
                                   controller.loginWithEmail();
                                 }*/
+                                Get.toNamed(Routes.homeScreen);
                               },
                               text: 'Login',
                             ),

@@ -135,7 +135,9 @@ class SignUpController extends GetxController{
         LoadingOverlay().hideLoading();
         customOtpDialog("${countryString.value} ${phoneController.text}", Get.context, "phone");
         print(response.message);
-        storageServices.saveToken(response.token!);
+        if (storageServices.getToken().isEmpty) {
+          storageServices.saveToken(response.token!);
+        }
         storageServices.saveMobile(phoneController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
@@ -217,6 +219,9 @@ class SignUpController extends GetxController{
         LoadingOverlay().hideLoading();
         customOtpDialog("${emailController.text}", Get.context, "email");
         print(response.message);
+        if (storageServices.getToken().isEmpty) {
+          storageServices.saveToken(response.token!);
+        }
         storageServices.saveEmailOTP(response.otp!);
         storageServices.saveEmail(emailController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
@@ -282,6 +287,12 @@ class SignUpController extends GetxController{
       print(e);
     } finally {
       LoadingOverlay().hideLoading();
+    }
+  }
+
+  void clearSignupToken() {
+    if (storageServices.getToken().isNotEmpty) {
+      storageServices.removeToken();
     }
   }
 
@@ -752,6 +763,7 @@ class SignUpController extends GetxController{
 
   @override
   void onClose() {
+    clearSignupToken();
     _timer?.cancel();
     otpController.dispose();
     super.onClose();
