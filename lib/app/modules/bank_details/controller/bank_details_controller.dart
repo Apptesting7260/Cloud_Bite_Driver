@@ -40,9 +40,9 @@ class BankDetailController extends GetxController{
 
   final RxString selectedAccountType = ''.obs;
   final List<String> accountTypes = [
-    'savings',
-    'current',
-    'salary'
+    'Savings',
+    'Current',
+    'Salary'
   ];
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();

@@ -51,7 +51,7 @@ class VehicleDetailController extends GetxController{
   final List<String> fuelType = [
     'Diesel',
     'Petrol',
-    'Cng',
+    'Compressed Natural Gas',
     'Electric'
   ];
 

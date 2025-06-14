@@ -64,6 +64,7 @@ class SignUpScreen extends StatelessWidget{
             CustomTextFormField(
               controller: controller.firstNameController,
               hintText: "First Name",
+              maxLength: 6,
               onChanged: (value) {
                 controller.updateFirstNameError('');
               },
@@ -84,6 +85,7 @@ class SignUpScreen extends StatelessWidget{
             CustomTextFormField(
               controller: controller.lastNameController,
               hintText: "Last Name",
+              maxLength: 6,
               hintStyle: AppFontStyle.text_12_400(AppTheme.lightText, fontFamily: AppFontFamily.generalSansRegular),
               onChanged: (value) {
                 controller.updateLastNameError('');
@@ -324,7 +326,7 @@ class SignUpScreen extends StatelessWidget{
                 if(controller.passwordController.text.isEmpty){
                   return "Password is required";
                 }
-                return FormValidators.validateStrongPassword(value!);
+                return FormValidators.validatePassword(value!);
               },
               suffix: IconButton(
                 icon: Icon(

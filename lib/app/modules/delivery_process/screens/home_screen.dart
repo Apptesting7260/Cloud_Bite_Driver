@@ -1,5 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/controller/home_controller.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeScreen extends StatelessWidget{
 
@@ -65,9 +66,9 @@ class HomeScreen extends StatelessWidget{
                 WidgetDesigns.hBox(20),
                 Flexible(
                   flex: 2,
-                  child: Image.asset(ImageConstants.mapImage),
-                  /*child: Obx(() {
-                    *//*if (controller.initialCameraPosition.value == null) {
+                  //child: Image.asset(ImageConstants.mapImage),
+                  child: Obx((){
+                    if (controller.initialCameraPosition.value == null) {
                       return Image.asset(ImageConstants.mapImage);
                     } else {
                       return GoogleMap(
@@ -78,8 +79,8 @@ class HomeScreen extends StatelessWidget{
                         myLocationEnabled: true,
                         myLocationButtonEnabled: true,
                       );
-                    }*//*
-                  }),*/
+                    }
+                  })
                 ),
               ],
             ),

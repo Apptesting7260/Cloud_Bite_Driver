@@ -43,6 +43,7 @@ class BankDetailsScreen extends StatelessWidget{
               CustomTextFormField(
                 controller: controller.bankNameController,
                 hintText: "Bank Name",
+                maxLength: 6,
                 onChanged: (value) {
                   controller.updateBankNameError('');
                 },
@@ -56,6 +57,7 @@ class BankDetailsScreen extends StatelessWidget{
               CustomTextFormField(
                 controller: controller.acHolderNameController,
                 hintText: "Account Holder Name",
+                maxLength: 6,
                 onChanged: (value) {
                   controller.updateAcHolderNameError('');
                 },

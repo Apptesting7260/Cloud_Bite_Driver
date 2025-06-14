@@ -46,6 +46,7 @@ class VehicleDetailsScreen extends StatelessWidget{
               CustomTextFormField(
                 controller: controller.vehicleNameController,
                 hintText: "Vehicle Name",
+                maxLength: 6,
                 onChanged: (value) {
                   controller.updateVehicleNameError('');
                 },
@@ -66,6 +67,7 @@ class VehicleDetailsScreen extends StatelessWidget{
               CustomTextFormField(
                 controller: controller.brandNameController,
                 hintText: "Brand",
+                maxLength: 6,
                 onChanged: (value) {
                   controller.updateBrandNameError('');
                 },

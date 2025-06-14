@@ -1,7 +1,10 @@
-import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 
 class HomeController extends GetxController{
-/*  GoogleMapController? mapController;
+  GoogleMapController? mapController;
   Rx<CameraPosition?> initialCameraPosition = Rx<CameraPosition?>(null);
 
   @override
@@ -33,5 +36,5 @@ class HomeController extends GetxController{
       target: LatLng(userLocation.latitude!, userLocation.longitude!),
       zoom: 14.0,
     );
-  }*/
+  }
 }
