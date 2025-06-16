@@ -12,7 +12,7 @@ class StageNavigator{
         Get.offAllNamed(Routes.documentVerificationScreen);
         break;
       case '4':
-        Get.offAllNamed(Routes.registrationCompleteScreen,);
+        Get.offAllNamed(Routes.registrationCompleteScreen);
         break;
       default:
         Get.offAllNamed(Routes.onboarding);

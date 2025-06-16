@@ -108,6 +108,7 @@ class PersonalDetailsScreen extends StatelessWidget{
       ),
     );
   }
+
   catShimmer(){
     return Padding(
       padding: const EdgeInsets.all(8.0),
