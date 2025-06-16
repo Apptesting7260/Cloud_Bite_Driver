@@ -124,6 +124,27 @@ class Repository {
     return LicenseUploadModel.fromJson(response);
   }
 
+  // Get Driver Data API
+  Future<GetDriverDataModel> getDriverDataAPI() async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.getApi(AppUrls.getDriverDataAPI, "Bearer $token");
+    return GetDriverDataModel.fromJson(response);
+  }
+
+  // Update Driver Profile API
+  Future<UpdateProfileModel> updateDriverDetails(Map<String, String> fields, Map<String, dynamic> files) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApiMultiPart(AppUrls.editProfile, "Bearer $token", fields, files);
+    return UpdateProfileModel.fromJson(response);
+  }
+
+  // Login With Email API
+  Future<LoginWithEmailModel> emailLoginAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.loginAPI, "");
+    return LoginWithEmailModel.fromJson(response);
+  }
+
   Future<LocationResponse> addNewAddressApi(data) async {
     print(data);
     var response = await _apiService.postApi(data, AppUrls.addNewAddressUrl, storageService.getToken());

@@ -3,6 +3,8 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class MyProfileScreen extends StatelessWidget{
 
   final MyProfileController controller = Get.put(MyProfileController());
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +32,14 @@ class MyProfileScreen extends StatelessWidget{
                       WidgetDesigns.wBox(10),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Thato Setlhare ',
+                            "${storageServices.getFirstName()}" "${storageServices.getLastName()}",
                             style: AppFontStyle.text_24_500(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
                           ),
                           Text(
-                            'yourname@gmail.com',
+                            "${storageServices.getEmail()}",
                             style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
                           )
                         ],

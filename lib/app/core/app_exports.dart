@@ -86,6 +86,9 @@ export 'package:cloud_bites_driver/app/modules/personal_documents/screen/profile
 export 'package:cloud_bites_driver/app/modules/personal_documents/screen/identity_verification/model/identity_verification_upload_model.dart';
 export 'package:cloud_bites_driver/app/modules/personal_documents/screen/driving_liecense/model/license_upload_model.dart';
 export 'package:cloud_bites_driver/app/modules/bank_details/model/driver_account_bank_model.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/model/get_driver_data_model.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/model/update_driver_profile.dart';
+export 'package:cloud_bites_driver/app/modules/login/email_login/model/login_with_email_model.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓
@@ -146,6 +149,7 @@ export 'package:cloud_bites_driver/app/utils/custom_widgets/custom_container.dar
 export 'package:cloud_bites_driver/app/modules/add_address/places_services.dart';
 export 'package:cloud_bites_driver/app/utils/response/api_status.dart';
 export 'package:cloud_bites_driver/app/utils/response/api_response.dart';
+export 'package:cloud_bites_driver/app/utils/custom_widgets/shimmer_box.dart';
 
 
 //// bindings /////

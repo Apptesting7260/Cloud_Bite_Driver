@@ -38,6 +38,23 @@ class StorageServices extends GetxService{
     return await _prefs.setString('stage', stage);
   }
 
+  Future<bool> saveFirstName(String firstName) async {
+    return await _prefs.setString('firstName', firstName);
+  }
+
+  Future<bool> saveLastName(String lastName) async {
+    return await _prefs.setString('lastName', lastName);
+  }
+
+  Future<bool> saveDOB(String dateOfBirth) async {
+    return await _prefs.setString('dateOfBirth', dateOfBirth);
+  }
+
+
+  Future<bool> saveProfile(String profile) async {
+    return await _prefs.setString('profile', profile);
+  }
+
   // Get Methods
   String getDeliveryID() {
     WidgetDesigns.consoleLog(_prefs.getString('deliveryId').toString(), 'deliveryId');
@@ -62,6 +79,27 @@ class StorageServices extends GetxService{
   String getMobile() {
     WidgetDesigns.consoleLog(_prefs.getString('mobile').toString(), 'driverMobile');
     return _prefs.getString('mobile') ?? '';
+  }
+
+  String getFirstName() {
+    WidgetDesigns.consoleLog(_prefs.getString('firstName').toString(), 'firstName');
+    return _prefs.getString('firstName') ?? '';
+  }
+
+  String getLastName() {
+    WidgetDesigns.consoleLog(_prefs.getString('lastName').toString(), 'lastName');
+    return _prefs.getString('lastName') ?? '';
+  }
+
+
+  String getDOB() {
+    WidgetDesigns.consoleLog(_prefs.getString('dateOfBirth').toString(), 'dateOfBirth');
+    return _prefs.getString('dateOfBirth') ?? '';
+  }
+
+  String getProfile() {
+    WidgetDesigns.consoleLog(_prefs.getString('profile').toString(), 'profile');
+    return _prefs.getString('profile') ?? '';
   }
 
   String getStages() {

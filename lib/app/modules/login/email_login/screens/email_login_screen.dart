@@ -37,77 +37,89 @@ class EmailLoginScreen extends StatelessWidget{
                         topRight: Radius.circular(30)),
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
-                      child: Form(
-                        key: controller.formkey,
-                        child: Column(
-                          children: [
-                            SizedBox(
-                              height: 20,
-                            ),
-                            CustomTextFormField(
-                              controller: controller.emailController,
-                              hintText: "Email Address",
-                              validator: (value) {
-                                if(value == null || value == '' ||value.isEmpty){
-                                  return 'Please enter email address';
+                        child: Form(
+                          key: controller.formkey,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                height: 20,
+                              ),
+                              GetBuilder<EmailLoginController>(
+                                builder: (context) {
+                                  return CustomTextFormField(
+                                    controller: controller.emailController,
+                                    hintText: "Email Address",
+                                    onChanged: (value) {
+                                      controller.updateEmailError('');
+                                    },
+                                    validator: (value) {
+                                      if(controller.emailController.text.isEmpty){
+                                        return 'Email is required';
+                                      }
+
+                                      if(controller.emailError.value.isNotEmpty || controller.emailError.value != ''){
+                                        return controller.emailError.value;
+                                      }
+                                      return null;
+                                    },
+                                  );
                                 }
-                                if(!FormValidators.isValidEmail(value)){
-                                  return 'Please enter valid email';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 16),
-                            CustomTextFormField(
-                              controller: controller.passwordController,
-                              hintText: "Password",
-                              obscureText: controller.obscurePassword,
-                              suffix: IconButton(
-                                icon: Icon(
-                                  controller.obscurePassword ? Icons.visibility_off : Icons.visibility,
-                                  color: Colors.grey,
-                                ),
-                                onPressed: () {
-                                  controller.togglePasswordVisibility();
+                              ),
+                              const SizedBox(height: 16),
+                              Obx((){
+                                return CustomTextFormField(
+                                  controller: controller.passwordController,
+                                  hintText: "Password",
+                                  onChanged: (value) {
+                                    controller.updatePasswordError('');
+                                  },
+                                  obscureText: controller.obscurePassword.value,
+                                  suffix: IconButton(
+                                    icon: Icon(
+                                      controller.obscurePassword.value ? Icons.visibility_off : Icons.visibility,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      controller.togglePasswordVisibility();
+                                    },
+                                  ),
+                                  validator: (value) {
+                                    if(controller.emailController.text.isEmpty){
+                                      return 'Password is required';
+                                    }
+                                    return null;
+                                  },
+                                );
+                              }),
+                              const SizedBox(height: 8),
+                              const SizedBox(height: 30),
+                              CustomAnimatedButton(
+                                onTap: () {
+                                  if(controller.formkey.currentState!.validate()) {
+                                    controller.loginWithEmailAPI();
+                                  }
                                 },
+                                text: 'Login',
                               ),
-                              validator: (value) {
-                                if(value == null || value == '' ||value.isEmpty){
-                                  return 'Please enter password';
-                                }
-                                return null;
-                              },
-                            ),
-                            const SizedBox(height: 8),
-                            const SizedBox(height: 30),
-                            CustomAnimatedButton(
-                              onTap: () {
-                                /*if(controller.formkey.currentState!.validate()){
-                                  controller.loginWithEmail();
-                                }*/
-                                Get.toNamed(Routes.homeScreen);
-                              },
-                              text: 'Login',
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Get.toNamed(Routes.forgotPasswordInLogin);
-                              },
-                              child: Text(
-                                'Forgot Password?',
-                                style: TextStyle(
-                                    color: AppTheme.primaryColor,
-                                    decoration: TextDecoration.underline,
-                                    decorationColor: AppTheme.primaryColor,
-                                    decorationThickness: 2),
+                              SizedBox(
+                                height: 20,
                               ),
-                            ),
-                          ],
+                              TextButton(
+                                onPressed: () {
+                                  Get.toNamed(Routes.forgotPasswordInLogin);
+                                },
+                                child: Text(
+                                  'Forgot Password?',
+                                  style: TextStyle(
+                                      color: AppTheme.primaryColor,
+                                      decoration: TextDecoration.underline,
+                                      decorationColor: AppTheme.primaryColor,
+                                      decorationThickness: 2),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                     ),
                   ),
                 ),

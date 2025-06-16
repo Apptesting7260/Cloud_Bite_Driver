@@ -3,6 +3,11 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class EditPerosnalDetails extends StatelessWidget{
 
   final EditPersonalDetailsController controller = Get.put(EditPersonalDetailsController());
+  final String imageBaseUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
+
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
 
   @override
   Widget build(BuildContext context) {
@@ -11,11 +16,61 @@ class EditPerosnalDetails extends StatelessWidget{
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(10.0),
-          child: Column(
-            children: [
-              WidgetDesigns.hBox(20),
-              editPersonalDetailsFields()
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                WidgetDesigns.hBox(20),
+                SizedBox(
+                  width: 70,
+                  height: 70,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: Obx(() {
+                      if (controller.profileImage.value != null) {
+                        return Image.file(
+                          controller.profileImage.value!,
+                          fit: BoxFit.cover,
+                          width: 70,
+                          height: 70,
+                        );
+                      } else {
+                        return CachedNetworkImage(
+                          imageUrl: "$imageBaseUrl${storageServices.getProfile()}",
+                          placeholder: (context, url) {
+                            return ShimmerBox(width: 70, height: 70);
+                          },
+                          errorWidget: (context, url, error) {
+                            return Image.asset(ImageConstants.default_image);
+                          },
+                          fit: BoxFit.cover,
+                          width: 70,
+                          height: 70,
+                        );
+                      }
+                    }),
+                  ),
+                ),
+                WidgetDesigns.hBox(10),
+                GestureDetector(
+                  onTap: () {
+                    controller.pickImage(controller.profileImage);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.edit, size: 16, color: AppTheme.primaryColor),
+                      WidgetDesigns.wBox(5.0),
+                      Text(
+                        'Edit',
+                        style: AppFontStyle.text_16_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansRegular),
+                      ),
+                    ],
+                  ),
+                ),
+                WidgetDesigns.hBox(30),
+                editPersonalDetailsFields()
+              ],
+            ),
           ),
         ),
       ),
@@ -23,136 +78,161 @@ class EditPerosnalDetails extends StatelessWidget{
   }
 
   Widget editPersonalDetailsFields(){
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Column(
-          children: [
-            CustomTextFormField(
-              controller: controller.firstNameController,
-              hintText: "First Name",
-              //validator: FormValidators.validateName(value),
-            ),
-            WidgetDesigns.hBox(16),
-
-            CustomTextFormField(
-              controller: controller.lastNameController,
-              hintText: "Last Name",
-              //validator: FormValidators.validatePassword,
-            ),
-            WidgetDesigns.hBox(16),
-
-            CustomTextFormField(
-              controller: controller.dobController,
-              hintText: "Date Of Birth",
-              suffix: GestureDetector(
-                  onTap: () async {
-                    DateTime? pickedDate = await showDatePicker(
-                        context: Get.context!,
-                        initialDate: DateTime.now().subtract(Duration(days: 365 * 18)),
-                        firstDate: DateTime(1900),
-                        lastDate: DateTime.now(),
-                        builder: (context, child) {
-                          return Theme(
-                            data: Theme.of(context).copyWith(
-                              colorScheme: ColorScheme.light(
-                                primary: AppTheme.primaryColor, // Header background color
-                                onPrimary: Colors.white, // Header text color
-                                onSurface: Colors.black, // Body text color
-                              ),
-                              dialogBackgroundColor: Colors.white,
-                            ),
-                            child: child!,
-                          );
+    return Form(
+      key: controller.formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            children: [
+              GetBuilder<EditPersonalDetailsController>(
+                  builder: (context) {
+                    return CustomTextFormField(
+                      controller: controller.firstNameController,
+                      hintText: "First Name",
+                      onChanged: (value) {
+                        controller.updateFirstNameError('');
+                      },
+                      validator: (value) {
+                        if(controller.firstNameController.text.isEmpty){
+                          return 'First name is required';
                         }
+      
+                        if(controller.firstNameError.value.isNotEmpty || controller.firstNameError.value != ''){
+                          return controller.firstNameError.value;
+      
+                        }
+                        return null;
+                      },
                     );
-                  },
-                  child: Icon(Icons.calendar_month, color: AppTheme.primaryColor, size: 20)),
-              //validator: FormValidators.validatePassword,
-            ),
-            WidgetDesigns.hBox(16),
-
-            CustomTextFormField(
-              controller: controller.phoneController,
-              textInputType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                LengthLimitingTextInputFormatter(controller.checkCountryLength.value),
-              ],
-              prefix: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+                  }
+              ),
+              WidgetDesigns.hBox(16),
+      
+              GetBuilder<EditPersonalDetailsController>(
+                  builder: (context) {
+                    return CustomTextFormField(
+                      controller: controller.lastNameController,
+                      hintText: "Last Name",
+                      onChanged: (value) {
+                        controller.updateLastNameError('');
+                      },
+                      validator: (value) {
+                        if(controller.lastNameController.text.isEmpty){
+                          return 'Last name is required';
+                        }
+      
+                        if(controller.lastNameError.value.isNotEmpty || controller.lastNameError.value != ''){
+                          return controller.lastNameError.value;
+      
+                        }
+                        return null;
+                      },
+                    );
+                  }
+              ),
+              WidgetDesigns.hBox(16),
+      
+              GetBuilder<EditPersonalDetailsController>(
+                  builder: (context) {
+                    return CustomTextFormField(
+                      controller: controller.dobController,
+                      hintText: "Date Of Birth",
+                      onChanged: (value) {
+                        controller.updateDOBError('');
+                      },
+                      validator: (value) {
+                        if(controller.dobController.text.isEmpty){
+                          return 'Date of birth is required';
+                        }
+      
+                        if(controller.dobError.value.isNotEmpty || controller.dobError.value != ''){
+                          return controller.dobError.value;
+                        }
+                        return null;
+                      },
+                      suffix: GestureDetector(
+                          onTap: () async {
+                            DateTime? pickedDate = await showDatePicker(
+                                context: Get.context!,
+                                initialDate: DateTime.now().subtract(Duration(days: 365 * 18)),
+                                firstDate: DateTime(1900),
+                                lastDate: DateTime.now(),
+                                builder: (context, child) {
+                                  return Theme(
+                                    data: Theme.of(context).copyWith(
+                                      colorScheme: ColorScheme.light(
+                                        primary: AppTheme.primaryColor,
+                                        onPrimary: AppTheme.white,
+                                        onSurface: Colors.black,
+                                      ),
+                                      dialogBackgroundColor: Colors.white,
+                                    ),
+                                    child: child!,
+                                  );
+                                }
+                            );
+                            if (pickedDate != null) {
+                              String formattedDate = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                              controller.dobController.text = formattedDate;
+                              controller.dobError.value = '';
+                            }
+                          },
+                          child: Icon(Icons.calendar_month, color: AppTheme.primaryColor, size: 20)
+                    ),);
+                  }
+              ),
+              WidgetDesigns.hBox(16),
+      
+              GetBuilder<EditPersonalDetailsController>(
+                  builder: (context) {
+                    return CustomTextFormField(
+                      controller: controller.locationController,
+                      hintText: "Address",
+                      onChanged: (value) {
+                        controller.updateAddressError('');
+                      },
+                      validator: (value){
+                        if(controller.locationController.text.isEmpty){
+                          return "Please select address";
+                        }
+      
+                        if(controller.addressError.value.isNotEmpty || controller.addressError.value != ''){
+                          return controller.addressError.value;
+                        }
+                        return null;
+                      },
+                      enabled: false,
+                    );
+                  }
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      CountryCodePicker(
-                        padding: EdgeInsets.zero,
-                        flagWidth: 40,
-                        margin: EdgeInsets.zero,
-                        flagDecoration: const BoxDecoration(
-                            shape: BoxShape.circle
-                        ),
-                        boxDecoration: const BoxDecoration(color: AppTheme.boxBgColor,),
-                        onChanged: (CountryCode countryCode) {
-                          WidgetDesigns.consoleLog("${countryCode.code}","country code --->>");
-                          WidgetDesigns.consoleLog("${countryCode.dialCode}","country dialCode --->>");
-
-                          controller.updateCountryString(countryCode.dialCode.toString());
-
-                          if(controller.countryPhoneDigits[int.parse(countryCode.dialCode.toString().replaceAll("+", ''))] != null){
-                            controller.checkCountryLength.value = controller.countryPhoneDigits[int.parse(countryCode.dialCode.toString().replaceAll("+", ''))]!;
-                          } else {
-                            controller.checkCountryLength.value = 10;
-                          }
-                        },
-                        initialSelection: controller.countryString.value,
-                      ),
-                      Positioned(
-                        right: -6,
-                        top: 2,
-                        bottom: 2,
-                        child: SvgPicture.asset(ImageConstants.downArrow),
-                      ),
-                    ],
-                  ),
-                  WidgetDesigns.wBox(15),
-                  Container(width: 1,height: 30,color: AppTheme.darkText14,),
-                  WidgetDesigns.wBox(10),
+                  GestureDetector(
+                      onTap: () async{
+                        final result = await Get.toNamed(Routes.addNewAddress);
+                        if (result is Map<String, dynamic>) {
+                          controller.locationAddress = result;
+                          controller.locationController.text = result['address'] as String;
+                        }
+                      },
+                      child: Text("Choose precise location", style: AppFontStyle.text_14_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansMedium),)),
                 ],
               ),
-              hintText: "Phone Number",
-            ),
-
-            WidgetDesigns.hBox(16),
-
-            CustomTextFormField(
-              controller: controller.emailController,
-              hintText: "Email Address",
-            ),
-            WidgetDesigns.hBox(16),
-
-            CustomTextFormField(
-              controller: controller.passwordController,
-              hintText: "Password",
-            ),
-            WidgetDesigns.hBox(16),
-
-            CustomTextFormField(
-              controller: controller.locationController,
-              hintText: "Location",
-            ),
-            WidgetDesigns.hBox(20),
-          ],
-        ),
-        CustomAnimatedButton(
-            onTap: () {
-              Get.back();
-            },
-            text: "Save"
-        )
-      ],
+              WidgetDesigns.hBox(20),
+            ],
+          ),
+          CustomAnimatedButton(
+              onTap: () {
+                if(controller.formKey.currentState!.validate()){
+                  controller.updateDriverProfileAPI();
+                }
+              },
+              text: "Save"
+          )
+        ],
+      ),
     );
   }
 }

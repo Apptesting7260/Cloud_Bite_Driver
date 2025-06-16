@@ -50,6 +50,7 @@ class ImageConstants{
   static String wsearchIconImage = "$imagePath/wsearch.png";
   static String mapBackImage = "$imagePath/back.png";
   static String mapPinImage = '$imagePath/location.png';
+  static String default_image = '$imagePath/category_default_image.png';
 
 
   // lottie anim

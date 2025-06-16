@@ -1,7 +1,7 @@
 class AppUrls{
 
-  // static const String baseUrl = 'https://97tzzv24-8000.inc1.devtunnels.ms/driver';
-  static const String baseUrl = 'https://api.cloudbitesbw.com/driver';
+  static const String baseUrl = 'https://97tzzv24-8000.inc1.devtunnels.ms/driver';
+  // static const String baseUrl = 'https://api.cloudbitesbw.com/driver';
 
   static const String verifyUser = "$baseUrl/verifyUser";
   static const String allAddressUrl = "$baseUrl/user-address";
@@ -17,4 +17,7 @@ class AppUrls{
   static const String identityPhotoUploadAPI = '$baseUrl/personalUploads/identity';
   static const String licensePhotoUploadAPI = '$baseUrl/personalUploads/license';
   static const String bankDetailsUploadAPI = '$baseUrl/driver-account';
+  static const String getDriverDataAPI = '$baseUrl/fetchingDriver';
+  static const String loginAPI = '$baseUrl/login';
+  static const String editProfile = '$baseUrl/editProfile';
 }

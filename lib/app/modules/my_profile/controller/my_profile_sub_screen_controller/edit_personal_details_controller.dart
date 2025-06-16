@@ -1,211 +1,252 @@
+import 'dart:io';
+
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:http/http.dart' as http;
 
 class EditPersonalDetailsController extends GetxController {
+
+  final PersonalDetailsController controller = Get.put(PersonalDetailsController());
+
+
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final Repository _repository = Repository();
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
+  final ImagePicker _picker = ImagePicker();
+  Rx<File?> profileImage = Rx<File?>(null);
+  RxList<String> imagesArray = RxList<String>([]);
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController dobController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
   TextEditingController locationController = TextEditingController();
-  TextEditingController otpController = TextEditingController();
 
-  RxInt checkCountryLength = 10.obs;
-  RxString countryString = "+91".obs;
+  Map<String, dynamic>? locationAddress;
 
-  updateCountryString(String value) {
-    countryString.value = value;
+  var firstNameError = ''.obs;
+  var lastNameError = ''.obs;
+  var dobError = ''.obs;
+  var addressError = ''.obs;
+
+  updateFirstNameError(String value) {
+    firstNameError.value = value;
+    update();
+  }
+  updateLastNameError(String value) {
+    lastNameError.value = value;
+    update();
+  }
+  updateDOBError(String value) {
+    dobError.value = value;
+    update();
+  }
+  updateAddressError(String value) {
+    addressError.value = value;
+    update();
   }
 
-  final Map<int, int> countryPhoneDigits = {
-    93: 9, // Afghanistan
-    355: 9, // Albania
-    213: 9, // Algeria
-    376: 6, // Andorra
-    244: 9, // Angola
-    1268: 10, // Antigua and Barbuda
-    54: 10, // Argentina
-    374: 8, // Armenia
-    61: 9, // Australia
-    43: 10, // Austria
-    994: 9, // Azerbaijan
-    1242: 10, // Bahamas
-    973: 8, // Bahrain
-    880: 10, // Bangladesh
-    1246: 10, // Barbados
-    375: 9, // Belarus
-    32: 9, // Belgium
-    501: 7, // Belize
-    229: 8, // Benin
-    975: 8, // Bhutan
-    591: 8, // Bolivia
-    387: 8, // Bosnia and Herzegovina
-    267: 7, // Botswana
-    55: 11, // Brazil
-    673: 7, // Brunei
-    359: 9, // Bulgaria
-    226: 8, // Burkina Faso
-    257: 8, // Burundi
-    238: 7, // Cape Verde
-    855: 9, // Cambodia
-    237: 9, // Cameroon
-    1: 10, // Canada / USA / some Caribbean nations
-    236: 8, // Central African Republic
-    235: 8, // Chad
-    56: 9, // Chile
-    86: 11, // China
-    57: 10, // Colombia
-    269: 7, // Comoros
-    242: 9, // Congo
-    506: 8, // Costa Rica
-    385: 9, // Croatia
-    53: 8, // Cuba
-    357: 8, // Cyprus
-    420: 9, // Czech Republic
-    45: 8, // Denmark
-    253: 8, // Djibouti
-    1767: 10, // Dominica
-    1809: 10, // Dominican Republic (shared with 1829 and 1849)
-    593: 9, // Ecuador
-    20: 10, // Egypt
-    503: 8, // El Salvador
-    240: 9, // Equatorial Guinea
-    291: 7, // Eritrea
-    372: 7, // Estonia
-    251: 9, // Ethiopia
-    679: 7, // Fiji
-    358: 10, // Finland
-    33: 9, // France
-    241: 7, // Gabon
-    220: 7, // Gambia
-    995: 9, // Georgia
-    49: 10, // Germany
-    233: 9, // Ghana
-    30: 10, // Greece
-    1473: 10, // Grenada
-    502: 8, // Guatemala
-    224: 9, // Guinea
-    245: 7, // Guinea-Bissau
-    592: 7, // Guyana
-    509: 8, // Haiti
-    504: 8, // Honduras
-    36: 9, // Hungary
-    354: 7, // Iceland
-    91: 10, // India
-    62: 10, // Indonesia
-    98: 10, // Iran
-    964: 10, // Iraq
-    353: 9, // Ireland
-    972: 9, // Israel
-    39: 10, // Italy
-    1876: 10, // Jamaica
-    81: 10, // Japan
-    962: 9, // Jordan
-    7: 10, // Kazakhstan / Russia
-    254: 10, // Kenya
-    686: 8, // Kiribati
-    850: 10, // North Korea
-    82: 10, // South Korea
-    965: 8, // Kuwait
-    996: 9, // Kyrgyzstan
-    856: 9, // Laos
-    371: 8, // Latvia
-    961: 8, // Lebanon
-    266: 8, // Lesotho
-    231: 7, // Liberia
-    218: 10, // Libya
-    423: 7, // Liechtenstein
-    370: 8, // Lithuania
-    352: 9, // Luxembourg
-    261: 9, // Madagascar
-    265: 9, // Malawi
-    60: 10, // Malaysia
-    960: 7, // Maldives
-    223: 8, // Mali
-    356: 8, // Malta
-    692: 7, // Marshall Islands
-    222: 8, // Mauritania
-    230: 8, // Mauritius
-    52: 10, // Mexico
-    691: 7, // Micronesia
-    373: 8, // Moldova
-    377: 8, // Monaco
-    976: 8, // Mongolia
-    382: 8, // Montenegro
-    212: 9, // Morocco
-    258: 9, // Mozambique
-    95: 9, // Myanmar
-    264: 9, // Namibia
-    674: 7, // Nauru
-    977: 10, // Nepal
-    31: 9, // Netherlands
-    64: 9, // New Zealand
-    505: 8, // Nicaragua
-    227: 8, // Niger
-    234: 10, // Nigeria
-    389: 8, // North Macedonia
-    47: 8, // Norway
-    968: 8, // Oman
-    92: 10, // Pakistan
-    680: 7, // Palau
-    507: 8, // Panama
-    675: 8, // Papua New Guinea
-    595: 9, // Paraguay
-    51: 9, // Peru
-    63: 10, // Philippines
-    48: 9, // Poland
-    351: 9, // Portugal
-    974: 8, // Qatar
-    40: 10, // Romania
-    250: 9, // Rwanda
-    1869: 10, // Saint Kitts and Nevis
-    1758: 10, // Saint Lucia
-    1784: 10, // Saint Vincent and the Grenadines
-    685: 7, // Samoa
-    378: 8, // San Marino
-    239: 7, // Sao Tome and Principe
-    966: 9, // Saudi Arabia
-    221: 9, // Senegal
-    381: 9, // Serbia
-    248: 7, // Seychelles
-    232: 8, // Sierra Leone
-    65: 8, // Singapore
-    421: 9, // Slovakia
-    386: 9, // Slovenia
-    677: 7, // Solomon Islands
-    252: 8, // Somalia
-    27: 9, // South Africa
-    34: 9, // Spain
-    94: 10, // Sri Lanka
-    249: 9, // Sudan
-    597: 7, // Suriname
-    46: 9, // Sweden
-    41: 9, // Switzerland
-    963: 9, // Syria
-    886: 9, // Taiwan
-    992: 9, // Tajikistan
-    255: 9, // Tanzania
-    66: 9, // Thailand
-    228: 8, // Togo
-    676: 7, // Tonga
-    1868: 10, // Trinidad and Tobago
-    216: 8, // Tunisia
-    90: 10, // Turkey
-    993: 8, // Turkmenistan
-    688: 7, // Tuvalu
-    256: 9, // Uganda
-    380: 9, // Ukraine
-    971: 9, // United Arab Emirates
-    44: 10, // United Kingdom
-    598: 9, // Uruguay
-    998: 9, // Uzbekistan
-    678: 7, // Vanuatu
-    379: 8, // Vatican City
-    58: 10, // Venezuela
-    84: 10, // Vietnam
-    967: 9, // Yemen
-    260: 9, // Zambia
-    263: 9, // Zimbabwe
-  };
+  @override
+  void onInit() {
+    super.onInit();
+    _handleLocationPermission(Get.context!);
+    firstNameController.text = storageServices.getFirstName();
+    lastNameController.text = storageServices.getLastName();
+    dobController.text = _formatDate(storageServices.getDOB());
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    firstNameController.dispose();
+    lastNameController.dispose();
+    dobController.dispose();
+  }
+
+  String _formatDate(String? dateString) {
+    if (dateString == null) return "N/A";
+    try {
+      final date = DateTime.parse(dateString);
+      return "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+    } catch (e) {
+      return "Invalid date";
+    }
+  }
+
+  final GlobalKey addressKey = GlobalKey();
+  var latitude = 0.0.obs;
+  var longitude = 0.0.obs;
+  RxBool isValidAddress = true.obs;
+
+  String googleAPIKey = "${dotenv.env['googleAPIKey']}";
+
+  Future<List<Predictions>> searchAutocomplete(String query) async {
+    Uri uri = Uri.https("maps.googleapis.com", "maps/api/place/autocomplete/json", {
+      "input": query,
+      "key": googleAPIKey,
+    });
+
+    try {
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final parse = jsonDecode(response.body);
+        if (parse['status'] == "OK") {
+          SearchPlaceModel searchPlaceModel = SearchPlaceModel.fromJson(parse);
+          return searchPlaceModel.predictions ?? [];
+        }
+      }
+    } catch (err) {
+      debugPrint("Error: $err");
+    }
+    return [];
+  }
+
+  Future<void> getLatLang(String address) async {
+    List<Location> locations = await locationFromAddress(address);
+    if (locations.isNotEmpty) {
+      var first = locations.first;
+      latitude.value = first.latitude;
+      longitude.value = first.longitude;
+      debugPrint("Latitude: ${latitude.value}, Longitude: ${longitude.value}");
+    }
+  }
+
+  double? _latitude;
+  double? _longitude;
+
+
+  void _handleLocationPermission(BuildContext context) async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      CustomSnackBar.show(message: "Location services are disabled.", tColor: AppTheme.white, color: AppTheme.redText);
+      return;
+    }
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      CustomSnackBar.show(message: "Permission permanently denied.", tColor: AppTheme.white, color: AppTheme.redText);
+      return;
+    }
+
+    if (permission == LocationPermission.always || permission == LocationPermission.whileInUse) {
+      try {
+        Position locData = await Geolocator.getCurrentPosition();
+        print("Position fetched: ${locData.latitude}, ${locData.longitude}");
+        _latitude = locData.latitude;
+        _longitude = locData.longitude;
+
+        print("Notifier values: $_latitude, $_longitude");
+
+        WidgetDesigns.consoleLog("Latitude: $_latitude", "");
+        WidgetDesigns.consoleLog("Longitude: $_longitude", "");
+      } catch (e) {
+        CustomSnackBar.show(message: "Error getting location: $e", tColor: AppTheme.white, color: AppTheme.redText);
+      }
+    }
+  }
+
+
+  Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
+    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      XFile? pickedFile = pickedImage;
+      cropImage(pickedFile, image, fillImageArray: fillImageArray);
+      update();
+    }
+  }
+
+  Future<void> cropImage(XFile? pickedFile,Rx<File?> image,{ bool fillImageArray = false}) async {
+    if (pickedFile != null) {
+      final croppedFile = await ImageCropper().cropImage(
+        sourcePath: pickedFile.path,
+        compressFormat: ImageCompressFormat.jpg,
+        compressQuality: 100,
+        uiSettings: [
+          AndroidUiSettings(
+            activeControlsWidgetColor: AppTheme.primaryColor,
+            toolbarTitle: 'Image Cropper',
+            toolbarColor: AppTheme.primaryColor,
+            toolbarWidgetColor: Colors.white,
+            initAspectRatio:CropAspectRatioPresetCustom2x2(),
+            statusBarColor: AppTheme.primaryColor,
+            lockAspectRatio: true,
+            aspectRatioPresets: [CropAspectRatioPresetCustom2x2()],
+          ),
+          IOSUiSettings(
+            title: 'Cropper',
+            aspectRatioPresets: [CropAspectRatioPresetCustom2x2()],
+          ),
+          WebUiSettings(
+            context: Get.context!,
+            presentStyle: WebPresentStyle.dialog,
+          ),
+        ],
+      );
+      if (croppedFile != null) {
+        image.value = File(croppedFile.path);
+        if(fillImageArray && image.value != null){
+          imagesArray.add(image.value!.path);
+        }
+      }
+
+    }
+  }
+
+  Future<void> updateDriverProfileAPI() async {
+    updateFirstNameError('');
+    updateLastNameError('');
+    updateDOBError('');
+    updateAddressError('');
+    LoadingOverlay().showLoading();
+    try{
+      Map<String, dynamic> files = {};
+      if(profileImage.value != null ){
+        files["profile_photo"] = profileImage.value!.path.toString();
+        WidgetDesigns.consoleLog(profileImage.value!.path.toString(), "ProfilePhoto.......");
+      }
+
+      final response = await _repository.updateDriverDetails({
+        "first_name": firstNameController.text,
+        "last_name": lastNameController.text,
+        "dob": dobController.text,
+        "latitude": locationAddress!['lat'].toString(),
+        "longitude": locationAddress!['lng'].toString()
+      },
+          files
+      );
+
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        Get.back();
+        controller.getDriverData();
+      }
+      else if(response.status == false && response.type == 'edit'){
+        LoadingOverlay().hideLoading();
+        updateFirstNameError(response.message.toString());
+        updateLastNameError(response.message.toString());
+        updateDOBError(response.message.toString());
+        updateAddressError(response.message.toString());
+        print(response.message);
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While update driver data');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+
+    }catch(e){
+      LoadingOverlay().hideLoading();
+    }finally{
+      LoadingOverlay().hideLoading();
+    }
+  }
+
 }
