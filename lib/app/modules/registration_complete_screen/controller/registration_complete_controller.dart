@@ -1,3 +1,46 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
-class RegistrationCompleteController extends GetxController{}
+class RegistrationCompleteController extends GetxController{
+  var isLoading = true.obs;
+
+  @override
+  void onInit() {
+    getAccountStatusData();
+    super.onInit();
+  }
+
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
+  final Repository _repository = Repository();
+
+  Rx<ApiResponse<AccountStatusModel>> accountStatusData = Rx<ApiResponse<AccountStatusModel>>(ApiResponse.loading());
+  setAccountStatusData(ApiResponse<AccountStatusModel> value){
+    accountStatusData.value = value;
+  }
+
+  getAccountStatusData() async{
+    setAccountStatusData(ApiResponse.loading());
+    isLoading.value = true;
+    try{
+      final apiData = await _repository.getAccountStatusAPI();
+      if(apiData.status == true){
+        isLoading.value = false;
+        WidgetDesigns.consoleLog("Account Status Data get", "get account status data");
+        setAccountStatusData(ApiResponse.completed(apiData));
+        storageServices.saveStages(apiData.stage.toString());
+      } else{
+        isLoading.value = false;
+        WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get Account Status data", "error while get account status data");
+        CustomSnackBar.show(message:apiData.message?.toString() ?? "Error while document list data", color: AppTheme.redText, tColor: AppTheme.white);
+        setAccountStatusData(ApiResponse.error(apiData.message?.toString() ?? "Error while get data"));
+      }
+
+    } catch(e){
+      isLoading.value = false;
+      setAccountStatusData(ApiResponse.error(e.toString()));
+      WidgetDesigns.consoleLog(e.toString(), "error while get document list data");
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+    }
+  }
+}

@@ -2,27 +2,46 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
 class ForgotPasswordControllerInLogin extends GetxController{
 
-  final TextEditingController emailController = TextEditingController();
-  final remainingTime = 60.obs;
-  bool _isFormValid = false;
-  bool get isFormValid => _isFormValid;
+  final Repository _repository = Repository();
 
-  @override
-  void onInit() {
-    super.onInit();
-    emailController.addListener(_validateForm);
-  }
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  void _validateForm() {
-    _isFormValid = FormValidators.validateEmail(emailController.text) == null;
+  final TextEditingController emailAddressController = TextEditingController();
+
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
+  var emailError = ''.obs;
+
+  updateEmailError(String value) {
+    emailError.value = value;
     update();
   }
 
-  GlobalKey<FormState> formKey = GlobalKey();
+  Future<void> sendOtpForForget() async {
+    updateEmailError('');
+    LoadingOverlay().showLoading();
+    try{
+      final data = {
+        "email": emailAddressController.text.trim(),
+      };
 
-  RxString emailError = ''.obs;
-  void updateEmailError(String error) {
-    emailError.value = error;
-    update();
+      final response = await _repository.forgetPasswordAPI(data);
+
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        Get.toNamed(Routes.forgotOtpVerifyInLogin, arguments: {"email": emailAddressController.text.trim()});
+      } else if(response.status == false && response.type == 'forgetPassword'){
+        updateEmailError(response.message.toString());
+        LoadingOverlay().hideLoading();
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Forget Password');
+      }
+
+    }catch(e) {
+      LoadingOverlay().hideLoading();
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      WidgetDesigns.consoleLog(e.toString(), 'Error While Forget Password');
+    }
   }
 }

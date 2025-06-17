@@ -1,31 +1,29 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
 class ForgoOtpVerifyInLoginController extends GetxController{
-  final otpController = TextEditingController();
+  TextEditingController otpController = TextEditingController();
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
+  final Repository _repository = Repository();
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @override
+  void onInit() {
+    email.value = Get.arguments['email'];
+    super.onInit();
+  }
+
+  RxString email = ''.obs;
+  RxString otpError = "".obs;
+  updateOtpError(String value) {
+    otpError.value = value;
+    update();
+  }
+
   final resendEnabled = false.obs;
   final remainingTime = 60.obs;
   Timer? _timer;
-
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
-
-  RxString email = "".obs;
-  RxString password = "".obs;
-
-  @override
-  void onInit() async {
-    email.value = await Get.arguments['email'];
-    password.value = await Get.arguments['password'];
-    // otpController.addListener(_validateForm);
-    super.onInit();
-    startTimer();
-  }
-
-  @override
-  void onClose() {
-    _timer?.cancel();
-    otpController.dispose();
-    super.onClose();
-  }
 
   void startTimer() {
     resendEnabled.value = false;
@@ -39,14 +37,39 @@ class ForgoOtpVerifyInLoginController extends GetxController{
       }
     });
   }
-
-  RxString otpError = "".obs;
-  updateOtpError(String value) {
-    otpError.value = value;
-    update();
-  }
-
   void resendOtp() {
     startTimer();
+  }
+
+  Future<void> verifyOtp() async {
+    updateOtpError('');
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+        "type": "verify",
+        "email": storageServices.getEmail() != '' ? storageServices.getEmail() : email.value,
+        "otp": otpController.text,
+      };
+
+      final response = await _repository.verifyOTPForPassword(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        Get.toNamed(Routes.changePasswordInLogin, arguments: {"email": email.value});
+      }
+      else if(response.status == false && response.type == 'verifyAndReset'){
+        LoadingOverlay().hideLoading();
+        updateOtpError(response.message.toString());
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Forget Password');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
   }
 }

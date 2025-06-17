@@ -20,4 +20,8 @@ class AppUrls{
   static const String getDriverDataAPI = '$baseUrl/fetchingDriver';
   static const String loginAPI = '$baseUrl/login';
   static const String editProfile = '$baseUrl/editProfile';
+  static const String finalPhaseAPI = '$baseUrl/finalPhase';
+  static const String forgetPasswordAPI = '$baseUrl/forgetPassword';
+  static const String verifyOTPForgetPassword = '$baseUrl/verifyPassword';
+  static const String changeForgetPassword = '$baseUrl/changePassword';
 }

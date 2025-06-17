@@ -25,14 +25,38 @@ class ForgotPasswordScreen extends StatelessWidget{
                 style: AppFontStyle.text_16_400(AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular),
               ),
               WidgetDesigns.hBox(20),
-              CustomTextFormField(
-                controller: controller.emailAddress,
-                hintText: "Old Password",
+              Form(
+                key: controller.formKey,
+                child: GetBuilder<ForgotPasswordController>(
+                  builder: (context) {
+                    return CustomTextFormField(
+                      controller: controller.emailAddressController,
+                      hintText: "Email Address",
+                      onChanged: (value) {
+                        controller.emailError('');
+                      },
+                      validator: (value) {
+                        if(controller.emailAddressController.text.isEmpty){
+                          return 'Email address is required';
+                        }
+                        if(!FormValidators.isValidEmail(value)){
+                          return "Please enter a valid email";
+                        }
+                        if(controller.emailError.value.isNotEmpty || controller.emailError.value != ''){
+                          return controller.emailError.value;
+                        }
+                        return null;
+                      },
+                    );
+                  }
+                ),
               ),
               WidgetDesigns.hBox(20),
               CustomAnimatedButton(
                   onTap: () {
-                    Get.toNamed(Routes.forgotPasswordOtpVerifyScreen);
+                    if(controller.formKey.currentState!.validate()){
+                      controller.sendOtpForForget();
+                    }
                   },
                   text: 'Send Code'
               )

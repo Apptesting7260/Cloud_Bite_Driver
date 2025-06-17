@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/routes/stage_navigator.dart';
 
 class EmailLoginController extends GetxController{
   final TextEditingController emailController = TextEditingController();
@@ -14,6 +15,7 @@ class EmailLoginController extends GetxController{
 
   void togglePasswordVisibility() {
     obscurePassword.toggle();
+    update();
   }
 
   var emailError = ''.obs;
@@ -46,32 +48,30 @@ class EmailLoginController extends GetxController{
       };
 
       final response = await _repository.emailLoginAPI(data);
+
       if (response.status == true) {
         LoadingOverlay().hideLoading();
-        print(response.message);
         storageServices.saveStages("${response.data?.stages}");
         storageServices.saveToken("${response.data?.loginToken}");
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        Get.offAllNamed(Routes.homeScreen);
+        StageNavigator.navigateToStage("${response.data?.stages}");
       }
       else if(response.status == false && response.type == 'login'){
         LoadingOverlay().hideLoading();
         updateEmailError(response.message.toString());
         updatePasswordError(response.message.toString());
-        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
       }
       else {
         LoadingOverlay().hideLoading();
-        print(response.message);
         WidgetDesigns.consoleLog(response.message.toString(), 'Error While login');
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
       }
 
-    }catch(e){
-      LoadingOverlay().hideLoading();
-    }finally{
+    }
+    catch(e){
+      print("$e---------3333333");
       LoadingOverlay().hideLoading();
     }
   }
-
 }

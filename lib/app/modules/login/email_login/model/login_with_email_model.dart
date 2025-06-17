@@ -10,14 +10,14 @@ class LoginWithEmailModel {
     type = json['type'];
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new EmailLoginData.fromJson(json['data']) : null;
+    data = json['data'] != null ? EmailLoginData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type.toString();
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -28,10 +28,10 @@ class LoginWithEmailModel {
 class EmailLoginData {
   String? loginToken;
   String? email;
-  Null? firstName;
-  Null? lastName;
+  String? firstName;
+  String? lastName;
   String? stages;
-  Null? password;
+  String? password;
 
   EmailLoginData(
       {this.loginToken,
@@ -42,22 +42,22 @@ class EmailLoginData {
         this.password});
 
   EmailLoginData.fromJson(Map<String, dynamic> json) {
-    loginToken = json['login_token'];
-    email = json['email'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    stages = json['stages'];
-    password = json['password'];
+    loginToken = json['login_token'].toString();
+    email = json['email']?.toString();
+    firstName = json['first_name']?.toString();
+    lastName = json['last_name']?.toString();
+    stages = json['stages']?.toString();
+    password = json['password']?.toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['login_token'] = this.loginToken;
-    data['email'] = this.email;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['stages'] = this.stages;
-    data['password'] = this.password;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['login_token'] = loginToken;
+    data['email'] = email;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['stages'] = stages;
+    data['password'] = password;
     return data;
   }
 }

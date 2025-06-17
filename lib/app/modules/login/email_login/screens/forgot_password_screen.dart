@@ -56,7 +56,7 @@ class ForgotPasswordScreenInLogin extends StatelessWidget{
                                   return Form(
                                     key: controller.formKey,
                                     child: CustomTextFormField(
-                                      controller: controller.emailController,
+                                      controller: controller.emailAddressController,
                                       hintText: "Email Address",
                                       onChanged: (value) {
                                         controller.updateEmailError("");
@@ -83,10 +83,9 @@ class ForgotPasswordScreenInLogin extends StatelessWidget{
                         const SizedBox(height: 24),
                         CustomAnimatedButton(
                           onTap: () {
-                            /*if(controller.formKey.currentState!.validate()){
-                              controller.sendPasswordResetCode();
-                            }*/
-                            Get.toNamed(Routes.forgotOtpVerifyInLogin);
+                            if(controller.formKey.currentState!.validate()){
+                              controller.sendOtpForForget();
+                            }
                           },
                           text: 'Send Code',
                         ),

@@ -89,6 +89,11 @@ export 'package:cloud_bites_driver/app/modules/bank_details/model/driver_account
 export 'package:cloud_bites_driver/app/modules/my_profile/model/get_driver_data_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/update_driver_profile.dart';
 export 'package:cloud_bites_driver/app/modules/login/email_login/model/login_with_email_model.dart';
+export 'package:cloud_bites_driver/app/modules/registration_complete_screen/model/account_status_model.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/model/forget_password_model.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/model/verify_forget_model.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/model/forget_change_password_model.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/model/forget_set_pasword_model.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓

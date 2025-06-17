@@ -140,9 +140,43 @@ class Repository {
 
   // Login With Email API
   Future<LoginWithEmailModel> emailLoginAPI(Map<String, dynamic> data) async {
-    final token = storageService.getToken();
-    dynamic response = await _apiService.postApi(data, AppUrls.loginAPI, "");
+    dynamic response = await _apiService.postApi(data, AppUrls.loginAPI, '');
     return LoginWithEmailModel.fromJson(response);
+  }
+
+  // Account Status API
+  Future<AccountStatusModel> getAccountStatusAPI() async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.getApi(AppUrls.finalPhaseAPI, "Bearer $token");
+    return AccountStatusModel.fromJson(response);
+  }
+
+  // Forget Password API
+  Future<ForgetPasswordModel> forgetPasswordAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.forgetPasswordAPI, token);
+    return ForgetPasswordModel.fromJson(response);
+  }
+
+  // Verify OTP For Forget Password
+  Future<VerifyForgetModel> verifyOTPForPassword(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.verifyOTPForgetPassword, token);
+    return VerifyForgetModel.fromJson(response);
+  }
+
+  // Set Password For Forget Password
+  Future<ForgetSetPasswordModel> setPasswordForgetAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.verifyOTPForgetPassword, token);
+    return ForgetSetPasswordModel.fromJson(response);
+  }
+
+  // Change Password For Forget Password
+  Future<ForgetChangePasswordModel> changePasswordForgetAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.changeForgetPassword, token);
+    return ForgetChangePasswordModel.fromJson(response);
   }
 
   Future<LocationResponse> addNewAddressApi(data) async {

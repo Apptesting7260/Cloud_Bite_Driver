@@ -66,31 +66,36 @@ class EmailLoginScreen extends StatelessWidget{
                                 }
                               ),
                               const SizedBox(height: 16),
-                              Obx((){
-                                return CustomTextFormField(
-                                  controller: controller.passwordController,
-                                  hintText: "Password",
-                                  onChanged: (value) {
-                                    controller.updatePasswordError('');
-                                  },
-                                  obscureText: controller.obscurePassword.value,
-                                  suffix: IconButton(
-                                    icon: Icon(
-                                      controller.obscurePassword.value ? Icons.visibility_off : Icons.visibility,
-                                      color: Colors.grey,
-                                    ),
-                                    onPressed: () {
-                                      controller.togglePasswordVisibility();
+                              GetBuilder<EmailLoginController>(
+                                builder: (context) {
+                                  return CustomTextFormField(
+                                    controller: controller.passwordController,
+                                    hintText: "Password",
+                                    onChanged: (value) {
+                                      controller.updatePasswordError('');
                                     },
-                                  ),
-                                  validator: (value) {
-                                    if(controller.emailController.text.isEmpty){
-                                      return 'Password is required';
-                                    }
-                                    return null;
-                                  },
-                                );
-                              }),
+                                    obscureText: controller.obscurePassword.value,
+                                    suffix: IconButton(
+                                      icon: Icon(
+                                        controller.obscurePassword.value ? Icons.visibility_off : Icons.visibility,
+                                        color: Colors.grey,
+                                      ),
+                                      onPressed: () {
+                                        controller.togglePasswordVisibility();
+                                      },
+                                    ),
+                                    validator: (value) {
+                                      if(controller.passwordController.text.isEmpty){
+                                        return 'Password is required';
+                                      }
+                                      if(controller.passwordError.value.isNotEmpty || controller.passwordError.value != ''){
+                                        return controller.passwordError.value;
+                                      }
+                                      return null;
+                                    },
+                                  );
+                                }
+                              ),
                               const SizedBox(height: 8),
                               const SizedBox(height: 30),
                               CustomAnimatedButton(

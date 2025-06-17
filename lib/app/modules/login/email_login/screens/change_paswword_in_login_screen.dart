@@ -38,37 +38,62 @@ class ChangePasswordInLoginScreen extends StatelessWidget{
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 20,
-                          ),
-                          CustomTextField(
-                            controller: controller.newPasswordController,
-                            hintText: "Password",
-                            isPassword: true,
-                            validator: FormValidators.validatePassword,
-                            validateOnChange: true,
-                          ),
-                          const SizedBox(height: 16),
-                          CustomTextField(
-                            controller: controller.confirmPasswordController,
-                            hintText: "Confirm Password",
-                            isPassword: true,
-                            validator: FormValidators.validatePassword,
-                            validateOnChange: true,
-                          ),
-                          const SizedBox(height: 30),
-                          CustomAnimatedButton(
-                            onTap: () {
-                              /*controller.changePassword();*/
-                              _showPasswordChangedDialog(Get.context!);
-                            },
-                            text: 'Confirm',
-                          ),
-                        ],
+                    child: Form(
+                      key: controller.formKey,
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: GetBuilder<ChangePasswordInLoginController>(
+                          builder: (context) {
+                            return Column(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                CustomTextFormField(
+                                  controller: controller.newPassword,
+                                  hintText: "Password",
+                                  obscureText: controller.obscureNewPassword.value,
+                                  onChanged: (value) {
+                                    controller.updateNewPasswordError('');
+                                  },
+                                  validator: (value) {
+                                    if(controller.newPasswordError.value.isNotEmpty || controller.newPasswordError.value != ''){
+                                      return controller.newPasswordError.value;
+                                    }
+                                    return FormValidators.validateStrongPassword(value!);
+                                  },
+                                ),
+                                const SizedBox(height: 16),
+                                CustomTextFormField(
+                                  controller: controller.confirmPasswordP,
+                                  hintText: "Confirm Password",
+                                  obscureText: controller.obscureConfirmPassword.value,
+                                  onChanged: (value) {
+                                    controller.updateConfirmPasswordError('');
+                                  },
+                                  validator:(value) {
+                                    if(value == null || value.isEmpty|| value == ''){
+                                      return "Please Re-type password";
+                                    }
+                                    if(value != controller.newPassword.text){
+                                      return "Password mismatch";
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                const SizedBox(height: 30),
+                                CustomAnimatedButton(
+                                  onTap: () {
+                                    if(controller.formKey.currentState!.validate() || controller.newPassword.text.trim() == controller.confirmPasswordP.text.trim()){
+                                      controller.setPasswordAPI();
+                                    }
+                                  },
+                                  text: 'Confirm',
+                                ),
+                              ],
+                            );
+                          }
+                        ),
                       ),
                     ),
                   ),
@@ -79,56 +104,4 @@ class ChangePasswordInLoginScreen extends StatelessWidget{
         ),
       );
   }
-
-
-  void _showPasswordChangedDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
-          ),
-          contentPadding: const EdgeInsets.fromLTRB(24, 24, 24, 16),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(ImageConstants.passwordChangedIon,height: 80),
-              WidgetDesigns.hBox(20),
-              Text(
-                "Password Changed",
-                style: AppFontStyle.text_24_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                "Password changed successfully, you can login again with a new password",
-                style: TextStyle(
-                  fontFamily: 'General-Sans',
-                  fontWeight: FontWeight.w400,
-                  fontSize: 12,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              Column(
-                children: [
-                  SizedBox(
-                      width: double.infinity,
-                      child: CustomAnimatedButton(
-                          onTap: () {
-                            Get.offAllNamed(Routes.welcome);
-                          },
-                          text: 'Close')
-                  ),
-                  const SizedBox(height: 10)
-                ],
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
 }

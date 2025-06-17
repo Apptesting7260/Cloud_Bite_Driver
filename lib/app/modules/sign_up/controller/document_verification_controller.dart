@@ -9,6 +9,9 @@ class DocumentVerificationController extends GetxController{
     super.onInit();
   }
 
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
   final Repository _repository = Repository();
 
   RxList<Map<String, dynamic>> pendingDocsList = <Map<String, dynamic>>[
@@ -39,6 +42,7 @@ class DocumentVerificationController extends GetxController{
       if(apiData.status == true){
         WidgetDesigns.consoleLog("Documents List Data get", "get document list data");
         setDocumentListData(ApiResponse.completed(apiData));
+        storageServices.saveStages(apiData.stage.toString());
       } else{
         WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get document list data", "error while get document list data");
         CustomSnackBar.show(message:apiData.message?.toString() ?? "Error while document list data", color: AppTheme.redText, tColor: AppTheme.white);

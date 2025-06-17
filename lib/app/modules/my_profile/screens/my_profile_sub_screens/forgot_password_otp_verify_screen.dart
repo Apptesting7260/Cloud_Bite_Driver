@@ -3,6 +3,8 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class ForgotPasswordOtpVerifyScreen extends StatelessWidget{
 
   final ForgotPasswordOtpVerifyController controller = Get.put(ForgotPasswordOtpVerifyController());
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
 
   @override
   Widget build(BuildContext context) {
@@ -27,36 +29,49 @@ class ForgotPasswordOtpVerifyScreen extends StatelessWidget{
                     style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
                   ),
                   Text(
-                    'example@gmail.com',
+                    storageServices.getEmail() != '' ? storageServices.getEmail() : controller.email.value,
                     style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
                   ),
                   WidgetDesigns.hBox(20.0),
-                  Pinput(
-                    length: 6,
-                    controller: controller.otpController,
-                    defaultPinTheme: PinTheme(
-                        height: 55,
-                        width: 55,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(60),
-                            color: Color(0xffF4F5F7)
-                        )
+                  Form(
+                    key: controller.formKey,
+                    child: GetBuilder<ForgotPasswordOtpVerifyController>(
+                      builder: (context) {
+                        return Column(
+                          children: [
+                            Pinput(
+                              length: 5,
+                              controller: controller.otpController,
+                              defaultPinTheme: PinTheme(
+                                  height: 55,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(60),
+                                      color: Color(0xffF4F5F7)
+                                  )
+                              ),
+                              onChanged: (value) => controller.updateOtpError(''),
+                              validator: (value) {
+                                if(value == '' || value!.isEmpty){
+                                  return 'Please Enter Otp';
+                                }
+                                return null;
+                              },
+                            ),
+                            Obx(() {
+                              return controller.otpError.value !=""?Text(controller.otpError.value,style: WidgetDesigns.errorTextStyle(),).paddingOnly(top: 10):SizedBox();
+                            },),
+                          ],
+                        );
+                      }
                     ),
-                    onChanged: (value) => controller.updateOtpError(''),
-                    validator: (value) {
-                      if(value == '' || value!.isEmpty){
-                        return 'Please Enter Otp';
-                      }
-                      if(value.length != 6){
-                        return 'Please Enter 6 digit Otp';
-                      }
-                      return null;
-                    },
                   ),
                   WidgetDesigns.hBox(30.0),
                   CustomAnimatedButton(
                       onTap: () {
-                        Get.toNamed(Routes.changePasswordScreen);
+                        if(controller.formKey.currentState!.validate()){
+                          controller.verifyOtp();
+                        }
                       },
                       text: 'Verify'
                   ),
