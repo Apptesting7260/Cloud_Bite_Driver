@@ -9,8 +9,8 @@ class ListPersonalDocumentModel {
       {this.message, this.type, this.data, this.status, this.isComplete});
 
   ListPersonalDocumentModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    type = json['type'];
+    message = json['message'].toString();
+    type = json['type'].toString();
     if (json['data'] != null) {
       data = <ListPersonalDocData>[];
       json['data'].forEach((v) {

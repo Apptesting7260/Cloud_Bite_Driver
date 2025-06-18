@@ -7,10 +7,10 @@ class SetDeliveryMethodModel {
   SetDeliveryMethodModel({this.message, this.type, this.status, this.stage});
 
   SetDeliveryMethodModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    type = json['type'];
+    message = json['message'].toString();
+    type = json['type'].toString();
     status = json['status'];
-    stage = json['stage'];
+    stage = json['stage'].toString();
   }
 
   Map<String, dynamic> toJson() {

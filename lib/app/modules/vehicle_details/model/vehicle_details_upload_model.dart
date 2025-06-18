@@ -7,8 +7,8 @@ class VehicleDetailsUploadModel {
   VehicleDetailsUploadModel({this.type, this.message, this.data, this.status});
 
   VehicleDetailsUploadModel.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    message = json['message'];
+    type = json['type'].toString();
+    message = json['message'].toString();
     data = json['data'] != null ? new VehicleDetailsData.fromJson(json['data']) : null;
     status = json['status'];
   }

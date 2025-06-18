@@ -15,8 +15,8 @@ class DocumentListModel {
         this.stage});
 
   DocumentListModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    type = json['type'];
+    message = json['message'].toString();
+    type = json['type'].toString();
     if (json['data'] != null) {
       data = <DocumentVerificationData>[];
       json['data'].forEach((v) {
@@ -25,7 +25,7 @@ class DocumentListModel {
     }
     status = json['status'];
     allComplete = json['all_complete'];
-    stage = json['stage'];
+    stage = json['stage'].toString();
   }
 
   Map<String, dynamic> toJson() {

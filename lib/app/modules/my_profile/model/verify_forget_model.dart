@@ -6,9 +6,9 @@ class VerifyForgetModel {
   VerifyForgetModel({this.message, this.status, this.type});
 
   VerifyForgetModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
+    message = json['message'].toString();
     status = json['status'];
-    type = json['type'];
+    type = json['type'].toString();
   }
 
   Map<String, dynamic> toJson() {

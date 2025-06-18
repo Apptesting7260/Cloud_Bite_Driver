@@ -23,8 +23,8 @@ class LocationResponse {
 
   factory LocationResponse.fromJson(Map<String, dynamic> json) => LocationResponse(
     status: json["status"],
-    message: json["message"],
-    type: json["type"],
+    message: json["message"].toString(),
+    type: json["type"].toString(),
     address: json["address"] == null ? null : Addresses.fromJson(json["address"]),
   );
 

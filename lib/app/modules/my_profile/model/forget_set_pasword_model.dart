@@ -6,9 +6,9 @@ class ForgetSetPasswordModel {
   ForgetSetPasswordModel({this.type, this.status, this.message});
 
   ForgetSetPasswordModel.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
+    type = json['type'].toString();
     status = json['status'];
-    message = json['message'];
+    message = json['message'].toString();
   }
 
   Map<String, dynamic> toJson() {

@@ -9,11 +9,11 @@ class LicenseUploadModel {
       {this.message, this.data, this.status, this.allVerified, this.type});
 
   LicenseUploadModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
+    message = json['message'].toString();
     data = json['data'] != null ? new LicenseData.fromJson(json['data']) : null;
     status = json['status'];
     allVerified = json['all_verified'];
-    type = json['type'];
+    type = json['type'].toString();
   }
 
   Map<String, dynamic> toJson() {

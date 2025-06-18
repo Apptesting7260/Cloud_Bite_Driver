@@ -7,9 +7,9 @@ class LoginWithEmailModel {
   LoginWithEmailModel({this.type, this.status, this.message, this.data});
 
   LoginWithEmailModel.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
+    type = json['type'].toString();
     status = json['status'];
-    message = json['message'];
+    message = json['message'].toString();
     data = json['data'] != null ? EmailLoginData.fromJson(json['data']) : null;
   }
 

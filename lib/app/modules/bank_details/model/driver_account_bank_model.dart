@@ -9,11 +9,11 @@ class DriverAccountDetailsModel {
       {this.type, this.message, this.data, this.status, this.stage});
 
   DriverAccountDetailsModel.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    message = json['message'];
+    type = json['type'].toString();
+    message = json['message'].toString();
     data = json['data'] != null ? new DriverBankAccountData.fromJson(json['data']) : null;
     status = json['status'];
-    stage = json['stage'];
+    stage = json['stage'].toString();
   }
 
   Map<String, dynamic> toJson() {

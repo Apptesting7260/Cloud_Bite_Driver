@@ -9,11 +9,11 @@ class UploadIdentityVerificationModel {
       {this.message, this.data, this.status, this.allVerified, this.type});
 
   UploadIdentityVerificationModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
+    message = json['message'].toString();
     data = json['data'] != null ? new IdentityUploadData.fromJson(json['data']) : null;
     status = json['status'];
     allVerified = json['all_verified'];
-    type = json['type'];
+    type = json['type'].toString();
   }
 
   Map<String, dynamic> toJson() {

@@ -6,7 +6,7 @@ class GetDriverDataModel {
   GetDriverDataModel({this.message, this.status, this.data});
 
   GetDriverDataModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
+    message = json['message'].toString();
     status = json['status'];
     data = json['data'] != null ? new DriverData.fromJson(json['data']) : null;
   }
@@ -23,7 +23,7 @@ class GetDriverDataModel {
 }
 
 class DriverData {
-  int? id;
+  String? id;
   String? firstName;
   String? lastName;
   String? email;
@@ -42,7 +42,7 @@ class DriverData {
   String? location;
   String? fcmToken;
   String? dateOfBirth;
-  int? deliverymethod;
+  String? deliverymethod;
   String? profilePhoto;
   String? frontIdentity;
   String? backIdentity;
@@ -87,33 +87,33 @@ class DriverData {
         this.longitude});
 
   DriverData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    email = json['email'];
-    phone = json['phone'];
-    countryCode = json['country_code'];
-    password = json['password'];
-    loginToken = json['login_token'];
+    id = json['id'].toString();
+    firstName = json['first_name'].toString();
+    lastName = json['last_name'].toString();
+    email = json['email'].toString();
+    phone = json['phone'].toString();
+    countryCode = json['country_code'].toString();
+    password = json['password'].toString();
+    loginToken = json['login_token'].toString();
     otp = json['otp'].toString();
     otpVerified = json['otp_verified'];
-    otpExpiresAt = json['otp_expires_at'];
+    otpExpiresAt = json['otp_expires_at'].toString();
     emailOtp = json['email_otp'].toString();
     emailVerified = json['email_verified'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
-    stages = json['stages'];
-    location = json['location'];
-    fcmToken = json['fcm_token'];
-    dateOfBirth = json['date_of_birth'];
-    deliverymethod = json['deliverymethod'];
-    profilePhoto = json['profile_photo'];
+    createdAt = json['created_at'].toString();
+    updatedAt = json['updated_at'].toString();
+    stages = json['stages'].toString();
+    location = json['location'].toString();
+    fcmToken = json['fcm_token'].toString();
+    dateOfBirth = json['date_of_birth'].toString();
+    deliverymethod = json['deliverymethod'].toString();
+    profilePhoto = json['profile_photo'].toString();
     frontIdentity = json['front_identity'].toString();
     backIdentity = json['back_identity'].toString();
     frontLicense = json['front_license'].toString();
     backLicense = json['back_license'].toString();
-    accountStatus = json['account_status'];
-    personalDocsStatus = json['personal_docs_status'];
+    accountStatus = json['account_status'].toString();
+    personalDocsStatus = json['personal_docs_status'].toString();
     vehicleStatus = json['vehicle_status'].toString();
     latitude = json['latitude'].toString();
     longitude = json['longitude'].toString();

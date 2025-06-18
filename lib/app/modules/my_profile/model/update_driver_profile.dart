@@ -7,8 +7,8 @@ class UpdateProfileModel {
   UpdateProfileModel({this.message, this.type, this.status, this.data});
 
   UpdateProfileModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    type = json['type'];
+    message = json['message'].toString();
+    type = json['type'].toString();
     status = json['status'];
     data = json['data'] != null ? new DriverProfileData.fromJson(json['data']) : null;
   }

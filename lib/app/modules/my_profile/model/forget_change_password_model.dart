@@ -8,7 +8,7 @@ class ForgetChangePasswordModel {
   ForgetChangePasswordModel.fromJson(Map<String, dynamic> json) {
     type = json['type'].toString();
     status = json['status'];
-    message = json['message'];
+    message = json['message'].toString();
   }
 
   Map<String, dynamic> toJson() {

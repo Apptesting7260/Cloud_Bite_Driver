@@ -1,17 +1,17 @@
 class ResendModel {
   String? message;
   String? phone;
-  int? otpCode;
+  String? otpCode;
   String? type;
   bool? status;
 
   ResendModel({this.message, this.phone, this.otpCode, this.type, this.status});
 
   ResendModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'];
-    phone = json['phone'];
-    otpCode = json['otpCode'];
-    type = json['type'];
+    message = json['message'].toString();
+    phone = json['phone'].toString();
+    otpCode = json['otpCode'].toString();
+    type = json['type'].toString();
     status = json['status'];
   }
 

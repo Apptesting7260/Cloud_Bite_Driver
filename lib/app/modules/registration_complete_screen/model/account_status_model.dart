@@ -16,11 +16,11 @@ class AccountStatusModel {
 
   AccountStatusModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    type = json['type'];
-    statusMessage = json['statusMessage'];
-    message = json['message'];
+    type = json['type'].toString();
+    statusMessage = json['statusMessage'].toString();
+    message = json['message'].toString();
     data = json['data'] != null ? new AccountStatusData.fromJson(json['data']) : null;
-    stage = json['stage'];
+    stage = json['stage'].toString();
   }
 
   Map<String, dynamic> toJson() {
