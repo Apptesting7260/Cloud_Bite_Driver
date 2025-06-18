@@ -179,6 +179,26 @@ class Repository {
     return ForgetChangePasswordModel.fromJson(response);
   }
 
+   // Phone Login API
+  Future<LoginPhoneGenerateModel> phoneLoginGenerateAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.loginAPI, '');
+    return LoginPhoneGenerateModel.fromJson(response);
+  }
+
+  // Verify Phone Login API
+  Future<LoginPhoneVerifyModel> phoneLoginVerifyAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.loginAPI, '');
+    return LoginPhoneVerifyModel.fromJson(response);
+  }
+
+  //Final Home Stage
+  Future<HomeStageModel> getHomeStage() async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.getApi(AppUrls.homeStage, "Bearer $token");
+    return HomeStageModel.fromJson(response);
+  }
+
+
   Future<LocationResponse> addNewAddressApi(data) async {
     print(data);
     var response = await _apiService.postApi(data, AppUrls.addNewAddressUrl, storageService.getToken());

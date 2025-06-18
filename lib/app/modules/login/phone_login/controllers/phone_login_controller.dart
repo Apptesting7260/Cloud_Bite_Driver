@@ -4,8 +4,11 @@ class PhoneLoginController extends GetxController {
   final TextEditingController phoneController = TextEditingController();
   String countryCode = "+91";
   bool fromSignup = false;
-  //final StorageService _storageService = Get.find<StorageService>();
 
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final Repository _repository = Repository();
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
   @override
   void onInit() {
     super.onInit();
@@ -21,7 +24,7 @@ class PhoneLoginController extends GetxController {
   GlobalKey<FormState> phoneKey = GlobalKey<FormState>();
 
   RxInt checkCountryLength = 10.obs;
-  RxString countryString = "91".obs;
+  RxString countryString = "+91".obs;
   updateCountryString(String value){
     countryString.value = value;
   }
@@ -218,4 +221,39 @@ class PhoneLoginController extends GetxController {
     'ZM': 9, // Zambia
     'ZW': 9,
   };
+
+  Future<void> loginWithPhoneAPI() async {
+    updatePhoneError('');
+    LoadingOverlay().showLoading();
+    try{
+      final data = {
+        "type": "phone",
+        "phone": phoneController.text,
+        "otpType": "generate"
+      };
+
+      final response = await _repository.phoneLoginGenerateAPI(data);
+
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        CustomSnackBar.show(message: response.otp.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        Get.toNamed(Routes.phoneLoginOtpVerify, arguments: {"phone": phoneController.text.trim(), "otp": response.otp.toString(), "countryString": countryString.value.toString()});
+      }
+      else if(response.status == false && response.type == 'login'){
+        LoadingOverlay().hideLoading();
+        updatePhoneError(response.message.toString());
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While login');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+
+    }
+    catch(e){
+      print("$e---------3333333");
+      LoadingOverlay().hideLoading();
+    }
+  }
 }

@@ -9,13 +9,14 @@ class ForgotPasswordOtpVerifyController extends GetxController{
   final Repository _repository = Repository();
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  RxString email = ''.obs;
   @override
   void onInit() {
     email.value = Get.arguments['email'];
     super.onInit();
+    startTimer();
   }
 
-  RxString email = ''.obs;
   RxString otpError = "".obs;
   updateOtpError(String value) {
     otpError.value = value;
@@ -69,6 +70,40 @@ class ForgotPasswordOtpVerifyController extends GetxController{
       }
     } catch (e) {
       LoadingOverlay().hideLoading();
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
+  }
+  Future<void> resendOTPForEmail() async {
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+        "type": "email",
+        "otpType": email.value,
+      };
+
+      final response = await _repository.resendOTPAPI(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        CustomSnackBar.show(message: response.otpCode.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else if(response.status == false){
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Generate OTP');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      print(e);
     } finally {
       LoadingOverlay().hideLoading();
     }

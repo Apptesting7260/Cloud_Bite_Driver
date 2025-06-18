@@ -56,6 +56,15 @@ class ChangePasswordInLoginScreen extends StatelessWidget{
                                   onChanged: (value) {
                                     controller.updateNewPasswordError('');
                                   },
+                                  suffix: IconButton(
+                                    icon: Icon(
+                                      controller.obscureNewPassword.value ? Icons.visibility_off : Icons.visibility,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      controller.toggleNewPasswordVisibility();
+                                    },
+                                  ),
                                   validator: (value) {
                                     if(controller.newPasswordError.value.isNotEmpty || controller.newPasswordError.value != ''){
                                       return controller.newPasswordError.value;
@@ -71,6 +80,15 @@ class ChangePasswordInLoginScreen extends StatelessWidget{
                                   onChanged: (value) {
                                     controller.updateConfirmPasswordError('');
                                   },
+                                  suffix: IconButton(
+                                    icon: Icon(
+                                      controller.obscureNewPassword.value ? Icons.visibility_off : Icons.visibility,
+                                      color: Colors.grey,
+                                    ),
+                                    onPressed: () {
+                                      controller.toggleConfirmPasswordVisibility();
+                                    },
+                                  ),
                                   validator:(value) {
                                     if(value == null || value.isEmpty|| value == ''){
                                       return "Please Re-type password";

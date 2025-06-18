@@ -1,5 +1,4 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/modules/registration_complete_screen/controller/registration_complete_controller.dart';
 
 class RegistrationCompleteScreen extends StatelessWidget{
 
@@ -36,7 +35,7 @@ class RegistrationCompleteScreen extends StatelessWidget{
                 CustomAnimatedButton(
                     onTap: (){
                       if(controller.accountStatusData.value.data?.data?.isComplete == true){
-                        Get.toNamed(Routes.homeScreen);
+                        controller.getHomeStage();
                       }else{
                         CustomSnackBar.show(message:'Your application is Under Verification' , color: AppTheme.primaryColor, tColor: AppTheme.white);
                       }

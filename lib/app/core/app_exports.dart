@@ -94,6 +94,9 @@ export 'package:cloud_bites_driver/app/modules/my_profile/model/forget_password_
 export 'package:cloud_bites_driver/app/modules/my_profile/model/verify_forget_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/forget_change_password_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/forget_set_pasword_model.dart';
+export 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_phone_generate_model.dart';
+export 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_phone_verify_model.dart';
+export 'package:cloud_bites_driver/app/modules/registration_complete_screen/model/final_stage_home_model.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓
@@ -126,6 +129,7 @@ export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_
 export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/my_wallet_controller.dart';
 export 'package:cloud_bites_driver/app/modules/welcome_screen/controller/welcome_controller.dart';
 export 'package:cloud_bites_driver/app/modules/add_address/controller/location_controller.dart';
+export 'package:cloud_bites_driver/app/modules/registration_complete_screen/controller/registration_complete_controller.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Theme & Constants Exports ↓ ↓ ↓ ↓ ↓

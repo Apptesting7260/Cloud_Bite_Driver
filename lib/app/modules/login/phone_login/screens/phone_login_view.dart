@@ -41,94 +41,96 @@ class PhoneLoginView extends StatelessWidget {
                             topRight: Radius.circular(30)),
                         child: Padding(
                           padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                height: 20,
-                              ),
-                              GetBuilder<PhoneLoginController>(
-                                  builder: (controller) {
-                                    return CustomTextFormField(
-                                      alignLabelWithHint: false,
-                                      controller: controller.phoneController,
-                                      textInputType: TextInputType.number,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.digitsOnly,
-                                        LengthLimitingTextInputFormatter(controller.checkCountryLength.value),
-                                      ],
-                                      prefix: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          Stack(
-                                            clipBehavior: Clip.none,
-                                            children: [
-                                              CountryCodePicker(
-                                                padding: EdgeInsets.zero,
-                                                flagWidth: 40,
-                                                margin: EdgeInsets.zero,
-                                                flagDecoration: const BoxDecoration(
-                                                    shape: BoxShape.circle
-                                                ),
-                                                boxDecoration: const BoxDecoration(color: AppTheme.boxBgColor,),
-                                                onChanged: (CountryCode countryCode) {
-
-                                                  WidgetDesigns.consoleLog("${countryCode.code}","country code --->>");
-                                                  WidgetDesigns.consoleLog("${countryCode.dialCode}","country dialCode --->>");
-                                                  controller.updateCountryString(countryCode.dialCode.toString().split("+").last);
-                                                  if(controller.countryPhoneDigits[countryCode.code.toString()] != null){
-                                                    controller.checkCountryLength.value = controller.countryPhoneDigits[countryCode.code.toString()] ?? 10;
-                                                  } else {
-                                                    controller.checkCountryLength.value = 10;
-                                                  }
-                                                },
-                                                initialSelection: "+${controller.countryString}",
-                                              ),
-                                              Positioned(
-                                                right: -6,
-                                                top: 2,
-                                                bottom: 2,
-                                                child: SvgPicture.asset(ImageConstants.downArrow),
-                                              ),
-                                            ],
-                                          ),
-                                          WidgetDesigns.wBox(15),
-                                          Container(width: 1,height: 30,color: AppTheme.darkText14,),
-                                          WidgetDesigns.wBox(10),
+                          child: Form(
+                            key: controller.formkey,
+                            child: Column(
+                              children: [
+                                SizedBox(
+                                  height: 20,
+                                ),
+                                GetBuilder<PhoneLoginController>(
+                                    builder: (controller) {
+                                      return CustomTextFormField(
+                                        alignLabelWithHint: false,
+                                        controller: controller.phoneController,
+                                        textInputType: TextInputType.number,
+                                        inputFormatters: [
+                                          FilteringTextInputFormatter.digitsOnly,
+                                          LengthLimitingTextInputFormatter(controller.checkCountryLength.value),
                                         ],
-                                      ),
-                                      hintText: "Phone Number",
-                                      onChanged: (value) {
-                                        controller.updatePhoneError("");
-                                      },
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
+                                        prefix: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Stack(
+                                              clipBehavior: Clip.none,
+                                              children: [
+                                                CountryCodePicker(
+                                                  padding: EdgeInsets.zero,
+                                                  flagWidth: 40,
+                                                  margin: EdgeInsets.zero,
+                                                  flagDecoration: const BoxDecoration(
+                                                      shape: BoxShape.circle
+                                                  ),
+                                                  boxDecoration: const BoxDecoration(color: AppTheme.boxBgColor,),
+                                                  onChanged: (CountryCode countryCode) {
 
-                                          return 'Phone number is required!';
-                                        }
-                                        if (value.length != controller.checkCountryLength.value) {
+                                                    WidgetDesigns.consoleLog("${countryCode.code}","country code --->>");
+                                                    WidgetDesigns.consoleLog("${countryCode.dialCode}","country dialCode --->>");
+                                                    controller.updateCountryString(countryCode.dialCode.toString().split("+").last);
+                                                    if(controller.countryPhoneDigits[countryCode.code.toString()] != null){
+                                                      controller.checkCountryLength.value = controller.countryPhoneDigits[countryCode.code.toString()] ?? 10;
+                                                    } else {
+                                                      controller.checkCountryLength.value = 10;
+                                                    }
+                                                  },
+                                                  initialSelection: "+${controller.countryString}",
+                                                ),
+                                                Positioned(
+                                                  right: -6,
+                                                  top: 2,
+                                                  bottom: 2,
+                                                  child: SvgPicture.asset(ImageConstants.downArrow),
+                                                ),
+                                              ],
+                                            ),
+                                            WidgetDesigns.wBox(15),
+                                            Container(width: 1,height: 30,color: AppTheme.darkText14,),
+                                            WidgetDesigns.wBox(10),
+                                          ],
+                                        ),
+                                        hintText: "Phone Number",
+                                        onChanged: (value) {
+                                          controller.updatePhoneError("");
+                                        },
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
 
-                                          return '${controller.checkCountryLength.value} digits required';
-                                        }
-                                        if(controller.phoneError.value != '' && controller.phoneError.value.isNotEmpty){
-                                          return controller.phoneError.value;
-                                        }
-                                        return null;
-                                      },
-                                    );
-                                  }
-                              ),
+                                            return 'Phone number is required!';
+                                          }
+                                          if (value.length != controller.checkCountryLength.value) {
 
-                              const SizedBox(height: 20),
-                              CustomAnimatedButton(
-                                onTap: () {
-                                  /*if(controller.phoneKey.currentState!.validate()){
-                                  }*/
-                                  Get.toNamed(Routes.phoneLoginOtpVerify);
-                                },
-                                text: 'Login',
-                              ),
+                                            return '${controller.checkCountryLength.value} digits required';
+                                          }
+                                          if(controller.phoneError.value != '' && controller.phoneError.value.isNotEmpty){
+                                            return controller.phoneError.value;
+                                          }
+                                          return null;
+                                        },
+                                      );
+                                    }
+                                ),
 
-                            ],
+                                const SizedBox(height: 20),
+                                CustomAnimatedButton(
+                                  onTap: () {
+                                    if(controller.formkey.currentState!.validate()) {
+                                      controller.loginWithPhoneAPI();
+                                    }
+                                  },
+                                  text: 'Login',
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

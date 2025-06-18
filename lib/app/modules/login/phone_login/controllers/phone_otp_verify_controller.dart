@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/routes/stage_navigator.dart';
 
 class PhoneOtpVerifyController extends GetxController{
 
@@ -10,6 +11,12 @@ class PhoneOtpVerifyController extends GetxController{
   bool get isFormValid => _isFormValid;
   bool fromSignup = false;
 
+
+  GlobalKey<FormState> formkey = GlobalKey<FormState>();
+  final Repository _repository = Repository();
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
   RxString otpError = "".obs;
   updateOtpError(String value) {
     otpError.value = value;
@@ -19,13 +26,14 @@ class PhoneOtpVerifyController extends GetxController{
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   RxString phoneNo = "".obs;
+  RxString otp = "".obs;
+  RxString countryString = "".obs;
 
   @override
   void onInit() {
-    /*phoneNo.value = Get.arguments['num'];
-    fromSignup = Get.arguments['fromSignup'] ?? false;*/
-    WidgetDesigns.consoleLog(Get.arguments.toString(),"Arguments");
-    // otpController.addListener(_validateForm);
+    phoneNo.value = Get.arguments['phone'].toString();
+    otp.value = Get.arguments['otp'].toString();
+    countryString.value = Get.arguments['countryString'].toString();
     super.onInit();
     startTimer();
   }
@@ -52,4 +60,78 @@ class PhoneOtpVerifyController extends GetxController{
   void resendOtp() {
     startTimer();
   }
+
+
+  Future<void> loginWithPhoneAPI() async {
+    updateOtpError('');
+    LoadingOverlay().showLoading();
+    try{
+      final data = {
+        "type": "phone",
+        "phone": phoneNo.value,
+        "otpType": "verify",
+        "otp": otpController.text
+      };
+
+      final response = await _repository.phoneLoginVerifyAPI(data);
+
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        storageServices.saveToken("${response.data?.loginToken}");
+        StageNavigator.navigateToStage("${response.data?.stages}");
+      }
+      else if(response.status == false && response.type == 'login'){
+        LoadingOverlay().hideLoading();
+        updateOtpError(response.message.toString());
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While login');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+
+    }
+    catch(e){
+      print("$e---------3333333");
+      LoadingOverlay().hideLoading();
+    }
+  }
+
+  Future<void> resendOTPForPhone() async {
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+        "type": "phone",
+        "otpType": "+${countryString.value} ${phoneNo.value}",
+      };
+
+      final response = await _repository.resendOTPAPI(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        CustomSnackBar.show(message: response.otpCode.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else if(response.status == false){
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Generate OTP');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      print(e);
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
+  }
+
 }

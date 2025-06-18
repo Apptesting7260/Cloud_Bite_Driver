@@ -3,6 +3,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class MyProfileScreen extends StatelessWidget{
 
   final MyProfileController controller = Get.put(MyProfileController());
+  final PersonalDetailsController detailController = Get.put(PersonalDetailsController());
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageServices => _storageService;
 
@@ -30,20 +31,22 @@ class MyProfileScreen extends StatelessWidget{
                     children: [
                       Image.asset(ImageConstants.profile),
                       WidgetDesigns.wBox(10),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "${storageServices.getFirstName()}" "${storageServices.getLastName()}",
-                            style: AppFontStyle.text_24_500(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
-                          ),
-                          Text(
-                            "${storageServices.getEmail()}",
-                            style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
-                          )
-                        ],
-                      )
+                      Obx((){
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "${detailController.driverData.value.data?.data?.firstName ?? ''} ${detailController.driverData.value.data?.data?.lastName ?? ''}",
+                              style: AppFontStyle.text_24_500(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
+                            ),
+                            Text(
+                              "${detailController.driverData.value.data?.data?.email ?? ''}",
+                              style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
+                            )
+                          ],
+                        );
+                      }),
                     ],
                   ),
                 ),
@@ -222,7 +225,8 @@ class MyProfileScreen extends StatelessWidget{
                   SizedBox(
                       width: double.infinity,
                       child: CustomAnimatedButton(
-                          onTap: () {},
+                          onTap: () {
+                          },
                           text: 'Yes, Logout')
                   ),
                   const SizedBox(height: 12),

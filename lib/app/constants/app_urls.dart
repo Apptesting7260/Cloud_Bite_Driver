@@ -1,7 +1,8 @@
 class AppUrls{
 
   // static const String baseUrl = 'https://97tzzv24-8000.inc1.devtunnels.ms/driver';
-  static const String baseUrl = 'https://api.cloudbitesbw.com/driver';
+  // static const String baseUrl = 'https://api.cloudbitesbw.com/driver';
+     static const String baseUrl = 'http://15.207.201.245:8000/driver';
 
   static const String verifyUser = "$baseUrl/verifyUser";
   static const String allAddressUrl = "$baseUrl/user-address";
@@ -24,4 +25,5 @@ class AppUrls{
   static const String forgetPasswordAPI = '$baseUrl/forgetPassword';
   static const String verifyOTPForgetPassword = '$baseUrl/verifyPassword';
   static const String changeForgetPassword = '$baseUrl/changePassword';
+  static const String homeStage = '$baseUrl/forgetStage';
 }

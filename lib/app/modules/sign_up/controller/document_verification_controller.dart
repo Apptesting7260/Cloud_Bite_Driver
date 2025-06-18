@@ -14,20 +14,41 @@ class DocumentVerificationController extends GetxController{
 
   final Repository _repository = Repository();
 
-  RxList<Map<String, dynamic>> pendingDocsList = <Map<String, dynamic>>[
-    {
-      "image": ImageConstants.personalDocImage,
-      "route": Routes.personalDocumentsScreen,
-    },
-    {
-      "image": ImageConstants.vehicleDetailImage,
-      "route": Routes.vehicleDetailsScreen,
-    },
-    {
-      "image": ImageConstants.vehicleDetailImage,
-      "route": Routes.bankDetailsScreen,
-    },
-  ].obs;
+  List<Map<String, dynamic>> getPendingDocsList() {
+    final deliveryId = _storageService.getDeliveryID();
+    final docs = [
+      {
+        "image": ImageConstants.personalDocImage,
+        "route": Routes.personalDocumentsScreen,
+        "name": "Personal Documents",
+      },
+      if (deliveryId != "3")
+        {
+          "image": ImageConstants.vehicleDetailImage,
+          "route": Routes.vehicleDetailsScreen,
+          "name": "Vehicle Details",
+        },
+      {
+        "image": ImageConstants.vehicleDetailImage,
+        "route": Routes.bankDetailsScreen,
+        "name": "Bank Details",
+      },
+    ];
+    return docs;
+  }
+
+
+  DocumentVerificationData? getDocumentDataByName(String name) {
+    final docs = documentListData.value.data?.data;
+    if (docs == null) return null;
+
+    try {
+      return docs.firstWhere((doc) => doc.name == name);
+    } catch (e) {
+      return null;
+    }
+  }
+
 
   Rx<ApiResponse<DocumentListModel>> documentListData = Rx<ApiResponse<DocumentListModel>>(ApiResponse.loading());
   setDocumentListData(ApiResponse<DocumentListModel> value){

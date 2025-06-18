@@ -51,6 +51,7 @@ class ImageConstants{
   static String mapBackImage = "$imagePath/back.png";
   static String mapPinImage = '$imagePath/location.png';
   static String default_image = '$imagePath/category_default_image.png';
+  static String no_internet_IMAGE = '$imagePath/no_internet.png';
 
 
   // lottie anim

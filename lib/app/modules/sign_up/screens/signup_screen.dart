@@ -61,6 +61,7 @@ class SignUpScreen extends StatelessWidget{
         key: controller.formKey,
         child: Column(
           children: [
+            WidgetDesigns.hBox(10),
             CustomTextFormField(
               controller: controller.firstNameController,
               hintText: "First Name",

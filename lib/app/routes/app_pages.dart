@@ -1,5 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-
+import 'package:cloud_bites_driver/app/modules/no_internet_connection/bindings/no_internet_connection_binding.dart';
+import 'package:cloud_bites_driver/app/modules/no_internet_connection/views/no_internet_connection_view.dart';
 
 class Routes {
   static const splash = '/splash';
@@ -36,41 +37,69 @@ class Routes {
   static const myWalletScreen = '/myWalletScreen';
   static const withdrawScreen = '/withdrawScreen';
   static const addNewAddress = '/addNewAddress';
+  static const no_internet_connection = '/no-internet-connection';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen(), binding: SplashBinding()),
-    GetPage(name: onboarding, page: () => OnboardingScreen(), binding: OnboardingBinding()),
-    GetPage(name: welcome, page: () => WelcomeScreen(), binding: WelcomeScreenBinding()),
+    GetPage(
+        name: onboarding,
+        page: () => OnboardingScreen(),
+        binding: OnboardingBinding()),
+    GetPage(
+        name: welcome,
+        page: () => WelcomeScreen(),
+        binding: WelcomeScreenBinding()),
     GetPage(name: phoneLogin, page: () => PhoneLoginView()),
     GetPage(name: phoneLoginOtpVerify, page: () => PhoneOtpVerifyScreen()),
     GetPage(name: emailLogin, page: () => EmailLoginScreen()),
-    GetPage(name: forgotPasswordInLogin, page: () => ForgotPasswordScreenInLogin()),
+    GetPage(
+        name: forgotPasswordInLogin, page: () => ForgotPasswordScreenInLogin()),
     GetPage(name: forgotOtpVerifyInLogin, page: () => ForgotOtpVerifyInLogin()),
-    GetPage(name: changePasswordInLogin, page: () => ChangePasswordInLoginScreen()),
-    GetPage(name: signUpScreen, page: () => SignUpScreen(), binding: SignupBinding()),
+    GetPage(
+        name: changePasswordInLogin, page: () => ChangePasswordInLoginScreen()),
+    GetPage(
+        name: signUpScreen,
+        page: () => SignUpScreen(),
+        binding: SignupBinding()),
     GetPage(name: deliveryMethodScreen, page: () => DeliveryMethodScreen()),
-    GetPage(name: documentVerificationScreen, page: () => DocumentVerificationScreen()),
-    GetPage(name: personalDocumentsScreen, page: () => PersonalDocumentScreen()),
+    GetPage(
+        name: documentVerificationScreen,
+        page: () => DocumentVerificationScreen()),
+    GetPage(
+        name: personalDocumentsScreen, page: () => PersonalDocumentScreen()),
     GetPage(name: vehicleDetailsScreen, page: () => VehicleDetailsScreen()),
     GetPage(name: bankDetailsScreen, page: () => BankDetailsScreen()),
     GetPage(name: profilePhotoScreen, page: () => ProfilePhotoScreen()),
-    GetPage(name: identityVerificationScreen, page: () => IdentityVerificationScreen()),
+    GetPage(
+        name: identityVerificationScreen,
+        page: () => IdentityVerificationScreen()),
     GetPage(name: drivingLicenseScreen, page: () => DrivingLicenseScreen()),
-    GetPage(name: registrationCompleteScreen, page: () => RegistrationCompleteScreen()),
+    GetPage(
+        name: registrationCompleteScreen,
+        page: () => RegistrationCompleteScreen()),
     GetPage(name: homeScreen, page: () => HomeScreen()),
     GetPage(name: myProfileScreen, page: () => MyProfileScreen()),
     GetPage(name: personalDetailsScreen, page: () => PersonalDetailsScreen()),
     GetPage(name: editPersonalDetailsScreen, page: () => EditPerosnalDetails()),
     GetPage(name: settingsScreen, page: () => SettingsScreen()),
     GetPage(name: helpCenterScreen, page: () => HelpCenterScreen()),
-    GetPage(name: changePasswordProcessScreen, page: () => ChangePasswordProcessScreen()),
+    GetPage(
+        name: changePasswordProcessScreen,
+        page: () => ChangePasswordProcessScreen()),
     GetPage(name: forgotPasswordScreen, page: () => ForgotPasswordScreen()),
-    GetPage(name: forgotPasswordOtpVerifyScreen, page: () => ForgotPasswordOtpVerifyScreen()),
+    GetPage(
+        name: forgotPasswordOtpVerifyScreen,
+        page: () => ForgotPasswordOtpVerifyScreen()),
     GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
     GetPage(name: notificationScreen, page: () => NotificationScreen()),
     GetPage(name: documentsScreen, page: () => DocumentsScreen()),
     GetPage(name: myWalletScreen, page: () => MyWalletScreen()),
     GetPage(name: withdrawScreen, page: () => WithdrawScreen()),
     GetPage(name: addNewAddress, page: () => AddNewAddress()),
+    GetPage(
+      name: no_internet_connection,
+      page: () => NoInternetConnectionView(),
+      binding: NoInternetConnectionBinding(),
+    ),
   ];
 }

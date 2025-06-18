@@ -31,6 +31,7 @@ class DeliveryMethodController extends GetxController{
       final apiData = await _repository.listDeliveryMethodAPI();
       if(apiData.status == true){
         WidgetDesigns.consoleLog("Delivery Methods get", "get delivery methods");
+        storageServices.saveDeliveryID("${apiData.data?.first.id}");
         setDeliveryMethods(ApiResponse.completed(apiData));
       } else{
         WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get dlivery methods", "error while get delivery methods");

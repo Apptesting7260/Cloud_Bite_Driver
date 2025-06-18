@@ -23,7 +23,7 @@ class ForgotPasswordControllerInLogin extends GetxController{
     LoadingOverlay().showLoading();
     try{
       final data = {
-        "email": emailAddressController.text.trim(),
+        "email": emailAddressController.text,
       };
 
       final response = await _repository.forgetPasswordAPI(data);

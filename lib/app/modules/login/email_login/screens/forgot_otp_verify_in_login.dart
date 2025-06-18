@@ -94,9 +94,13 @@ class ForgotOtpVerifyInLogin extends StatelessWidget{
 
                                 const SizedBox(height: 20),
                                 Obx(() => TextButton(
-                                  onPressed: () => controller.resendEnabled.value
-                                      ? controller.resendOtp()
-                                      : null,
+                                  onPressed: controller.resendEnabled.value ? () {
+                                    // Reset timer and resend OTP
+                                    controller.startTimer();
+                                    controller.otpController.clear();
+                                    controller.otpError.value ='';
+                                    controller.resendOTPForEmail();
+                                  } : null,
                                   child: Text(
                                     controller.resendEnabled.value
                                         ? 'Resend Code'

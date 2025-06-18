@@ -24,7 +24,7 @@ class PhoneOtpVerifyScreen extends StatelessWidget{
                       .headlineLarge!
                       .copyWith(color: AppTheme.whiteColor, fontSize: 25),
                 ),
-                const SizedBox(height: 10),
+                WidgetDesigns.hBox(10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
@@ -36,7 +36,7 @@ class PhoneOtpVerifyScreen extends StatelessWidget{
                     textAlign: TextAlign.center,
                   ),
                 ),
-                const SizedBox(height: 60),
+                WidgetDesigns.hBox(60),
                 Flexible(
                   flex: 2,
                   child: Material(
@@ -56,9 +56,7 @@ class PhoneOtpVerifyScreen extends StatelessWidget{
                               children: [
                                 Pinput(
                                   controller: controller.otpController,
-                                  length: 6,
-                                  // onCompleted: (pin) => controller.verifyOtp(),
-                                  // onSubmitted: (pin) => controller.verifyOtp(),
+                                  length: 5,
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
                                   ],
@@ -71,8 +69,8 @@ class PhoneOtpVerifyScreen extends StatelessWidget{
                                     if(controller.otpController.text.isEmpty || controller.otpController.text == ""){
                                       return "Enter OTP";
                                     }
-                                    if(controller.otpController.text.length != 6){
-                                      return "Enter 6 digits of OTP";
+                                    if(controller.otpController.text.length != 5){
+                                      return "Enter 5 digits of OTP";
                                     }
                                     return null;
                                   },
@@ -83,8 +81,6 @@ class PhoneOtpVerifyScreen extends StatelessWidget{
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(60),
                                           color: Color(0xffF4F5F7))),
-                                  // fieldsCount: 6,
-                                  // onSubmit: (String pin) => controller.verifyOtp(pin),
                                 ),
                                 Obx(() {
                                   return controller.otpError.value !=""?Text(controller.otpError.value,style: WidgetDesigns.errorTextStyle(),).paddingOnly(top: 10):SizedBox();
@@ -93,22 +89,24 @@ class PhoneOtpVerifyScreen extends StatelessWidget{
                             ),
 
                           ),
-                          const SizedBox(height: 30),
+                          WidgetDesigns.hBox(30),
                           CustomAnimatedButton(
-                            // isEnabled: controller.isFormValid,
                             onTap: () {
-                              /*if(controller.formKey.currentState!.validate()){
-                                controller.verifyOtp();
-                              }*/
-                              // StageNavigator.navigateToStageInApp("1");
+                              if(controller.formKey.currentState!.validate()){
+                                controller.loginWithPhoneAPI();
+                              }
                             },
                             text: 'Verify',
                           ),
-                          const SizedBox(height: 20),
+                          WidgetDesigns.hBox(20),
                           Obx(() => TextButton(
-                            onPressed: controller.resendEnabled.value
-                                ? controller.resendOtp
-                                : null,
+                            onPressed: controller.resendEnabled.value ? () {
+                              // Reset timer and resend OTP
+                              controller.startTimer();
+                              controller.otpController.clear();
+                              controller.otpError.value ='';
+                              controller.resendOTPForPhone();
+                            } : null,
                             child: Text(
                               controller.resendEnabled.value
                                   ? 'Resend Code'

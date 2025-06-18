@@ -48,7 +48,6 @@ class DocumentVerificationScreen extends StatelessWidget{
                     child: Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Obx(() {
-                          // Show shimmer when loading
                           if (controller.isLoading.value) {
                             return Expanded(
                               child: ListView.separated(
@@ -75,6 +74,7 @@ class DocumentVerificationScreen extends StatelessWidget{
   }
 
   Widget pendingDocuments()  {
+    final pendingDocs = controller.getPendingDocsList();
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,15 +84,13 @@ class DocumentVerificationScreen extends StatelessWidget{
                   AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
           ),
           WidgetDesigns.hBox(20),
-
-        Obx(() =>
-           ListView.separated(
+          ListView.separated(
             physics: NeverScrollableScrollPhysics(),
-            itemCount: controller.documentListData.value.data?.data?.length ?? 0,
+            itemCount: pendingDocs.length,
             shrinkWrap: true,
             separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
             itemBuilder: (context, index) {
-              final doc = controller.pendingDocsList[index];
+              final doc = pendingDocs[index];
               final docData = controller.documentListData.value.data?.data?[index];
               return pendingDocumentsNames(
                 docData?.name.toString() ?? '',
@@ -101,10 +99,7 @@ class DocumentVerificationScreen extends StatelessWidget{
               );
             },
           ),
-        ),
-
           WidgetDesigns.hBox(20),
-      
           CustomAnimatedButton(
               onTap: () {
                 if(controller.documentListData.value.data?.allComplete == true){

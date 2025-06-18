@@ -57,6 +57,10 @@ class EmailLoginScreen extends StatelessWidget{
                                         return 'Email is required';
                                       }
 
+                                      if(!FormValidators.isValidEmail(value)){
+                                        return "Please enter a valid email";
+                                      }
+
                                       if(controller.emailError.value.isNotEmpty || controller.emailError.value != ''){
                                         return controller.emailError.value;
                                       }
@@ -71,10 +75,10 @@ class EmailLoginScreen extends StatelessWidget{
                                   return CustomTextFormField(
                                     controller: controller.passwordController,
                                     hintText: "Password",
+                                    obscureText: controller.obscurePassword.value,
                                     onChanged: (value) {
                                       controller.updatePasswordError('');
                                     },
-                                    obscureText: controller.obscurePassword.value,
                                     suffix: IconButton(
                                       icon: Icon(
                                         controller.obscurePassword.value ? Icons.visibility_off : Icons.visibility,
@@ -88,10 +92,12 @@ class EmailLoginScreen extends StatelessWidget{
                                       if(controller.passwordController.text.isEmpty){
                                         return 'Password is required';
                                       }
+
                                       if(controller.passwordError.value.isNotEmpty || controller.passwordError.value != ''){
                                         return controller.passwordError.value;
                                       }
-                                      return null;
+
+                                      return FormValidators.validateStrongPassword(value!);
                                     },
                                   );
                                 }

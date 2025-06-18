@@ -19,12 +19,12 @@ class EmailLoginController extends GetxController{
   }
 
   var emailError = ''.obs;
-  var passwordError = ''.obs;
-
   updateEmailError(String value) {
     emailError.value = value;
     update();
   }
+
+  var passwordError = ''.obs;
   updatePasswordError(String value) {
     passwordError.value = value;
     update();
@@ -56,11 +56,13 @@ class EmailLoginController extends GetxController{
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         StageNavigator.navigateToStage("${response.data?.stages}");
       }
-      else if(response.status == false && response.type == 'login'){
+      else if(response.status == false && response.type == 'email'){
         LoadingOverlay().hideLoading();
         updateEmailError(response.message.toString());
+      }
+      else if(response.status == false && response.type == 'password'){
+        LoadingOverlay().hideLoading();
         updatePasswordError(response.message.toString());
-        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
       }
       else {
         LoadingOverlay().hideLoading();
