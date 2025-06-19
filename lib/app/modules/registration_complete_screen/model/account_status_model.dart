@@ -3,7 +3,8 @@ class AccountStatusModel {
   String? type;
   String? statusMessage;
   String? message;
-  AccountStatusData? data;
+  List<AccountStatusData>? data;
+  bool? isComplete;
   String? stage;
 
   AccountStatusModel(
@@ -12,6 +13,7 @@ class AccountStatusModel {
         this.statusMessage,
         this.message,
         this.data,
+        this.isComplete,
         this.stage});
 
   AccountStatusModel.fromJson(Map<String, dynamic> json) {
@@ -19,7 +21,13 @@ class AccountStatusModel {
     type = json['type'].toString();
     statusMessage = json['statusMessage'].toString();
     message = json['message'].toString();
-    data = json['data'] != null ? new AccountStatusData.fromJson(json['data']) : null;
+    if (json['data'] != null) {
+      data = <AccountStatusData>[];
+      json['data'].forEach((v) {
+        data!.add(new AccountStatusData.fromJson(v));
+      });
+    }
+    isComplete = json['isComplete'];
     stage = json['stage'].toString();
   }
 
@@ -30,38 +38,29 @@ class AccountStatusModel {
     data['statusMessage'] = this.statusMessage;
     data['message'] = this.message;
     if (this.data != null) {
-      data['data'] = this.data!.toJson();
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
+    data['isComplete'] = this.isComplete;
     data['stage'] = this.stage;
     return data;
   }
 }
 
 class AccountStatusData {
-  String? personalDocsStatus;
-  String? accountStatus;
-  bool? isComplete;
-  String? vehicleDetails;
+  String? name;
+  String? status;
 
-  AccountStatusData(
-      {this.personalDocsStatus,
-        this.accountStatus,
-        this.isComplete,
-        this.vehicleDetails});
+  AccountStatusData({this.name, this.status});
 
   AccountStatusData.fromJson(Map<String, dynamic> json) {
-    personalDocsStatus = json['Personal_docs_status'].toString();
-    accountStatus = json['Account_status'].toString();
-    isComplete = json['isComplete'];
-    vehicleDetails = json['VehicleDetails'].toString();
+    name = json['name'].toString();
+    status = json['status'].toString();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['Personal_docs_status'] = this.personalDocsStatus;
-    data['Account_status'] = this.accountStatus;
-    data['isComplete'] = this.isComplete;
-    data['VehicleDetails'] = this.vehicleDetails;
+    data['name'] = this.name;
+    data['status'] = this.status;
     return data;
   }
 }

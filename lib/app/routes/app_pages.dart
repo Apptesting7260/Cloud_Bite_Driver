@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/support_screen.dart';
 import 'package:cloud_bites_driver/app/modules/no_internet_connection/bindings/no_internet_connection_binding.dart';
 import 'package:cloud_bites_driver/app/modules/no_internet_connection/views/no_internet_connection_view.dart';
 
@@ -38,6 +39,7 @@ class Routes {
   static const withdrawScreen = '/withdrawScreen';
   static const addNewAddress = '/addNewAddress';
   static const no_internet_connection = '/no-internet-connection';
+  static const support = '/support';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen(), binding: SplashBinding()),
@@ -101,5 +103,6 @@ class Routes {
       page: () => NoInternetConnectionView(),
       binding: NoInternetConnectionBinding(),
     ),
+    GetPage(name: support, page: () => SupportScreen()),
   ];
 }

@@ -198,6 +198,18 @@ class Repository {
     return HomeStageModel.fromJson(response);
   }
 
+  //Logout API
+  Future<LogoutModel> logoutAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data,AppUrls.logoutAPI, "");
+    return LogoutModel.fromJson(response);
+  }
+
+  //Support API
+  Future<SupportModel> contactSupportAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data,AppUrls.contactSupportAPI, "Bearer $token");
+    return SupportModel.fromJson(response);
+  }
 
   Future<LocationResponse> addNewAddressApi(data) async {
     print(data);

@@ -226,6 +226,7 @@ class MyProfileScreen extends StatelessWidget{
                       width: double.infinity,
                       child: CustomAnimatedButton(
                           onTap: () {
+                            controller.getLogoutAPI();
                           },
                           text: 'Yes, Logout')
                   ),

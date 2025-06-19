@@ -53,6 +53,7 @@ class EditPersonalDetailsController extends GetxController {
     firstNameController.text = storageServices.getFirstName();
     lastNameController.text = storageServices.getLastName();
     dobController.text = _formatDate(storageServices.getDOB());
+    locationController.text = storageServices.getAddress();
   }
 
   @override
@@ -61,6 +62,7 @@ class EditPersonalDetailsController extends GetxController {
     firstNameController.dispose();
     lastNameController.dispose();
     dobController.dispose();
+    locationController.dispose();
   }
 
   String _formatDate(String? dateString) {
@@ -150,13 +152,56 @@ class EditPersonalDetailsController extends GetxController {
   }
 
 
-  Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
+  /*Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
     final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       XFile? pickedFile = pickedImage;
       cropImage(pickedFile, image, fillImageArray: fillImageArray);
       update();
+    }
+  }*/
+
+  Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
+    final source = await Get.bottomSheet<ImageSource>(
+      Container(
+        color: Colors.white,
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt, color: AppTheme.primaryColor),
+              title: Text(
+                'Take Photo',
+                style: AppFontStyle.text_16_400(Colors.black),
+              ),
+              onTap: () => Get.back(result: ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library, color: AppTheme.primaryColor),
+              title: Text(
+                'Choose from Gallery',
+                style: AppFontStyle.text_16_400(Colors.black),
+              ),
+              onTap: () => Get.back(result: ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (source != null) {
+      await _processImageSelection(source, image, fillImageArray: fillImageArray);
+    }
+  }
+
+  Future<void> _processImageSelection(
+      ImageSource source,
+      Rx<File?> image, {
+        bool fillImageArray = false,
+      }) async {
+    final XFile? pickedImage = await _picker.pickImage(source: source);
+    if (pickedImage != null) {
+      await cropImage(pickedImage, image, fillImageArray: fillImageArray);
     }
   }
 
@@ -215,7 +260,8 @@ class EditPersonalDetailsController extends GetxController {
         "last_name": lastNameController.text,
         "dob": dobController.text,
         "latitude": locationAddress!['lat'].toString(),
-        "longitude": locationAddress!['lng'].toString()
+        "longitude": locationAddress!['lng'].toString(),
+        "address": locationController.text
       },
           files
       );
@@ -224,6 +270,10 @@ class EditPersonalDetailsController extends GetxController {
         LoadingOverlay().hideLoading();
         print(response.message);
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        storageServices.saveFirstName(firstNameController.text);
+        storageServices.saveLastName(lastNameController.text);
+        storageServices.saveDOB(dobController.text);
+        storageServices.saveAddress(locationController.text);
         Get.back();
         controller.getDriverData();
       }

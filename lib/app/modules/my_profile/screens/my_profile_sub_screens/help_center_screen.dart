@@ -11,7 +11,7 @@ class HelpCenterScreen extends StatelessWidget{
           child: Column(
             children: [
               WidgetDesigns.hBox(20),
-              helpCenterOption('',ImageConstants.supportIcon, 'Support'),
+              helpCenterOption(Routes.support,ImageConstants.supportIcon, 'Support'),
               WidgetDesigns.hBox(20),
               helpCenterOption('',ImageConstants.supportIcon, 'Privacy Policy'),
               WidgetDesigns.hBox(20),

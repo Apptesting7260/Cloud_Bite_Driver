@@ -33,6 +33,7 @@ class PersonalDetailsController extends GetxController{
         storageServices.saveLastName("${apiData.data?.lastName}");
         storageServices.saveDOB("${apiData.data?.dateOfBirth}");
         storageServices.saveProfile("${apiData.data?.profilePhoto}");
+        storageServices.saveAddress("${apiData.data?.address}");
         setDriverData(ApiResponse.completed(apiData));
       } else{
         isLoading.value = false;

@@ -55,6 +55,11 @@ class StorageServices extends GetxService{
     return await _prefs.setString('profile', profile);
   }
 
+  Future<bool> saveAddress(String address) async {
+    return await _prefs.setString('address', address);
+  }
+
+
   // Get Methods
   String getDeliveryID() {
     WidgetDesigns.consoleLog(_prefs.getString('id').toString(), 'id');
@@ -100,6 +105,11 @@ class StorageServices extends GetxService{
   String getProfile() {
     WidgetDesigns.consoleLog(_prefs.getString('profile').toString(), 'profile');
     return _prefs.getString('profile') ?? '';
+  }
+
+  String getAddress() {
+    WidgetDesigns.consoleLog(_prefs.getString('address').toString(), 'address');
+    return _prefs.getString('address') ?? '';
   }
 
   String getStages() {

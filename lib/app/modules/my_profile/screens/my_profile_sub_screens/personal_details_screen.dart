@@ -48,7 +48,7 @@ class PersonalDetailsScreen extends StatelessWidget{
                        WidgetDesigns.hBox(30),
                        personalInfo(ImageConstants.profileEmailIcon, 'Email Address' ,driverData == null ? buildShimmerOption() : "${driverData.email}"),
                        WidgetDesigns.hBox(30),
-                       personalInfo(ImageConstants.profileEmailIcon, 'Address' ,driverData == null ? buildShimmerOption() : "${driverData.location}"),
+                       personalInfo(ImageConstants.profileEmailIcon, 'Address' ,driverData == null ? buildShimmerOption() : "${driverData.address}"),
                      ],
                    );
                  }),

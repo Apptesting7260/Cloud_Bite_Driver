@@ -1,18 +1,21 @@
 class GetDriverDataModel {
+  String? type;
   String? message;
   bool? status;
   DriverData? data;
 
-  GetDriverDataModel({this.message, this.status, this.data});
+  GetDriverDataModel({this.type, this.message, this.status, this.data});
 
   GetDriverDataModel.fromJson(Map<String, dynamic> json) {
-    message = json['message'].toString();
+    type = json['type'];
+    message = json['message'];
     status = json['status'];
     data = json['data'] != null ? new DriverData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['type'] = this.type;
     data['message'] = this.message;
     data['status'] = this.status;
     if (this.data != null) {
@@ -51,8 +54,8 @@ class DriverData {
   String? accountStatus;
   String? personalDocsStatus;
   String? vehicleStatus;
-  String? latitude;
-  String? longitude;
+  bool? profileComplete;
+  String? address;
 
   DriverData(
       {this.id,
@@ -83,8 +86,8 @@ class DriverData {
         this.accountStatus,
         this.personalDocsStatus,
         this.vehicleStatus,
-        this.latitude,
-        this.longitude});
+        this.profileComplete,
+        this.address});
 
   DriverData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
@@ -115,8 +118,8 @@ class DriverData {
     accountStatus = json['account_status'].toString();
     personalDocsStatus = json['personal_docs_status'].toString();
     vehicleStatus = json['vehicle_status'].toString();
-    latitude = json['latitude'].toString();
-    longitude = json['longitude'].toString();
+    profileComplete = json['profile_complete'];
+    address = json['address'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -149,8 +152,8 @@ class DriverData {
     data['account_status'] = this.accountStatus;
     data['personal_docs_status'] = this.personalDocsStatus;
     data['vehicle_status'] = this.vehicleStatus;
-    data['latitude'] = this.latitude;
-    data['longitude'] = this.longitude;
+    data['profile_complete'] = this.profileComplete;
+    data['address'] = this.address;
     return data;
   }
 }

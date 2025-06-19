@@ -15,7 +15,22 @@ class DocumentsScreen extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               WidgetDesigns.hBox(20),
-              pendingDocuments(),
+              //pendingDocuments(),
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return Expanded(
+                    child: ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: controller.documentListData.value.data?.data?.length ?? 0,
+                      shrinkWrap: true,
+                      separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+                      itemBuilder: (context, index) => buildShimmerOption(),
+                    ),
+                  );
+                }
+                // Show actual data when loaded
+                return pendingDocuments();
+              }),
             ],
           ),
         ),
@@ -23,20 +38,23 @@ class DocumentsScreen extends StatelessWidget{
     );
   }
   Widget pendingDocuments()  {
+    final pendingDocs = controller.getPendingDocsList();
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListView.separated(
             physics: NeverScrollableScrollPhysics(),
-            itemCount: controller.pendingDocsList.length,
+            itemCount: pendingDocs.length,
             shrinkWrap: true,
             separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
             itemBuilder: (context, index) {
-              final doc = controller.pendingDocsList[index];
+              final doc = pendingDocs[index];
+              final docData = controller.documentListData.value.data?.data?[index];
               return pendingDocumentsNames(
-                doc["title"], doc["image"]
-              );
+                docData?.name.toString() ?? '',
+                doc["image"],
+                docData?.isComleted ?? false);
             },
           ),
         ],
@@ -44,7 +62,7 @@ class DocumentsScreen extends StatelessWidget{
     );
   }
 
-  Widget pendingDocumentsNames(String title, String image) {
+  Widget pendingDocumentsNames(String title, String image, bool isCompleted) {
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
@@ -61,10 +79,35 @@ class DocumentsScreen extends StatelessWidget{
                 style: AppFontStyle.text_16_500(AppTheme.black),
               ),
               Spacer(),
-              Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.grey)
+              Row(
+                children: [
+                  Icon(
+                      isCompleted ? Icons.check_circle : Icons.hourglass_bottom_rounded,
+                      size: 14,
+                      color: isCompleted ? AppTheme.green : AppTheme.grey
+                  ),
+                  WidgetDesigns.wBox(10),
+                  if(!isCompleted)
+                    Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.grey),
+                ],
+              )
             ],
           ),
         )
+    );
+  }
+  Widget buildShimmerOption() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: Get.width,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

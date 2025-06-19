@@ -30,11 +30,25 @@ class RegistrationCompleteScreen extends StatelessWidget{
                   style: AppFontStyle.text_14_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansRegular),
                 ),
                 WidgetDesigns.hBox(30),
-                documentsOptions(),
+                /*documentsOptions(),*/
+                Obx(() {
+                  if (controller.isLoading.value) {
+                    return Expanded(
+                      child: ListView.separated(
+                        physics: NeverScrollableScrollPhysics(),
+                        itemCount: 3,
+                        shrinkWrap: true,
+                        separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+                        itemBuilder: (context, index) => buildShimmerOption(),
+                      ),
+                    );
+                  }
+                  return documentsOptions();
+                }),
                 WidgetDesigns.hBox(20),
                 CustomAnimatedButton(
                     onTap: (){
-                      if(controller.accountStatusData.value.data?.data?.isComplete == true){
+                      if(controller.accountStatusData.value.data?.isComplete == true){
                         controller.getHomeStage();
                       }else{
                         CustomSnackBar.show(message:'Your application is Under Verification' , color: AppTheme.primaryColor, tColor: AppTheme.white);
@@ -51,19 +65,23 @@ class RegistrationCompleteScreen extends StatelessWidget{
   }
 
   Widget documentsOptions()  {
-    final personalStatus = controller.accountStatusData.value.data?.data?.personalDocsStatus ?? '';
-    final vehicleStatus = controller.accountStatusData.value.data?.data?.vehicleDetails ?? '';
-    final bankStatus = controller.accountStatusData.value.data?.data?.accountStatus ?? '';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        documentNames("Personal Documents", personalStatus, getStatusColor(personalStatus)),
+        Obx((){
+          return ListView.separated(
+            physics: NeverScrollableScrollPhysics(),
+            itemCount: controller.accountStatusData.value.data?.data?.length ?? 0,
+            shrinkWrap: true,
+            separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+            itemBuilder: (context, index) {
+              final completeDocs = controller.accountStatusData.value.data?.data?[index];
+              return documentNames(
+                controller.accountStatusData.value.data?.data?[index].name ?? "", "${completeDocs?.status}"  ,getStatusColor("${completeDocs?.status}"));
+            },
+          );
+        }),
 
-        WidgetDesigns.hBox(20),
-        documentNames("Vehicle Details", vehicleStatus , getStatusColor(vehicleStatus)),
-
-        WidgetDesigns.hBox(20),
-        documentNames("Bank Account Details", bankStatus, getStatusColor(bankStatus))
       ],
     );
   }
@@ -126,6 +144,20 @@ class RegistrationCompleteScreen extends StatelessWidget{
             ],
           ),
         )
+    );
+  }
+  Widget buildShimmerOption() {
+    return Shimmer.fromColors(
+      baseColor: Colors.grey[300]!,
+      highlightColor: Colors.grey[100]!,
+      child: Container(
+        width: Get.width,
+        height: 50,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(30),
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }
