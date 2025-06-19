@@ -34,7 +34,7 @@ class RegistrationCompleteScreen extends StatelessWidget{
                 WidgetDesigns.hBox(20),
                 CustomAnimatedButton(
                     onTap: (){
-                      if(controller.accountStatusData.value.data?.data?.isComplete == true){
+                      if(controller.finalStageData.value.data?.stages == '0'){
                         controller.getHomeStage();
                       }else{
                         CustomSnackBar.show(message:'Your application is Under Verification' , color: AppTheme.primaryColor, tColor: AppTheme.white);
