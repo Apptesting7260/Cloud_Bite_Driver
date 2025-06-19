@@ -7,7 +7,6 @@ class RegistrationCompleteController extends GetxController{
   @override
   void onInit() {
     getAccountStatusData();
-    getHomeStage();
     super.onInit();
   }
 
@@ -67,7 +66,6 @@ class RegistrationCompleteController extends GetxController{
       } else{
         isLoading.value = false;
         WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get Account Status data", "error while get account status data");
-        CustomSnackBar.show(message:apiData.message?.toString() ?? "Error while document list data", color: AppTheme.redText, tColor: AppTheme.white);
         setHomeStage(ApiResponse.error(apiData.message?.toString() ?? "Error while get data"));
       }
 

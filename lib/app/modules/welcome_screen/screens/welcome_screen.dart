@@ -80,19 +80,10 @@ class WelcomeScreen extends StatelessWidget{
                     children: [
                       _socialLoginButton(
                           onPressed: () {}, url: ImageConstants.facebookLoginImage),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      _socialLoginButton(
-                          onPressed: () {}, url: ImageConstants.twitterLoginImage),
-                      SizedBox(
-                        width: 5,
-                      ),
+                      WidgetDesigns.wBox(5),
                       _socialLoginButton(
                           onPressed: () {}, url: ImageConstants.appleLoginImage),
-                      SizedBox(
-                        width: 5,
-                      ),
+                      WidgetDesigns.wBox(5),
                       _socialLoginButton(
                           onPressed: () async {
                            /* try {

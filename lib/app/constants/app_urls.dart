@@ -1,6 +1,6 @@
 class AppUrls{
 
-  // static const String baseUrl = 'https://97tzzv24-8000.inc1.devtunnels.ms/driver'; // Local
+     // static const String baseUrl = 'https://97tzzv24-8000.inc1.devtunnels.ms/driver'; // Local
   // static const String baseUrl = 'https://api.cloudbitesbw.com/driver'; // Live(Botswana)
      static const String baseUrl = 'http://15.207.201.245:8000/driver'; // Live(India)
 

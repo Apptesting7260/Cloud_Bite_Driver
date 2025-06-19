@@ -11,13 +11,55 @@ class ProfilePhotoController extends GetxController {
 
   final Repository _repository = Repository();
 
-  Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
+  /*Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
     final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
 
     if (pickedImage != null) {
       XFile? pickedFile = pickedImage;
       cropImage(pickedFile, image, fillImageArray: fillImageArray);
       update();
+    }
+  }*/
+  Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
+    final source = await Get.bottomSheet<ImageSource>(
+      Container(
+        color: Colors.white,
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt, color: AppTheme.primaryColor),
+              title: Text(
+                'Take Photo',
+                style: AppFontStyle.text_16_400(Colors.black),
+              ),
+              onTap: () => Get.back(result: ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library, color: AppTheme.primaryColor),
+              title: Text(
+                'Choose from Gallery',
+                style: AppFontStyle.text_16_400(Colors.black),
+              ),
+              onTap: () => Get.back(result: ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (source != null) {
+      await _processImageSelection(source, image, fillImageArray: fillImageArray);
+    }
+  }
+
+  Future<void> _processImageSelection(
+      ImageSource source,
+      Rx<File?> image, {
+        bool fillImageArray = false,
+      }) async {
+    final XFile? pickedImage = await _picker.pickImage(source: source);
+    if (pickedImage != null) {
+      await cropImage(pickedImage, image, fillImageArray: fillImageArray);
     }
   }
 

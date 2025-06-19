@@ -319,7 +319,8 @@ class SignUpController extends GetxController{
         "phone": phoneController.text,
         "email": emailController.text,
         "latitude": locationAddress?['lat'].toString(),
-        "longitude": locationAddress?['lng'].toString()
+        "longitude": locationAddress?['lng'].toString(),
+        /*"address": locationController.text*/
       };
 
       final response = await _repository.registerDriverAPI(data);
