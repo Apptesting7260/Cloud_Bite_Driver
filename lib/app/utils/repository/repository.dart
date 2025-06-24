@@ -211,6 +211,13 @@ class Repository {
     return SupportModel.fromJson(response);
   }
 
+  // Social Login API
+  Future<SocialLoginModel> socialLoginAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data,AppUrls.socialLoginAPI, "Bearer $token");
+    return SocialLoginModel.fromJson(response);
+  }
+
   Future<LocationResponse> addNewAddressApi(data) async {
     print(data);
     var response = await _apiService.postApi(data, AppUrls.addNewAddressUrl, storageService.getToken());

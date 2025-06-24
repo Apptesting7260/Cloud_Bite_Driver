@@ -7,6 +7,12 @@ class SignUpScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+
+    final arguments = Get.arguments as Map<String, dynamic>?;
+    if (arguments != null && arguments['email'] != null) {
+      controller.handleGoogleSignIn(arguments['email']);
+    }
+
     return Container(
       decoration: BoxDecoration(gradient: AppTheme.primaryGradientHorizontal),
       child: SafeArea(
@@ -263,8 +269,11 @@ class SignUpScreen extends StatelessWidget{
                 controller: controller.emailController,
                 hintText: "Email Address",
                 onChanged: (value) {
-                  controller.updateEmailError('');
+                  if (!controller.disableEmailField.value) {
+                    controller.updateEmailError('');
+                  }
                 },
+                enabled: !controller.disableEmailField.value,
                 validator: (value){
                   if(controller.emailController.text.isEmpty){
                     return "Email is required";

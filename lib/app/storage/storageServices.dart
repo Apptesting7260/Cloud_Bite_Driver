@@ -121,6 +121,11 @@ class StorageServices extends GetxService{
     return _prefs.getString(_tokenKey) ?? '';
   }
 
+  returnFCMToken() async {
+    String? fcmToken = await PushNotificationService.getFcmTokenWithRetry();
+    return await fcmToken;
+  }
+
   Future<bool> removeToken() async {
     return await _prefs.remove(_tokenKey);
   }

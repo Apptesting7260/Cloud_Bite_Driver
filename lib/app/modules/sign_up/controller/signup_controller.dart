@@ -31,6 +31,7 @@ class SignUpController extends GetxController{
   RxString verifiedPhone = ''.obs;
   RxBool isPhoneVerified = false.obs;
 
+  var disableEmailField = false.obs;
   RxString verifiedEmail = ''.obs;
   RxBool isEmailVerified = false.obs;
 
@@ -113,6 +114,13 @@ class SignUpController extends GetxController{
     resendEnabled.value = false;
     _timer?.cancel();
     _timer = null;
+  }
+
+  void handleGoogleSignIn(String email) {
+    emailController.text = email;
+    isEmailVerified.value = true;
+    verifiedEmail.value = email;
+    disableEmailField.value = true;
   }
 
 
@@ -310,6 +318,7 @@ class SignUpController extends GetxController{
     }
 
     LoadingOverlay().showLoading();
+    String? fcmToken = await storageServices.returnFCMToken();
     try{
       final data = {
         "first_name": firstNameController.text,
@@ -320,7 +329,8 @@ class SignUpController extends GetxController{
         "email": emailController.text,
         "latitude": locationAddress?['lat'].toString(),
         "longitude": locationAddress?['lng'].toString(),
-        "address": locationController.text
+        "address": locationController.text,
+        "fcm_token": fcmToken ?? ''
       };
 
       final response = await _repository.registerDriverAPI(data);
@@ -345,6 +355,7 @@ class SignUpController extends GetxController{
 
     }catch(e){
       LoadingOverlay().hideLoading();
+      WidgetDesigns.consoleLog(e.toString(), 'Error While Verify OTP');
     }finally{
       LoadingOverlay().hideLoading();
     }

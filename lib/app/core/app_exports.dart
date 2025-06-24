@@ -20,6 +20,10 @@ export 'package:lottie/lottie.dart';
 export 'package:geolocator/geolocator.dart';
 export 'package:geocoding/geocoding.dart';
 export 'package:flutter_dotenv/flutter_dotenv.dart';
+export 'package:awesome_notifications/awesome_notifications.dart';
+export 'package:firebase_messaging/firebase_messaging.dart';
+export 'package:firebase_auth/firebase_auth.dart';
+export 'package:google_sign_in/google_sign_in.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Network Exports ↓ ↓ ↓ ↓ ↓
@@ -99,6 +103,7 @@ export 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_pho
 export 'package:cloud_bites_driver/app/modules/registration_complete_screen/model/final_stage_home_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/logout_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/support_model.dart';
+export 'package:cloud_bites_driver/app/modules/welcome_screen/model/social_login_model.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓
@@ -162,6 +167,7 @@ export 'package:cloud_bites_driver/app/modules/add_address/places_services.dart'
 export 'package:cloud_bites_driver/app/utils/response/api_status.dart';
 export 'package:cloud_bites_driver/app/utils/response/api_response.dart';
 export 'package:cloud_bites_driver/app/utils/custom_widgets/shimmer_box.dart';
+export 'package:cloud_bites_driver/app/utils/service/push_notification_service.dart';
 
 
 //// bindings /////

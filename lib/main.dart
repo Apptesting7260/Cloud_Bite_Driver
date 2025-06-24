@@ -12,7 +12,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
   await Get.putAsync(() => NetworkService().init());
 
   await Get.putAsync(() => StorageServices().init());

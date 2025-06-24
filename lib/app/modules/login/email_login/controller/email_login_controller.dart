@@ -40,12 +40,14 @@ class EmailLoginController extends GetxController{
     updateEmailError('');
     updatePasswordError('');
     LoadingOverlay().showLoading();
+    String? fcmToken = await storageServices.returnFCMToken();
     try{
       final data = {
         "type": "email",
         "email": emailController.text,
-        "password": passwordController.text
-      };
+        "password": passwordController.text,
+        "fcm_token": fcmToken ?? ''
+    };
 
       final response = await _repository.emailLoginAPI(data);
 

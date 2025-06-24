@@ -1,6 +1,9 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/routes/stage_navigator.dart';
 
 class WelcomeScreen extends StatelessWidget{
+
+  final WelcomeController controller = Get.put(WelcomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -11,7 +14,7 @@ class WelcomeScreen extends StatelessWidget{
           end: Alignment.bottomCenter,
           colors: [
             Colors.transparent,
-            Colors.black54, // dark at the bottom
+            Colors.black54,
           ],
         ).createShader(bounds);
       },
@@ -82,23 +85,8 @@ class WelcomeScreen extends StatelessWidget{
                           onPressed: () {}, url: ImageConstants.facebookLoginImage),
                       WidgetDesigns.wBox(5),
                       _socialLoginButton(
-                          onPressed: () {}, url: ImageConstants.appleLoginImage),
-                      WidgetDesigns.wBox(5),
-                      _socialLoginButton(
                           onPressed: () async {
-                           /* try {
-                              final user = await _auth.signInWithGoogle();
-                              if (user != null) {
-                                Get.offAllNamed(Routes.HOME);
-                              }
-                            } catch (e) {
-                              Get.snackbar(
-                                'Error',
-                                'Failed to sign in with Google: ${e.toString()}',
-                                snackPosition: SnackPosition.BOTTOM,
-                              );
-                              print('${e.toString()}');
-                            }*/
+                            controller.signInWithGoogle(Get.context!!);
                           }, url: ImageConstants.googleLoginImage),
                     ],
                   ),

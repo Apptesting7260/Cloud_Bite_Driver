@@ -225,11 +225,13 @@ class PhoneLoginController extends GetxController {
   Future<void> loginWithPhoneAPI() async {
     updatePhoneError('');
     LoadingOverlay().showLoading();
+    String? fcmToken = await storageServices.returnFCMToken();
     try{
       final data = {
         "type": "phone",
         "phone": phoneController.text,
-        "otpType": "generate"
+        "otpType": "generate",
+        "fcm_token": fcmToken ?? ''
       };
 
       final response = await _repository.phoneLoginGenerateAPI(data);

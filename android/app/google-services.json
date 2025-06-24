@@ -110,6 +110,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "524176041811-3i7iqtcj7q4tnueo0u6r7vroh7ndv7s2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.cloud_bites_driver",
+            "certificate_hash": "7ca968d7382036b0f4381b1b154ad93cdf69f1e1"
+          }
+        },
+        {
           "client_id": "524176041811-vr0tkd796m9rt16shgtklpsuh2kvl0se.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
