@@ -6,6 +6,8 @@ class MyProfileScreen extends StatelessWidget{
   final PersonalDetailsController detailController = Get.put(PersonalDetailsController());
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageServices => _storageService;
+  final String imageBaseUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
+
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,20 @@ class MyProfileScreen extends StatelessWidget{
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Image.asset(ImageConstants.profile),
+                      //Image.asset(ImageConstants.profile),
+                      SizedBox(
+                        width: 70,
+                        height: 70,
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(35.0),
+                          child: CachedNetworkImage(
+                            imageUrl: "$imageBaseUrl${storageServices.getProfile()}",
+                            placeholder: (context, url) => ShimmerBox(width: 70, height: 70),
+                            errorWidget: (context, url, error) => Image.asset(ImageConstants.default_image),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
                       WidgetDesigns.wBox(10),
                       Obx((){
                         return Column(

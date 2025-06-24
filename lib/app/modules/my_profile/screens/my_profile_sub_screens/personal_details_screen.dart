@@ -28,7 +28,7 @@ class PersonalDetailsScreen extends StatelessWidget{
                            width: 70,
                            height: 70,
                            child: ClipRRect(
-                             borderRadius: BorderRadius.circular(15.0),
+                             borderRadius: BorderRadius.circular(35.0),
                              child: CachedNetworkImage(
                                imageUrl: "$imageBaseUrl${driverData.profilePhoto}",
                                placeholder: (context, url) => ShimmerBox(width: 70, height: 70),
