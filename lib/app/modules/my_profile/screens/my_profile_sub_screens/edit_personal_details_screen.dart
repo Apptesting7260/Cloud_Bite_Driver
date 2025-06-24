@@ -24,7 +24,7 @@ class EditPerosnalDetails extends StatelessWidget{
                   width: 70,
                   height: 70,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15.0),
+                    borderRadius: BorderRadius.circular(35.0),
                     child: Obx(() {
                       if (controller.profileImage.value != null) {
                         return Image.file(
