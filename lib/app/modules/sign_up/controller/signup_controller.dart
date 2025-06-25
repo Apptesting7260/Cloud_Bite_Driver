@@ -116,11 +116,23 @@ class SignUpController extends GetxController{
     _timer = null;
   }
 
-  void handleGoogleSignIn(String email) {
-    emailController.text = email;
-    isEmailVerified.value = true;
-    verifiedEmail.value = email;
-    disableEmailField.value = true;
+  void handleGoogleSignInArguments() {
+    if (Get.arguments != null) {
+      final email = Get.arguments['email'] ?? "";
+      final isVerified = Get.arguments['isVerified'] ?? false;
+
+      print("===================${email} && ${isVerified}=================");
+
+      if (email != null) {
+        emailController.text = email;
+        disableEmailField.value = true;
+
+        if (isVerified) {
+          isEmailVerified.value = true;
+          verifiedEmail.value = email;
+        }
+      }
+    }
   }
 
 
@@ -731,6 +743,7 @@ class SignUpController extends GetxController{
   @override
   void onInit() {
     super.onInit();
+    handleGoogleSignInArguments();
     _handleLocationPermission(Get.context!);
     startTimer();
   }

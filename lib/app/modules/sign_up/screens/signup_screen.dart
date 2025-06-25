@@ -7,12 +7,6 @@ class SignUpScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-
-    final arguments = Get.arguments as Map<String, dynamic>?;
-    if (arguments != null && arguments['email'] != null) {
-      controller.handleGoogleSignIn(arguments['email']);
-    }
-
     return Container(
       decoration: BoxDecoration(gradient: AppTheme.primaryGradientHorizontal),
       child: SafeArea(

@@ -30,6 +30,10 @@ class StorageServices extends GetxService{
     return await _prefs.setString('email', token);
   }
 
+  Future<bool> saveEmailVerified(bool isVerified) async {
+    return await _prefs.setBool('emailVerified', isVerified);
+  }
+
   Future<bool> saveMobile(String mobile) async {
     return await _prefs.setString('mobile', mobile);
   }
@@ -69,6 +73,11 @@ class StorageServices extends GetxService{
   String getEmail() {
     WidgetDesigns.consoleLog(_prefs.getString('email').toString(), 'driverEmail');
     return _prefs.getString('email') ?? '';
+  }
+
+  bool getEmailVerified() {
+    WidgetDesigns.consoleLog(_prefs.getBool('emailVerified').toString(), 'emailVerified');
+    return _prefs.getBool('emailVerified') ?? false;
   }
 
   String getOTP() {

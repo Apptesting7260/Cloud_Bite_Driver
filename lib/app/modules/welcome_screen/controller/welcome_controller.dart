@@ -45,22 +45,35 @@ class WelcomeController extends GetxController{
       };
 
       final response = await _repository.socialLoginAPI(data);
+      String email = googleUser.email;
       if (response.status == true) {
+        storageServices.saveToken("${response.data?.loginToken}");
         if (response.data != null) {
-          StageNavigator.navigateToStage(response.data!.stages.toString());
-          WidgetDesigns.consoleLog("hcbdbscsi111111111111111", "");
+          if(response.data!.emailVerified == true) {
+            storageServices.saveEmail(response.data?.email ?? '');
+            storageServices.saveEmailVerified(true);
+          }
+          if(response.data?.stages == "1"|| response.data?.stages == null){
+            print(".........${response.data?.stages}........");
+            storageServices.saveToken("${response.data?.loginToken}");
+            Get.offAllNamed(Routes.signUpScreen, arguments: {
+              'email': email,
+              'isVerified': response.data?.emailVerified ?? false
+            });
+          }else{
+            StageNavigator.navigateToStage(response.data!.stages.toString());
+          }
         } else {
-          WidgetDesigns.consoleLog("hcbdbscsi22222222222222", "");
-          Get.offAllNamed(Routes.signUpScreen);
-          /*Get.offAllNamed(Routes.signUpScreen, arguments: {
-            'email': googleUser.email,
-          });*/
+          Get.offAllNamed(Routes.signUpScreen, arguments: {
+            'email': email,
+            'isVerified': response.data?.emailVerified ?? false
+          });
         }
       } else {
-        WidgetDesigns.consoleLog("hcbdbscsi3333333333333333", "");
         CustomSnackBar.show(
           message: response.message ?? "Something went wrong!",
-          useGradient: true,
+          tColor: AppTheme.white,
+          color: AppTheme.redText
         );
       }
 
