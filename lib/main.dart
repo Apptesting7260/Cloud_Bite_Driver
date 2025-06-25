@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 
 import 'app/core/app_exports.dart';
-import 'app/utils/network/network_service.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -15,6 +14,10 @@ void main() async {
   await Get.putAsync(() => NetworkService().init());
 
   await Get.putAsync(() => StorageServices().init());
+
+  PushNotificationService.firebaseNotification();
+  await Get.putAsync(() => SocketService().init());
+  Get.put(DriverRepository());
 
   SystemChrome.setPreferredOrientations(
       [

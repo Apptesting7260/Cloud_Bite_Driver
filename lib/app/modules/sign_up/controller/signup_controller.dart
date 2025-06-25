@@ -350,6 +350,11 @@ class SignUpController extends GetxController{
         LoadingOverlay().hideLoading();
         print(response.message);
         storageServices.saveStages(response.stage.toString());
+        storageServices.saveDriverID("${response.data?.id}");
+        storageServices.saveFirstName("${response.data?.firstName}");
+        storageServices.saveLastName("${response.data?.lastName}");
+        storageServices.saveAddress("${response.data?.address}");
+        storageServices.saveDOB("${response.data?.dateOfBirth}");
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         Get.toNamed(Routes.deliveryMethodScreen);
       }

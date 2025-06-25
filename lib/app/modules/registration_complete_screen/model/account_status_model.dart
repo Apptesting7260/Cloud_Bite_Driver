@@ -6,6 +6,7 @@ class AccountStatusModel {
   List<AccountStatusData>? data;
   bool? isComplete;
   String? stage;
+  String? statusText;
 
   AccountStatusModel(
       {this.status,
@@ -14,7 +15,8 @@ class AccountStatusModel {
         this.message,
         this.data,
         this.isComplete,
-        this.stage});
+        this.stage,
+      this.statusText});
 
   AccountStatusModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -29,6 +31,7 @@ class AccountStatusModel {
     }
     isComplete = json['isComplete'];
     stage = json['stage'].toString();
+    statusText = json['statusText'].toString();
   }
 
   Map<String, dynamic> toJson() {
@@ -42,6 +45,7 @@ class AccountStatusModel {
     }
     data['isComplete'] = this.isComplete;
     data['stage'] = this.stage;
+    data['statusText'] = this.statusText;
     return data;
   }
 }

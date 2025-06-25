@@ -14,6 +14,10 @@ class StorageServices extends GetxService{
     return await _prefs.setString(_tokenKey, token);
   }
 
+  Future<bool> saveDriverID(String driverId) async {
+    return await _prefs.setString('driverId', driverId);
+  }
+
   Future<bool> saveDeliveryID(String id) async {
     return await _prefs.setString('id', id);
   }
@@ -68,6 +72,11 @@ class StorageServices extends GetxService{
   String getDeliveryID() {
     WidgetDesigns.consoleLog(_prefs.getString('id').toString(), 'id');
     return _prefs.getString('id') ?? '';
+  }
+
+  String getDriverID() {
+    WidgetDesigns.consoleLog(_prefs.getString('driverId').toString(), 'driverId');
+    return _prefs.getString('driverId') ?? '';
   }
 
   String getEmail() {
@@ -130,9 +139,8 @@ class StorageServices extends GetxService{
     return _prefs.getString(_tokenKey) ?? '';
   }
 
-  returnFCMToken() async {
-    String? fcmToken = await PushNotificationService.getFcmTokenWithRetry();
-    return await fcmToken;
+  returnFCMToken()  {
+    return  PushNotificationService.fcmToken;
   }
 
   Future<bool> removeToken() async {

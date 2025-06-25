@@ -1,5 +1,4 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/modules/delivery_process/controller/home_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class HomeScreen extends StatelessWidget{
@@ -90,7 +89,7 @@ class HomeScreen extends StatelessWidget{
               right: 20,
               child: CustomAnimatedButton(
                 onTap: () {
-                  print("Go Online tapped");
+                  controller.toggleOnlineStatus();
                 },
                 text: 'Go Online',
               ),

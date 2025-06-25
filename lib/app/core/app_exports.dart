@@ -35,6 +35,7 @@ export 'package:cloud_bites_driver/app/storage/storageServices.dart';
 export 'package:cloud_bites_driver/app/constants/app_urls.dart';
 export 'package:cloud_bites_driver/app/utils/repository/repository.dart';
 
+
 /// ↓ ↓ ↓ ↓ ↓ Screen Exports ↓ ↓ ↓ ↓ ↓
 export 'package:cloud_bites_driver/app/modules/splash/screens/splash_screen.dart';
 export 'package:cloud_bites_driver/app/modules/onboarding/screens/onboarding_screen.dart';
@@ -138,6 +139,7 @@ export 'package:cloud_bites_driver/app/modules/welcome_screen/controller/welcome
 export 'package:cloud_bites_driver/app/modules/add_address/controller/location_controller.dart';
 export 'package:cloud_bites_driver/app/modules/registration_complete_screen/controller/registration_complete_controller.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/support_controller.dart';
+export 'package:cloud_bites_driver/app/modules/delivery_process/controller/home_controller.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Theme & Constants Exports ↓ ↓ ↓ ↓ ↓
@@ -168,6 +170,9 @@ export 'package:cloud_bites_driver/app/utils/response/api_status.dart';
 export 'package:cloud_bites_driver/app/utils/response/api_response.dart';
 export 'package:cloud_bites_driver/app/utils/custom_widgets/shimmer_box.dart';
 export 'package:cloud_bites_driver/app/utils/service/push_notification_service.dart';
+export 'package:cloud_bites_driver/app/utils/service/sockets/socket_services.dart';
+export 'package:cloud_bites_driver/app/utils/repository/driver_socket_repository/driver_repository.dart';
+export 'package:cloud_bites_driver/app/utils/network/network_service.dart';
 
 
 //// bindings /////

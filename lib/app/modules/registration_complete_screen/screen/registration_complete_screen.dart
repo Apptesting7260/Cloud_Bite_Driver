@@ -30,7 +30,6 @@ class RegistrationCompleteScreen extends StatelessWidget{
                   style: AppFontStyle.text_14_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansRegular),
                 ),
                 WidgetDesigns.hBox(30),
-                /*documentsOptions(),*/
                 Obx(() {
                   if (controller.isLoading.value) {
                     return Expanded(
@@ -50,7 +49,10 @@ class RegistrationCompleteScreen extends StatelessWidget{
                     onTap: (){
                       if(controller.accountStatusData.value.data?.isComplete == true){
                         controller.getHomeStage();
-                      }else{
+                      }else if(controller.accountStatusData.value.data?.statusText == "rejected"){
+                        CustomSnackBar.show(message:'Your Application Is Rejected' , color: AppTheme.primaryColor, tColor: AppTheme.white);
+                      }
+                      else{
                         CustomSnackBar.show(message:'Your application is Under Verification' , color: AppTheme.primaryColor, tColor: AppTheme.white);
                       }
                     },
@@ -140,7 +142,15 @@ class RegistrationCompleteScreen extends StatelessWidget{
                 ],
               ),
               Spacer(),
-              Icon(Icons.arrow_forward_ios, size: 14, color: AppTheme.grey)
+              GestureDetector(
+                onTap: () {
+                  statusText == "Rejected" ? Get.toNamed(Routes.documentVerificationScreen) : '';
+                },
+                  child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: 14,
+                      color: AppTheme.grey)
+              )
             ],
           ),
         )

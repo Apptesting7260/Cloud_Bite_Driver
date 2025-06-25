@@ -95,7 +95,8 @@ class DocumentVerificationScreen extends StatelessWidget{
               return pendingDocumentsNames(
                 docData?.name.toString() ?? '',
                 doc["image"],
-                docData?.isComleted ?? false , () => Get.toNamed(doc["route"]),
+                docData?.isComleted ?? false ,
+                    () => Get.toNamed(doc["route"]),
               );
             },
           ),

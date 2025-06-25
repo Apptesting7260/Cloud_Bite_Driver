@@ -48,6 +48,11 @@ class WelcomeController extends GetxController{
       String email = googleUser.email;
       if (response.status == true) {
         storageServices.saveToken("${response.data?.loginToken}");
+        storageServices.saveDriverID("${response.data?.id}");
+        storageServices.saveFirstName("${response.data?.firstName}");
+        storageServices.saveLastName("${response.data?.lastName}");
+        storageServices.saveAddress("${response.data?.address}");
+        storageServices.saveDOB("${response.data?.dateOfBirth}");
         if (response.data != null) {
           if(response.data!.emailVerified == true) {
             storageServices.saveEmail(response.data?.email ?? '');
