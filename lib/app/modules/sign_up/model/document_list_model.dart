@@ -46,15 +46,15 @@ class DocumentVerificationData {
   String? id;
   String? name;
   bool? status;
-  bool? isComleted;
+  bool? isCompleted;
 
-  DocumentVerificationData({this.id, this.name, this.status, this.isComleted});
+  DocumentVerificationData({this.id, this.name, this.status, this.isCompleted});
 
   DocumentVerificationData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     name = json['name'].toString();
     status = json['status'];
-    isComleted = json['isComleted'];
+    isCompleted = json['isCompleted'];
   }
 
   Map<String, dynamic> toJson() {
@@ -62,7 +62,7 @@ class DocumentVerificationData {
     data['id'] = this.id;
     data['name'] = this.name;
     data['status'] = this.status;
-    data['isComleted'] = this.isComleted;
+    data['isComleted'] = this.isCompleted;
     return data;
   }
 }

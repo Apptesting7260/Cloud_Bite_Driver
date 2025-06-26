@@ -51,10 +51,11 @@ class DocumentsScreen extends StatelessWidget{
             itemBuilder: (context, index) {
               final doc = pendingDocs[index];
               final docData = controller.documentListData.value.data?.data?[index];
+              final allCompletedData = controller.documentListData.value.data;
               return pendingDocumentsNames(
                 docData?.name.toString() ?? '',
                 doc["image"],
-                docData?.isComleted ?? false);
+                  allCompletedData?.allComplete ?? false);
             },
           ),
         ],

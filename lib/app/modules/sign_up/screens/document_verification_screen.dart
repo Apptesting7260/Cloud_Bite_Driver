@@ -92,10 +92,11 @@ class DocumentVerificationScreen extends StatelessWidget{
             itemBuilder: (context, index) {
               final doc = pendingDocs[index];
               final docData = controller.documentListData.value.data?.data?[index];
+              final allCompleteData = controller.documentListData.value.data?.allComplete;
               return pendingDocumentsNames(
                 docData?.name.toString() ?? '',
                 doc["image"],
-                docData?.isComleted ?? false ,
+                docData?.isCompleted ?? false ,
                     () => Get.toNamed(doc["route"]),
               );
             },
