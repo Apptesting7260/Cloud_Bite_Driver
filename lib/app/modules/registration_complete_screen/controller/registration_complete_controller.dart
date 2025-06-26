@@ -7,6 +7,7 @@ class RegistrationCompleteController extends GetxController{
   @override
   void onInit() {
     getAccountStatusData();
+    getHomeStage();
     super.onInit();
   }
 

@@ -1,3 +1,4 @@
+import 'package:cloud_bites_driver/app/modules/delivery_process/controller/bottom_sheet_controller.dart';
 import 'package:cloud_bites_driver/app/storage/storageServices.dart';
 import 'package:cloud_bites_driver/app/themes/app_theme.dart';
 import 'package:cloud_bites_driver/app/utils/custom_widgets/custom_snakbar.dart';
@@ -6,6 +7,7 @@ import 'package:cloud_bites_driver/app/utils/service/sockets/socket_services.dar
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_instance/get_instance.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
+import 'package:get/get_rx/src/rx_workers/rx_workers.dart';
 import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -19,12 +21,17 @@ class HomeController extends GetxController{
   final Location location = Location();
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageServices => _storageService;
+  final RxBool isSocketConnecting = false.obs;
+  final RxString connectionStatus = 'Disconnected'.obs;
+
+  final BottomSheetController bottomSheetController = Get.put(BottomSheetController());
 
   @override
   void onInit() {
     super.onInit();
     _getUserLocation();
     _initSocketListeners();
+    _checkSocketConnection();
   }
 
   Future<void> _getUserLocation() async {
@@ -52,42 +59,76 @@ class HomeController extends GetxController{
     );
   }
 
+  void _checkSocketConnection() {
+    final socketService = Get.find<SocketService>();
+
+    // Bind to socket connection states
+    isSocketConnecting.bindStream(socketService.isConnecting.stream);
+
+    ever(socketService.isConnected, (connected) {
+      connectionStatus.value = connected ? 'Connected' : 'Disconnected';
+
+      if (!connected) {
+        CustomSnackBar.show(
+          message: 'Connection lost. Reconnecting...',
+          color: AppTheme.redText,
+          tColor: AppTheme.white,
+        );
+      } else {
+        CustomSnackBar.show(
+          message: 'Connected to server',
+          color: AppTheme.primaryColor,
+          tColor: AppTheme.white,
+        );
+      }
+    });
+  }
+
   // Socket Code
   void _initSocketListeners() {
     final socketService = Get.find<SocketService>();
 
-    socketService.socket.on('driverOnlineConfirmed', (data) {
-      // This event confirms the driver is now online in the system
+    socketService.socket.on('goOnline', (data) {
       isOnline.value = true;
-      CustomSnackBar.show(message: 'You are now online and available for orders', color: AppTheme.primaryColor, tColor: AppTheme.white);
+      print('✅ Received driverOnlineConfirmed, showing bottom sheet');
+      bottomSheetController.showLookingForOrders();
     });
 
-    socketService.socket.on('driverOfflineConfirmed', (data) {
-      // This event confirms the driver is now offline in the system
+    socketService.socket.on('goOffline', (data) {
       isOnline.value = false;
-      CustomSnackBar.show(message: 'You are now online and available for orders', color: AppTheme.primaryColor, tColor: AppTheme.white);
+      print('✅ Received driverOfflineConfirmed, hiding bottom sheet');
+      bottomSheetController.hideAllSheets();
+      CustomSnackBar.show(
+        message: 'You are now offline',
+        color: AppTheme.primaryColor,
+        tColor: AppTheme.white,
+      );
     });
   }
 
-  void toggleOnlineStatus() async {
-    if (isOnline.value) {
-      // Going offline
-      driverRepo.goOffline();
-      isOnline.value = false;
-    } else {
-      // Going online - get current location first
-      final currentLocation = await location.getLocation();
-      driverRepo.goOnline(
-        firstName: storageServices.getFirstName(),
-        lastName: storageServices.getLastName(),
-        fcmToken: storageServices.returnFCMToken(),
-        latitude: currentLocation.latitude!,
-        longitude: currentLocation.longitude!,
-        address: storageServices.getAddress(),
-      );
-      isOnline.value = true;
+
+  Future<void> toggleOnlineStatus() async {
+    try {
+      if (isOnline.value) {
+        // Emit offline request
+        await driverRepo.goOffline();
+        // UI will update when socket confirms via `driverOfflineConfirmed`
+      } else {
+        final currentLocation = await location.getLocation();
+        await driverRepo.goOnline(
+          firstName: storageServices.getFirstName(),
+          lastName: storageServices.getLastName(),
+          fcmToken: storageServices.returnFCMToken(),
+          latitude: currentLocation.latitude!,
+          longitude: currentLocation.longitude!,
+          address: storageServices.getAddress(),
+        );
+      }
+    } catch (e) {
+      print(e);
     }
   }
+
 
   @override
   void onClose() {
