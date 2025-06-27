@@ -77,4 +77,33 @@ class RegistrationCompleteController extends GetxController{
       CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
     }
   }
+
+  void showRejectionDialog(String remarks) {
+    Get.dialog(
+      AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        title: Text(
+          "Rejection Reason",
+          style: AppFontStyle.text_18_500(AppTheme.black),
+        ),
+        content: Text(
+          remarks,
+          style: AppFontStyle.text_16_400(AppTheme.black.withOpacity(0.7)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(
+              "OK",
+              style: AppFontStyle.text_16_500(AppTheme.primaryColor),
+            ),
+          ),
+        ],
+      ),
+      barrierDismissible: true,
+    );
+  }
+
 }

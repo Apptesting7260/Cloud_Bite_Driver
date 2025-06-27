@@ -78,14 +78,29 @@ class RegistrationCompleteScreen extends StatelessWidget{
             separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
             itemBuilder: (context, index) {
               final completeDocs = controller.accountStatusData.value.data?.data?[index];
+              String? remarks;
+              if (completeDocs?.name != null) {
+                remarks = _getDocumentRemarks(completeDocs!.name!);
+              }
               return documentNames(
-                controller.accountStatusData.value.data?.data?[index].name ?? "", "${completeDocs?.status}"  ,getStatusColor("${completeDocs?.status}"));
+                controller.accountStatusData.value.data?.data?[index].name ?? "", "${completeDocs?.status}"  ,getStatusColor("${completeDocs?.status}"),remarks);
             },
           );
         }),
 
       ],
     );
+  }
+
+  String? _getDocumentRemarks(String documentName) {
+    if (controller.accountStatusData.value.data?.allRemarks != null) {
+      if (documentName.toLowerCase().contains('account')) {
+        return controller.accountStatusData.value.data?.allRemarks?.accountRejectRemark;
+      } else if (documentName.toLowerCase().contains('personal')) {
+        return controller.accountStatusData.value.data?.allRemarks?.personalRejectRemark;
+      }
+    }
+    return null;
   }
 
   String getStatusMessage(String status) {
@@ -115,7 +130,7 @@ class RegistrationCompleteScreen extends StatelessWidget{
   }
 
 
-  Widget documentNames(String title, String statusText, Color color) {
+  Widget documentNames(String title, String statusText, Color color, String? remarks) {
     return Container(
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15.0),
@@ -142,6 +157,18 @@ class RegistrationCompleteScreen extends StatelessWidget{
                 ],
               ),
               Spacer(),
+              if (statusText == "Rejected" && remarks != null && remarks.isNotEmpty)
+                GestureDetector(
+                  onTap: () {
+                    controller.showRejectionDialog(remarks);
+                  },
+                  child: const Icon(
+                    Icons.info_outline,
+                    size: 20,
+                    color: AppTheme.red,
+                  ),
+                ),
+              WidgetDesigns.wBox(10),
               GestureDetector(
                 onTap: () {
                   statusText == "Rejected" ? Get.toNamed(Routes.documentVerificationScreen) : '';
