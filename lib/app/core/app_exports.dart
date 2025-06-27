@@ -105,6 +105,8 @@ export 'package:cloud_bites_driver/app/modules/registration_complete_screen/mode
 export 'package:cloud_bites_driver/app/modules/my_profile/model/logout_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/support_model.dart';
 export 'package:cloud_bites_driver/app/modules/welcome_screen/model/social_login_model.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/model/notification_set_model.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/model/set_notification_status_model.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓
@@ -140,6 +142,7 @@ export 'package:cloud_bites_driver/app/modules/add_address/controller/location_c
 export 'package:cloud_bites_driver/app/modules/registration_complete_screen/controller/registration_complete_controller.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/support_controller.dart';
 export 'package:cloud_bites_driver/app/modules/delivery_process/controller/home_controller.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/notification_set_controller.dart';
 
 
 /// ↓ ↓ ↓ ↓ ↓ Theme & Constants Exports ↓ ↓ ↓ ↓ ↓

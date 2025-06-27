@@ -13,7 +13,7 @@ class SettingsScreen extends StatelessWidget{
           child: Column(
             children: [
               WidgetDesigns.hBox(20),
-              settingsOption('',ImageConstants.notificationIcon, 'Notification'),
+              settingsOption(Routes.notificationSet,ImageConstants.notificationIcon, 'Notification'),
               WidgetDesigns.hBox(20),
               settingsOption(Routes.changePasswordProcessScreen,ImageConstants.passwordIcon, 'Change Password'),
             ],

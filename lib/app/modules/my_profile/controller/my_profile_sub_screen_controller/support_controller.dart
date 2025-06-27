@@ -13,9 +13,6 @@ class SupportController extends GetxController{
   }
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController messageController = TextEditingController();
 
 
@@ -41,18 +38,12 @@ class SupportController extends GetxController{
     try {
       final data = {
         "message": messageController.text,
-        "name": nameController.text,
-        "email": emailController.text,
-        "phone": phoneNumberController.text,
       };
 
       final response = await _repository.contactSupportAPI(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         updateValidation(false);
-        nameController.clear();
-        emailController.clear();
-        phoneNumberController.clear();
         messageController.clear();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }

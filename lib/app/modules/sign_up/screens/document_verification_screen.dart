@@ -3,6 +3,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class DocumentVerificationScreen extends StatelessWidget{
 
   final DocumentVerificationController controller = Get.put(DocumentVerificationController());
+  final RegistrationCompleteController registrationController = Get.put(RegistrationCompleteController());
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +50,15 @@ class DocumentVerificationScreen extends StatelessWidget{
                         padding: const EdgeInsets.all(20.0),
                         child: Obx(() {
                           if (controller.isLoading.value) {
-                            return Expanded(
-                              child: ListView.separated(
-                                physics: NeverScrollableScrollPhysics(),
-                                itemCount: controller.documentListData.value.data?.data?.length ?? 0,
-                                shrinkWrap: true,
-                                separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
-                                itemBuilder: (context, index) => buildShimmerOption(),
-                              ),
+                            /*return Expanded(
+                              child:
+                            );*/
+                            ListView.separated(
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: controller.documentListData.value.data?.data?.length ?? 0,
+                              shrinkWrap: true,
+                              separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+                              itemBuilder: (context, index) => buildShimmerOption(),
                             );
                           }
                           // Show actual data when loaded
@@ -106,6 +108,7 @@ class DocumentVerificationScreen extends StatelessWidget{
               onTap: () {
                 if(controller.documentListData.value.data?.allComplete == true){
                   Get.toNamed(Routes.registrationCompleteScreen);
+                  registrationController.getAccountStatusData();
                 }else{
                   CustomSnackBar.show(message: "Please upload all pending documents" , color: AppTheme.redText, tColor: AppTheme.white);
                 }

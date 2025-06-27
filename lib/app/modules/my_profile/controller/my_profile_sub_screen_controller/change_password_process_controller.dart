@@ -30,12 +30,12 @@ class ChangePasswordProcessController extends GetxController{
   }
 
   var oldPasswordError = ''.obs;
-  var newPasswordError = ''.obs;
-
   updateOldPasswordError(String value) {
     oldPasswordError.value = value;
     update();
   }
+
+  var newPasswordError = ''.obs;
   updateNewPasswordError(String value) {
     newPasswordError.value = value;
     update();

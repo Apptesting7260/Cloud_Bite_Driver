@@ -107,58 +107,6 @@ class _SupportScreen extends State<SupportScreen> {
             children: [
               WidgetDesigns.hBox(50),
               GetBuilder<SupportController>(
-                  builder: (context) {
-                    return CustomTextFormField(
-                      controller: contactSupportController.nameController,
-                      hintText: "Name",
-                      validator: (value){
-                        if(value == null || value.isEmpty || value == ''){
-                          return contactSupportController.isValidation ? "Name is required!" : null;
-                        }
-                        return null;
-                      },
-                    );
-                  }
-              ),
-              WidgetDesigns.hBox(20),
-              GetBuilder<SupportController>(
-                  builder: (context) {
-                    return CustomTextFormField(
-                      controller: contactSupportController.emailController,
-                      hintText: "Email Address",
-                      validator: (value) {
-                        if(value == null || value.isEmpty || value == ''){
-                          return contactSupportController.isValidation ?  "Email is required" : null ;
-                        }
-                        if(!FormValidators.isValidEmail(value)){
-                          return contactSupportController.isValidation ? "Please enter valid email" : null ;
-                        }
-                        return null;
-                      },
-                    );
-                  }
-              ),
-              WidgetDesigns.hBox(20),
-              GetBuilder<SupportController>(
-                  builder: (context) {
-                    return CustomTextFormField(
-                      controller: contactSupportController.phoneNumberController,
-                      hintText: "Phone Number",
-                      textInputType: TextInputType.number,
-                      validator: (value){
-                        if(value == null || value.isEmpty || value == ''){
-                          return contactSupportController.isValidation ? "Phone number is required!" : null;
-                        }
-                        return null;
-                      },
-                      onTapOutside: (value){
-                        FocusManager.instance.primaryFocus!.unfocus();
-                      },
-                    );
-                  }
-              ),
-              WidgetDesigns.hBox(20),
-              GetBuilder<SupportController>(
                   builder: (context,) {
                     return CustomTextFormField(
                       controller: contactSupportController.messageController,

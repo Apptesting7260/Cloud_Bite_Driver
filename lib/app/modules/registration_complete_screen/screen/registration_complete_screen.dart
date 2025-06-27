@@ -49,7 +49,7 @@ class RegistrationCompleteScreen extends StatelessWidget{
                     onTap: (){
                       if(controller.accountStatusData.value.data?.isComplete == true){
                         controller.getHomeStage();
-                      }else if(controller.accountStatusData.value.data?.statusText == "rejected"){
+                      }else if(controller.accountStatusData.value.data?.statusText == "Rejected"){
                         CustomSnackBar.show(message:'Your Application Is Rejected' , color: AppTheme.primaryColor, tColor: AppTheme.white);
                       }
                       else{

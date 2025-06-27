@@ -92,6 +92,7 @@ class EditPerosnalDetails extends StatelessWidget{
                       hintText: "First Name",
                       onChanged: (value) {
                         controller.updateFirstNameError('');
+                        controller.formKey.currentState?.validate();
                       },
                       validator: (value) {
                         if(controller.firstNameController.text.isEmpty){
@@ -116,6 +117,7 @@ class EditPerosnalDetails extends StatelessWidget{
                       hintText: "Last Name",
                       onChanged: (value) {
                         controller.updateLastNameError('');
+                        controller.formKey.currentState?.validate();
                       },
                       validator: (value) {
                         if(controller.lastNameController.text.isEmpty){
@@ -140,6 +142,7 @@ class EditPerosnalDetails extends StatelessWidget{
                       hintText: "Date Of Birth",
                       onChanged: (value) {
                         controller.updateDOBError('');
+                        controller.formKey.currentState?.validate();
                       },
                       validator: (value) {
                         if(controller.dobController.text.isEmpty){
@@ -191,6 +194,7 @@ class EditPerosnalDetails extends StatelessWidget{
                       hintText: "Address",
                       onChanged: (value) {
                         controller.updateAddressError('');
+                        controller.formKey.currentState?.validate();
                       },
                       validator: (value){
                         if(controller.locationController.text.isEmpty){
@@ -202,7 +206,7 @@ class EditPerosnalDetails extends StatelessWidget{
                         }
                         return null;
                       },
-                      enabled: false,
+                      //enabled: false,
                     );
                   }
               ),
@@ -225,7 +229,7 @@ class EditPerosnalDetails extends StatelessWidget{
           ),
           CustomAnimatedButton(
               onTap: () {
-                if(controller.formKey.currentState!.validate()){
+                if (controller.formKey.currentState!.validate()) {
                   controller.updateDriverProfileAPI();
                 }
               },

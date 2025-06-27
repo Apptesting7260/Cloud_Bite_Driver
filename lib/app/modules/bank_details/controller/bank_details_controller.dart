@@ -9,29 +9,32 @@ class BankDetailController extends GetxController{
 
   final DocumentVerificationController controller = Get.put(DocumentVerificationController());
 
-  var bankNameError = ''.obs;
-  var accountHolderNameError = ''.obs;
-  var acNumberError = ''.obs;
-  var reTypeACError = ''.obs;
-  var ifscError = ''.obs;
 
+  var bankNameError = ''.obs;
   updateBankNameError(String value) {
     bankNameError.value = value;
     update();
   }
+
+  var accountHolderNameError = ''.obs;
   updateAcHolderNameError(String value) {
     accountHolderNameError.value = value;
     update();
   }
+
+  var acNumberError = ''.obs;
   updateACNumberError(String value) {
     acNumberError.value = value;
     update();
   }
+
+  var reTypeACError = ''.obs;
   updateReTypeError(String value) {
     reTypeACError.value = value;
     update();
   }
 
+  var ifscError = ''.obs;
   updateIfscError(String value) {
     ifscError.value = value;
     update();
@@ -52,11 +55,13 @@ class BankDetailController extends GetxController{
   final Repository _repository = Repository();
 
   Future<void> bankDetailsUploadAPI() async {
+
     updateBankNameError('');
     updateAcHolderNameError('');
     updateACNumberError('');
     updateReTypeError('');
     updateIfscError('');
+
     LoadingOverlay().showLoading();
     try{
 
@@ -77,14 +82,29 @@ class BankDetailController extends GetxController{
         Get.toNamed(Routes.documentVerificationScreen);
         controller.getDocumentListData();
       }
-      else if(response.status == false && response.type == 'driver-account'){
+      else if(response.status == false && response.type == 'bank_name'){
         LoadingOverlay().hideLoading();
         updateBankNameError(response.message.toString());
+        WidgetDesigns.consoleLog(response.message.toString(), "Error when Uploading Bank Details");
+      }
+      else if(response.status == false && response.type == 'account_holder_name'){
+        LoadingOverlay().hideLoading();
         updateAcHolderNameError(response.message.toString());
+        WidgetDesigns.consoleLog(response.message.toString(), "Error when Uploading Bank Details");
+      }
+      else if(response.status == false && response.type == 'account_number'){
+        LoadingOverlay().hideLoading();
         updateACNumberError(response.message.toString());
+        WidgetDesigns.consoleLog(response.message.toString(), "Error when Uploading Bank Details");
+      }
+      else if(response.status == false && response.type == 'retype_account_number'){
+        LoadingOverlay().hideLoading();
         updateReTypeError(response.message.toString());
+        WidgetDesigns.consoleLog(response.message.toString(), "Error when Uploading Bank Details");
+      }
+      else if(response.status == false && response.type == 'ifsc_code'){
+        LoadingOverlay().hideLoading();
         updateIfscError(response.message.toString());
-        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         WidgetDesigns.consoleLog(response.message.toString(), "Error when Uploading Bank Details");
       }
       else {

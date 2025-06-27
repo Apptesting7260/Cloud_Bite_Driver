@@ -10,11 +10,6 @@ class VehicleDetailController extends GetxController{
 
   final DocumentVerificationController controller = Get.put(DocumentVerificationController());
 
-  var vehicleNameError = ''.obs;
-  var brandNameError = ''.obs;
-  var registrationNumError = ''.obs;
-  var yearOfManufactureError = ''.obs;
-
   // Images
   RxBool isRCFrontImage = false.obs;
   RxBool isRCBackImage = false.obs;
@@ -24,18 +19,25 @@ class VehicleDetailController extends GetxController{
 
   RxList<String> imagesArray = RxList<String>([]);
 
+  var vehicleNameError = ''.obs;
   updateVehicleNameError(String value) {
     vehicleNameError.value = value;
     update();
   }
+
+  var brandNameError = ''.obs;
   updateBrandNameError(String value) {
     brandNameError.value = value;
     update();
   }
+
+  var registrationNumError = ''.obs;
   updateRegistrationNameError(String value) {
     registrationNumError.value = value;
     update();
   }
+
+  var yearOfManufactureError = ''.obs;
   updateManufactureYearError(String value) {
     yearOfManufactureError.value = value;
     update();
@@ -59,15 +61,6 @@ class VehicleDetailController extends GetxController{
   final ImagePicker _picker = ImagePicker();
   Rx<File?> frontImage = Rx<File?>(null);
   Rx<File?> backImage = Rx<File?>(null);
-
-  /*Future<void> pickImage(Rx<File?> image ,{bool fillImageArray = false}) async {
-    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-    if (pickedImage != null) {
-      XFile? pickedFile = pickedImage;
-      cropImage(pickedFile, image, fillImageArray: fillImageArray);
-      update();
-    }
-  }*/
 
   Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
     final source = await Get.bottomSheet<ImageSource>(
@@ -150,6 +143,11 @@ class VehicleDetailController extends GetxController{
   }
 
   Future<void> vehicleDetailsUploadAPI() async {
+    updateVehicleNameError('');
+    updateBrandNameError('');
+    updateRegistrationNameError('');
+    updateManufactureYearError('');
+
     LoadingOverlay().showLoading();
      try{
 
@@ -182,8 +180,27 @@ class VehicleDetailController extends GetxController{
         Get.toNamed(Routes.documentVerificationScreen);
         controller.getDocumentListData();
       }
-      else if(response.status == false && response.type == 'vehicle-details'){
+      else if(response.status == false && response.type == 'vehicle_name'){
         LoadingOverlay().hideLoading();
+        updateVehicleNameError(response.message.toString());
+        print(storageServices.getToken());
+        print(response.message);
+      }
+      else if(response.status == false && response.type == 'brand'){
+        LoadingOverlay().hideLoading();
+        updateBrandNameError(response.message.toString());
+        print(storageServices.getToken());
+        print(response.message);
+      }
+      else if(response.status == false && response.type == 'year_of_manufacture'){
+        LoadingOverlay().hideLoading();
+        updateManufactureYearError(response.message.toString());
+        print(storageServices.getToken());
+        print(response.message);
+      }
+      else if(response.status == false && response.type == 'registration_number'){
+        LoadingOverlay().hideLoading();
+        updateManufactureYearError(response.message.toString());
         print(storageServices.getToken());
         print(response.message);
       }

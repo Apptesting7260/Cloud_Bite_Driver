@@ -218,6 +218,20 @@ class Repository {
     return SocialLoginModel.fromJson(response);
   }
 
+  // Get Notification Set Data
+  Future<GetNotificationSetAPI> getNotificationSetData() async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi({}, AppUrls.notificationSetAPI, "Bearer $token");
+    return GetNotificationSetAPI.fromJson(response);
+  }
+
+  // Update notification settings
+  Future<SetNotificationSetAPI> updateNotificationSetData(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.notificationSetAPI, "Bearer $token");
+    return SetNotificationSetAPI.fromJson(response);
+  }
+
   Future<LocationResponse> addNewAddressApi(data) async {
     print(data);
     var response = await _apiService.postApi(data, AppUrls.addNewAddressUrl, storageService.getToken());

@@ -19,15 +19,6 @@ class SignUpController extends GetxController{
   TextEditingController locationController = TextEditingController();
   TextEditingController otpController = TextEditingController();
 
-  var phoneError="".obs;
-  var firstNameError="".obs;
-  var lastNameError="".obs;
-  var emailError="".obs;
-  var passwordError="".obs;
-  var otpError="".obs;
-  var dobError="".obs;
-  var addressError="".obs;
-
   RxString verifiedPhone = ''.obs;
   RxBool isPhoneVerified = false.obs;
 
@@ -43,42 +34,49 @@ class SignUpController extends GetxController{
     countryString.value = value;
   }
 
+  var firstNameError= "".obs;
   updateFirstNameError(String value) {
     firstNameError.value = value;
     update();
   }
 
+  var lastNameError="".obs;
   updateLastNameError(String value) {
     lastNameError.value = value;
     update();
   }
 
+  var emailError="".obs;
   updateEmailError(String value) {
     emailError.value = value;
     update();
   }
 
+  var phoneError="".obs;
   updatePhoneError(String value) {
     phoneError.value = value;
     update();
   }
 
-
+  var otpError="".obs;
   updateOTPError(String value) {
     otpError.value = value;
     update();
   }
 
+  var dobError="".obs;
   updateDOBError(String value) {
     dobError.value = value;
     update();
   }
 
+  var passwordError="".obs;
   updatePasswordError(String value) {
     passwordError.value = value;
     update();
   }
 
+  var addressError="".obs;
   updateAddressError(String value) {
     addressError.value = value;
     update();
@@ -319,6 +317,15 @@ class SignUpController extends GetxController{
   // Register API
   Future<void> registerDriverAPI() async {
 
+    updateFirstNameError('');
+    updateLastNameError('');
+    updateEmailError('');
+    updatePhoneError('');
+    updateDOBError('');
+    updateOTPError('');
+    updateAddressError('');
+    updatePasswordError('');
+
     if (isPhoneVerified.value==false) {
       phoneError.value = "Please verify phone no.";
       update();
@@ -358,9 +365,39 @@ class SignUpController extends GetxController{
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         Get.toNamed(Routes.deliveryMethodScreen);
       }
-      else if(response.status == false && response.type == 'sign-up'){
+      else if(response.status == false && response.type == 'first_name'){
         LoadingOverlay().hideLoading();
-        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        updateFirstNameError(response.message.toString());
+        print(response.message);
+      }
+      else if(response.status == false && response.type == 'last_name'){
+        LoadingOverlay().hideLoading();
+        updateLastNameError(response.message.toString());
+        print(response.message);
+      }
+      else if(response.status == false && response.type == 'dob'){
+        LoadingOverlay().hideLoading();
+        updateDOBError(response.message.toString());
+        print(response.message);
+      }
+      else if(response.status == false && response.type == 'password'){
+        LoadingOverlay().hideLoading();
+        updatePasswordError(response.message.toString());
+        print(response.message);
+      }
+      else if(response.status == false && response.type == 'address'){
+        LoadingOverlay().hideLoading();
+        updateAddressError(response.message.toString());
+        print(response.message);
+      }
+      else if(response.status == false && response.type == 'phone'){
+        LoadingOverlay().hideLoading();
+        updatePhoneError(response.message.toString());
+        print(response.message);
+      }
+      else if(response.status == false && response.type == 'email'){
+        LoadingOverlay().hideLoading();
+        updateEmailError(response.message.toString());
         print(response.message);
       }
       else {

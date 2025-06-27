@@ -247,6 +247,15 @@ class EditPersonalDetailsController extends GetxController {
     updateLastNameError('');
     updateDOBError('');
     updateAddressError('');
+
+    if (locationAddress == null && locationController.text.isNotEmpty) {
+      locationAddress = {
+        'lat': _latitude ?? 0.0,
+        'lng': _longitude ?? 0.0,
+        'address': locationController.text
+      };
+    }
+
     LoadingOverlay().showLoading();
     try{
       Map<String, dynamic> files = {};
@@ -259,8 +268,8 @@ class EditPersonalDetailsController extends GetxController {
         "first_name": firstNameController.text,
         "last_name": lastNameController.text,
         "dob": dobController.text,
-        "latitude": locationAddress!['lat'].toString(),
-        "longitude": locationAddress!['lng'].toString(),
+        "latitude": locationAddress!['lat']?.toString() ?? '0.0',
+        "longitude": locationAddress!['lng']?.toString() ?? '0.0',
         "address": locationController.text
       },
           files
