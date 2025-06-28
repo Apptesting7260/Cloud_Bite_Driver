@@ -82,6 +82,10 @@ class RegistrationCompleteScreen extends StatelessWidget{
               if (completeDocs?.name != null) {
                 remarks = _getDocumentRemarks(completeDocs!.name!);
               }
+              /*if (completeDocs?.status == "Rejected") {
+                remarks = controller.accountStatusData.value.data?.allRemarks?.accountRejectRemark ??
+                    controller.accountStatusData.value.data?.allRemarks?.personalRejectRemark;
+              }*/
               return documentNames(
                 controller.accountStatusData.value.data?.data?[index].name ?? "", "${completeDocs?.status}"  ,getStatusColor("${completeDocs?.status}"),remarks);
             },
