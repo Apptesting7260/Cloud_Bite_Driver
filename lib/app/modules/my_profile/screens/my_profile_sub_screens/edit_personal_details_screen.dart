@@ -3,6 +3,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class EditPerosnalDetails extends StatelessWidget{
 
   final EditPersonalDetailsController controller = Get.put(EditPersonalDetailsController());
+  final PersonalDetailsController detailController = Get.put(PersonalDetailsController());
   final String imageBaseUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
 
   final StorageServices _storageService = Get.find<StorageServices>();
@@ -176,9 +177,10 @@ class EditPerosnalDetails extends StatelessWidget{
                                 }
                             );
                             if (pickedDate != null) {
-                              String formattedDate = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                              String formattedDate = "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
                               controller.dobController.text = formattedDate;
                               controller.dobError.value = '';
+                              print("New DOB: ${controller.dobController.text}");
                             }
                           },
                           child: Icon(Icons.calendar_month, color: AppTheme.primaryColor, size: 20)

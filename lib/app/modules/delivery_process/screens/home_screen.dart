@@ -205,58 +205,12 @@ class HomeScreen extends StatelessWidget{
             WidgetDesigns.hBox(24),
 
             // Go Offline Button
-            Positioned(
-              bottom: 20,
-              left: 20,
-              right: 20,
-              child: CustomAnimatedButton(
-                onTap: () {
-                  controller.toggleOnlineStatus();
-                },
-                text: "Go Offline",
-              ),
+            CustomAnimatedButton(
+              onTap: () {
+                controller.toggleOnlineStatus();
+              },
+              text: "Go Offline",
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-
-  Widget _buildNewOrderSheet(Map<String, dynamic> order) {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      child: Container(
-        padding: EdgeInsets.all(16),
-        color: Colors.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text("New Order"),
-            Text("Pickup: ${order['pickup']}"),
-            Text("Drop: ${order['drop']}"),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // send socket emit to accept
-                    //controller.driverRepo.acceptOrder(order['orderId']);
-                    controller.bottomSheetController.showOrderDetails(order);
-                  },
-                  child: Text("Accept"),
-                ),
-                SizedBox(width: 8),
-                OutlinedButton(
-                  onPressed: () {
-                    //controller.driverRepo.rejectOrder(order['orderId']);
-                    controller.bottomSheetController.showLookingForOrders();
-                  },
-                  child: Text("Reject"),
-                ),
-              ],
-            )
           ],
         ),
       ),

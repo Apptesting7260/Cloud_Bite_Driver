@@ -153,9 +153,10 @@ class SignUpController extends GetxController{
         LoadingOverlay().hideLoading();
         customOtpDialog("${countryString.value} ${phoneController.text}", Get.context, "phone");
         print(response.message);
-        if (storageServices.getToken().isEmpty) {
+       /* if (storageServices.getToken().isEmpty) {
           storageServices.saveToken(response.token!);
-        }
+        }*/
+        storageServices.saveToken(response.token!);
         storageServices.saveMobile(phoneController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
@@ -237,9 +238,10 @@ class SignUpController extends GetxController{
         LoadingOverlay().hideLoading();
         customOtpDialog("${emailController.text}", Get.context, "email");
         print(response.message);
-        if (storageServices.getToken().isEmpty) {
+        /*if (storageServices.getToken().isEmpty) {
           storageServices.saveToken(response.token!);
-        }
+        }*/
+        storageServices.saveToken(response.token!);
         storageServices.saveEmailOTP(response.otp!);
         storageServices.saveEmail(emailController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);

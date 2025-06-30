@@ -152,16 +152,6 @@ class EditPersonalDetailsController extends GetxController {
   }
 
 
-  /*Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
-    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      XFile? pickedFile = pickedImage;
-      cropImage(pickedFile, image, fillImageArray: fillImageArray);
-      update();
-    }
-  }*/
-
   Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
     final source = await Get.bottomSheet<ImageSource>(
       Container(

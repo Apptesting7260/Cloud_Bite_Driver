@@ -156,4 +156,40 @@ class DriverData {
     data['address'] = this.address;
     return data;
   }
+
+
+  Map<String, String> forAPiSubmit() {
+    final Map<String, String> data = new Map<String, String>();
+    // data['id'] = this.id;
+    data['first_name'] = firstName!;
+    data['last_name'] = lastName!;
+    data['email'] = email!;
+    data['phone'] = phone!;
+    // data['country_code'] = this.countryCode;
+    // data['password'] = this.password;
+    // data['login_token'] = this.loginToken;
+    // data['otp'] = this.otp;
+    /*data['otp_verified'] = this.otpVerified;
+    data['otp_expires_at'] = this.otpExpiresAt;
+    data['email_otp'] = this.emailOtp;
+    data['email_verified'] = this.emailVerified;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;*/
+    /*data['stages'] = this.stages;
+    data['location'] = this.location;
+    data['fcm_token'] = this.fcmToken;*/
+    data['date_of_birth'] = dateOfBirth!;
+   /* data['deliverymethod'] = this.deliverymethod;
+    data['profile_photo'] = this.profilePhoto;
+    data['front_identity'] = this.frontIdentity;
+    data['back_identity'] = this.backIdentity;
+    data['front_license'] = this.frontLicense;
+    data['back_license'] = this.backLicense;
+    data['account_status'] = this.accountStatus;
+    data['personal_docs_status'] = this.personalDocsStatus;
+    data['vehicle_status'] = this.vehicleStatus;
+    data['profile_complete'] = this.profileComplete;*/
+    data['address'] = address!;
+    return data;
+  }
 }

@@ -27,13 +27,6 @@ class PersonalDetailsController extends GetxController{
       if(apiData.status == true){
         isLoading.value = false;
         WidgetDesigns.consoleLog("Driver Data get", "get driver data");
-        storageServices.saveEmail("${apiData.data?.email}");
-        storageServices.saveMobile("${apiData.data?.phone}");
-        storageServices.saveFirstName("${apiData.data?.firstName}");
-        storageServices.saveLastName("${apiData.data?.lastName}");
-        storageServices.saveDOB("${apiData.data?.dateOfBirth}");
-        storageServices.saveProfile("${apiData.data?.profilePhoto}");
-        storageServices.saveAddress("${apiData.data?.address}");
         setDriverData(ApiResponse.completed(apiData));
       } else{
         isLoading.value = false;

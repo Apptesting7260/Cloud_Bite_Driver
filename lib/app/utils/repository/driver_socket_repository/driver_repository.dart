@@ -14,6 +14,7 @@ class DriverRepository {
     required double latitude,
     required double longitude,
     required String address,
+    required String vehicle_type,
   }) async {
     try {
       final driverId = storageServices.getDriverID();
@@ -25,6 +26,7 @@ class DriverRepository {
         'latitude': latitude,
         'longitude': longitude,
         'address': address,
+        'vehicle_type': ""
       });
     } catch (e) {
       print('Failed to go online: $e');
@@ -52,6 +54,23 @@ class DriverRepository {
         tColor: AppTheme.white,
       );
       rethrow;
+    }
+  }
+  
+  Future<void> joinDriver() async {
+    try{
+      final driverId = storageServices.getDriverID();
+      await _socketService.emitEvent('joinDriver', {
+        'driverId': 460
+      });
+      print('Joined Driver');
+    } catch(e){
+      print('Failed to join: $e');
+      CustomSnackBar.show(
+        message: 'Failed to disconnect from server',
+        color: AppTheme.redText,
+        tColor: AppTheme.white,
+      );
     }
   }
 

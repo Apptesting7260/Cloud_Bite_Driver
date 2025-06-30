@@ -36,6 +36,9 @@ class SocketService extends GetxService {
       isConnecting.value = false;
       reconnectAttempts.value = 0;
       print('🔌 Socket connected');
+      /*emitEvent('joinDriver', {
+        'driverId': 460
+      });*/
     });
 
     // Disconnected

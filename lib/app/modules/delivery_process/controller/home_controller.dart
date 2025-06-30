@@ -32,6 +32,11 @@ class HomeController extends GetxController{
     _getUserLocation();
     _initSocketListeners();
     _checkSocketConnection();
+
+    final socketService = Get.find<SocketService>();
+    if (socketService.isConnected.value) {
+      joinDriverEvent();
+    }
   }
 
   Future<void> _getUserLocation() async {
@@ -80,6 +85,7 @@ class HomeController extends GetxController{
           color: AppTheme.primaryColor,
           tColor: AppTheme.white,
         );
+        joinDriverEvent();
       }
     });
   }
@@ -87,6 +93,11 @@ class HomeController extends GetxController{
   // Socket Code
   void _initSocketListeners() {
     final socketService = Get.find<SocketService>();
+
+    socketService.socket.on('connect', (_) {
+      print('🔌 onConnect triggered in HomeController');
+      joinDriverEvent();
+    });
 
     socketService.socket.on('goOnline', (data) {
       isOnline.value = true;
@@ -103,6 +114,14 @@ class HomeController extends GetxController{
         color: AppTheme.primaryColor,
         tColor: AppTheme.white,
       );
+    });
+    
+    socketService.socket.on('joinDriver', (data){
+      isOnline.value = true;
+      print('✅ Join Driver Received');
+      bottomSheetController.hideAllSheets();
+      CustomSnackBar.show(message: 'Joined Driver', color: AppTheme.primaryColor,
+        tColor: AppTheme.white);
     });
   }
 
@@ -122,8 +141,17 @@ class HomeController extends GetxController{
           latitude: currentLocation.latitude!,
           longitude: currentLocation.longitude!,
           address: storageServices.getAddress(),
+          vehicle_type: ""
         );
       }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> joinDriverEvent() async {
+    try {
+      await driverRepo.joinDriver();
     } catch (e) {
       print(e);
     }
