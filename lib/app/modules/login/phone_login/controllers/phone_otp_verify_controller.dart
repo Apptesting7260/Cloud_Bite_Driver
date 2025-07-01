@@ -80,6 +80,11 @@ class PhoneOtpVerifyController extends GetxController{
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         storageServices.saveToken("${response.data?.loginToken}");
+        storageServices.saveStages("${response.data?.stages}");
+        storageServices.saveFirstName("${response.data?.firstName}");
+        storageServices.saveLastName("${response.data?.lastName}");
+        storageServices.saveDriverID("${response.data?.id}");
+        storageServices.saveAddress("${response.data?.address}");
         StageNavigator.navigateToStage("${response.data?.stages}");
       }
       else if(response.status == false && response.type == 'login'){

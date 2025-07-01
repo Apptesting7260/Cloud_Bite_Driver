@@ -99,7 +99,6 @@ export 'package:cloud_bites_driver/app/modules/my_profile/model/verify_forget_mo
 export 'package:cloud_bites_driver/app/modules/my_profile/model/forget_change_password_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/forget_set_pasword_model.dart';
 export 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_phone_generate_model.dart';
-export 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_phone_verify_model.dart';
 export 'package:cloud_bites_driver/app/modules/registration_complete_screen/model/final_stage_home_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/logout_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/support_model.dart';

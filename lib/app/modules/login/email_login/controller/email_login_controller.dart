@@ -58,6 +58,8 @@ class EmailLoginController extends GetxController{
         storageServices.saveToken("${response.data?.loginToken}");
         storageServices.saveFirstName("${response.data?.firstName}");
         storageServices.saveLastName("${response.data?.lastName}");
+        storageServices.saveDriverID("${response.data?.id}");
+        storageServices.saveAddress("${response.data?.address}");
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         StageNavigator.navigateToStage("${response.data?.stages}");
       }
