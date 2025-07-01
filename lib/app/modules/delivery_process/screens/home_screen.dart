@@ -106,7 +106,6 @@ class HomeScreen extends StatelessWidget{
             final sheet = controller.bottomSheetController.currentSheet.value;
 
             if (controller.isOnline.value && sheet == BottomSheetState.none) {
-              // Prevent bottomSheetController not being shown if online
               controller.bottomSheetController.showLookingForOrders();
             }
 
@@ -128,8 +127,10 @@ class HomeScreen extends StatelessWidget{
               switch (sheet) {
                 case BottomSheetState.lookingForOrders:
                   return _buildLookingForOrdersSheet();
+                case BottomSheetState.newOrderArrived:
+                  return _buildOrderAvailableSheet();
                 default:
-                  return SizedBox.shrink(); // Or future: add order arrived, etc.
+                  return SizedBox.shrink();
               }
             }
           }),
@@ -214,6 +215,153 @@ class HomeScreen extends StatelessWidget{
           ],
         ),
       ),
+    );
+  }
+
+
+  // Order Coming Sheet------
+  Widget _buildOrderAvailableSheet() {
+    final order = Get.find<BottomSheetController>().currentOrder.value;
+    if (order == null) return SizedBox.shrink();
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Container(
+        margin: EdgeInsets.all(16),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              offset: Offset(0, -3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              "${order.pickupDistance} (${order.deliveryTime})",
+              style: AppFontStyle.text_20_500(AppTheme.black, fontFamily: AppFontFamily),
+            ),
+            WidgetDesigns.hBox(16),
+
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Order ID : ",
+                  style: AppFontStyle.text_18_400(AppTheme.red, fontFamily: AppFontFamily.generalSansMedium),
+                ),
+                WidgetDesigns.wBox(5),
+                Text(
+                  "${order.orderNumber}",
+                  style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                ),
+              ],
+            ),
+            WidgetDesigns.hBox(16),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "${order.quantity} item${(int.tryParse(order.quantity ?? '0')?? 0) > 1 ? 's' : ''}",
+                  style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                ),
+                WidgetDesigns.wBox(5),
+                Text(
+                  "P${order.totalAmount}",
+                  style: AppFontStyle.text_18_400(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
+                ),
+              ],
+            ),
+            WidgetDesigns.hBox(16),
+            Text(
+              "${order.totalAmount}",
+              style: TextStyle(
+                fontSize: 36,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.primaryColor,
+              ),
+            ),
+            WidgetDesigns.hBox(16),
+
+            _buildLocationRow(
+              title: "Pickup Location",
+              address: "${order.restaurantName}",
+              time: order.pickupDuration,
+            ),
+            WidgetDesigns.hBox(16),
+
+            _buildLocationRow(
+              title: "Delivery Location",
+              address: order.userAddress.split(',').take(3).join(','),
+              time: order.deliveryDuration,
+            ),
+            WidgetDesigns.hBox(24),
+            Column(
+              children: [
+                CustomAnimatedButton(
+                  onTap: () {
+                    //controller.bottomSheetController.rejectOrder();
+                  },
+                  text: "Accept Order",
+                ),
+                WidgetDesigns.hBox(16),
+                CustomAnimatedButton(
+                  onTap: () {
+                    //controller.bottomSheetController.acceptOrder();
+                  },
+                  text: "Reject Order",
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLocationRow({
+    required String title,
+    required String address,
+    required String time,
+  }) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(width: 8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: AppFontStyle.text_18_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+              ),
+              Row(
+                children: [
+                  Icon(Icons.location_on, color: AppTheme.blueColor, size: 16),
+                  WidgetDesigns.wBox(5),
+                  Text(
+                    address,
+                    style: AppFontStyle.text_16_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                  ),
+                  Spacer(),
+                  Text(
+                    time,
+                    style: AppFontStyle.text_14_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

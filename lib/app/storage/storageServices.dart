@@ -18,6 +18,10 @@ class StorageServices extends GetxService{
     return await _prefs.setString('driverId', driverId);
   }
 
+  Future<bool> saveID(String id) async {
+    return await _prefs.setString('id', id);
+  }
+
   Future<bool> saveDeliveryID(String id) async {
     return await _prefs.setString('id', id);
   }
@@ -30,8 +34,8 @@ class StorageServices extends GetxService{
     return await _prefs.setString('email_OTP', otp);
   }
 
-  Future<bool> saveEmail(String token) async {
-    return await _prefs.setString('email', token);
+  Future<bool> saveEmail(String email) async {
+    return await _prefs.setString('email', email);
   }
 
   Future<bool> saveEmailVerified(bool isVerified) async {
@@ -79,6 +83,11 @@ class StorageServices extends GetxService{
     return _prefs.getString('driverId') ?? '';
   }
 
+  String getID() {
+    WidgetDesigns.consoleLog(_prefs.getString('id').toString(), 'id');
+    return _prefs.getString('id') ?? '';
+  }
+
   String getEmail() {
     WidgetDesigns.consoleLog(_prefs.getString('email').toString(), 'driverEmail');
     return _prefs.getString('email') ?? '';
@@ -100,7 +109,7 @@ class StorageServices extends GetxService{
   }
 
   String getMobile() {
-    WidgetDesigns.consoleLog(_prefs.getString('mobile').toString(), 'driverMobile');
+    WidgetDesigns.consoleLog(_prefs.getString('mobile').toString(), 'mobile');
     return _prefs.getString('mobile') ?? '';
   }
 

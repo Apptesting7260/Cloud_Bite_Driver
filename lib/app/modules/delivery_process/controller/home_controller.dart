@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/modules/delivery_process/controller/bottom_sheet_controller.dart';
+import 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart' show OrderModel;
 import 'package:cloud_bites_driver/app/storage/storageServices.dart';
 import 'package:cloud_bites_driver/app/themes/app_theme.dart';
 import 'package:cloud_bites_driver/app/utils/custom_widgets/custom_snakbar.dart';
@@ -33,6 +34,13 @@ class HomeController extends GetxController{
     _initSocketListeners();
     _checkSocketConnection();
 
+    // Listen for new orders
+    ever(driverRepo.currentOrder, (OrderModel? order) {
+      if (order != null) {
+        bottomSheetController.showNewOrder(order);
+      }
+    });
+
     final socketService = Get.find<SocketService>();
     if (socketService.isConnected.value) {
       joinDriverEvent();
@@ -64,6 +72,7 @@ class HomeController extends GetxController{
     );
   }
 
+  // Socket Code
   void _checkSocketConnection() {
     final socketService = Get.find<SocketService>();
 
@@ -90,7 +99,6 @@ class HomeController extends GetxController{
     });
   }
 
-  // Socket Code
   void _initSocketListeners() {
     final socketService = Get.find<SocketService>();
 
@@ -141,8 +149,8 @@ class HomeController extends GetxController{
           latitude: currentLocation.latitude!,
           longitude: currentLocation.longitude!,
           address: storageServices.getAddress(),
-          vehicle_type: ""
         );
+        driverRepo.listenForNewOrders();
       }
     } catch (e) {
       print(e);

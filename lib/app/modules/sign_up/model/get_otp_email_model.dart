@@ -1,17 +1,17 @@
-class GetPhoneOtpVerify {
+class GetOtpEmailModel {
   bool? status;
   String? type;
   String? message;
-  VerifyPhoneOtpData? updatedUser;
+  GenerateOtpEmailData? updatedUser;
 
-  GetPhoneOtpVerify({this.status, this.type, this.message, this.updatedUser});
+  GetOtpEmailModel({this.status, this.type, this.message, this.updatedUser});
 
-  GetPhoneOtpVerify.fromJson(Map<String, dynamic> json) {
+  GetOtpEmailModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    type = json['type'].toString();
-    message = json['message'].toString();
+    type = json['type'];
+    message = json['message'];
     updatedUser = json['updatedUser'] != null
-        ? new VerifyPhoneOtpData.fromJson(json['updatedUser'])
+        ? new GenerateOtpEmailData.fromJson(json['updatedUser'])
         : null;
   }
 
@@ -27,7 +27,7 @@ class GetPhoneOtpVerify {
   }
 }
 
-class VerifyPhoneOtpData {
+class GenerateOtpEmailData {
   String? id;
   String? firstName;
   String? lastName;
@@ -68,7 +68,7 @@ class VerifyPhoneOtpData {
   String? vehicleRejectRemark;
   bool? userStatus;
 
-  VerifyPhoneOtpData(
+  GenerateOtpEmailData(
       {this.id,
         this.firstName,
         this.lastName,
@@ -109,7 +109,7 @@ class VerifyPhoneOtpData {
         this.vehicleRejectRemark,
         this.userStatus});
 
-  VerifyPhoneOtpData.fromJson(Map<String, dynamic> json) {
+  GenerateOtpEmailData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     firstName = json['first_name'].toString();
     lastName = json['last_name'].toString();

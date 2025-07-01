@@ -1,6 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
-
 class Repository {
 
   final _apiService = NetworkApiServices();
@@ -9,38 +8,27 @@ class Repository {
   StorageServices get storageService => _storageService;
 
   // Phone Number Generate
-  Future<GetOTPModel> getPhoneOTPAPI(Map<String, dynamic> data) async {
-    final token = storageService.getToken();
-    final authHeader = token.isNotEmpty
-        ? "Bearer $token"
-        : "";
-    dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, authHeader);
-    return GetOTPModel.fromJson(response);
+  Future<GetOtpModel > getPhoneOTPAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, '');
+    return GetOtpModel .fromJson(response);
   }
 
   // Phone Number Verify
-  Future<GetVerifyOTPSucessModel> verifyOTpForPhone(Map<String, dynamic> data) async {
-    final token = storageService.getToken();
-    dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, "Bearer $token");
-    print("Bearer ${storageService.getToken()}");
-    return GetVerifyOTPSucessModel.fromJson(response);
+  Future<GetPhoneOtpVerify> verifyOTpForPhone(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, "");
+    return GetPhoneOtpVerify.fromJson(response);
   }
 
   // Email Generate
-  Future<GetEmailOTPModel> getEmailOTPAPI(Map<String, dynamic> data) async {
-    final token = storageService.getToken();
-    final authHeader = token.isNotEmpty
-        ? "Bearer $token"
-        : "";
-    dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, authHeader);
-    return GetEmailOTPModel.fromJson(response);
+  Future<GetOtpEmailModel> getEmailOTPAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, '');
+    return GetOtpEmailModel.fromJson(response);
   }
 
   // Email Verify
-  Future<GetVerifyOTPSucessModel> verifyOTpForEmail(Map<String, dynamic> data) async {
-    final token = storageService.getToken();
-    dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, "Bearer $token");
-    return GetVerifyOTPSucessModel.fromJson(response);
+  Future<VerifyEmailOtpModel> verifyOTpForEmail(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, "");
+    return VerifyEmailOtpModel.fromJson(response);
   }
 
   // Register API
@@ -199,8 +187,9 @@ class Repository {
   }
 
   //Logout API
-  Future<LogoutModel> logoutAPI(Map<String, dynamic> data) async {
-    dynamic response = await _apiService.postApi(data,AppUrls.logoutAPI, "");
+  Future<LogoutModel> logoutAPI() async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.getApi(AppUrls.logoutAPI, "Bearer $token");
     return LogoutModel.fromJson(response);
   }
 

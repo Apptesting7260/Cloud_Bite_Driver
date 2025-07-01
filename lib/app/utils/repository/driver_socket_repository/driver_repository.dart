@@ -14,7 +14,6 @@ class DriverRepository {
     required double latitude,
     required double longitude,
     required String address,
-    required String vehicle_type,
   }) async {
     try {
       final driverId = storageServices.getDriverID();
@@ -26,7 +25,6 @@ class DriverRepository {
         'latitude': latitude,
         'longitude': longitude,
         'address': address,
-        'vehicle_type': ""
       });
     } catch (e) {
       print('Failed to go online: $e');
@@ -56,12 +54,13 @@ class DriverRepository {
       rethrow;
     }
   }
-  
+
+  // 3. Join Driver Event
   Future<void> joinDriver() async {
     try{
       final driverId = storageServices.getDriverID();
       await _socketService.emitEvent('joinDriver', {
-        'driverId': 460
+        'driverId': driverId
       });
       print('Joined Driver');
     } catch(e){
@@ -74,7 +73,28 @@ class DriverRepository {
     }
   }
 
-  // 3. Update Location Event
+  // 4. New Order Coming Event
+  final Rx<OrderModel?> currentOrder = Rx<OrderModel?>(null);
+
+  void listenForNewOrders() {
+    _socketService.socket.on('newOrder', (data) {
+      try {
+        print('Raw newOrder data: $data');
+        if (data is Map<String, dynamic>) {
+          currentOrder.value = OrderModel.fromJson(data);
+          print('New order received: ${currentOrder.value?.orderNumber}');
+        } else {
+          print('Invalid order data format - Expected Map but got ${data.runtimeType}');
+        }
+      } catch (e, stackTrace) {
+        print('Error parsing new order: $e');
+        print('Stack trace: $stackTrace');
+      }
+    });
+    print('Listening for newOrder events'); // Confirm listener is set up
+  }
+
+
   Future<void> updateLocation({
     required double latitude,
     required double longitude,

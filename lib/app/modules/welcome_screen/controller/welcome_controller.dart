@@ -42,6 +42,7 @@ class WelcomeController extends GetxController{
         "email": googleUser.email,
         "type": "google",
         "fcm_token": fcmToken ?? '',
+         "uuid": googleUser.id,
       };
 
       final response = await _repository.socialLoginAPI(data);

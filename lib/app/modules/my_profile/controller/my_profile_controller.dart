@@ -16,12 +16,8 @@ class MyProfileController extends GetxController{
   getLogoutAPI() async{
     LoadingOverlay().showLoading();
 
-    final data = {
-      "id": storageServices.getToken()
-    };
-
     try{
-      final apiData = await _repository.logoutAPI(data);
+      final apiData = await _repository.logoutAPI();
       if(apiData.status == true){
         LoadingOverlay().hideLoading();
         WidgetDesigns.consoleLog("Account Logout Data get", "logout account data get");

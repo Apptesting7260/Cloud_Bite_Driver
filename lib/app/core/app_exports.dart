@@ -79,7 +79,6 @@ export 'package:cloud_bites_driver/app/modules/add_address/models/location_model
 export 'package:cloud_bites_driver/app/modules/add_address/models/location_response.dart';
 export 'package:cloud_bites_driver/app/modules/add_address/models/search_place_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/get_email_otp_model.dart';
-export 'package:cloud_bites_driver/app/modules/sign_up/model/get_email_verify_success_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/delivery_method_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/register_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/resend_model.dart';
@@ -107,6 +106,11 @@ export 'package:cloud_bites_driver/app/modules/my_profile/model/support_model.da
 export 'package:cloud_bites_driver/app/modules/welcome_screen/model/social_login_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/notification_set_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/set_notification_status_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/verify_email_otp_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/get_email_verify_success_model.dart';
+export 'package:cloud_bites_driver/app/modules/sign_up/model/get_otp_email_model.dart';
+export 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart';
+
 
 
 /// ↓ ↓ ↓ ↓ ↓ Controller Exports ↓ ↓ ↓ ↓ ↓

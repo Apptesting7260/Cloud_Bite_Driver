@@ -70,7 +70,8 @@ class PhoneOtpVerifyController extends GetxController{
         "type": "phone",
         "phone": phoneNo.value,
         "otpType": "verify",
-        "otp": otpController.text
+        "otp": otpController.text,
+        "id": storageServices.getDriverID()
       };
 
       final response = await _repository.phoneLoginVerifyAPI(data);

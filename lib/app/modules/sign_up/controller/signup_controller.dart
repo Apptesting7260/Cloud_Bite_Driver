@@ -19,6 +19,9 @@ class SignUpController extends GetxController{
   TextEditingController locationController = TextEditingController();
   TextEditingController otpController = TextEditingController();
 
+
+  var driverId = '';
+
   RxString verifiedPhone = ''.obs;
   RxBool isPhoneVerified = false.obs;
 
@@ -146,6 +149,7 @@ class SignUpController extends GetxController{
         "otpType": "generate",
         "phone": phoneController.text,
         "country_code": countryCode.value,
+        "id": driverId
       };
 
       final response = await _repository.getPhoneOTPAPI(data);
@@ -153,11 +157,8 @@ class SignUpController extends GetxController{
         LoadingOverlay().hideLoading();
         customOtpDialog("${countryString.value} ${phoneController.text}", Get.context, "phone");
         print(response.message);
-       /* if (storageServices.getToken().isEmpty) {
-          storageServices.saveToken(response.token!);
-        }*/
-        storageServices.saveToken(response.token!);
         storageServices.saveMobile(phoneController.text.toString());
+        driverId = "${response.updatedUser?.id}";
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
       else if(response.status == false && response.type == "phone"){
@@ -191,6 +192,7 @@ class SignUpController extends GetxController{
         "otpType": "verify",
         "phone": phoneController.text,
         "otp": otpController.text,
+        "country_code": countryCode.value
       };
 
       final response = await _repository.verifyOTpForPhone(data);
@@ -231,18 +233,14 @@ class SignUpController extends GetxController{
         "type": "email",
         "otpType": "generate",
         "email": emailController.text,
+        "id": driverId
       };
-
       final response = await _repository.getEmailOTPAPI(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         customOtpDialog("${emailController.text}", Get.context, "email");
         print(response.message);
-        /*if (storageServices.getToken().isEmpty) {
-          storageServices.saveToken(response.token!);
-        }*/
-        storageServices.saveToken(response.token!);
-        storageServices.saveEmailOTP(response.otp!);
+        driverId = "${response.updatedUser?.id}";
         storageServices.saveEmail(emailController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
@@ -277,6 +275,7 @@ class SignUpController extends GetxController{
         "otpType": "verify",
         "email": emailController.text,
         "otp": otpController.text,
+        "id": storageServices.getID()
       };
 
       final response = await _repository.verifyOTpForPhone(data);
@@ -289,6 +288,7 @@ class SignUpController extends GetxController{
         if (Get.isDialogOpen!) {
           Get.back();
         }
+        storageServices.saveDriverID("${response.updatedUser?.id}");
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       }
       else if(response.status == false && response.type.toString() == "email"){
@@ -309,6 +309,8 @@ class SignUpController extends GetxController{
       LoadingOverlay().hideLoading();
     }
   }
+
+
 
   void clearSignupToken() {
     if (storageServices.getToken().isNotEmpty) {
@@ -342,28 +344,28 @@ class SignUpController extends GetxController{
     String? fcmToken = await storageServices.returnFCMToken();
     try{
       final data = {
+        "id": driverId,
         "first_name": firstNameController.text,
         "last_name": lastNameController.text,
         "dob": dobController.text,
         "password": passwordController.text,
-        "phone": phoneController.text,
-        "email": emailController.text,
         "latitude": locationAddress?['lat'].toString(),
         "longitude": locationAddress?['lng'].toString(),
         "address": locationController.text,
-        "fcm_token": fcmToken ?? ''
+        "fcm_token": fcmToken ?? '',
       };
 
       final response = await _repository.registerDriverAPI(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         print(response.message);
-        storageServices.saveStages(response.stage.toString());
+        storageServices.saveStages("${response.data?.stages.toString()}");
         storageServices.saveDriverID("${response.data?.id}");
         storageServices.saveFirstName("${response.data?.firstName}");
         storageServices.saveLastName("${response.data?.lastName}");
         storageServices.saveAddress("${response.data?.address}");
         storageServices.saveDOB("${response.data?.dateOfBirth}");
+        storageServices.saveToken("${response.loginToken}");
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         Get.toNamed(Routes.deliveryMethodScreen);
       }

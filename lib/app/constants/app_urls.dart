@@ -4,7 +4,8 @@ class AppUrls{
      // static const String baseUrl = 'https://api.cloudbitesbw.com/driver';
      // static const String baseUrl = 'http://15.207.201.245:8000/driver';
 
-     static const String socketURl = 'https://bpd5zg92-8000.inc1.devtunnels.ms/'; // Socket URl
+     // static const String socketURl = 'https://bpd5zg92-8000.inc1.devtunnels.ms/'; // Socket URl
+     static const String socketURl = 'https://21qkztxl-8000.inc1.devtunnels.ms/'; // Socket URl
 
   static const String verifyUser = "$baseUrl/verifyUser";
   static const String allAddressUrl = "$baseUrl/user-address";

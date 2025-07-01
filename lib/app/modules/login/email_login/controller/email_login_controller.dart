@@ -46,7 +46,8 @@ class EmailLoginController extends GetxController{
         "type": "email",
         "email": emailController.text,
         "password": passwordController.text,
-        "fcm_token": fcmToken ?? ''
+        "fcm_token": fcmToken ?? '',
+        "id": storageServices.getDriverID()
     };
 
       final response = await _repository.emailLoginAPI(data);
@@ -55,6 +56,8 @@ class EmailLoginController extends GetxController{
         LoadingOverlay().hideLoading();
         storageServices.saveStages("${response.data?.stages}");
         storageServices.saveToken("${response.data?.loginToken}");
+        storageServices.saveFirstName("${response.data?.firstName}");
+        storageServices.saveLastName("${response.data?.lastName}");
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         StageNavigator.navigateToStage("${response.data?.stages}");
       }

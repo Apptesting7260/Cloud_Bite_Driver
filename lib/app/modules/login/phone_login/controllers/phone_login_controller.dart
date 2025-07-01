@@ -231,7 +231,8 @@ class PhoneLoginController extends GetxController {
         "type": "phone",
         "phone": phoneController.text,
         "otpType": "generate",
-        "fcm_token": fcmToken ?? ''
+        "fcm_token": fcmToken ?? '',
+        "id": storageServices.getDriverID()
       };
 
       final response = await _repository.phoneLoginGenerateAPI(data);

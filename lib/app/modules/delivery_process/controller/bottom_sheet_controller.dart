@@ -9,14 +9,15 @@ enum BottomSheetState {
 
 class BottomSheetController extends GetxController {
   final Rx<BottomSheetState> currentSheet = BottomSheetState.none.obs;
+  final Rx<OrderModel?> currentOrder = Rx<OrderModel?>(null);
   Map<String, dynamic>? currentOrderData;
 
   void showLookingForOrders() {
     currentSheet.value = BottomSheetState.lookingForOrders;
   }
 
-  void showNewOrder(Map<String, dynamic> orderData) {
-    currentOrderData = orderData;
+  void showNewOrder(OrderModel order) {
+    currentOrder.value = order;
     currentSheet.value = BottomSheetState.newOrderArrived;
   }
 

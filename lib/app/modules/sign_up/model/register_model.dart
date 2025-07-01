@@ -1,29 +1,30 @@
 class RegisterModel {
+  bool? status;
   String? type;
   String? message;
   RegisterData? data;
-  bool? status;
-  String? stage;
+  String? loginToken;
 
-  RegisterModel({this.type, this.message, this.data, this.status, this.stage});
+  RegisterModel(
+      {this.status, this.type, this.message, this.data, this.loginToken});
 
   RegisterModel.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    message = json['message'];
-    data = json['data'] != null ? new RegisterData.fromJson(json['data']) : null;
     status = json['status'];
-    stage = json['stage'];
+    type = json['type'].toString();
+    message = json['message'].toString();
+    data = json['data'] != null ? new RegisterData.fromJson(json['data']) : null;
+    loginToken = json['login_token'].toString();
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
     data['type'] = this.type;
     data['message'] = this.message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['status'] = this.status;
-    data['stage'] = this.stage;
+    data['login_token'] = this.loginToken;
     return data;
   }
 }
@@ -64,6 +65,10 @@ class RegisterData {
   bool? incomingDeliveries;
   bool? deliveryCompleted;
   bool? invoicesPayments;
+  String? accountRejectRemark;
+  String? personalRejectRemark;
+  String? vehicleRejectRemark;
+  bool? userStatus;
 
   RegisterData(
       {this.id,
@@ -100,7 +105,11 @@ class RegisterData {
         this.emailNotification,
         this.incomingDeliveries,
         this.deliveryCompleted,
-        this.invoicesPayments});
+        this.invoicesPayments,
+        this.accountRejectRemark,
+        this.personalRejectRemark,
+        this.vehicleRejectRemark,
+        this.userStatus});
 
   RegisterData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
@@ -113,8 +122,8 @@ class RegisterData {
     loginToken = json['login_token'].toString();
     otp = json['otp'].toString();
     otpVerified = json['otp_verified'];
-    otpExpiresAt = json['otp_expires_at'].toString();
-    emailOtp = json['email_otp'].toString();
+    otpExpiresAt = json['otp_expires_at'];
+    emailOtp = json['email_otp'];
     emailVerified = json['email_verified'];
     createdAt = json['created_at'].toString();
     updatedAt = json['updated_at'].toString();
@@ -130,14 +139,18 @@ class RegisterData {
     backLicense = json['back_license'].toString();
     accountStatus = json['account_status'].toString();
     personalDocsStatus = json['personal_docs_status'].toString();
-    vehicleStatus = json['vehicle_status'].toString().toString();
+    vehicleStatus = json['vehicle_status'].toString();
     profileComplete = json['profile_complete'];
-    address = json['address'].toString();
+    address = json['address'];
     pushNotification = json['push_notification'];
     emailNotification = json['email_notification'];
     incomingDeliveries = json['incoming_deliveries'];
     deliveryCompleted = json['delivery_completed'];
     invoicesPayments = json['invoices_payments'];
+    accountRejectRemark = json['account_reject_remark'].toString();
+    personalRejectRemark = json['personal_reject_remark'].toString();
+    vehicleRejectRemark = json['vehicle_reject_remark'].toString();
+    userStatus = json['user_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -177,6 +190,10 @@ class RegisterData {
     data['incoming_deliveries'] = this.incomingDeliveries;
     data['delivery_completed'] = this.deliveryCompleted;
     data['invoices_payments'] = this.invoicesPayments;
+    data['account_reject_remark'] = this.accountRejectRemark;
+    data['personal_reject_remark'] = this.personalRejectRemark;
+    data['vehicle_reject_remark'] = this.vehicleRejectRemark;
+    data['user_status'] = this.userStatus;
     return data;
   }
 }

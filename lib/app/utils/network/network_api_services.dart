@@ -91,6 +91,7 @@ class NetworkApiServices extends BaseApiServices {
     return responseJson;
   }
 
+
   Future<dynamic> postApi2(var data, String url, String token) async {
 
     log("$token\n$url\n${data.toString()}", name: "token + url + data");
