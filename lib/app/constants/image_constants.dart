@@ -20,6 +20,7 @@ class ImageConstants{
   static String helpCenter= "$imagePath/helpCenter_icon.svg";
   static String settingsIcon= "$imagePath/settings_icon.svg";
   static String logoutIcon= "$imagePath/logout_icon.svg";
+  static String ellipseImage= "$imagePath/ellipse_image.svg";
 
   static String profileNameIcon= "$imagePath/profile_name_icon.svg";
   static String profileDobIcon= "$imagePath/profile_dob_icon.svg";

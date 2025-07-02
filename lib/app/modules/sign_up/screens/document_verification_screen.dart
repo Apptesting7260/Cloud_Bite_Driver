@@ -50,9 +50,6 @@ class DocumentVerificationScreen extends StatelessWidget{
                         padding: const EdgeInsets.all(20.0),
                         child: Obx(() {
                           if (controller.isLoading.value) {
-                            /*return Expanded(
-                              child:
-                            );*/
                             ListView.separated(
                               physics: NeverScrollableScrollPhysics(),
                               itemCount: controller.documentListData.value.data?.data?.length ?? 0,

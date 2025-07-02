@@ -4,7 +4,6 @@ enum BottomSheetState {
   none,
   lookingForOrders,
   newOrderArrived,
-  orderDetails,
 }
 
 class BottomSheetController extends GetxController {
@@ -21,13 +20,29 @@ class BottomSheetController extends GetxController {
     currentSheet.value = BottomSheetState.newOrderArrived;
   }
 
-  void showOrderDetails(Map<String, dynamic> orderData) {
-    currentOrderData = orderData;
-    currentSheet.value = BottomSheetState.orderDetails;
+  void acceptOrder() {
+    final order = currentOrder.value;
+    if (order != null) {
+      Get.find<DriverRepository>().acceptOrder(order.orderId.toString());
+      hideAllSheets();
+    }
   }
 
   void hideAllSheets() {
     currentSheet.value = BottomSheetState.none;
     currentOrderData = null;
+  }
+
+  void timeoutOrder() {
+    final order = currentOrder.value;
+    if (order != null) {
+      currentOrder.value = null;
+      currentSheet.value = BottomSheetState.lookingForOrders;
+      CustomSnackBar.show(
+        message: 'Order timed out',
+        color: AppTheme.redText,
+        tColor: AppTheme.white,
+      );
+    }
   }
 }

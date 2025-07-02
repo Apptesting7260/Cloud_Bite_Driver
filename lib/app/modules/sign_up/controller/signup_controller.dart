@@ -275,7 +275,7 @@ class SignUpController extends GetxController{
         "otpType": "verify",
         "email": emailController.text,
         "otp": otpController.text,
-        "id": storageServices.getID()
+        "id": driverId
       };
 
       final response = await _repository.verifyOTpForPhone(data);

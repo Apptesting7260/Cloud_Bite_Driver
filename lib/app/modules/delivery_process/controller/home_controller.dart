@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:cloud_bites_driver/app/modules/delivery_process/controller/bottom_sheet_controller.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart' show OrderModel;
 import 'package:cloud_bites_driver/app/storage/storageServices.dart';
@@ -25,6 +27,31 @@ class HomeController extends GetxController{
   final RxBool isSocketConnecting = false.obs;
   final RxString connectionStatus = 'Disconnected'.obs;
 
+  // For Remaining Time
+  final RxInt remainingTime = 30.obs; // Starting from 30 seconds
+  final int totalTime = 30;
+  late Timer _timer;
+
+  void startTimer() {
+    remainingTime.value = totalTime;
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (remainingTime.value > 0) {
+        remainingTime.value--;
+      } else {
+        stopTimer();
+        // Notify server about timeout
+        final order = bottomSheetController.currentOrder.value;
+        if (order != null) {
+          Get.find<DriverRepository>().timeoutOrder(order.orderId.toString());
+        }
+        bottomSheetController.timeoutOrder();
+      }
+    });
+  }
+
+  void stopTimer() {
+    _timer.cancel();
+  }
   final BottomSheetController bottomSheetController = Get.put(BottomSheetController());
 
   @override
@@ -130,6 +157,12 @@ class HomeController extends GetxController{
       bottomSheetController.hideAllSheets();
       CustomSnackBar.show(message: 'Joined Driver', color: AppTheme.primaryColor,
         tColor: AppTheme.white);
+    });
+
+    socketService.socket.on('acceptedOrderScreen', (data){
+      print('✅ acceptedOrderScreen $data');
+      CustomSnackBar.show(message: 'acceptedOrderScreen', color: AppTheme.primaryColor,
+          tColor: AppTheme.white);
     });
   }
 

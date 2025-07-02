@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/routes/stage_navigator.dart';
 
 class DeliveryMethodController extends GetxController{
 
@@ -66,7 +67,7 @@ class DeliveryMethodController extends GetxController{
         WidgetDesigns.consoleLog(response.message.toString(), "");
         storageServices.saveStages(response.stage.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        Get.toNamed(Routes.documentVerificationScreen);
+        StageNavigator.navigateToStage("${response.stage}");
       }
       else if(response.status == false &&  response.type.toString() == "setDelivery"){
         LoadingOverlay().hideLoading();

@@ -104,7 +104,6 @@ class HomeScreen extends StatelessWidget{
           ),
           Obx(() {
             final sheet = controller.bottomSheetController.currentSheet.value;
-
             if (controller.isOnline.value && sheet == BottomSheetState.none) {
               controller.bottomSheetController.showLookingForOrders();
             }
@@ -223,6 +222,13 @@ class HomeScreen extends StatelessWidget{
   Widget _buildOrderAvailableSheet() {
     final order = Get.find<BottomSheetController>().currentOrder.value;
     if (order == null) return SizedBox.shrink();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (controller.remainingTime.value == controller.totalTime) {
+        controller.startTimer();
+      }
+    });
+
     return Positioned(
       bottom: 0,
       left: 0,
@@ -242,54 +248,97 @@ class HomeScreen extends StatelessWidget{
           ],
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "${order.pickupDistance} (${order.deliveryTime})",
-              style: AppFontStyle.text_20_500(AppTheme.black, fontFamily: AppFontFamily),
-            ),
-            WidgetDesigns.hBox(16),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "Order ID : ",
-                  style: AppFontStyle.text_18_400(AppTheme.red, fontFamily: AppFontFamily.generalSansMedium),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${order.pickupDistance} (${order.deliveryTime})",
+                      style: TextStyle(
+                          fontFamily: AppFontFamily.generalSansMedium,
+                          color: AppTheme.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500
+                      ),
+                      //style: AppFontStyle.text_20_500(AppTheme.black, fontFamily: AppFontFamily),
+                    ),
+                    WidgetDesigns.hBox(10),
+                    Row(
+                      children: [
+                        Text(
+                          "Order ID : ",
+                          style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                        ),
+                        WidgetDesigns.wBox(5),
+                        Text(
+                          "${order.orderNumber}",
+                          style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                        ),
+                      ],
+                    ),
+                    WidgetDesigns.hBox(16),
+                    Row(
+                      children: [
+                        Text(
+                          "${order.quantity} item${(int.tryParse(order.quantity ?? '0')?? 0) > 1 ? 's' : ''}",
+                          style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                        ),
+                        WidgetDesigns.wBox(5),
+                        SvgPicture.asset(ImageConstants.ellipseImage),
+                        WidgetDesigns.wBox(5),
+                        Text(
+                          "P${ order.totalAmount}",
+                          style: AppFontStyle.text_18_400(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                WidgetDesigns.wBox(5),
-                Text(
-                  "${order.orderNumber}",
-                  style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
-                ),
-              ],
-            ),
-            WidgetDesigns.hBox(16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "${order.quantity} item${(int.tryParse(order.quantity ?? '0')?? 0) > 1 ? 's' : ''}",
-                  style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
-                ),
-                WidgetDesigns.wBox(5),
-                Text(
-                  "P${order.totalAmount}",
-                  style: AppFontStyle.text_18_400(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
-                ),
-              ],
-            ),
-            WidgetDesigns.hBox(16),
-            Text(
-              "${order.totalAmount}",
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.primaryColor,
-              ),
-            ),
-            WidgetDesigns.hBox(16),
+                Obx(() {
+                  final remainingTime = controller.remainingTime.value;
+                  final progress = remainingTime / controller.totalTime;
+                  Color timerColor;
 
+                  // Change color based on remaining time
+                  if (progress > 0.5) {
+                    timerColor = AppTheme.primaryColor;
+                  } else if (progress > 0.25) {
+                    timerColor = AppTheme.blueColor;
+                  } else {
+                    timerColor = AppTheme.grey;
+                  }
+
+                  return Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      SizedBox(
+                        width: 50,
+                        height: 50,
+                        child: CircularProgressIndicator(
+                          value: progress,
+                          backgroundColor: Colors.grey[200],
+                          valueColor: AlwaysStoppedAnimation<Color>(timerColor),
+                          strokeWidth: 4,
+                        ),
+                      ),
+                      Text(
+                        '$remainingTime',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: timerColor,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ],
+            ),
+            WidgetDesigns.hBox(16),
             _buildLocationRow(
               title: "Pickup Location",
               address: "${order.restaurantName}",
@@ -307,17 +356,18 @@ class HomeScreen extends StatelessWidget{
               children: [
                 CustomAnimatedButton(
                   onTap: () {
-                    //controller.bottomSheetController.rejectOrder();
+                    controller.stopTimer();
+                    controller.bottomSheetController.acceptOrder();
                   },
                   text: "Accept Order",
                 ),
                 WidgetDesigns.hBox(16),
-                CustomAnimatedButton(
-                  onTap: () {
-                    //controller.bottomSheetController.acceptOrder();
-                  },
-                  text: "Reject Order",
-                ),
+                Text('Reject Order',
+                style: TextStyle(
+                  color: AppTheme.red,
+                  fontWeight: FontWeight.w400,
+                  fontSize: 16
+                ))
               ],
             ),
           ],
@@ -334,7 +384,6 @@ class HomeScreen extends StatelessWidget{
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(width: 8),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -343,15 +392,18 @@ class HomeScreen extends StatelessWidget{
                 title,
                 style: AppFontStyle.text_18_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
               ),
+              WidgetDesigns.hBox(8),
               Row(
                 children: [
                   Icon(Icons.location_on, color: AppTheme.blueColor, size: 16),
                   WidgetDesigns.wBox(5),
-                  Text(
-                    address,
-                    style: AppFontStyle.text_16_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                  Expanded(
+                    child: Text(
+                      address,
+                      style: AppFontStyle.text_16_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular,overflow: TextOverflow.clip),
+                    ),
                   ),
-                  Spacer(),
+                  WidgetDesigns.wBox(5),
                   Text(
                     time,
                     style: AppFontStyle.text_14_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),

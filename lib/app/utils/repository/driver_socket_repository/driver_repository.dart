@@ -95,6 +95,45 @@ class DriverRepository {
   }
 
 
+  // 5 New Order not accepted (when driver not clicked any option accept and reject)
+  Future<void> timeoutOrder(String orderId) async {
+    try {
+      final driverId = storageServices.getDriverID();
+      await _socketService.emitEvent('orderNotAccepted', {
+        'driverId': driverId,
+        'orderId': orderId,
+      });
+      print('Order $orderId Timed Out - Not Accepted');
+    } catch (e) {
+      print('Failed to timeout order: $e');
+      rethrow;
+    }
+  }
+
+  // 6 Accept Order Event
+  Future<void> acceptOrder(String orderId) async {
+    try {
+      final driverId = storageServices.getDriverID();
+      await _socketService.emitEvent('acceptOrder', {
+        'driverId': driverId,
+        'orderId': orderId,
+      });
+      print('Order $orderId Accepted');
+    } catch (e) {
+      print('Failed to accept order: $e');
+      CustomSnackBar.show(
+        message: 'Failed to accept order',
+        color: AppTheme.redText,
+        tColor: AppTheme.white,
+      );
+      rethrow;
+    }
+  }
+
+  // 7 Reject Order Event
+
+
+
   Future<void> updateLocation({
     required double latitude,
     required double longitude,

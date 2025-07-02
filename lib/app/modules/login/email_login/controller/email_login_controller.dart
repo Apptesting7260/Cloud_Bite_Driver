@@ -46,8 +46,7 @@ class EmailLoginController extends GetxController{
         "type": "email",
         "email": emailController.text,
         "password": passwordController.text,
-        "fcm_token": fcmToken ?? '',
-        "id": storageServices.getDriverID()
+        "fcm_token": fcmToken ?? ''
     };
 
       final response = await _repository.emailLoginAPI(data);
