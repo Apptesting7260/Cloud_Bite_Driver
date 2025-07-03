@@ -1,4 +1,6 @@
+import 'package:cloud_bites_driver/app/constants/socket_url.dart';
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
 
 class DriverRepository {
   final SocketService _socketService = Get.find<SocketService>();
@@ -17,7 +19,7 @@ class DriverRepository {
   }) async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent('goOnline', {
+      await _socketService.emitEvent(SocketEvents.goOnline, {
         'driverId': driverId,
         'firstName': firstName,
         'lastName': lastName,
@@ -41,7 +43,7 @@ class DriverRepository {
   Future<void> goOffline() async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent('goOffline', {
+      await _socketService.emitEvent(SocketEvents.goOffline, {
         'driverId': driverId,
       });
     } catch (e) {
@@ -59,7 +61,7 @@ class DriverRepository {
   Future<void> joinDriver() async {
     try{
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent('joinDriver', {
+      await _socketService.emitEvent(SocketEvents.joinDriver, {
         'driverId': driverId
       });
       print('Joined Driver');
@@ -77,7 +79,7 @@ class DriverRepository {
   final Rx<OrderModel?> currentOrder = Rx<OrderModel?>(null);
 
   void listenForNewOrders() {
-    _socketService.socket.on('newOrder', (data) {
+    _socketService.socket.on(SocketEvents.newOrder, (data) {
       try {
         print('Raw newOrder data: $data');
         if (data is Map<String, dynamic>) {
@@ -99,7 +101,7 @@ class DriverRepository {
   Future<void> timeoutOrder(String orderId) async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent('orderNotAccepted', {
+      await _socketService.emitEvent(SocketEvents.orderNotAccepted, {
         'driverId': driverId,
         'orderId': orderId,
       });
@@ -114,7 +116,7 @@ class DriverRepository {
   Future<void> acceptOrder(String orderId) async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent('acceptOrder', {
+      await _socketService.emitEvent(SocketEvents.acceptOrder, {
         'driverId': driverId,
         'orderId': orderId,
       });
@@ -130,9 +132,45 @@ class DriverRepository {
     }
   }
 
-  // 7 Reject Order Event
+  // 7 Accepted Order Event
+  final Rx<AcceptedOrderModel?> orderDetails = Rx<AcceptedOrderModel?>(null);
 
+  void listenForOrderDetails() {
+    _socketService.socket.on(SocketEvents.acceptedOrderScreen, (data) {
+      try {
+        print('Raw acceptedOrderScreen data: $data');
+        if (data is Map<String, dynamic>) {
+          orderDetails.value = AcceptedOrderModel.fromJson(data);
+          print('Order details received for order: ${orderDetails.value?.data?.orderDetail?.orderdata?.orderId}');
+        } else {
+          print('Invalid order details format - Expected Map but got ${data.runtimeType}');
+        }
+      } catch (e, stackTrace) {
+        print('Error parsing order details: $e');
+        print('Stack trace: $stackTrace');
+      }
+    });
+  }
 
+  // 8 Reject Order Event
+  Future<void> rejectOrder(String orderId) async {
+    try {
+      final driverId = storageServices.getDriverID();
+      await _socketService.emitEvent(SocketEvents.rejectOrder, {
+        'driverId': driverId,
+        'orderId': orderId,
+      });
+      print('Order $orderId Accepted');
+    } catch (e) {
+      print('Failed to accept order: $e');
+      CustomSnackBar.show(
+        message: 'Failed to accept order',
+        color: AppTheme.redText,
+        tColor: AppTheme.white,
+      );
+      rethrow;
+    }
+  }
 
   Future<void> updateLocation({
     required double latitude,

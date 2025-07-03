@@ -38,16 +38,15 @@ class DocumentVerificationController extends GetxController{
   }
 
 
-  DocumentVerificationData? getDocumentDataByName(String name) {
+  /*DocumentVerificationData? getDocumentDataByName(String name) {
     final docs = documentListData.value.data?.data;
     if (docs == null) return null;
-
     try {
       return docs.firstWhere((doc) => doc.name == name);
     } catch (e) {
       return null;
     }
-  }
+  }*/
 
 
   Rx<ApiResponse<DocumentListModel>> documentListData = Rx<ApiResponse<DocumentListModel>>(ApiResponse.loading());

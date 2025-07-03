@@ -79,8 +79,7 @@ class BankDetailController extends GetxController{
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        Get.toNamed(Routes.documentVerificationScreen);
-        controller.getDocumentListData();
+        Get.back();
       }
       else if(response.status == false && response.type == 'bank_name'){
         LoadingOverlay().hideLoading();

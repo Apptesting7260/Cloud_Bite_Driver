@@ -34,6 +34,7 @@ class PersonalDocumentController extends GetxController{
   }
 
   getPersonalDocumentListData() async{
+    print('token');
     setPersonalDocumentListData(ApiResponse.loading());
     isLoading.value = true;
     try{

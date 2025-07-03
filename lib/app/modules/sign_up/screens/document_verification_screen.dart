@@ -3,7 +3,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class DocumentVerificationScreen extends StatelessWidget{
 
   final DocumentVerificationController controller = Get.put(DocumentVerificationController());
-  final RegistrationCompleteController registrationController = Get.put(RegistrationCompleteController());
+  //final RegistrationCompleteController registrationController = Get.put(RegistrationCompleteController());
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +96,9 @@ class DocumentVerificationScreen extends StatelessWidget{
                 docData?.name.toString() ?? '',
                 doc["image"],
                 docData?.isCompleted ?? false ,
-                    () => Get.toNamed(doc["route"]),
+                    () => Get.toNamed(doc["route"])?.whenComplete(() {
+                      controller.getDocumentListData();
+                    },),
               );
             },
           ),
@@ -105,7 +107,6 @@ class DocumentVerificationScreen extends StatelessWidget{
               onTap: () {
                 if(controller.documentListData.value.data?.allComplete == true){
                   Get.toNamed(Routes.registrationCompleteScreen);
-                  registrationController.getAccountStatusData();
                 }else{
                   CustomSnackBar.show(message: "Please upload all pending documents" , color: AppTheme.redText, tColor: AppTheme.white);
                 }

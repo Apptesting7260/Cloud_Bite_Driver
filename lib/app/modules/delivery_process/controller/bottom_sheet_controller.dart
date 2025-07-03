@@ -4,11 +4,13 @@ enum BottomSheetState {
   none,
   lookingForOrders,
   newOrderArrived,
+  acceptedOrderSheet
 }
 
 class BottomSheetController extends GetxController {
   final Rx<BottomSheetState> currentSheet = BottomSheetState.none.obs;
   final Rx<OrderModel?> currentOrder = Rx<OrderModel?>(null);
+  final Rx<AcceptedOrderModel?> orderDetails = Rx<AcceptedOrderModel?>(null);
   Map<String, dynamic>? currentOrderData;
 
   void showLookingForOrders() {
@@ -24,8 +26,21 @@ class BottomSheetController extends GetxController {
     final order = currentOrder.value;
     if (order != null) {
       Get.find<DriverRepository>().acceptOrder(order.orderId.toString());
+    }
+  }
+
+  void rejectOrder() {
+    final order = currentOrder.value;
+    if (order != null) {
+      Get.find<DriverRepository>().rejectOrder(order.orderId.toString());
       hideAllSheets();
     }
+  }
+
+  // After Accept the Order
+  void showAcceptedOrderDetails(AcceptedOrderModel details) {
+    orderDetails.value = details;
+    currentSheet.value = BottomSheetState.acceptedOrderSheet;
   }
 
   void hideAllSheets() {

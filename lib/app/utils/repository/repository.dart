@@ -73,7 +73,7 @@ class Repository {
   // Get List of Personal Document API
   Future<ListPersonalDocumentModel> listPersonalDocumentAPI() async {
     final token = storageService.getToken();
-    WidgetDesigns.consoleLog(storageService.getToken(), "Bearer Token");
+    WidgetDesigns.consoleLog(storageService.getToken(), "Bearer Token-------------");
     dynamic response = await _apiService.getApi(AppUrls.listPersonalDocument, "Bearer $token");
     return ListPersonalDocumentModel.fromJson(response);
   }

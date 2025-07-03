@@ -128,6 +128,8 @@ class HomeScreen extends StatelessWidget{
                   return _buildLookingForOrdersSheet();
                 case BottomSheetState.newOrderArrived:
                   return _buildOrderAvailableSheet();
+                case BottomSheetState.acceptedOrderSheet:
+                  return _acceptedOrderSheet();
                 default:
                   return SizedBox.shrink();
               }
@@ -144,7 +146,6 @@ class HomeScreen extends StatelessWidget{
       left: 0,
       right: 0,
       child: Container(
-        margin: EdgeInsets.all(16),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -234,7 +235,6 @@ class HomeScreen extends StatelessWidget{
       left: 0,
       right: 0,
       child: Container(
-        margin: EdgeInsets.all(16),
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         decoration: BoxDecoration(
           color: Colors.white,
@@ -362,12 +362,17 @@ class HomeScreen extends StatelessWidget{
                   text: "Accept Order",
                 ),
                 WidgetDesigns.hBox(16),
-                Text('Reject Order',
-                style: TextStyle(
-                  color: AppTheme.red,
-                  fontWeight: FontWeight.w400,
-                  fontSize: 16
-                ))
+                GestureDetector(
+                  onTap: () {
+                    controller.bottomSheetController.rejectOrder();
+                  },
+                  child: Text('Reject Order',
+                  style: TextStyle(
+                    color: AppTheme.red,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16
+                  )),
+                )
               ],
             ),
           ],
@@ -400,7 +405,7 @@ class HomeScreen extends StatelessWidget{
                   Expanded(
                     child: Text(
                       address,
-                      style: AppFontStyle.text_16_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular,overflow: TextOverflow.clip),
+                      style: AppFontStyle.text_14_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular,overflow: TextOverflow.clip),
                     ),
                   ),
                   WidgetDesigns.wBox(5),
@@ -414,6 +419,232 @@ class HomeScreen extends StatelessWidget{
           ),
         ),
       ],
+    );
+  }
+
+
+
+  // AcceptedOrderScreen
+  Widget _acceptedOrderSheet() {
+    final List<Map<String, String>> orderItems = [
+      {
+        'name': 'Butter Chicken And Rice',
+        'size': 'Small',
+        'quantity': 'Qty: 2'
+      },
+      {
+        'name': 'Butter Chicken And Rice',
+        'size': 'Small',
+        'quantity': 'Qty: 2'
+      },
+      {
+        'name': 'Butter Chicken And Rice',
+        'size': 'Small',
+        'quantity': 'Qty: 2'
+      },
+    ];
+    final orderDetails = Get.find<BottomSheetController>().orderDetails.value;
+    if (orderDetails == null) return SizedBox.shrink();
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.4,
+      maxChildSize: 0.95,
+      builder: (context, scrollController) {
+        return Container(
+          // margin: EdgeInsets.all(16),
+          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                blurRadius: 10,
+                offset: Offset(0, -3),
+              ),
+            ],
+          ),
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Drag handle (removed to match image)
+                // Order header
+                Text(
+                    "${orderDetails.data?.orderDetail?.userdata?.firstName} " " ${orderDetails.data?.orderDetail?.userdata?.lastName}",
+                    style: AppFontStyle.text_20_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium)
+                ),
+                WidgetDesigns.hBox(8),
+                Text(
+                    "${orderDetails.data?.orderDetail?.orderdata?.orderId}",
+                    style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular)
+                ),
+                WidgetDesigns.hBox(10),
+                Row(
+                  children: [
+                    Text(
+                      "${orderDetails.data?.orderDetail?.orderdata?.quantity} item",
+                      style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                    ),
+                    WidgetDesigns.wBox(5),
+                    SvgPicture.asset(ImageConstants.ellipseImage),
+                    WidgetDesigns.wBox(5),
+                    Text(
+                      "P${orderDetails.data?.orderDetail?.orderdata?.deliveryCharge}",
+                      style: AppFontStyle.text_18_400(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
+                    ),
+                  ],
+                ),
+                WidgetDesigns.hBox(24),
+                // Location info
+                _buildLocationRow(
+                  title: "Pickup Location",
+                  address: "${orderDetails.data?.orderDetail?.vendordata?.address}",
+                  time: "${orderDetails.data?.pickUpLocation?.distance}",
+                ),
+                WidgetDesigns.hBox(16),
+            
+                _buildLocationRow(
+                  title: "Delivery Location",
+                  address: "${orderDetails.data?.orderDetail?.userAddressData?.completeAddress}",
+                  time: "${orderDetails.data?.deliveryLocation?.distance}",
+                ),
+                WidgetDesigns.hBox(16),
+            
+                _buildLocationRow(
+                  title: "Payment Method",
+                  address: "Credit Card",
+                  time: "",
+                ),
+                WidgetDesigns.hBox(24),
+            
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(24),
+                    gradient: LinearGradient(
+                      colors: [Color(0xFFF8EEF4), Color(0xFFEFF7FC)],
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      SvgPicture.asset(ImageConstants.profileNameIcon),
+                      SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                            'Daniel Smith',
+                            style: AppFontStyle.text_18_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium)
+                        ),
+                      ),
+                      Container(
+                        width: 32,
+                        height: 32,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          gradient: LinearGradient(
+                              colors: [Color(0xFFB6568E), Color(0xFF5FB6E3)]
+                          ),
+                        ),
+                        child: Icon(
+                          Icons.call,
+                          color: Colors.white,
+                          size: 18,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            
+                WidgetDesigns.hBox(16),
+            
+                SizedBox(
+                  height: orderItems.length * 72.0, // Adjust height based on item count
+                  child: ListView.builder(
+                    physics: NeverScrollableScrollPhysics(), // Disable scrolling
+                    itemCount: orderItems.length,
+                    itemBuilder: (context, index) {
+                      return _buildSimpleOrderItem(
+                        orderItems[index]['name']!,
+                        orderItems[index]['size']!,
+                        orderItems[index]['quantity']!,
+                      );
+                    },
+                  ),
+                ),
+            
+                WidgetDesigns.hBox(16),
+            
+                // Payment details
+                Text(
+                  'Payment Details',
+                  style: AppFontStyle.text_20_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+                ),
+                WidgetDesigns.hBox(10),
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Payment Status',
+                          style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                        ),
+                        Text(
+                          'Paid',
+                          style: AppFontStyle.text_18_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+                        )
+                      ],
+                    ),
+                    WidgetDesigns.hBox(10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Total Amount',
+                          style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                        ),
+                        Text(
+                          'P100',
+                          style: AppFontStyle.text_18_500(AppTheme.redText, fontFamily: AppFontFamily.generalSansMedium),
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+                WidgetDesigns.hBox(30),
+                CustomAnimatedButton(
+                  onTap: () {},
+                  text: "Send Code",
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+// Simplified order item widget
+  Widget _buildSimpleOrderItem(String name, String size, String quantity) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Row(
+        children: [
+          Image.asset(ImageConstants.profile),
+          WidgetDesigns.wBox(8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(name, style: AppFontStyle.text_16_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium)),
+              WidgetDesigns.hBox(4),
+              Text(size, style: TextStyle(color: Colors.grey)),
+              WidgetDesigns.hBox(4),
+              Text(quantity, style: TextStyle(color: Colors.grey)),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

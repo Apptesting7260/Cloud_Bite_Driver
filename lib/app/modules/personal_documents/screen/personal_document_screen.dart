@@ -3,7 +3,6 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class PersonalDocumentScreen extends StatelessWidget{
 
   final PersonalDocumentController controller = Get.put(PersonalDocumentController());
-  final DocumentVerificationController documentController = Get.put(DocumentVerificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,8 +45,7 @@ class PersonalDocumentScreen extends StatelessWidget{
               CustomAnimatedButton(
                   onTap: (){
                     if(controller.listPersonalDocumentData.value.data?.isComplete == true){
-                      Get.toNamed(Routes.documentVerificationScreen);
-                      documentController.getDocumentListData();
+                      Get.back();
                     }else{
                       CustomSnackBar.show(message: "Please upload all pending personal documents" , color: AppTheme.redText, tColor: AppTheme.white);
                     }

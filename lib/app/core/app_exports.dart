@@ -109,6 +109,7 @@ export 'package:cloud_bites_driver/app/modules/sign_up/model/verify_email_otp_mo
 export 'package:cloud_bites_driver/app/modules/sign_up/model/get_email_verify_success_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/get_otp_email_model.dart';
 export 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart';
+export 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
 
 
 

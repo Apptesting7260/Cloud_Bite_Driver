@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:cloud_bites_driver/app/constants/socket_url.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/controller/bottom_sheet_controller.dart';
+import 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart' show OrderModel;
 import 'package:cloud_bites_driver/app/storage/storageServices.dart';
 import 'package:cloud_bites_driver/app/themes/app_theme.dart';
@@ -68,6 +70,12 @@ class HomeController extends GetxController{
       }
     });
 
+    ever(driverRepo.orderDetails, (AcceptedOrderModel? details) {
+      if (details != null) {
+        bottomSheetController.showAcceptedOrderDetails(details);
+      }
+    });
+
     final socketService = Get.find<SocketService>();
     if (socketService.isConnected.value) {
       joinDriverEvent();
@@ -129,18 +137,18 @@ class HomeController extends GetxController{
   void _initSocketListeners() {
     final socketService = Get.find<SocketService>();
 
-    socketService.socket.on('connect', (_) {
+    socketService.socket.on(SocketEvents.connect, (_) {
       print('🔌 onConnect triggered in HomeController');
       joinDriverEvent();
     });
 
-    socketService.socket.on('goOnline', (data) {
+    socketService.socket.on(SocketEvents.goOnline, (data) {
       isOnline.value = true;
       print('✅ Received driverOnlineConfirmed, showing bottom sheet');
       bottomSheetController.showLookingForOrders();
     });
 
-    socketService.socket.on('goOffline', (data) {
+    socketService.socket.on(SocketEvents.goOffline, (data) {
       isOnline.value = false;
       print('✅ Received driverOfflineConfirmed, hiding bottom sheet');
       bottomSheetController.hideAllSheets();
@@ -151,7 +159,7 @@ class HomeController extends GetxController{
       );
     });
     
-    socketService.socket.on('joinDriver', (data){
+    socketService.socket.on(SocketEvents.joinDriver, (data){
       isOnline.value = true;
       print('✅ Join Driver Received');
       bottomSheetController.hideAllSheets();
@@ -159,10 +167,20 @@ class HomeController extends GetxController{
         tColor: AppTheme.white);
     });
 
-    socketService.socket.on('acceptedOrderScreen', (data){
+   /* socketService.socket.on(SocketEvents.acceptedOrderScreen, (data){
       print('✅ acceptedOrderScreen $data');
+      bottomSheetController.acceptedOrder();
       CustomSnackBar.show(message: 'acceptedOrderScreen', color: AppTheme.primaryColor,
           tColor: AppTheme.white);
+    });*/
+    socketService.socket.on(SocketEvents.acceptedOrderScreen, (data) {
+      print('✅ acceptedOrderScreen $data');
+      try {
+        final orderDetails = AcceptedOrderModel.fromJson(data);
+        bottomSheetController.showAcceptedOrderDetails(orderDetails);
+      } catch (e) {
+        print('Error parsing order details: $e');
+      }
     });
   }
 

@@ -37,7 +37,6 @@ class RegisterData {
   String? phone;
   String? countryCode;
   String? password;
-  String? loginToken;
   String? otp;
   bool? otpVerified;
   String? otpExpiresAt;
@@ -78,7 +77,6 @@ class RegisterData {
         this.phone,
         this.countryCode,
         this.password,
-        this.loginToken,
         this.otp,
         this.otpVerified,
         this.otpExpiresAt,
@@ -119,7 +117,6 @@ class RegisterData {
     phone = json['phone'].toString();
     countryCode = json['country_code'].toString();
     password = json['password'].toString();
-    loginToken = json['login_token'].toString();
     otp = json['otp'].toString();
     otpVerified = json['otp_verified'];
     otpExpiresAt = json['otp_expires_at'];
@@ -162,7 +159,6 @@ class RegisterData {
     data['phone'] = this.phone;
     data['country_code'] = this.countryCode;
     data['password'] = this.password;
-    data['login_token'] = this.loginToken;
     data['otp'] = this.otp;
     data['otp_verified'] = this.otpVerified;
     data['otp_expires_at'] = this.otpExpiresAt;

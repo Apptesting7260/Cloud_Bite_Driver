@@ -177,8 +177,7 @@ class VehicleDetailController extends GetxController{
         LoadingOverlay().hideLoading();
         print(response.message);
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        Get.toNamed(Routes.documentVerificationScreen);
-        controller.getDocumentListData();
+        Get.back();
       }
       else if(response.status == false && response.type == 'vehicle_name'){
         LoadingOverlay().hideLoading();
