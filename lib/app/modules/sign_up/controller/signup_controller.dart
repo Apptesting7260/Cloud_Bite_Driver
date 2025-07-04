@@ -834,7 +834,6 @@ class SignUpController extends GetxController{
 
   @override
   void onClose() {
-    clearSignupToken();
     _timer?.cancel();
     otpController.dispose();
     super.onClose();

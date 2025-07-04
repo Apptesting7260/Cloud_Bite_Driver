@@ -3,14 +3,17 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class DocumentVerificationController extends GetxController{
   var isLoading = true.obs;
 
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
+
   @override
   void onInit() {
+    final token = storageServices.getToken();
+    print("============$token=================In Document Verification Screen");
     getDocumentListData();
     super.onInit();
   }
-
-  final StorageServices _storageService = Get.find<StorageServices>();
-  StorageServices get storageServices => _storageService;
 
   final Repository _repository = Repository();
 

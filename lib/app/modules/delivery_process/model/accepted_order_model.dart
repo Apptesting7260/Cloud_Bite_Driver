@@ -120,6 +120,7 @@ class Orderdata {
   String? deliveryTime;
   String? deliveryCharge;
   String? paymentStatus;
+  String? paymentMethod;
   String? createdAt;
   String? updatedAt;
 
@@ -133,6 +134,7 @@ class Orderdata {
         this.deliveryTime,
         this.deliveryCharge,
         this.paymentStatus,
+        this.paymentMethod,
         this.createdAt,
         this.updatedAt});
 
@@ -146,6 +148,7 @@ class Orderdata {
     deliveryTime = json['delivery_time'].toString();
     deliveryCharge = json['delivery_charge'].toString();
     paymentStatus = json['payment_status'];
+    paymentMethod = json['payment_method'];
     createdAt = json['created_at'].toString();
     updatedAt = json['updated_at'].toString();
   }
@@ -161,6 +164,7 @@ class Orderdata {
     data['delivery_time'] = this.deliveryTime;
     data['delivery_charge'] = this.deliveryCharge;
     data['payment_status'] = this.paymentStatus;
+    data['payment_method'] = this.paymentMethod;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     return data;
@@ -171,6 +175,7 @@ class Userdata {
   String? id;
   String? firstName;
   String? lastName;
+  String? image;
   String? email;
   String? phone;
   String? fcmToken;
@@ -179,6 +184,7 @@ class Userdata {
       {this.id,
         this.firstName,
         this.lastName,
+        this.image,
         this.email,
         this.phone,
         this.fcmToken});
@@ -187,6 +193,7 @@ class Userdata {
     id = json['id'].toString();
     firstName = json['first_name'].toString();
     lastName = json['last_name'].toString();
+    image = json['image'].toString();
     email = json['email'].toString();
     phone = json['phone'].toString();
     fcmToken = json['fcm_token'].toString();
@@ -197,6 +204,7 @@ class Userdata {
     data['id'] = this.id;
     data['first_name'] = this.firstName;
     data['last_name'] = this.lastName;
+    data['image'] = this.image;
     data['email'] = this.email;
     data['phone'] = this.phone;
     data['fcm_token'] = this.fcmToken;

@@ -76,14 +76,16 @@ class PhoneLoginView extends StatelessWidget {
 
                                                     WidgetDesigns.consoleLog("${countryCode.code}","country code --->>");
                                                     WidgetDesigns.consoleLog("${countryCode.dialCode}","country dialCode --->>");
-                                                    controller.updateCountryString(countryCode.dialCode.toString().split("+").last);
+                                                    // controller.updateCountryString(countryCode.dialCode.toString().split("+").last);
+                                                    controller.updateCountryString((countryCode.dialCode ?? '+91').replaceAll('+', ''));
                                                     if(controller.countryPhoneDigits[countryCode.code.toString()] != null){
-                                                      controller.checkCountryLength.value = controller.countryPhoneDigits[countryCode.code.toString()] ?? 10;
+                                                      controller.checkCountryLength.value = controller.countryPhoneDigits[countryCode.code] ?? 10;
                                                     } else {
                                                       controller.checkCountryLength.value = 10;
                                                     }
                                                   },
-                                                  initialSelection: "+${controller.countryString}",
+                                                  // initialSelection: "+${controller.countryString}",
+                                                  initialSelection: controller.countryString.value,
                                                 ),
                                                 Positioned(
                                                   right: -6,

@@ -1,12 +1,15 @@
 import 'package:cloud_bites_driver/app/constants/socket_url.dart';
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
+import 'package:cloud_bites_driver/app/modules/delivery_process/model/otp_verification_model.dart';
 
 class DriverRepository {
   final SocketService _socketService = Get.find<SocketService>();
 
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageServices => _storageService;
+
+  final RxBool isOtpVerified = false.obs;
 
   // 1. GO Online Event
   Future<void> goOnline({
@@ -171,6 +174,38 @@ class DriverRepository {
       rethrow;
     }
   }
+
+  // 9 Send OTP Emit Event
+  Future<void> sendOTP(String orderId) async {
+    try {
+      final driverId = storageServices.getDriverID();
+      await _socketService.emitEvent(SocketEvents.sendOTP, {
+        'driverid': driverId,
+        'orderId': orderId,
+        'action': 'generate'
+      });
+    } catch (e) {
+      print('Failed to send OTP: $e');
+      rethrow;
+    }
+  }
+
+  // 10 Verify Phone Number Event
+  Future<void> verifyPhoneEvent(String orderId, String otp) async {
+    try {
+      final driverId = storageServices.getDriverID();
+      await _socketService.emitEvent(SocketEvents.sendOTP, {
+        'driverid': driverId,
+        'orderId': orderId,
+        'action': 'verify',
+        'otp': otp
+      });
+    } catch (e) {
+      print('Failed to send OTP: $e');
+      rethrow;
+    }
+  }
+
 
   Future<void> updateLocation({
     required double latitude,

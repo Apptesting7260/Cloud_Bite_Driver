@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_bites_driver/app/constants/socket_url.dart';
+import 'package:cloud_bites_driver/app/core/app_exports.dart' show FormState, GlobalKey, TextEditingController;
 import 'package:cloud_bites_driver/app/modules/delivery_process/controller/bottom_sheet_controller.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart' show OrderModel;
@@ -29,6 +30,8 @@ class HomeController extends GetxController{
   final RxBool isSocketConnecting = false.obs;
   final RxString connectionStatus = 'Disconnected'.obs;
 
+  TextEditingController otpController = TextEditingController();
+
   // For Remaining Time
   final RxInt remainingTime = 30.obs; // Starting from 30 seconds
   final int totalTime = 30;
@@ -55,6 +58,53 @@ class HomeController extends GetxController{
     _timer.cancel();
   }
   final BottomSheetController bottomSheetController = Get.put(BottomSheetController());
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  // for otp event----
+  final RxString otpPhoneNumber = ''.obs;
+  final RxString otpCode = ''.obs;
+
+  void sendOtp() {
+    final orderDetails = bottomSheetController.orderDetails.value;
+    if (orderDetails != null) {
+      driverRepo.sendOTP(orderDetails.data?.orderDetail?.orderdata?.id.toString() ?? '');
+      bottomSheetController.showSendOtpSheet();
+    }
+  }
+
+  void verifyOtp() {
+    final orderDetails = bottomSheetController.orderDetails.value;
+    if (orderDetails != null) {
+      driverRepo.verifyPhoneEvent(orderDetails.data?.orderDetail?.orderdata?.id.toString() ?? '', '${otpController.value}');
+      bottomSheetController.showOrderPickedUp();
+    }
+  }
+
+  RxString otpError = "".obs;
+  updateOtpError(String value) {
+    otpError.value = value;
+    update();
+  }
+
+  final resendEnabled = false.obs;
+  final remainingTimer = 60.obs;
+  Timer? resendTime;
+
+  void startResendTimer() {
+    resendEnabled.value = false;
+    remainingTimer.value = 60;
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (remainingTimer.value > 0) {
+        remainingTimer.value--;
+      } else {
+        resendEnabled.value = true;
+        timer.cancel();
+      }
+    });
+  }
+  void resendOtp() {
+    startResendTimer();
+  }
 
   @override
   void onInit() {
@@ -70,6 +120,7 @@ class HomeController extends GetxController{
       }
     });
 
+    // Listen for accepted order
     ever(driverRepo.orderDetails, (AcceptedOrderModel? details) {
       if (details != null) {
         bottomSheetController.showAcceptedOrderDetails(details);
@@ -152,27 +203,21 @@ class HomeController extends GetxController{
       isOnline.value = false;
       print('✅ Received driverOfflineConfirmed, hiding bottom sheet');
       bottomSheetController.hideAllSheets();
-      CustomSnackBar.show(
+      /*CustomSnackBar.show(
         message: 'You are now offline',
         color: AppTheme.primaryColor,
         tColor: AppTheme.white,
-      );
+      );*/
     });
     
     socketService.socket.on(SocketEvents.joinDriver, (data){
       isOnline.value = true;
-      print('✅ Join Driver Received');
+      print('✅ Join Driver Received $data');
       bottomSheetController.hideAllSheets();
       CustomSnackBar.show(message: 'Joined Driver', color: AppTheme.primaryColor,
         tColor: AppTheme.white);
     });
 
-   /* socketService.socket.on(SocketEvents.acceptedOrderScreen, (data){
-      print('✅ acceptedOrderScreen $data');
-      bottomSheetController.acceptedOrder();
-      CustomSnackBar.show(message: 'acceptedOrderScreen', color: AppTheme.primaryColor,
-          tColor: AppTheme.white);
-    });*/
     socketService.socket.on(SocketEvents.acceptedOrderScreen, (data) {
       print('✅ acceptedOrderScreen $data');
       try {
@@ -180,6 +225,23 @@ class HomeController extends GetxController{
         bottomSheetController.showAcceptedOrderDetails(orderDetails);
       } catch (e) {
         print('Error parsing order details: $e');
+      }
+    });
+
+    socketService.socket.on(SocketEvents.sendOTP, (data) {
+      print('✅ Send Otp Received $data');
+      CustomSnackBar.show(message: 'Otp Sent', color: AppTheme.primaryColor,
+          tColor: AppTheme.white);
+    });
+
+    socketService.socket.on(SocketEvents.otpPhoneNo, (data) {
+      print('✅ OTP Phone Received: $data');
+      if (data is Map && data['phoneNumber'] != null) {
+        final phone = data['phoneNumber'].toString();
+        otpPhoneNumber.value = phone;
+        print('📱 Phone number set: $phone');
+      } else {
+        print('⚠️ Invalid phone number format');
       }
     });
   }
@@ -207,6 +269,7 @@ class HomeController extends GetxController{
       print(e);
     }
   }
+
 
   Future<void> joinDriverEvent() async {
     try {

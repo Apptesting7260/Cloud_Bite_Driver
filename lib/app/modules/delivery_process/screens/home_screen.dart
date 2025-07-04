@@ -130,6 +130,10 @@ class HomeScreen extends StatelessWidget{
                   return _buildOrderAvailableSheet();
                 case BottomSheetState.acceptedOrderSheet:
                   return _acceptedOrderSheet();
+                case BottomSheetState.sendOtpSheet:
+                  return _sendOtpSheet();
+                case BottomSheetState.orderPickedSheet:
+                  return _orderPickedUpSheet();
                 default:
                   return SizedBox.shrink();
               }
@@ -149,7 +153,7 @@ class HomeScreen extends StatelessWidget{
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
@@ -229,7 +233,6 @@ class HomeScreen extends StatelessWidget{
         controller.startTimer();
       }
     });
-
     return Positioned(
       bottom: 0,
       left: 0,
@@ -238,7 +241,7 @@ class HomeScreen extends StatelessWidget{
         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
           boxShadow: [
             BoxShadow(
               color: Colors.black12,
@@ -250,12 +253,26 @@ class HomeScreen extends StatelessWidget{
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 12),
+              alignment: Alignment.center,
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            WidgetDesigns.hBox(20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    WidgetDesigns.hBox(20),
                     Text(
                       "${order.pickupDistance} (${order.deliveryTime})",
                       style: TextStyle(
@@ -422,27 +439,8 @@ class HomeScreen extends StatelessWidget{
     );
   }
 
-
-
-  // AcceptedOrderScreen
+  // Accepted Order sheet
   Widget _acceptedOrderSheet() {
-    final List<Map<String, String>> orderItems = [
-      {
-        'name': 'Butter Chicken And Rice',
-        'size': 'Small',
-        'quantity': 'Qty: 2'
-      },
-      {
-        'name': 'Butter Chicken And Rice',
-        'size': 'Small',
-        'quantity': 'Qty: 2'
-      },
-      {
-        'name': 'Butter Chicken And Rice',
-        'size': 'Small',
-        'quantity': 'Qty: 2'
-      },
-    ];
     final orderDetails = Get.find<BottomSheetController>().orderDetails.value;
     if (orderDetails == null) return SizedBox.shrink();
     return DraggableScrollableSheet(
@@ -469,10 +467,21 @@ class HomeScreen extends StatelessWidget{
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Drag handle (removed to match image)
-                // Order header
+                Container(
+                  margin: EdgeInsets.only(bottom: 12),
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      borderRadius: BorderRadius.circular(2),
+                    ),
+                  ),
+                ),
+                WidgetDesigns.hBox(20),
                 Text(
-                    "${orderDetails.data?.orderDetail?.userdata?.firstName} " " ${orderDetails.data?.orderDetail?.userdata?.lastName}",
+                    "${orderDetails.data?.orderDetail?.vendordata?.restaurantName}",
                     style: AppFontStyle.text_20_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium)
                 ),
                 WidgetDesigns.hBox(8),
@@ -504,21 +513,18 @@ class HomeScreen extends StatelessWidget{
                   time: "${orderDetails.data?.pickUpLocation?.distance}",
                 ),
                 WidgetDesigns.hBox(16),
-            
                 _buildLocationRow(
                   title: "Delivery Location",
                   address: "${orderDetails.data?.orderDetail?.userAddressData?.completeAddress}",
                   time: "${orderDetails.data?.deliveryLocation?.distance}",
                 ),
                 WidgetDesigns.hBox(16),
-            
                 _buildLocationRow(
                   title: "Payment Method",
-                  address: "Credit Card",
+                  address: "${orderDetails.data?.orderDetail?.orderdata?.paymentMethod}",
                   time: "",
                 ),
                 WidgetDesigns.hBox(24),
-            
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
@@ -529,11 +535,17 @@ class HomeScreen extends StatelessWidget{
                   ),
                   child: Row(
                     children: [
-                      SvgPicture.asset(ImageConstants.profileNameIcon),
+                      CachedNetworkImage(
+                        imageUrl: "${AppUrls.imageUrl}${orderDetails.data?.orderDetail?.userdata?.image}",
+                        placeholder: (context, url) => ShimmerBox(width: 20, height: 20),
+                        fit: BoxFit.cover,
+                        height: 30,
+                        width: 30,
+                      ),
                       SizedBox(width: 12),
                       Expanded(
                         child: Text(
-                            'Daniel Smith',
+                            "${orderDetails.data?.orderDetail?.userdata?.firstName} " " ${orderDetails.data?.orderDetail?.userdata?.lastName}",
                             style: AppFontStyle.text_18_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium)
                         ),
                       ),
@@ -555,26 +567,23 @@ class HomeScreen extends StatelessWidget{
                     ],
                   ),
                 ),
-            
                 WidgetDesigns.hBox(16),
-            
                 SizedBox(
-                  height: orderItems.length * 72.0, // Adjust height based on item count
+                  height: (orderDetails.data?.orderDetail?.orderItemsData?.length ?? 0) * 72.0,
                   child: ListView.builder(
-                    physics: NeverScrollableScrollPhysics(), // Disable scrolling
-                    itemCount: orderItems.length,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: orderDetails.data?.orderDetail?.orderItemsData?.length,
                     itemBuilder: (context, index) {
                       return _buildSimpleOrderItem(
-                        orderItems[index]['name']!,
-                        orderItems[index]['size']!,
-                        orderItems[index]['quantity']!,
+                          "${orderDetails.data?.orderDetail?.orderItemsData?[index].productImages}",
+                          "${orderDetails.data?.orderDetail?.orderItemsData?[index].productTitle}",
+                          "${orderDetails.data?.orderDetail?.orderItemsData?[index].variant}",
+                          "${orderDetails.data?.orderDetail?.orderItemsData?[index].quantity}"
                       );
                     },
                   ),
                 ),
-            
                 WidgetDesigns.hBox(16),
-            
                 // Payment details
                 Text(
                   'Payment Details',
@@ -591,7 +600,7 @@ class HomeScreen extends StatelessWidget{
                           style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
                         ),
                         Text(
-                          'Paid',
+                          "${orderDetails.data?.orderDetail?.orderdata?.paymentStatus}",
                           style: AppFontStyle.text_18_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
                         )
                       ],
@@ -605,7 +614,7 @@ class HomeScreen extends StatelessWidget{
                           style: AppFontStyle.text_18_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
                         ),
                         Text(
-                          'P100',
+                          "P${orderDetails.data?.orderDetail?.orderdata?.totalAmount}",
                           style: AppFontStyle.text_18_500(AppTheme.redText, fontFamily: AppFontFamily.generalSansMedium),
                         )
                       ],
@@ -614,7 +623,9 @@ class HomeScreen extends StatelessWidget{
                 ),
                 WidgetDesigns.hBox(30),
                 CustomAnimatedButton(
-                  onTap: () {},
+                  onTap: () {
+                    controller.sendOtp();
+                  },
                   text: "Send Code",
                 ),
               ],
@@ -626,12 +637,18 @@ class HomeScreen extends StatelessWidget{
   }
 
 // Simplified order item widget
-  Widget _buildSimpleOrderItem(String name, String size, String quantity) {
+
+  Widget _buildSimpleOrderItem(String images, String name, String size, String quantity) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         children: [
-          Image.asset(ImageConstants.profile),
+          CachedNetworkImage(
+            imageUrl: "${AppUrls.imageUrl}$images",
+            placeholder: (context, url) => ShimmerBox(width: 30, height: 30),
+            errorWidget: (context, url, error) => Icon(Icons.error_outline_sharp),
+            fit: BoxFit.cover,
+          ),
           WidgetDesigns.wBox(8),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -644,6 +661,201 @@ class HomeScreen extends StatelessWidget{
             ],
           ),
         ],
+      ),
+    );
+  }
+
+  // Send OTP Sheet
+  Widget _sendOtpSheet() {
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              offset: Offset(0, -3),
+            ),
+          ],
+        ),
+        child: Obx((){
+          return Form(
+            key: controller.formKey,
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 12),
+                        alignment: Alignment.center,
+                        child: Container(
+                          width: 40,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[300],
+                            borderRadius: BorderRadius.circular(2),
+                          ),
+                        ),
+                      ),
+                      WidgetDesigns.hBox(20),
+                      Text(
+                        'Verify Phone Number',
+                        style: AppFontStyle.text_24_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+                      ),
+                      WidgetDesigns.hBox(10),
+                      Text(
+                        'Please enter the verification code sent to',
+                        style: AppFontStyle.text_16_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+                        textAlign: TextAlign.center,
+                      ),
+                      WidgetDesigns.hBox(10),
+                      Text(
+                        controller.otpPhoneNumber.value,
+                        style: AppFontStyle.text_18_400(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+                        textAlign: TextAlign.center,
+                      ),
+                      WidgetDesigns.hBox(20),
+                      GetBuilder<HomeController>(
+                          builder: (context) {
+                            return Column(
+                              children: [
+                                Pinput(
+                                  length: 6,
+                                  controller: controller.otpController,
+                                  defaultPinTheme: PinTheme(
+                                      height: 55,
+                                      width: 55,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(60),
+                                          color: Color(0xffF4F5F7)
+                                      )
+                                  ),
+                                  onChanged: (value) {
+                                    controller.updateOtpError('');
+                                  },
+                                  validator: (value) {
+                                    if(value == '' || value!.isEmpty){
+                                      return 'Please Enter Otp';
+                                    }
+                                    if (value.length != 6) {
+                                      return 'OTP must be 6 digits';
+                                    }
+                                    return null;
+                                  },
+                                ),
+                                Obx(() {
+                                  return controller.otpError.value !=""?Text(controller.otpError.value,style: WidgetDesigns.errorTextStyle(),).paddingOnly(top: 10):SizedBox();
+                                },),
+                              ],
+                            );
+                          }
+                      ),
+                      WidgetDesigns.hBox(20),
+                      CustomAnimatedButton(
+                          onTap: () {
+                            if(controller.formKey.currentState!.validate()){
+                              controller.verifyOtp();
+                            }
+                          },
+                          text: 'Verify'
+                      ),
+                      WidgetDesigns.hBox(20.0),
+                      Obx(() => TextButton(
+                        onPressed: controller.resendEnabled.value ? () {
+                          // Reset timer and resend OTP
+                          controller.startResendTimer();
+                          controller.otpController.clear();
+                          controller.otpError.value ='';
+                          //controller.sendOtp();
+                        } : null,
+                        child: Text(
+                          controller.resendEnabled.value
+                              ? 'Resend Code'
+                              : 'Resend Code in ${controller.remainingTimer.value}s',
+                          style: TextStyle(
+                            color: controller.resendEnabled.value
+                                ? AppTheme.primaryColor
+                                : Colors.grey,
+                            decoration: controller.resendEnabled.value
+                                ? TextDecoration.underline
+                                : null,
+                            decorationColor: AppTheme.primaryColor,
+                            decorationThickness: 2,
+                          ),
+                        ),
+                      )),
+                    ],
+                  ),
+                ]),
+          );
+        })
+      )
+    );
+  }
+
+  // Order PickedUp Sheet
+  Widget _orderPickedUpSheet() {
+    return Positioned(
+      bottom: 0,
+      left: 0,
+      right: 0,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black12,
+              blurRadius: 10,
+              offset: Offset(0, -3),
+            ),
+          ],
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              margin: EdgeInsets.only(bottom: 12),
+              alignment: Alignment.center,
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            WidgetDesigns.hBox(20),
+            SvgPicture.asset(ImageConstants.rightIcon),
+            WidgetDesigns.hBox(10),
+            Text(
+              'Order Pickup successfully!',
+              style: AppFontStyle.text_22_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+            ),
+            WidgetDesigns.hBox(10),
+            Text(
+              'Lorem Ipsum is simply dummy text of the \nprinting and typesetting industry.',
+              style: AppFontStyle.text_16_400(AppTheme.grey, fontFamily: AppFontFamily.generalSansRegular),
+            ),
+            WidgetDesigns.hBox(20),
+            CustomAnimatedButton(
+              onTap: () {
+                controller.bottomSheetController.showLookingForOrders();
+              },
+              text: "Continue",
+            ),
+          ],
+        ),
       ),
     );
   }

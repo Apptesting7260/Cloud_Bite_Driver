@@ -3,9 +3,14 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class PersonalDocumentController extends GetxController{
   var isLoading = true.obs;
 
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
 
   @override
   void onInit() {
+    final token = storageServices.getToken();
+    print("============$token=================In Personal Document Screen");
     getPersonalDocumentListData();
     super.onInit();
   }

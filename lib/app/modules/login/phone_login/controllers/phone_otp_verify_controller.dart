@@ -69,6 +69,7 @@ class PhoneOtpVerifyController extends GetxController{
       final data = {
         "type": "phone",
         "phone": phoneNo.value,
+        "country_code": countryString.value,
         "otpType": "verify",
         "otp": otpController.text,
         "id": storageServices.getDriverID()

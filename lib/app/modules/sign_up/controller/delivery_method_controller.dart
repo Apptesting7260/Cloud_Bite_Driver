@@ -6,7 +6,7 @@ class DeliveryMethodController extends GetxController{
   @override
   void onInit() {
     final token = storageServices.getToken();
-    print("............$token...............");
+    print("............$token...............In Get Delvery Method");
     getDeliveryMethodsAPI();
     super.onInit();
   }
@@ -52,7 +52,7 @@ class DeliveryMethodController extends GetxController{
   // Set Delivery Methods
   Future<void> selectDeliveryMethodAPI() async {
     final token = storageServices.getToken();
-    print("============$token=================");
+    print("============$token=================In Set Delivery Method");
     LoadingOverlay().showLoading();
     try {
       final selectedId = selectedOptionIndex.value;

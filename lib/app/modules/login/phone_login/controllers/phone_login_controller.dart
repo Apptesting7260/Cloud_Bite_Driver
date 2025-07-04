@@ -24,7 +24,7 @@ class PhoneLoginController extends GetxController {
   GlobalKey<FormState> phoneKey = GlobalKey<FormState>();
 
   RxInt checkCountryLength = 10.obs;
-  RxString countryString = "+91".obs;
+  RxString countryString = "91".obs;
   updateCountryString(String value){
     countryString.value = value;
   }
@@ -230,6 +230,7 @@ class PhoneLoginController extends GetxController {
       final data = {
         "type": "phone",
         "phone": phoneController.text,
+        "country_code": "${countryString.value}",
         "otpType": "generate",
         "fcm_token": fcmToken ?? '',
         "id": storageServices.getDriverID()
@@ -241,7 +242,7 @@ class PhoneLoginController extends GetxController {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         CustomSnackBar.show(message: response.otp.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        Get.toNamed(Routes.phoneLoginOtpVerify, arguments: {"phone": phoneController.text.trim(), "otp": response.otp.toString(), "countryString": countryString.value.toString()});
+        Get.toNamed(Routes.phoneLoginOtpVerify, arguments: {"phone": phoneController.text.trim(), "otp": response.otp.toString(), "countryString": countryString.value});
       }
       else if(response.status == false && response.type == 'login'){
         LoadingOverlay().hideLoading();

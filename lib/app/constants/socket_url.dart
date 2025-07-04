@@ -30,4 +30,8 @@ class SocketEvents {
 
   static const acceptedOrderScreen = 'acceptedOrderScreen';
 
+  static const sendOTP = 'sendOTP';
+
+  static const otpPhoneNo = 'otpPhoneNo';
+
 }
