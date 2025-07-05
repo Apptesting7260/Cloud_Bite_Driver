@@ -34,4 +34,6 @@ class SocketEvents {
 
   static const otpPhoneNo = 'otpPhoneNo';
 
+  static const getCurrentOrderDetails = 'getCurrentOrderDetails';
+
 }

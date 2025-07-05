@@ -1,10 +1,12 @@
 import 'dart:async';
 
 import 'package:cloud_bites_driver/app/constants/socket_url.dart';
-import 'package:cloud_bites_driver/app/core/app_exports.dart' show FormState, GlobalKey, TextEditingController;
+import 'package:cloud_bites_driver/app/core/app_exports.dart'
+    show FormState, GlobalKey, TextEditingController;
 import 'package:cloud_bites_driver/app/modules/delivery_process/controller/bottom_sheet_controller.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
-import 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart' show OrderModel;
+import 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart'
+    show OrderModel;
 import 'package:cloud_bites_driver/app/storage/storageServices.dart';
 import 'package:cloud_bites_driver/app/themes/app_theme.dart';
 import 'package:cloud_bites_driver/app/utils/custom_widgets/custom_snakbar.dart';
@@ -18,22 +20,29 @@ import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
-
-class HomeController extends GetxController{
+class HomeController extends GetxController {
   GoogleMapController? mapController;
   Rx<CameraPosition?> initialCameraPosition = Rx<CameraPosition?>(null);
   final RxBool isOnline = false.obs;
+  var socketService = Get.find<SocketController>();
+
   final DriverRepository driverRepo = Get.find<DriverRepository>();
   final Location location = Location();
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageServices => _storageService;
   final RxBool isSocketConnecting = false.obs;
   final RxString connectionStatus = 'Disconnected'.obs;
+  final Rx<AcceptedOrderModel?> orderDetails = Rx<AcceptedOrderModel?>(null);
 
   TextEditingController otpController = TextEditingController();
+  var isSlid = false.obs;
+
+  void onSlideCompleted() {
+    isSlid.value = true;
+  }
 
   // For Remaining Time
-  final RxInt remainingTime = 30.obs; // Starting from 30 seconds
+  final RxInt remainingTime = 30.obs;
   final int totalTime = 30;
   late Timer _timer;
 
@@ -57,7 +66,10 @@ class HomeController extends GetxController{
   void stopTimer() {
     _timer.cancel();
   }
-  final BottomSheetController bottomSheetController = Get.put(BottomSheetController());
+
+  final BottomSheetController bottomSheetController = Get.put(
+    BottomSheetController(),
+  );
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // for otp event----
@@ -67,16 +79,67 @@ class HomeController extends GetxController{
   void sendOtp() {
     final orderDetails = bottomSheetController.orderDetails.value;
     if (orderDetails != null) {
-      driverRepo.sendOTP(orderDetails.data?.orderDetail?.orderdata?.id.toString() ?? '');
+      driverRepo.sendOTP(
+        orderDetails.data?.orderDetail?.orderdata?.id.toString() ?? '',
+      );
       bottomSheetController.showSendOtpSheet();
     }
+  }
+
+  void getCurrentOrderDetailsEvent() {
+    final driverId = storageServices.getDriverID();
+    print("getCurrentOderDetails----------$driverId");
+    socketService.sendMessage(SocketEvents.getCurrentOrderDetails, {
+      "driverId": driverId,
+    });
+    socketService.listenToEvent(SocketEvents.getCurrentOrderDetails, (p0) {
+      print("get current order detial------------- $p0");
+      socketService.off(SocketEvents.getCurrentOrderDetails);
+      if (p0['status']) {}
+    });
+  }
+
+  void driverIsOnline() {
+    final driverId = storageServices.getDriverID();
+    socketService.sendMessage("is_online", {"driverId": driverId});
+    socketService.listenToEvent("is_online", (p0) {
+      print("Driver isOnline---------$p0");
+      if (p0['status']) {}
+    });
   }
 
   void verifyOtp() {
     final orderDetails = bottomSheetController.orderDetails.value;
     if (orderDetails != null) {
-      driverRepo.verifyPhoneEvent(orderDetails.data?.orderDetail?.orderdata?.id.toString() ?? '', '${otpController.value}');
-      bottomSheetController.showOrderPickedUp();
+      final driverId = storageServices.getDriverID();
+      socketService.sendMessage(SocketEvents.sendOTP, {
+        'driverid': driverId,
+        'orderId':
+            orderDetails.data?.orderDetail?.orderdata?.id.toString() ?? '',
+        'action': 'verify',
+        'otp': '${otpController.text}',
+      });
+
+      socketService.listenToEvent(SocketEvents.sendOTP, (data) {
+        print("otp ----------${otpController.text}");
+        socketService.off(SocketEvents.sendOTP);
+        if (data['status']) {
+          otpController.clear();
+          if (data["isCompleted"]==true) {
+            bottomSheetController.showOrderDelivered();
+          } else {
+            bottomSheetController.showOrderPickedUp();
+          }
+        } else {
+          print("data ${data}");
+        }
+        print('✅ Send Otp Received $data');
+        CustomSnackBar.show(
+          message: data['message'],
+          color: AppTheme.primaryColor,
+          tColor: AppTheme.white,
+        );
+      });
     }
   }
 
@@ -102,6 +165,7 @@ class HomeController extends GetxController{
       }
     });
   }
+
   void resendOtp() {
     startResendTimer();
   }
@@ -109,9 +173,11 @@ class HomeController extends GetxController{
   @override
   void onInit() {
     super.onInit();
+    driverRepo.joinDriver();
+    driverIsOnline();
     _getUserLocation();
     _initSocketListeners();
-    _checkSocketConnection();
+    driverRepo.listenForNewOrders();
 
     // Listen for new orders
     ever(driverRepo.currentOrder, (OrderModel? order) {
@@ -127,10 +193,10 @@ class HomeController extends GetxController{
       }
     });
 
-    final socketService = Get.find<SocketService>();
+    /*final socketService = Get.find<SocketService>();
     if (socketService.isConnected.value) {
       joinDriverEvent();
-    }
+    }*/
   }
 
   Future<void> _getUserLocation() async {
@@ -159,82 +225,100 @@ class HomeController extends GetxController{
   }
 
   // Socket Code
-  void _checkSocketConnection() {
-    final socketService = Get.find<SocketService>();
-
-    // Bind to socket connection states
-    isSocketConnecting.bindStream(socketService.isConnecting.stream);
-
-    ever(socketService.isConnected, (connected) {
-      connectionStatus.value = connected ? 'Connected' : 'Disconnected';
-
-      if (!connected) {
-        CustomSnackBar.show(
-          message: 'Connection lost. Reconnecting...',
-          color: AppTheme.redText,
-          tColor: AppTheme.white,
-        );
-      } else {
-        CustomSnackBar.show(
-          message: 'Connected to server',
-          color: AppTheme.primaryColor,
-          tColor: AppTheme.white,
-        );
-        joinDriverEvent();
-      }
-    });
-  }
 
   void _initSocketListeners() {
-    final socketService = Get.find<SocketService>();
-
-    socketService.socket.on(SocketEvents.connect, (_) {
+    /*socketService.listenToEvent(SocketEvents.connect, (_) {
       print('🔌 onConnect triggered in HomeController');
-      joinDriverEvent();
-    });
+      //joinDriverEvent();
+    });*/
 
-    socketService.socket.on(SocketEvents.goOnline, (data) {
+    socketService.listenToEvent(SocketEvents.goOnline, (data) {
       isOnline.value = true;
-      print('✅ Received driverOnlineConfirmed, showing bottom sheet');
+      print('✅ Received driverOnlineConfirmed, showing bottom sheet${data}');
+      print(
+        '✅ Received driverOnlineConfirmed, showing bottom sheet${isOnline.value}',
+      );
       bottomSheetController.showLookingForOrders();
     });
 
-    socketService.socket.on(SocketEvents.goOffline, (data) {
+    socketService.listenToEvent(SocketEvents.goOffline, (data) {
       isOnline.value = false;
       print('✅ Received driverOfflineConfirmed, hiding bottom sheet');
       bottomSheetController.hideAllSheets();
-      /*CustomSnackBar.show(
+      CustomSnackBar.show(
         message: 'You are now offline',
         color: AppTheme.primaryColor,
         tColor: AppTheme.white,
-      );*/
-    });
-    
-    socketService.socket.on(SocketEvents.joinDriver, (data){
-      isOnline.value = true;
-      print('✅ Join Driver Received $data');
-      bottomSheetController.hideAllSheets();
-      CustomSnackBar.show(message: 'Joined Driver', color: AppTheme.primaryColor,
-        tColor: AppTheme.white);
+      );
     });
 
-    socketService.socket.on(SocketEvents.acceptedOrderScreen, (data) {
+    socketService.listenToEvent(SocketEvents.joinDriver, (data) {
+      //isOnline.value = true;
+      print('✅ Join Driver Received $data');
+      CustomSnackBar.show(
+        message: 'Joined Driver',
+        color: AppTheme.primaryColor,
+        tColor: AppTheme.white,
+      );
+    });
+
+    socketService.listenToEvent(SocketEvents.acceptedOrderScreen, (data) {
       print('✅ acceptedOrderScreen $data');
       try {
         final orderDetails = AcceptedOrderModel.fromJson(data);
-        bottomSheetController.showAcceptedOrderDetails(orderDetails);
+        bottomSheetController.orderDetails.value = orderDetails;
+        bottomSheetController.orderDetails.refresh();
+        if (orderDetails.data?.pickUp == false) {
+          bottomSheetController.showAcceptedOrderDetails(orderDetails);
+        } else {
+          final orderModel = OrderModel(
+            orderId: orderDetails.data?.orderDetail?.orderdata?.id ?? "",
+            vendorId: orderDetails.data?.orderDetail?.vendordata?.id ?? "",
+            orderNumber:
+                orderDetails.data?.orderDetail?.orderdata?.orderId ?? "",
+            quantity: orderDetails.data?.orderDetail?.orderdata?.quantity ?? "",
+            totalAmount:
+                orderDetails.data?.orderDetail?.orderdata?.totalAmount ?? "",
+            deliveryTime:
+                orderDetails.data?.orderDetail?.orderdata?.deliveryTime ?? '',
+            restaurantName:
+                orderDetails.data?.orderDetail?.vendordata?.restaurantName ??
+                "",
+            vendorAddress:
+                orderDetails.data?.orderDetail?.vendordata?.address ?? "",
+            vendorLatitude:
+                orderDetails.data?.orderDetail?.vendordata?.latitude ?? 0.0,
+            vendorLongitude:
+                orderDetails.data?.orderDetail?.vendordata?.longitude ?? 0.0,
+            userAddress:
+                orderDetails
+                    .data
+                    ?.orderDetail
+                    ?.userAddressData
+                    ?.completeAddress ??
+                "",
+            userLatitude:
+                orderDetails.data?.orderDetail?.userAddressData?.latitude ??
+                0.0,
+            userLongitude:
+                orderDetails.data?.orderDetail?.userAddressData?.longitude ??
+                0.0,
+            pickupDistance: orderDetails.data?.pickUpLocation?.distance ?? "",
+            pickupDuration: orderDetails.data?.pickUpLocation?.duration ?? "",
+            deliveryDistance:
+                orderDetails.data?.deliveryLocation?.distance ?? "",
+            deliveryDuration:
+                orderDetails.data?.deliveryLocation?.duration ?? "",
+          );
+          bottomSheetController.showNewOrder(orderModel);
+        }
+        // socketService.off(SocketEvents.acceptedOrderScreen);
       } catch (e) {
         print('Error parsing order details: $e');
       }
     });
 
-    socketService.socket.on(SocketEvents.sendOTP, (data) {
-      print('✅ Send Otp Received $data');
-      CustomSnackBar.show(message: 'Otp Sent', color: AppTheme.primaryColor,
-          tColor: AppTheme.white);
-    });
-
-    socketService.socket.on(SocketEvents.otpPhoneNo, (data) {
+    socketService.listenToEvent(SocketEvents.otpPhoneNo, (data) {
       print('✅ OTP Phone Received: $data');
       if (data is Map && data['phoneNumber'] != null) {
         final phone = data['phoneNumber'].toString();
@@ -244,8 +328,35 @@ class HomeController extends GetxController{
         print('⚠️ Invalid phone number format');
       }
     });
+    socketService.listenToEvent(SocketEvents.newOrder, (data) {
+      print('Raw newOrder data: $data');
+      if (data is Map<String, dynamic>) {
+        driverRepo.currentOrder.value = OrderModel.fromJson(data);
+        print(
+          'New order received: ${driverRepo.currentOrder.value?.orderNumber}',
+        );
+      } else {
+        print(
+          'Invalid order data format - Expected Map but got ${data.runtimeType}',
+        );
+      }
+    });
+
+    // driverRepo.listenForNewOrders();
   }
 
+  void readyForDeliveryEvent() {
+    final driverId = storageServices.getDriverID();
+
+    socketService.sendMessage("readyForDelivery", {
+      "orderId": orderDetails.value?.data?.orderDetail?.orderdata?.id ?? "",
+      "driverId": driverId,
+    });
+    bottomSheetController.afterReadyForDeliveryBuild();
+    socketService.listenToEvent("readyForDelivery", (p0) {
+      print("object");
+    });
+  }
 
   Future<void> toggleOnlineStatus() async {
     try {
@@ -263,28 +374,26 @@ class HomeController extends GetxController{
           longitude: currentLocation.longitude!,
           address: storageServices.getAddress(),
         );
-        driverRepo.listenForNewOrders();
+        /*driverRepo.listenForNewOrders();*/
       }
     } catch (e) {
       print(e);
     }
   }
 
-
   Future<void> joinDriverEvent() async {
     try {
       await driverRepo.joinDriver();
+      print('-------Driver Joined--------');
     } catch (e) {
       print(e);
     }
   }
 
-
   @override
   void onClose() {
-    final socketService = Get.find<SocketService>();
-    socketService.socket.off('driverOnlineConfirmed');
-    socketService.socket.off('driverOfflineConfirmed');
+    socketService.off('driverOnlineConfirmed');
+    socketService.off('driverOfflineConfirmed');
     super.onClose();
   }
 }

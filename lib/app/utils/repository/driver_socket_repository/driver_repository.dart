@@ -4,12 +4,17 @@ import 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_o
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/otp_verification_model.dart';
 
 class DriverRepository {
-  final SocketService _socketService = Get.find<SocketService>();
+  var socketService = Get.find<SocketController>();
 
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageServices => _storageService;
 
   final RxBool isOtpVerified = false.obs;
+
+  /*DriverRepository() {
+    listenForNewOrders();
+    listenForOrderDetails();
+  }*/
 
   // 1. GO Online Event
   Future<void> goOnline({
@@ -22,7 +27,7 @@ class DriverRepository {
   }) async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent(SocketEvents.goOnline, {
+      socketService.sendMessage(SocketEvents.goOnline, {
         'driverId': driverId,
         'firstName': firstName,
         'lastName': lastName,
@@ -46,7 +51,7 @@ class DriverRepository {
   Future<void> goOffline() async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent(SocketEvents.goOffline, {
+      socketService.sendMessage(SocketEvents.goOffline, {
         'driverId': driverId,
       });
     } catch (e) {
@@ -64,10 +69,10 @@ class DriverRepository {
   Future<void> joinDriver() async {
     try{
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent(SocketEvents.joinDriver, {
+      socketService.sendMessage(SocketEvents.joinDriver, {
         'driverId': driverId
       });
-      print('Joined Driver');
+      print('========Joined Driver========');
     } catch(e){
       print('Failed to join: $e');
       CustomSnackBar.show(
@@ -82,20 +87,6 @@ class DriverRepository {
   final Rx<OrderModel?> currentOrder = Rx<OrderModel?>(null);
 
   void listenForNewOrders() {
-    _socketService.socket.on(SocketEvents.newOrder, (data) {
-      try {
-        print('Raw newOrder data: $data');
-        if (data is Map<String, dynamic>) {
-          currentOrder.value = OrderModel.fromJson(data);
-          print('New order received: ${currentOrder.value?.orderNumber}');
-        } else {
-          print('Invalid order data format - Expected Map but got ${data.runtimeType}');
-        }
-      } catch (e, stackTrace) {
-        print('Error parsing new order: $e');
-        print('Stack trace: $stackTrace');
-      }
-    });
     print('Listening for newOrder events'); // Confirm listener is set up
   }
 
@@ -104,7 +95,7 @@ class DriverRepository {
   Future<void> timeoutOrder(String orderId) async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent(SocketEvents.orderNotAccepted, {
+      socketService.sendMessage(SocketEvents.orderNotAccepted, {
         'driverId': driverId,
         'orderId': orderId,
       });
@@ -119,7 +110,7 @@ class DriverRepository {
   Future<void> acceptOrder(String orderId) async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent(SocketEvents.acceptOrder, {
+      socketService.sendMessage(SocketEvents.acceptOrder, {
         'driverId': driverId,
         'orderId': orderId,
       });
@@ -139,7 +130,7 @@ class DriverRepository {
   final Rx<AcceptedOrderModel?> orderDetails = Rx<AcceptedOrderModel?>(null);
 
   void listenForOrderDetails() {
-    _socketService.socket.on(SocketEvents.acceptedOrderScreen, (data) {
+    socketService.listenToEvent(SocketEvents.acceptedOrderScreen, (data) {
       try {
         print('Raw acceptedOrderScreen data: $data');
         if (data is Map<String, dynamic>) {
@@ -159,7 +150,7 @@ class DriverRepository {
   Future<void> rejectOrder(String orderId) async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent(SocketEvents.rejectOrder, {
+       socketService.sendMessage(SocketEvents.rejectOrder, {
         'driverId': driverId,
         'orderId': orderId,
       });
@@ -179,7 +170,7 @@ class DriverRepository {
   Future<void> sendOTP(String orderId) async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent(SocketEvents.sendOTP, {
+       socketService.sendMessage(SocketEvents.sendOTP, {
         'driverid': driverId,
         'orderId': orderId,
         'action': 'generate'
@@ -191,10 +182,10 @@ class DriverRepository {
   }
 
   // 10 Verify Phone Number Event
-  Future<void> verifyPhoneEvent(String orderId, String otp) async {
+ /* Future<void> verifyPhoneEvent(String orderId, String otp) async {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent(SocketEvents.sendOTP, {
+       socketService.sendMessage(SocketEvents.sendOTP, {
         'driverid': driverId,
         'orderId': orderId,
         'action': 'verify',
@@ -204,17 +195,17 @@ class DriverRepository {
       print('Failed to send OTP: $e');
       rethrow;
     }
-  }
+  }*/
 
 
-  Future<void> updateLocation({
+  void updateLocation({
     required double latitude,
     required double longitude,
     required String address,
-  }) async {
+  })  {
     try {
       final driverId = storageServices.getDriverID();
-      await _socketService.emitEvent('updateLocation', {
+       socketService.sendMessage('updateLocation', {
         'driverId': driverId,
         'latitude': latitude,
         'longitude': longitude,

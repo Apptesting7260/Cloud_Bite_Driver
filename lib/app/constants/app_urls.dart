@@ -1,13 +1,11 @@
 class AppUrls{
 
-     // static const String baseUrl = 'https://97tzzv24-8000.inc1.devtunnels.ms/driver';
+     static const String baseUrl = 'https://97tzzv24-8000.inc1.devtunnels.ms/driver';
      // static const String baseUrl = 'https://api.cloudbitesbw.com/driver';
-     static const String baseUrl = 'http://15.207.201.245:8000/driver';
+     // static const String baseUrl = 'http://15.207.201.245:8000/driver';
      static const String imageUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
-
-
-     // static const String socketURl = 'https://bpd5zg92-8000.inc1.devtunnels.ms/'; // Socket URl
-     static const String socketURl = 'http://15.207.201.245:8000/'; // Socket URl
+     // static const String socketURl = 'http://15.207.201.245:8000/'; // live Socket URl
+     static const String socketURl = 'https://21qkztxl-8000.inc1.devtunnels.ms/';
 
   static const String verifyUser = "$baseUrl/verifyUser";
   static const String allAddressUrl = "$baseUrl/user-address";

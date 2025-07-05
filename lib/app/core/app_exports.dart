@@ -180,6 +180,8 @@ export 'package:cloud_bites_driver/app/utils/service/push_notification_service.d
 export 'package:cloud_bites_driver/app/utils/service/sockets/socket_services.dart';
 export 'package:cloud_bites_driver/app/utils/repository/driver_socket_repository/driver_repository.dart';
 export 'package:cloud_bites_driver/app/utils/network/network_service.dart';
+export 'package:cloud_bites_driver/app/utils/custom_widgets/slider_button.dart';
+
 
 
 //// bindings /////

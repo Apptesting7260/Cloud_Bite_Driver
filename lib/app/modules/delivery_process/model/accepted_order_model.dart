@@ -1,3 +1,4 @@
+
 class AcceptedOrderModel {
   bool? status;
   AcceptedOrderData? data;
@@ -20,13 +21,15 @@ class AcceptedOrderModel {
 }
 
 class AcceptedOrderData {
+  bool? pickUp;
   OrderDetail? orderDetail;
   PickUpLocation? pickUpLocation;
   PickUpLocation? deliveryLocation;
 
-  AcceptedOrderData({this.orderDetail, this.pickUpLocation, this.deliveryLocation});
+  AcceptedOrderData({this.orderDetail,this.pickUp, this.pickUpLocation, this.deliveryLocation});
 
   AcceptedOrderData.fromJson(Map<String, dynamic> json) {
+    pickUp = json['pickUp'];
     orderDetail = json['orderDetail'] != null
         ? new OrderDetail.fromJson(json['orderDetail'])
         : null;
@@ -40,6 +43,9 @@ class AcceptedOrderData {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    if(this.pickUp != null){
+      data['pickUp'] = this.pickUp;
+    }
     if (this.orderDetail != null) {
       data['orderDetail'] = this.orderDetail!.toJson();
     }

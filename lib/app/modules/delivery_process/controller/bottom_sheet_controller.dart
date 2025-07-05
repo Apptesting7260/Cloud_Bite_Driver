@@ -6,7 +6,9 @@ enum BottomSheetState {
   newOrderArrived,
   acceptedOrderSheet,
   sendOtpSheet,
-  orderPickedSheet
+  orderPickedSheet,
+  afterReadyForDeliveryBuild,
+  orderDeliveredSheet
 }
 
 class BottomSheetController extends GetxController {
@@ -45,6 +47,10 @@ class BottomSheetController extends GetxController {
     currentSheet.value = BottomSheetState.acceptedOrderSheet;
   }
 
+  void afterReadyForDeliveryBuild(){
+    currentSheet.value = BottomSheetState.afterReadyForDeliveryBuild;
+  }
+
   // Otp Sheet
   // In BottomSheetController
   void showSendOtpSheet() {
@@ -54,6 +60,10 @@ class BottomSheetController extends GetxController {
   // Verify Phone
   void showOrderPickedUp(){
     currentSheet.value = BottomSheetState.orderPickedSheet;
+  }
+
+  void showOrderDelivered(){
+    currentSheet.value = BottomSheetState.orderDeliveredSheet;
   }
 
   void hideAllSheets() {

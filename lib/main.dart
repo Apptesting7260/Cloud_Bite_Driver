@@ -16,7 +16,7 @@ void main() async {
   await Get.putAsync(() => StorageServices().init());
 
   PushNotificationService.firebaseNotification();
-  await Get.putAsync(() => SocketService().init());
+  await Get.putAsync(() async => SocketController(),permanent: true);
   Get.put(DriverRepository());
 
   SystemChrome.setPreferredOrientations(
