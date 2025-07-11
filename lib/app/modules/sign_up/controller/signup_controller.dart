@@ -494,7 +494,7 @@ class SignUpController extends GetxController{
     975: 8,   // Bhutan
     591: 8,   // Bolivia
     387: 8,   // Bosnia and Herzegovina
-    267: 7,   // Botswana
+    267: 8,   // Botswana
     55: 11,   // Brazil
     673: 7,   // Brunei
     359: 9,   // Bulgaria

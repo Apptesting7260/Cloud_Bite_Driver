@@ -52,7 +52,7 @@ class PhoneLoginController extends GetxController {
     'BT': 8, // Bhutan
     'BO': 8, // Bolivia
     'BA': 8, // Bosnia and Herzegovina
-    'BW': 7, // Botswana
+    'BW': 8, // Botswana
     'BR': 11, // Brazil
     'BN': 7, // Brunei
     'BG': 9, // Bulgaria
