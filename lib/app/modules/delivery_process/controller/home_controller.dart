@@ -861,12 +861,11 @@ class HomeController extends GetxController {
   void _sendLocationUpdate(String orderId) {
     if (driverLocation.value == null) return;
 
-    /*// Only send updates if we're in delivery phase (not pickup)
+    // Only send updates if we're in delivery phase (not pickup)
     if (orderDetails.value?.data?.pickUp == true) {
       print('🚚 Currently in pickup phase - not sending location updates to customer');
       return;
     }
-*/
     print('📡 Sending location update at ${DateTime.now()}');
     print('📍 Location: ${driverLocation.value!.latitude}, ${driverLocation.value!.longitude}');
 
