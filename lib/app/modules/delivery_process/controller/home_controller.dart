@@ -150,7 +150,7 @@ class HomeController extends GetxController {
   }
 
 
-  void _startLocationTracking() {
+ /* void _startLocationTracking() {
     locationSubscription?.cancel();
     const LocationSettings locationSettings = LocationSettings(distanceFilter: 10);
 
@@ -161,8 +161,8 @@ class HomeController extends GetxController {
         _updateMapWithNewLocation(newPosition);
 
         if (orderDetails.value != null) {
-          print("${orderDetails.value} valueeeee");
-          _locationTimer = Timer.periodic(Duration(seconds: 30), (timer){
+          print("${orderDetails.value} valueeeee of currnt location");
+          _locationTimer = Timer.periodic(Duration(seconds: 10), (timer){
             _sendLocationUpdate(orderDetails.value!.data!.orderDetail!.orderdata!.id.toString());
           });
         }
@@ -176,8 +176,38 @@ class HomeController extends GetxController {
         );
       }
     });
-  }
+  }*/
+  void _startLocationTracking() {
+    locationSubscription?.cancel();
+    _locationTimer?.cancel();
 
+    const LocationSettings locationSettings = LocationSettings(distanceFilter: 10);
+
+    locationSubscription = location.onLocationChanged.listen((LocationData currentLocation) async {
+      if (currentLocation.latitude != null && currentLocation.longitude != null) {
+        final newPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
+        driverLocation.value = newPosition;
+        _updateMapWithNewLocation(newPosition);
+
+        if (_locationTimer == null || !_locationTimer!.isActive) {
+          if (orderDetails.value != null &&
+              orderDetails.value?.data?.orderDetail?.orderdata?.id != null) {
+            _locationTimer = Timer.periodic(Duration(seconds: 30), (timer) {
+              _sendLocationUpdate(orderDetails.value!.data!.orderDetail!.orderdata!.id.toString());
+            });
+          }
+        }
+      }
+    }, onError: (e) {
+      print("Location error: $e");
+      if (e.code == 'PERMISSION_DENIED') {
+        CustomSnackBar.show(
+          message: 'Location permissions required',
+          color: AppTheme.red,
+        );
+      }
+    });
+  }
   void _updateMapWithNewLocation(LatLng newLocation) {
     markers.removeWhere((marker) => marker.markerId.value == 'driver');
     markers.add(
@@ -861,11 +891,6 @@ class HomeController extends GetxController {
   void _sendLocationUpdate(String orderId) {
     if (driverLocation.value == null) return;
 
-    // Only send updates if we're in delivery phase (not pickup)
-    if (orderDetails.value?.data?.pickUp == true) {
-      print('🚚 Currently in pickup phase - not sending location updates to customer');
-      return;
-    }
     print('📡 Sending location update at ${DateTime.now()}');
     print('📍 Location: ${driverLocation.value!.latitude}, ${driverLocation.value!.longitude}');
 
@@ -874,8 +899,8 @@ class HomeController extends GetxController {
       "orderId": orderId,
       "latitude": driverLocation.value!.latitude,
       "longitude": driverLocation.value!.longitude,
-      "address": '',
-      "userId": orderDetails.value?.data?.orderDetail?.userdata?.id
+      "address": orderDetails.value?.data?.orderDetail?.userAddressData?.completeAddress,
+      "userId": orderDetails.value?.data?.orderDetail?.userdata?.id?.toString()
     });
   }
 }
