@@ -39,4 +39,5 @@ class AppUrls{
   static const String notificationSetAPI = '$baseUrl/SetNotify';
   static const String deliveryRatingsAPI = '$baseUrl/delivery-and-rating';
   static const String ratingAPI = '$baseUrl/rating';
+  static const String faqUrlAPI = '$baseUrl/faq';
 }

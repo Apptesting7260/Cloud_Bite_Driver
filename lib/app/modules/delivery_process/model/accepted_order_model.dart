@@ -1,13 +1,12 @@
-
 class AcceptedOrderModel {
   bool? status;
-  AcceptedOrderData? data;
+  AcceptedData? data;
 
   AcceptedOrderModel({this.status, this.data});
 
   AcceptedOrderModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new AcceptedOrderData.fromJson(json['data']) : null;
+    data = json['data'] != null ? new AcceptedData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -20,16 +19,19 @@ class AcceptedOrderModel {
   }
 }
 
-class AcceptedOrderData {
-  bool? pickUp;
+class AcceptedData {
   OrderDetail? orderDetail;
   PickUpLocation? pickUpLocation;
   PickUpLocation? deliveryLocation;
+  bool? pickUp;
 
-  AcceptedOrderData({this.orderDetail,this.pickUp, this.pickUpLocation, this.deliveryLocation});
+  AcceptedData(
+      {this.orderDetail,
+        this.pickUpLocation,
+        this.deliveryLocation,
+        this.pickUp});
 
-  AcceptedOrderData.fromJson(Map<String, dynamic> json) {
-    pickUp = json['pickUp'];
+  AcceptedData.fromJson(Map<String, dynamic> json) {
     orderDetail = json['orderDetail'] != null
         ? new OrderDetail.fromJson(json['orderDetail'])
         : null;
@@ -39,13 +41,11 @@ class AcceptedOrderData {
     deliveryLocation = json['deliveryLocation'] != null
         ? new PickUpLocation.fromJson(json['deliveryLocation'])
         : null;
+    pickUp = json['pickUp'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if(this.pickUp != null){
-      data['pickUp'] = this.pickUp;
-    }
     if (this.orderDetail != null) {
       data['orderDetail'] = this.orderDetail!.toJson();
     }
@@ -55,6 +55,7 @@ class AcceptedOrderData {
     if (this.deliveryLocation != null) {
       data['deliveryLocation'] = this.deliveryLocation!.toJson();
     }
+    data['pickUp'] = this.pickUp;
     return data;
   }
 }
@@ -153,8 +154,8 @@ class Orderdata {
     totalAmount = json['total_amount'].toString();
     deliveryTime = json['delivery_time'].toString();
     deliveryCharge = json['delivery_charge'].toString();
-    paymentStatus = json['payment_status'];
-    paymentMethod = json['payment_method'];
+    paymentStatus = json['payment_status'].toString();
+    paymentMethod = json['payment_method'].toString();
     createdAt = json['created_at'].toString();
     updatedAt = json['updated_at'].toString();
   }
@@ -181,27 +182,27 @@ class Userdata {
   String? id;
   String? firstName;
   String? lastName;
-  String? image;
   String? email;
   String? phone;
+  String? image;
   String? fcmToken;
 
   Userdata(
       {this.id,
         this.firstName,
         this.lastName,
-        this.image,
         this.email,
         this.phone,
+        this.image,
         this.fcmToken});
 
   Userdata.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     firstName = json['first_name'].toString();
     lastName = json['last_name'].toString();
-    image = json['image'].toString();
     email = json['email'].toString();
     phone = json['phone'].toString();
+    image = json['image'].toString();
     fcmToken = json['fcm_token'].toString();
   }
 
@@ -210,9 +211,9 @@ class Userdata {
     data['id'] = this.id;
     data['first_name'] = this.firstName;
     data['last_name'] = this.lastName;
-    data['image'] = this.image;
     data['email'] = this.email;
     data['phone'] = this.phone;
+    data['image'] = this.image;
     data['fcm_token'] = this.fcmToken;
     return data;
   }
@@ -306,8 +307,8 @@ class OrderItemsData {
   String? productTitle;
   List<String>? productImages;
   String? quantity;
-  String? variant;
-  String? addOns;
+  List<Variant>? variant;
+  List<AddOns>? addOns;
   String? price;
 
   OrderItemsData(
@@ -326,8 +327,18 @@ class OrderItemsData {
     productTitle = json['product_title'].toString();
     productImages = json['product_images'].cast<String>();
     quantity = json['quantity'].toString();
-    variant = json['variant'].toString();
-    addOns = json['add_ons'].toString();
+    if (json['variant'] != null) {
+      variant = <Variant>[];
+      json['variant'].forEach((v) {
+        variant!.add(new Variant.fromJson(v));
+      });
+    }
+    if (json['add_ons'] != null) {
+      addOns = <AddOns>[];
+      json['add_ons'].forEach((v) {
+        addOns!.add(new AddOns.fromJson(v));
+      });
+    }
     price = json['price'].toString();
   }
 
@@ -338,8 +349,59 @@ class OrderItemsData {
     data['product_title'] = this.productTitle;
     data['product_images'] = this.productImages;
     data['quantity'] = this.quantity;
-    data['variant'] = this.variant;
-    data['add_ons'] = this.addOns;
+    if (this.variant != null) {
+      data['variant'] = this.variant!.map((v) => v.toJson()).toList();
+    }
+    if (this.addOns != null) {
+      data['add_ons'] = this.addOns!.map((v) => v.toJson()).toList();
+    }
+    data['price'] = this.price;
+    return data;
+  }
+}
+
+class Variant {
+  String? price;
+  String? datumName;
+  String? variantId;
+  String? variantTitle;
+
+  Variant({this.price, this.datumName, this.variantId, this.variantTitle});
+
+  Variant.fromJson(Map<String, dynamic> json) {
+    price = json['price'].toString();
+    datumName = json['datumName'].toString();
+    variantId = json['variantId'].toString();
+    variantTitle = json['variantTitle'].toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['price'] = this.price;
+    data['datumName'] = this.datumName;
+    data['variantId'] = this.variantId;
+    data['variantTitle'] = this.variantTitle;
+    return data;
+  }
+}
+
+class AddOns {
+  String? id;
+  String? name;
+  double? price;
+
+  AddOns({this.id, this.name, this.price});
+
+  AddOns.fromJson(Map<String, dynamic> json) {
+    id = json['id'].toString();
+    name = json['name'].toString();
+    price = json['price'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
     data['price'] = this.price;
     return data;
   }

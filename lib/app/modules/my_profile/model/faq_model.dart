@@ -1,72 +1,98 @@
-class FaqModel {
-  String? type;
-  String? subType;
-  bool? success;
-  String? message;
-  List<FaqData>? data;
-  String? count;
-  String? timestamp;
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
-  FaqModel(
-      {this.type,
-        this.subType,
-        this.success,
-        this.message,
-        this.data,
-        this.count,
-        this.timestamp});
+class FaqModel {
+  bool? status;
+  String? message;
+  FaqData? data;
+
+  FaqModel({this.status, this.message, this.data});
 
   FaqModel.fromJson(Map<String, dynamic> json) {
-    type = json['type'].toString();
-    subType = json['subType'].toString();
-    success = json['success'];
-    message = json['message'].toString();
-    if (json['data'] != null) {
-      data = <FaqData>[];
-      json['data'].forEach((v) {
-        data!.add(new FaqData.fromJson(v));
-      });
-    }
-    count = json['count'].toString();
-    timestamp = json['timestamp'].toString();
+    status = json['status'];
+    message = json['message']?.toString();
+    data = json['data'] != null ? FaqData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['subType'] = this.subType;
-    data['success'] = this.success;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
+      data['data'] = this.data!.toJson();
     }
-    data['count'] = this.count;
-    data['timestamp'] = this.timestamp;
     return data;
   }
 }
 
 class FaqData {
-  String? id;
-  String? type;
-  String? question;
-  String? answer;
+  RxList<CommonFaqData>? general;
+  RxList<CommonFaqData>? account;
+  RxList<CommonFaqData>? service;
+  RxList<CommonFaqData>? payment;
 
-  FaqData({this.id, this.type, this.question, this.answer});
+  FaqData({this.general, this.account, this.service, this.payment});
 
   FaqData.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
-    type = json['type'].toString();
-    question = json['question'].toString();
-    answer = json['answer'].toString();
+    if (json['general'] != null) {
+      general = <CommonFaqData>[].obs;
+      json['general'].forEach((v) {
+        general!.add(CommonFaqData.fromJson(v));
+      });
+    }
+    if (json['account'] != null) {
+      account = <CommonFaqData>[].obs;
+      json['account'].forEach((v) {
+        account!.add(CommonFaqData.fromJson(v));
+      });
+    }
+    if (json['service'] != null) {
+      service = <CommonFaqData>[].obs;
+      json['service'].forEach((v) {
+        service!.add(CommonFaqData.fromJson(v));
+      });
+    }
+    if (json['payment'] != null) {
+      payment = <CommonFaqData>[].obs;
+      json['payment'].forEach((v) {
+        payment!.add(CommonFaqData.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['type'] = this.type;
-    data['question'] = this.question;
-    data['answer'] = this.answer;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (general != null) {
+      data['general'] = general!.map((v) => v.toJson()).toList();
+    }
+    if (account != null) {
+      data['account'] = account!.map((v) => v.toJson()).toList();
+    }
+    if (service != null) {
+      data['service'] = service!.map((v) => v.toJson()).toList();
+    }
+    if (payment != null) {
+      data['payment'] = payment!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
+
+class CommonFaqData {
+  String? question;
+  String? answer;
+
+  CommonFaqData({this.question, this.answer});
+
+  CommonFaqData.fromJson(Map<String, dynamic> json) {
+    question = json['question']?.toString();
+    answer = json['answer']?.toString();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['question'] = question;
+    data['answer'] = answer;
+    return data;
+  }
+}
+

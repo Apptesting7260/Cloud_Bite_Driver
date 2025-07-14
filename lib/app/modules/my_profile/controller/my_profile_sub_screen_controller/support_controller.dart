@@ -6,6 +6,22 @@ class SupportController extends GetxController{
   String _searchQuery = "";
   String get searchQuery => _searchQuery;
 
+  @override
+  void onInit() {
+    getFaqData();
+    super.onInit();
+  }
+
+
+  List<String> buttonText = [
+    "General",
+    "Account",
+    "Service",
+    "Payment",
+  ];
+
+  RxString selectedButton = "General".obs;
+
   updateSearchQuery(String searchController){
     _searchController.text = searchController;
     _searchQuery = searchController;
@@ -14,8 +30,6 @@ class SupportController extends GetxController{
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final TextEditingController messageController = TextEditingController();
-
-
 
   final Repository _repository = Repository();
 
@@ -61,6 +75,61 @@ class SupportController extends GetxController{
     } finally {
       LoadingOverlay().hideLoading();
     }
+  }
+
+
+  Rx<ApiResponse<FaqModel>> faqData = Rx<ApiResponse<FaqModel>>(ApiResponse.loading());
+  setFaqData(ApiResponse<FaqModel> value){
+    faqData.value = value;
+    update();
+  }
+
+  Future<void> getFaqData() async {
+    setFaqData(ApiResponse.loading());
+    try{
+      final apiData = await _repository.getFaqAPI();
+      if(apiData.status == true){
+        setFaqData(ApiResponse.completed(apiData));
+      }else{
+        WidgetDesigns.consoleLog("Error", " else Error while get faq data");
+        setFaqData(ApiResponse.error("Error while get faq data"));
+      }
+    }catch(e){
+      WidgetDesigns.consoleLog(e.toString(), "Error while get faq data");
+      CustomSnackBar.show(message: e.toString());
+      setFaqData(ApiResponse.error("Error while get faq data"));
+    }
+  }
+
+
+  // In HelpAndSupportController
+
+// Get the current active list based on selected tab
+  RxList<CommonFaqData>? get currentFaqList {
+    switch (selectedButton.value) {
+      case "General":
+        return faqData.value.data?.data?.general;
+      case "Account":
+        return faqData.value.data?.data?.account;
+      case "Service":
+        return faqData.value.data?.data?.service;
+      case "Payment":
+        return faqData.value.data?.data?.payment;
+      default:
+        return null;
+    }
+  }
+
+// Filter the current list based on search query
+  RxList<CommonFaqData>? get filteredFaqList {
+    if (_searchQuery.isEmpty) return currentFaqList;
+
+    return currentFaqList?.where((faq) {
+      final question = faq.question?.toLowerCase() ?? '';
+      final answer = faq.answer?.toLowerCase() ?? '';
+      final query = _searchQuery.toLowerCase();
+      return question.contains(query) || answer.contains(query);
+    }).toList().obs;
   }
 
 }

@@ -1,6 +1,7 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_phone_verify_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/delivery_rating_model.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/model/faq_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/rating_model.dart';
 
 class Repository {
@@ -254,6 +255,11 @@ class Repository {
         "Bearer $token"
     );
     return RatingModel.fromJson(response);
+  }
+
+  Future<FaqModel> getFaqAPI() async {
+    dynamic response = await _apiService.getApi(AppUrls.faqUrlAPI, storageService.getToken());
+    return FaqModel.fromJson(response);
   }
 
   Future<PrivacyPolicyModel> privacyPolicyApi() async {

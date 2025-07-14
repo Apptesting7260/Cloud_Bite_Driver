@@ -719,8 +719,8 @@ class HomeScreen extends StatelessWidget {
                       "${orderDetails.data?.orderDetail?.orderItemsData?[index].productImages?[0]}",
                       "${orderDetails.data?.orderDetail?.orderItemsData?[index].productTitle?[0]}",
                       orderDetails.data?.orderDetail?.orderItemsData?[index].addOns != null
-                          ? "${orderDetails.data?.orderDetail?.orderItemsData?[index].addOns}"
-                          : "${orderDetails.data?.orderDetail?.orderItemsData?[index].variant}",
+                          ? "${orderDetails.data?.orderDetail?.orderItemsData?[index].addOns?[index].name}"
+                          : "${orderDetails.data?.orderDetail?.orderItemsData?[index].variant?[index].variantTitle}",
                       "${orderDetails.data?.orderDetail?.orderItemsData?[index].quantity}",
                     );
                   },

@@ -12,11 +12,6 @@ class DriverRepository {
 
   final RxBool isOtpVerified = false.obs;
 
-  /*DriverRepository() {
-    listenForNewOrders();
-    listenForOrderDetails();
-  }*/
-
   // 1. GO Online Event
   Future<void> goOnline({
     required String firstName,
@@ -54,6 +49,7 @@ class DriverRepository {
   Future<void> goOffline() async {
     try {
       final driverId = storageServices.getDriverID();
+      print("DriverId for Go Offline event-----------");
       socketService.sendMessage(SocketEvents.goOffline, {
         'driverId': driverId,
       });
@@ -72,6 +68,7 @@ class DriverRepository {
   Future<void> joinDriver() async {
     try{
       final driverId = storageServices.getDriverID();
+      print("DriverId for join driver event-----------");
       socketService.sendMessage(SocketEvents.joinDriver, {
         'driverId': driverId
       });
@@ -90,45 +87,9 @@ class DriverRepository {
   final Rx<OrderModel?> currentOrder = Rx<OrderModel?>(null);
 
   void listenForNewOrders() {
-    print('Listening for newOrder events'); // Confirm listener is set up
+    print('Listening for newOrder events');
   }
 
-
-  // 5 New Order not accepted (when driver not clicked any option accept and reject)
- /* Future<void> timeoutOrder(String orderId) async {
-    try {
-      final driverId = storageServices.getDriverID();
-      socketService.sendMessage(SocketEvents.orderNotAccepted, {
-        'driverId': driverId,
-        'orderId': orderId,
-      });
-      print('Order $orderId Timed Out - Not Accepted');
-    } catch (e) {
-      print('Failed to timeout order: $e');
-      rethrow;
-    }
-  }*/
-
-  // 6 Accept Order Event
- /* Future<void> acceptOrder(String orderId) async {
-    try {
-      final driverId = storageServices.getDriverID();
-      socketService.sendMessage(SocketEvents.acceptOrder, {
-        'driverId': driverId,
-        'orderId': orderId,
-      });
-      updateMapWithDirections();
-      print('Order $orderId Accepted');
-    } catch (e) {
-      print('Failed to accept order: $e');
-      CustomSnackBar.show(
-        message: 'Failed to accept order',
-        color: AppTheme.redText,
-        tColor: AppTheme.white,
-      );
-      rethrow;
-    }
-  }*/
 
   // 7 Accepted Order Event
   final Rx<AcceptedOrderModel?> orderDetails = Rx<AcceptedOrderModel?>(null);
@@ -149,26 +110,6 @@ class DriverRepository {
       }
     });
   }
-
-  // 8 Reject Order Event
-  /*Future<void> rejectOrder(String orderId) async {
-    try {
-      final driverId = storageServices.getDriverID();
-       socketService.sendMessage(SocketEvents.rejectOrder, {
-        'driverId': driverId,
-        'orderId': orderId,
-      });
-      print('Order $orderId Rejected');
-    } catch (e) {
-      print('Failed to accept order: $e');
-      CustomSnackBar.show(
-        message: 'Failed to accept order',
-        color: AppTheme.redText,
-        tColor: AppTheme.white,
-      );
-      rethrow;
-    }
-  }*/
 
   // 9 Send OTP Emit Event
   Future<void> sendOTP(String orderId) async {

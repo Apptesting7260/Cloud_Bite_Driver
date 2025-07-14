@@ -890,17 +890,21 @@ class HomeController extends GetxController {
 
   void _sendLocationUpdate(String orderId) {
     if (driverLocation.value == null) return;
-
     print('📡 Sending location update at ${DateTime.now()}');
     print('📍 Location: ${driverLocation.value!.latitude}, ${driverLocation.value!.longitude}');
+    try{
+      print("track driver location in try block===========$orderId");
+      socketService.sendMessage(SocketEvents.trackDriverLocation, {
+        "driverId": storageServices.getDriverID(),
+        "orderId": orderId,
+        "latitude": driverLocation.value!.latitude,
+        "longitude": driverLocation.value!.longitude,
+        "address": orderDetails.value?.data?.orderDetail?.userAddressData?.completeAddress,
+        "userId": orderDetails.value?.data?.orderDetail?.userdata?.id?.toString()
+      });
+    }catch(e){
+      print("====$e=========newwwwwwwww");
+    }
 
-    socketService.sendMessage(SocketEvents.trackDriverLocation, {
-      "driverId": storageServices.getDriverID(),
-      "orderId": orderId,
-      "latitude": driverLocation.value!.latitude,
-      "longitude": driverLocation.value!.longitude,
-      "address": orderDetails.value?.data?.orderDetail?.userAddressData?.completeAddress,
-      "userId": orderDetails.value?.data?.orderDetail?.userdata?.id?.toString()
-    });
   }
 }
