@@ -262,6 +262,11 @@ class Repository {
     return FaqModel.fromJson(response);
   }
 
+  Future<NotificationResponseModel> notificationAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi2(data, AppUrls.allNotificationUrl, storageService.getToken());
+    return NotificationResponseModel.fromJson(response);
+  }
+
   Future<PrivacyPolicyModel> privacyPolicyApi() async {
     try {
       return PrivacyPolicyModel.fromUrl("${AppUrls.baseUrl}/get-page-message?type=privacyPolicy");

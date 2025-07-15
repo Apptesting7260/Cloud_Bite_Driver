@@ -113,6 +113,7 @@ export 'package:cloud_bites_driver/app/modules/delivery_process/model/order_mode
 export 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/priacy_policy_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/faq_model.dart';
+export 'package:cloud_bites_driver/app/modules/delivery_process/model/notification_model.dart';
 
 
 

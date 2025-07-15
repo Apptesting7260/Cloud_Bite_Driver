@@ -1,5 +1,6 @@
 import 'dart:developer';
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:intl/intl.dart';
 
 class WidgetDesigns{
 
@@ -30,6 +31,26 @@ class WidgetDesigns{
       overflow: TextOverflow.clip,
       fontFamily: AppFontFamily.generalSansMedium,
     );
+  }
+
+  static String formatDate(String dateString) {
+    try {
+      // Parse the ISO date (assuming format like "2025-07-14")
+      final date = DateTime.parse(dateString);
+      // Format as "14 July 2025" (or your preferred format)
+      return DateFormat('d MMMM y').format(date);
+    } catch (e) {
+      return dateString;
+    }
+  }
+
+  static String formatTimeFromIso(String isoString) {
+    try {
+      final date = DateTime.parse(isoString);
+      return DateFormat('h:mm a').format(date);
+    } catch (e) {
+      return isoString;
+    }
   }
 
   static hBox(double height){
