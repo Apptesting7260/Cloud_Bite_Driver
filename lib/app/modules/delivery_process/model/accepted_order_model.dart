@@ -1,7 +1,6 @@
 class AcceptedOrderModel {
   bool? status;
   AcceptedData? data;
-
   AcceptedOrderModel({this.status, this.data});
 
   AcceptedOrderModel.fromJson(Map<String, dynamic> json) {
@@ -245,8 +244,8 @@ class Vendordata {
     restaurantImages = json['restaurant_images'].cast<String>();
     fcmToken = json['fcm_token'].toString();
     address = json['address'].toString();
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    latitude = json['latitude'] != null ? double.tryParse(json['latitude'].toString()) : null;
+    longitude = json['longitude'] != null ? double.tryParse(json['longitude'].toString()) : null;
     phone = json['phone'].toString();
   }
 
@@ -283,8 +282,8 @@ class UserAddressData {
   UserAddressData.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     completeAddress = json['complete_address'].toString();
-    latitude = json['latitude'];
-    longitude = json['longitude'];
+    latitude = json['latitude'] != null ? double.tryParse(json['latitude'].toString()) : null;
+    longitude = json['longitude'] != null ? double.tryParse(json['longitude'].toString()) : null;
     type = json['type'].toString();
     houseNo = json['house_no'].toString();
   }
@@ -388,14 +387,14 @@ class Variant {
 class AddOns {
   String? id;
   String? name;
-  double? price;
+  String? price;
 
   AddOns({this.id, this.name, this.price});
 
   AddOns.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
     name = json['name'].toString();
-    price = json['price'];
+    price = json['price'].toString();
   }
 
   Map<String, dynamic> toJson() {

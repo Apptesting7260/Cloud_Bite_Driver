@@ -242,7 +242,7 @@ class HomeController extends GetxController {
 
   void _addVendorMarker(LatLng position) async {
     final vendorIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(48, 48)),
+      ImageConfiguration(size: Size(34, 34)),
       ImageConstants.locIcon,
     );
 
@@ -260,7 +260,7 @@ class HomeController extends GetxController {
 
   void _addUserMarker(LatLng position) async {
     final userIcon = await BitmapDescriptor.fromAssetImage(
-      ImageConfiguration(size: Size(48, 48)),
+      ImageConfiguration(size: Size(34, 34)),
       ImageConstants.userLocIcon,
     );
 
@@ -705,14 +705,17 @@ class HomeController extends GetxController {
   Timer? resendTime;
 
   void startResendTimer() {
+    resendTime?.cancel();
+
     resendEnabled.value = false;
     remainingTimer.value = 60;
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+
+    resendTime = Timer.periodic(Duration(seconds: 1), (timer) {
       if (remainingTimer.value > 0) {
         remainingTimer.value--;
       } else {
         resendEnabled.value = true;
-        timer.cancel();
+        resendTime?.cancel();
       }
     });
   }

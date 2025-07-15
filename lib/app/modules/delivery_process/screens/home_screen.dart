@@ -3,6 +3,7 @@ import 'package:cloud_bites_driver/app/modules/delivery_process/controller/botto
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:slide_to_act/slide_to_act.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
@@ -689,19 +690,35 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ),
-                        Container(
-                          width: 32,
-                          height: 32,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            gradient: LinearGradient(
-                              colors: [Color(0xFFB6568E), Color(0xFF5FB6E3)],
+                        GestureDetector(
+                          onTap: () async {
+                            final phoneNumber = orderDetails.data?.orderDetail?.userdata?.phone ?? '';
+                            final url = 'tel:$phoneNumber';
+
+                            try {
+                              if (await canLaunchUrl(Uri.parse(url))) {
+                                await launchUrl(Uri.parse(url));
+                              } else {
+                                Get.snackbar('Error', 'Could not launch dialer');
+                              }
+                            } catch (e) {
+                              Get.snackbar('Error', 'Failed to make call: ${e.toString()}');
+                            }
+                          },
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              gradient: LinearGradient(
+                                colors: [Color(0xFFB6568E), Color(0xFF5FB6E3)],
+                              ),
                             ),
-                          ),
-                          child: Icon(
-                            Icons.call,
-                            color: Colors.white,
-                            size: 18,
+                            child: Icon(
+                              Icons.call,
+                              color: Colors.white,
+                              size: 18,
+                            ),
                           ),
                         ),
                       ],
@@ -715,13 +732,24 @@ class HomeScreen extends StatelessWidget {
                   itemCount:
                       orderDetails.data?.orderDetail?.orderItemsData?.length,
                   itemBuilder: (context, index) {
+
+                    final item = orderDetails.data?.orderDetail?.orderItemsData?[index];
+                    String variantOrAddon = "";
+
+                    // Handle variants first
+                    if (item?.variant != null && item!.variant!.isNotEmpty) {
+                      variantOrAddon = item.variant!.map((v) => v.datumName ?? "").join(", ");
+                    }
+                    // Then handle add-ons if no variants
+                    else if (item?.addOns != null && item!.addOns!.isNotEmpty) {
+                      variantOrAddon = item.addOns!.map((a) => a.name ?? "").join(", ");
+                    }
+
                     return _buildSimpleOrderItem(
-                      "${orderDetails.data?.orderDetail?.orderItemsData?[index].productImages?[0]}",
-                      "${orderDetails.data?.orderDetail?.orderItemsData?[index].productTitle?[0]}",
-                      orderDetails.data?.orderDetail?.orderItemsData?[index].addOns != null
-                          ? "${orderDetails.data?.orderDetail?.orderItemsData?[index].addOns?[index].name}"
-                          : "${orderDetails.data?.orderDetail?.orderItemsData?[index].variant?[index].variantTitle}",
-                      "${orderDetails.data?.orderDetail?.orderItemsData?[index].quantity}",
+                      "${item?.productImages?[0]}",
+                      "${item?.productTitle?[0]}",
+                      variantOrAddon,
+                      "${item?.quantity}"
                     );
                   },
                 ),
@@ -1034,6 +1062,11 @@ class HomeScreen extends StatelessWidget {
 
   // Send OTP Sheet
   Widget _sendOtpSheet() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (controller.resendEnabled.value) {
+        controller.startResendTimer();
+      }
+    });
     return Positioned(
       bottom: 0,
       left: 0,
@@ -1152,7 +1185,7 @@ class HomeScreen extends StatelessWidget {
                       text: 'Verify',
                     ),
                     WidgetDesigns.hBox(20.0),
-                    Obx(
+                    /*Obx(
                       () => TextButton(
                         onPressed:
                             controller.resendEnabled.value
@@ -1177,6 +1210,34 @@ class HomeScreen extends StatelessWidget {
                                 controller.resendEnabled.value
                                     ? TextDecoration.underline
                                     : null,
+                            decorationColor: AppTheme.primaryColor,
+                            decorationThickness: 2,
+                          ),
+                        ),
+                      ),
+                    ),*/
+                    Obx(
+                          () => TextButton(
+                        onPressed: controller.resendEnabled.value
+                            ? () {
+                          // Reset timer and resend OTP
+                          controller.startResendTimer();
+                          controller.otpController.clear();
+                          controller.otpError.value = '';
+                          controller.sendOtp();
+                        }
+                            : null,
+                        child: Text(
+                          controller.resendEnabled.value
+                              ? 'Resend Code'
+                              : 'Resend Code in ${controller.remainingTimer.value}s',
+                          style: TextStyle(
+                            color: controller.resendEnabled.value
+                                ? AppTheme.primaryColor
+                                : Colors.grey,
+                            decoration: controller.resendEnabled.value
+                                ? TextDecoration.underline
+                                : null,
                             decorationColor: AppTheme.primaryColor,
                             decorationThickness: 2,
                           ),

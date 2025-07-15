@@ -70,7 +70,7 @@ class PhoneOtpVerifyScreen extends StatelessWidget{
                                       return "Enter OTP";
                                     }
                                     if(controller.otpController.text.length != 6){
-                                      return "Enter 5 digits of OTP";
+                                      return "Enter 6 digits of OTP";
                                     }
                                     return null;
                                   },

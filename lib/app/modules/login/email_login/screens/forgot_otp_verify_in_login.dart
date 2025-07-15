@@ -60,7 +60,7 @@ class ForgotOtpVerifyInLogin extends StatelessWidget{
                                   children: [
                                     Pinput(
                                       controller: controller.otpController,
-                                      length: 5,
+                                      length: 6,
                                       onChanged: (value) => controller.updateOtpError(''),
                                       errorTextStyle: WidgetDesigns.errorTextStyle(),
                                       forceErrorState: true,
