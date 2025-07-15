@@ -82,11 +82,15 @@ class WelcomeScreen extends StatelessWidget{
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       _socialLoginButton(
-                          onPressed: () {}, url: ImageConstants.facebookLoginImage),
+                          onPressed: () async {
+                            controller.signInWithFacebook(Get.context!);
+                          }, url: ImageConstants.facebookLoginImage),
+
                       WidgetDesigns.wBox(5),
+
                       _socialLoginButton(
                           onPressed: () async {
-                            controller.signInWithGoogle(Get.context!!);
+                            controller.signInWithGoogle(Get.context!);
                           }, url: ImageConstants.googleLoginImage),
                     ],
                   ),
