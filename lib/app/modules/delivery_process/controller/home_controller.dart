@@ -181,7 +181,7 @@ class HomeController extends GetxController {
     locationSubscription?.cancel();
     _locationTimer?.cancel();
 
-    const LocationSettings locationSettings = LocationSettings(distanceFilter: 10);
+    const LocationSettings locationSettings = LocationSettings(distanceFilter: 30);
 
     locationSubscription = location.onLocationChanged.listen((LocationData currentLocation) async {
       if (currentLocation.latitude != null && currentLocation.longitude != null) {
@@ -192,7 +192,7 @@ class HomeController extends GetxController {
         if (_locationTimer == null || !_locationTimer!.isActive) {
           if (orderDetails.value != null &&
               orderDetails.value?.data?.orderDetail?.orderdata?.id != null) {
-            _locationTimer = Timer.periodic(Duration(seconds: 10), (timer) {
+            _locationTimer = Timer.periodic(Duration(seconds: 30), (timer) {
               _sendLocationUpdate(orderDetails.value!.data!.orderDetail!.orderdata!.id.toString());
             });
           }
@@ -528,16 +528,14 @@ class HomeController extends GetxController {
   late Timer _timer;
 
   void startTimer() {
-    remainingTime.value = totalTime;
+     remainingTime.value = totalTime;
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (remainingTime.value > 0) {
         remainingTime.value--;
       } else {
         stopTimer();
-        // Notify server about timeout
         final order = bottomSheetController.currentOrder.value;
         if (order != null) {
-          //Get.find<DriverRepository>().timeoutOrder(order.orderId.toString());
           Get.find<HomeController>().timeoutOrder(order.orderId.toString());
         }
         bottomSheetController.timeoutOrder();
@@ -690,6 +688,7 @@ class HomeController extends GetxController {
   void deliveryComplete(){
     socketService.listenToEvent(SocketEvents.deliveryComplete, (data){
       print('${data}==========After Delivery Complete');
+      isSlid.value = false;
       bottomSheetController.showOrderDelivered();
     });
   }
@@ -759,8 +758,6 @@ class HomeController extends GetxController {
 
     socketService.listenToEvent(SocketEvents.acceptedOrderScreen, (data) {
       print('✅ acceptedOrderScreen99000000 $data');
-      remainingTime.value = 30;
-      _timer.cancel();
       WidgetDesigns.consoleLog(" $data", "jjjjjjjjjjjjjjjjjjjjjjjjdevender sir");
       try {
         orderDetails.value = AcceptedOrderModel.fromJson(data);
@@ -834,9 +831,7 @@ class HomeController extends GetxController {
       print('Raw newOrder data: $data');
       if (data is Map<String, dynamic>) {
         driverRepo.currentOrder.value = OrderModel.fromJson(data);
-        print(
-          'New order received: ${driverRepo.currentOrder.value?.orderNumber}',
-        );
+        print('New order received: ${driverRepo.currentOrder.value?.orderNumber}');
       } else {
         print(
           'Invalid order data format - Expected Map but got ${data.runtimeType}',

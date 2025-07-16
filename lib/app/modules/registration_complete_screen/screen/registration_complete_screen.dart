@@ -169,6 +169,7 @@ class RegistrationCompleteScreen extends StatelessWidget{
                   child: const Icon(
                     Icons.info_outline,
                     size: 20,
+
                     color: AppTheme.red,
                   ),
                 ),

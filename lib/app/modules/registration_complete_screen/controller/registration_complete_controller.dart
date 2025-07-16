@@ -90,14 +90,14 @@ class RegistrationCompleteController extends GetxController{
         ),
         content: Text(
           remarks,
-          style: AppFontStyle.text_16_400(AppTheme.black.withOpacity(0.7)),
+          style: TextStyle(color: AppTheme.black.withOpacity(0.3), fontWeight: FontWeight.w400, fontSize: 16),
         ),
         actions: [
           TextButton(
             onPressed: () => Get.back(),
             child: Text(
               "OK",
-              style: AppFontStyle.text_16_500(AppTheme.primaryColor),
+              style: AppFontStyle.text_14_500(AppTheme.primaryColor),
             ),
           ),
         ],
