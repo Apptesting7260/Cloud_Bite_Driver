@@ -192,7 +192,7 @@ class HomeController extends GetxController {
         if (_locationTimer == null || !_locationTimer!.isActive) {
           if (orderDetails.value != null &&
               orderDetails.value?.data?.orderDetail?.orderdata?.id != null) {
-            _locationTimer = Timer.periodic(Duration(seconds: 30), (timer) {
+            _locationTimer = Timer.periodic(Duration(seconds: 10), (timer) {
               _sendLocationUpdate(orderDetails.value!.data!.orderDetail!.orderdata!.id.toString());
             });
           }
