@@ -759,6 +759,8 @@ class HomeController extends GetxController {
 
     socketService.listenToEvent(SocketEvents.acceptedOrderScreen, (data) {
       print('✅ acceptedOrderScreen99000000 $data');
+      remainingTime.value = 30;
+      _timer.cancel();
       WidgetDesigns.consoleLog(" $data", "jjjjjjjjjjjjjjjjjjjjjjjjdevender sir");
       try {
         orderDetails.value = AcceptedOrderModel.fromJson(data);
