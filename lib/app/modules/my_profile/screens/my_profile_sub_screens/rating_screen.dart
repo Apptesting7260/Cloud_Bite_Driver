@@ -283,6 +283,7 @@ class EarningsScreen extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.symmetric(vertical: 10.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
@@ -295,7 +296,7 @@ class EarningsScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(25),
                     child: profileImage.isNotEmpty
                         ? CachedNetworkImage(
-                      imageUrl: "${AppUrls.imageUrl}/$profileImage",
+                      imageUrl: "${AppUrls.imageUrl}$profileImage",
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           image: DecorationImage(
@@ -360,7 +361,7 @@ class EarningsScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15.0),
                         child: images.isNotEmpty
                             ?  CachedNetworkImage(
-                          imageUrl: "${AppUrls.imageUrl}/$images",
+                          imageUrl: "${AppUrls.imageUrl}$images",
                           width: 60,
                           height: 60,
                           fit: BoxFit.cover,
@@ -399,7 +400,7 @@ class EarningsScreen extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       fontSize: 16,
                       color: Colors.grey
-                  )
+                  ),
               ),
             WidgetDesigns.hBox(10),
             Container(
