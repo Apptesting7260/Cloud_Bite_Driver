@@ -32,11 +32,11 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="Cloud Bites Driver" />
 
-        <provider
+        <!--<provider
             android:authorities="com.facebook.app.FacebookContentProvider1234567890"
             android:name="com.facebook.FacebookContentProvider"
             android:exported="true" />
-
+-->
         <activity
             android:name=".MainActivity"
             android:exported="true"

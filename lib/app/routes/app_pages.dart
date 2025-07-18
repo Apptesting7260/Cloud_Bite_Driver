@@ -47,7 +47,7 @@ class Routes {
   static const notificationSet = '/notificationSet';
   static const privacyPolicy = '/privacyPolicy';
   static const termsCondition = '/termsCondition';
-  static const earning = '/earning';
+  static const ratings = '/ratings';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen(), binding: SplashBinding()),
@@ -115,6 +115,6 @@ class Routes {
     GetPage(name: notificationSet, page: () => NotificationSettingsScreen()),
     GetPage(name: Routes.privacyPolicy, page: () => PrivacyPolicyScreen()),
     GetPage(name: Routes.termsCondition, page: () => TermsCondtion()),
-    GetPage(name: Routes.earning, page: () => EarningsScreen()),
+    GetPage(name: Routes.ratings, page: () => EarningsScreen()),
   ];
 }

@@ -101,27 +101,32 @@ class MyProfileScreen extends StatelessWidget{
                           ),
                           WidgetDesigns.wBox(10),
                           Expanded(
-                            child: Container(
-                              height: 110,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  gradient: AppTheme.newLightGradient
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Obx((){
-                                    return  Text(
-                                     (controller.deliveryAndRatingData.value.data?.totalRatings == 'null' ? "0" : controller.deliveryAndRatingData.value.data?.totalRatings ?? '0'),
-                                      style: AppFontStyle.text_24_500(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
-                                    );
-                                  }),
-                                  WidgetDesigns.hBox(5),
-                                  Text(
-                                    'Ratings',
-                                    style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
-                                  )
-                                ],
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.ratings);
+                              },
+                              child: Container(
+                                height: 110,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    gradient: AppTheme.newLightGradient
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Obx((){
+                                      return  Text(
+                                       (controller.deliveryAndRatingData.value.data?.totalRatings == 'null' ? "0" : controller.deliveryAndRatingData.value.data?.totalRatings ?? '0'),
+                                        style: AppFontStyle.text_24_500(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
+                                      );
+                                    }),
+                                    WidgetDesigns.hBox(5),
+                                    Text(
+                                      'Ratings',
+                                      style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           )
@@ -139,7 +144,7 @@ class MyProfileScreen extends StatelessWidget{
                         ),
                       ),
                       WidgetDesigns.hBox(20),
-                      myProfileLists('Earnings', ImageConstants.earningsIcon, () => Get.toNamed(Routes.earning)),
+                      myProfileLists('Earnings', ImageConstants.earningsIcon, () => ""),
                       WidgetDesigns.hBox(20),
                       myProfileLists('My Wallet', ImageConstants.walletIcon, () => Get.toNamed(Routes.myWalletScreen)),
                       WidgetDesigns.hBox(20),

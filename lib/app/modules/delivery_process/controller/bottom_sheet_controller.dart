@@ -22,6 +22,7 @@ class BottomSheetController extends GetxController {
   }
 
   void showNewOrder(OrderModel order) {
+    Get.find<HomeController>().resetAcceptanceTimer();
     currentOrder.value = order;
     currentSheet.value = BottomSheetState.newOrderArrived;
   }
@@ -29,6 +30,7 @@ class BottomSheetController extends GetxController {
   void acceptOrder() {
     final order = currentOrder.value;
     if (order != null) {
+      Get.find<HomeController>().stopAcceptanceTimer();
       Get.find<HomeController>().acceptOrder(order.orderId.toString());
     }
   }
@@ -67,20 +69,23 @@ class BottomSheetController extends GetxController {
   }
 
   void hideAllSheets() {
+    Get.find<HomeController>().stopAcceptanceTimer();
     currentSheet.value = BottomSheetState.none;
     currentOrderData = null;
   }
 
   void timeoutOrder() {
-    final order = currentOrder.value;
-    if (order != null) {
-      currentOrder.value = null;
-      currentSheet.value = BottomSheetState.lookingForOrders;
-      CustomSnackBar.show(
-        message: 'Order timed out',
-        color: AppTheme.redText,
-        tColor: AppTheme.white,
-      );
+    if (currentSheet.value == BottomSheetState.newOrderArrived) {
+      final order = currentOrder.value;
+      if (order != null) {
+        currentOrder.value = null;
+        currentSheet.value = BottomSheetState.lookingForOrders;
+        CustomSnackBar.show(
+          message: 'Order timed out',
+          color: AppTheme.redText,
+          tColor: AppTheme.white,
+        );
+      }
     }
   }
 }

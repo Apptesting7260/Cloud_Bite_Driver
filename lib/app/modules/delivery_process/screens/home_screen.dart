@@ -259,11 +259,12 @@ class HomeScreen extends StatelessWidget {
     if (order == null) return SizedBox.shrink();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      /*if (controller.remainingTime.value == controller.totalTime) {
+      if (Get.find<BottomSheetController>().currentSheet.value ==
+          BottomSheetState.newOrderArrived && (controller.remainingTime.value == controller.totalTime)) {
         controller.startTimer();
-      }*/
-      controller.startTimer();
+      }
     });
+
     return Positioned(
       bottom: 0,
       left: 0,
@@ -448,7 +449,7 @@ class HomeScreen extends StatelessWidget {
                     CustomAnimatedButton(
                       onTap: () {
                         controller.bottomSheetController.acceptOrder();
-                        controller.stopTimer();
+                        controller.stopAcceptanceTimer();
                       },
                       text: "Accept Order",
                     ),
@@ -1288,7 +1289,6 @@ class HomeScreen extends StatelessWidget {
                   ),
                 );
               } else {
-                // Slide हो जाने के बाद send otp button दिखाओ
                 return AnimatedSwitcher(
                   duration: Duration(milliseconds: 500),
                   child: CustomAnimatedButton(

@@ -294,8 +294,19 @@ class EarningsScreen extends StatelessWidget {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(25),
                     child: profileImage.isNotEmpty
-                        ? Image.network(profileImage, width: 50, height: 50, fit: BoxFit.cover)
-                        : Image.asset(ImageConstants.profile, width: 50, height: 50),
+                        ? CachedNetworkImage(
+                      imageUrl: "${AppUrls.imageUrl}/$profileImage",
+                      imageBuilder: (context, imageProvider) => Container(
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: imageProvider,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                      placeholder: (context, url) => CircularProgressIndicator(),
+                      errorWidget: (context, url, error) => Icon(Icons.person),
+                    ) : Image.asset(ImageConstants.profile, width: 50, height: 50),
                   ),
                 ),
                 WidgetDesigns.wBox(10),
@@ -304,13 +315,13 @@ class EarningsScreen extends StatelessWidget {
                   children: [
                     Text(
                       profileName,
-                      style: AppFontStyle.text_14_400(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+                      style: AppFontStyle.text_18_400(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
                     ),
                     WidgetDesigns.hBox(4),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: List.generate(5, (index) {
-                        int ratingValue = int.tryParse(rating) ?? 0;
+                        double ratingValue = double.tryParse(rating) ?? 0.0;
                         return Icon(
                             Icons.star,
                             color: index < ratingValue ? Colors.yellow : Colors.grey,
@@ -348,8 +359,14 @@ class EarningsScreen extends StatelessWidget {
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(15.0),
                         child: images.isNotEmpty
-                            ? Image.network(images, width: 60, height: 60, fit: BoxFit.cover)
-                            : Image.asset(ImageConstants.profile, width: 60, height: 60),
+                            ?  CachedNetworkImage(
+                          imageUrl: "${AppUrls.imageUrl}/$images",
+                          width: 60,
+                          height: 60,
+                          fit: BoxFit.cover,
+                          placeholder: (context, url) => Container(color: Colors.grey[200]),
+                          errorWidget: (context, url, error) => Icon(Icons.fastfood),
+                        ) : Image.asset(ImageConstants.profile, width: 60, height: 60),
                       ),
                     ),
                     WidgetDesigns.wBox(12),
@@ -359,12 +376,12 @@ class EarningsScreen extends StatelessWidget {
                         children: [
                           Text(
                             dishName,
-                            style: AppFontStyle.text_14_400(AppTheme.blueColor, fontFamily: AppFontFamily.generalSansMedium),
+                            style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
                           ),
                           WidgetDesigns.hBox(5),
                           Text(
                             description,
-                            style: AppFontStyle.text_18_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+                            style: AppFontStyle.text_14_500(AppTheme.grey, fontFamily: AppFontFamily.generalSansMedium),
                           ),
                         ],
                       ),

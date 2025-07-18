@@ -77,7 +77,7 @@ class HomeController extends GetxController {
   @override
   void onClose() {
      locationSubscription?.cancel();
-    _timer.cancel();
+     stopAcceptanceTimer();
     resendTime?.cancel();
     socketService.off('driverOnlineConfirmed');
     socketService.off('driverOfflineConfirmed');
@@ -525,26 +525,32 @@ class HomeController extends GetxController {
     // For Remaining Time
   final RxInt remainingTime = 30.obs;
   final int totalTime = 30;
-  late Timer _timer;
+  Timer? acceptanceTimer;
 
   void startTimer() {
      remainingTime.value = totalTime;
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+     acceptanceTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (remainingTime.value > 0) {
         remainingTime.value--;
       } else {
-        stopTimer();
+        stopAcceptanceTimer();
         final order = bottomSheetController.currentOrder.value;
         if (order != null) {
-          Get.find<HomeController>().timeoutOrder(order.orderId.toString());
+          timeoutOrder(order.orderId.toString());
         }
         bottomSheetController.timeoutOrder();
       }
     });
   }
 
-  void stopTimer() {
-    _timer.cancel();
+  void stopAcceptanceTimer() {
+    acceptanceTimer?.cancel();
+    acceptanceTimer = null;
+  }
+
+  void resetAcceptanceTimer() {
+    stopAcceptanceTimer();
+    remainingTime.value = totalTime;
   }
 
   final BottomSheetController bottomSheetController = Get.put(
@@ -615,6 +621,7 @@ class HomeController extends GetxController {
 
   Future<void> acceptOrder(String orderId) async {
     try {
+      stopAcceptanceTimer();
       final driverId = storageServices.getDriverID();
       socketService.sendMessage(SocketEvents.acceptOrder, {
         'driverId': driverId,
