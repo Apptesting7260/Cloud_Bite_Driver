@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/deliveries_screen.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/earning_screen.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/notification_set.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/privacy_policy_screen.dart';
@@ -50,6 +51,7 @@ class Routes {
   static const termsCondition = '/termsCondition';
   static const ratings = '/ratings';
   static const earnings = '/earnings';
+  static const deliveriesScreen = '/deliveriesScreen';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen(), binding: SplashBinding()),
@@ -119,5 +121,6 @@ class Routes {
     GetPage(name: Routes.termsCondition, page: () => TermsCondtion()),
     GetPage(name: Routes.ratings, page: () => RatingScreen()),
     GetPage(name: Routes.earnings, page: () => EarningsScreen()),
+    GetPage(name: Routes.deliveriesScreen, page: () => DeliveriesScreen()),
   ];
 }

@@ -75,27 +75,32 @@ class MyProfileScreen extends StatelessWidget{
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Expanded(
-                            child: Container(
-                              height: 110,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  gradient: AppTheme.newLightGradient
-                              ),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Obx((){
-                                    return Text(
-                                      (controller.deliveryAndRatingData.value.data?.totalDeliveries == null ? "0" : controller.deliveryAndRatingData.value.data?.totalDeliveries ?? '0'),
-                                      style: AppFontStyle.text_24_500(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
-                                    );
-                                  }),
-                                  WidgetDesigns.hBox(5),
-                                  Text(
-                                    'Deliveries',
-                                    style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
-                                  )
-                                ],
+                            child: GestureDetector(
+                              onTap: () {
+                                Get.toNamed(Routes.deliveriesScreen);
+                              },
+                              child: Container(
+                                height: 110,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    gradient: AppTheme.newLightGradient
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Obx((){
+                                      return Text(
+                                        (controller.deliveryAndRatingData.value.data?.totalDeliveries == null ? "0" : controller.deliveryAndRatingData.value.data?.totalDeliveries ?? '0'),
+                                        style: AppFontStyle.text_24_500(AppTheme.red, fontFamily: AppFontFamily.generalSansRegular),
+                                      );
+                                    }),
+                                    WidgetDesigns.hBox(5),
+                                    Text(
+                                      'Deliveries',
+                                      style: AppFontStyle.text_16_400(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
+                                    )
+                                  ],
+                                ),
                               ),
                             ),
                           ),
