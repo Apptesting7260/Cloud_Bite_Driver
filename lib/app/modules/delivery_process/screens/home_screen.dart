@@ -1150,7 +1150,7 @@ class HomeScreen extends StatelessWidget {
                       onTap: () {
                         controller.sendOtp();
                       },
-                      text: "Send Code",
+                      text: "Verify Code",
                     ),
                   );
                 }
