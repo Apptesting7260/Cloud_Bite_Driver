@@ -174,6 +174,11 @@ class AppFontStyle {
         height: height, fontFamily: fontFamily);
   }
 
+  static text_21_500(Color color, {fontFamily, height, overflow}) {
+    return _textStyle(color, 21, FontWeight.w500,overflow: overflow,
+        height: height, fontFamily: fontFamily);
+  }
+
   ///`font-weight:600 ===========>`
 
   static text_12_600(Color color, {fontFamily, height}) {
