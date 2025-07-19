@@ -1,7 +1,7 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/rating_model.dart';
 
-class EarningsController extends GetxController{
+class RatingController extends GetxController{
 
   var isLoading = true.obs;
   var isLoadingMore = false.obs;

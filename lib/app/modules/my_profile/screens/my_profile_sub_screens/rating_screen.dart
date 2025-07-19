@@ -188,8 +188,8 @@ class EarningsScreen extends StatelessWidget{
     );
   }
 }*/
-class EarningsScreen extends StatelessWidget {
-  final EarningsController controller = Get.put(EarningsController());
+class RatingScreen extends StatelessWidget {
+  final RatingController controller = Get.put(RatingController());
 
   @override
   Widget build(BuildContext context) {
@@ -289,6 +289,7 @@ class EarningsScreen extends StatelessWidget {
               children: [
                 Container(
                   height: 50,
+                  width: 50,
                   decoration: BoxDecoration(
                       shape: BoxShape.circle
                   ),
@@ -394,13 +395,13 @@ class EarningsScreen extends StatelessWidget {
             WidgetDesigns.hBox(10),
             if (review.isNotEmpty)
               Text(
-                  review,
-                  style: TextStyle(
-                      fontFamily: AppFontFamily.generalSansRegular,
-                      fontWeight: FontWeight.w400,
-                      fontSize: 16,
-                      color: Colors.grey
-                  ),
+                review,
+                style: TextStyle(
+                    fontFamily: AppFontFamily.generalSansRegular,
+                    fontWeight: FontWeight.w400,
+                    fontSize: 16,
+                    color: Colors.grey
+                ),
               ),
             WidgetDesigns.hBox(10),
             Container(
