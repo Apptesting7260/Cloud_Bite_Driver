@@ -11,7 +11,7 @@ class DeliveryMethodModel {
     if (json['data'] != null) {
       data = <DeliveryMethodsData>[];
       json['data'].forEach((v) {
-        data!.add(new DeliveryMethodsData.fromJson(v));
+        data!.add(DeliveryMethodsData.fromJson(v));
       });
     }
     status = json['status'];
@@ -19,13 +19,13 @@ class DeliveryMethodModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['status'] = this.status;
-    data['type'] = this.type;
+    data['status'] = status;
+    data['type'] = type;
     return data;
   }
 }
@@ -44,10 +44,10 @@ class DeliveryMethodsData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['status'] = status;
     return data;
   }
 }

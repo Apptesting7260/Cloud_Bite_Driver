@@ -6,6 +6,8 @@ class IdentityVerificationScreen extends StatelessWidget{
 
   final IdentityVerificationController controller = Get.put(IdentityVerificationController());
 
+  IdentityVerificationScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

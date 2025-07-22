@@ -6,6 +6,8 @@ class EarningsScreen extends StatelessWidget{
   final EarningsController controller = Get.put(EarningsController());
   final List<double> earningsData = [1200, 400, 800, 200, 500, 1000, 100];
 
+   EarningsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

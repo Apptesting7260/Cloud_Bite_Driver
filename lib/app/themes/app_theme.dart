@@ -30,6 +30,7 @@ class AppTheme {
   static const Color lightText =  Color.fromRGBO(146, 144, 144, 1);
   static const Color green =  Color.fromRGBO(52, 168, 83, 1);
   static const Color grey =  Color.fromRGBO(98, 97, 98, 1);
+  static const Color grey50 =  Color.fromRGBO(98, 97, 98, 0.5);
   static const Color skyColor =  Color.fromRGBO(95, 182, 227, 1);
   static const Color skyColor30 =  Color.fromRGBO(95, 182, 227, 0.3);
   // Gradients

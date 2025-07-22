@@ -154,5 +154,6 @@ class PushNotificationService {
       await Future.delayed(const Duration(seconds: 5));
       getFcmTokenWithRetry();
     }
+    return null;
   }
 }

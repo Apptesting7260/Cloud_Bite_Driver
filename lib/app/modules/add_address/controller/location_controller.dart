@@ -61,15 +61,7 @@ class LocationController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
 
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   bool doesLocationTypeExist(String type) {
     return allLocationData.value.addresses!.any(

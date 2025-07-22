@@ -69,4 +69,19 @@ class WidgetDesigns{
     log(message, name: name,);
   }
 
+  static String getCurrentDate() {
+    final now = DateTime.now();
+    return '${now.year.toString().padLeft(4, '0')}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+  }
+
+
+  static String convertDateFormat(String input) {
+    final inputFormat = DateFormat('dd MMM, yyyy');
+    final outputFormat = DateFormat('yyyy-MM-dd');
+
+    final date = inputFormat.parse(input);
+    return outputFormat.format(date);
+  }
+
+
 }

@@ -1,6 +1,4 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/utils/repository/repository.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 
 class PrivacyPolicyController extends GetxController {
   final Repository _repository = Repository();

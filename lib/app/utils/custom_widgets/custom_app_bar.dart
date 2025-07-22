@@ -9,12 +9,12 @@ class CustomBackButtonAppBar extends StatelessWidget
   final String? title;
 
   const CustomBackButtonAppBar({
-    Key? key,
+    super.key,
     this.onBackPressed,
     this.backgroundColor,
     this.elevation,
     this.title,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,13 +64,13 @@ class CustomTitleAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? elevation;
 
   const CustomTitleAppBar({
-    Key? key,
+    super.key,
     required this.title,
     this.onBackPressed,
     this.titleStyle,
     this.backgroundColor,
     this.elevation,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -107,9 +107,9 @@ class CustomLogoutAppBar extends StatelessWidget
   // final double? elevation;
 
   const CustomLogoutAppBar({
-    Key? key,
+    super.key,
     required this.onLogoutPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

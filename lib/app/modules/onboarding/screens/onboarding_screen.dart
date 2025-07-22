@@ -3,6 +3,9 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class OnboardingScreen extends StatelessWidget {
   final OnboardingController onboardingController = Get.put(OnboardingController());
 
+   OnboardingScreen({super.key});
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppTheme.white,

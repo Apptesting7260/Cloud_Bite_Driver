@@ -1,6 +1,8 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
 class WithdrawScreen extends StatelessWidget{
+  const WithdrawScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

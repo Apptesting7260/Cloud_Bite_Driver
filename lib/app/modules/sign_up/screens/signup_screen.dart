@@ -1,9 +1,10 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 
 class SignUpScreen extends StatelessWidget{
 
   final SignUpController controller = Get.put(SignUpController());
+
+   SignUpScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -124,6 +125,7 @@ class SignUpScreen extends StatelessWidget{
                   if(controller.dobError.value.isNotEmpty || controller.dobError.value != ''){
                     return controller.dobError.value;
                   }
+                  return null;
                 },
                 suffix: GestureDetector(
                     onTap: () async {

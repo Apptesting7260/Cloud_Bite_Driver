@@ -16,12 +16,12 @@ class ResendModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['phone'] = this.phone;
-    data['otpCode'] = this.otpCode;
-    data['type'] = this.type;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['phone'] = phone;
+    data['otpCode'] = otpCode;
+    data['type'] = type;
+    data['status'] = status;
     return data;
   }
 }

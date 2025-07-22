@@ -21,11 +21,11 @@ class RatingModel {
     status = json['status'];
     type = json['type'].toString();
     summary =
-    json['summary'] != null ? new Summary.fromJson(json['summary']) : null;
+    json['summary'] != null ? Summary.fromJson(json['summary']) : null;
     if (json['data'] != null) {
       data = <RatingData>[];
       json['data'].forEach((v) {
-        data!.add(new RatingData.fromJson(v));
+        data!.add(RatingData.fromJson(v));
       });
     }
     totalPages = json['total_pages'].toString();
@@ -33,18 +33,18 @@ class RatingModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['status'] = this.status;
-    data['type'] = this.type;
-    if (this.summary != null) {
-      data['summary'] = this.summary!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['status'] = status;
+    data['type'] = type;
+    if (summary != null) {
+      data['summary'] = summary!.toJson();
     }
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['total_pages'] = this.totalPages;
-    data['current_page'] = this.currentPage;
+    data['total_pages'] = totalPages;
+    data['current_page'] = currentPage;
     return data;
   }
 }
@@ -60,16 +60,16 @@ class Summary {
     averageRating = json['average_rating'].toString();
     totalRatings = json['total_ratings'].toString();
     distribution = json['distribution'] != null
-        ? new Distribution.fromJson(json['distribution'])
+        ? Distribution.fromJson(json['distribution'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['average_rating'] = this.averageRating;
-    data['total_ratings'] = this.totalRatings;
-    if (this.distribution != null) {
-      data['distribution'] = this.distribution!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['average_rating'] = averageRating;
+    data['total_ratings'] = totalRatings;
+    if (distribution != null) {
+      data['distribution'] = distribution!.toJson();
     }
     return data;
   }
@@ -94,12 +94,12 @@ class Distribution {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['5_star'] = this.i5Star;
-    data['4_star'] = this.i4Star;
-    data['3_star'] = this.i3Star;
-    data['2_star'] = this.i2Star;
-    data['1_star'] = this.i1Star;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['5_star'] = i5Star;
+    data['4_star'] = i4Star;
+    data['3_star'] = i3Star;
+    data['2_star'] = i2Star;
+    data['1_star'] = i1Star;
     return data;
   }
 }
@@ -139,16 +139,16 @@ class RatingData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['rating'] = this.rating;
-    data['driver_review'] = this.driverReview;
-    data['order_quantity'] = this.orderQuantity;
-    data['user_first_name'] = this.userFirstName;
-    data['user_last_name'] = this.userLastName;
-    data['user_image'] = this.userImage;
-    data['vendor_image'] = this.vendorImage;
-    data['created_at'] = this.createdAt;
-    data['order_id'] = this.orderId;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['rating'] = rating;
+    data['driver_review'] = driverReview;
+    data['order_quantity'] = orderQuantity;
+    data['user_first_name'] = userFirstName;
+    data['user_last_name'] = userLastName;
+    data['user_image'] = userImage;
+    data['vendor_image'] = vendorImage;
+    data['created_at'] = createdAt;
+    data['order_id'] = orderId;
     return data;
   }
 }

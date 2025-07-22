@@ -1,9 +1,10 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/routes/stage_navigator.dart';
 
 class WelcomeScreen extends StatelessWidget{
 
   final WelcomeController controller = Get.put(WelcomeController());
+
+   WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

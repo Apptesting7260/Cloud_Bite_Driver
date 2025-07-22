@@ -11,20 +11,20 @@ class DriverAccountDetailsModel {
   DriverAccountDetailsModel.fromJson(Map<String, dynamic> json) {
     type = json['type'].toString();
     message = json['message'].toString();
-    data = json['data'] != null ? new DriverBankAccountData.fromJson(json['data']) : null;
+    data = json['data'] != null ? DriverBankAccountData.fromJson(json['data']) : null;
     status = json['status'];
     stage = json['stage'].toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['status'] = this.status;
-    data['stage'] = this.stage;
+    data['status'] = status;
+    data['stage'] = stage;
     return data;
   }
 }
@@ -67,17 +67,17 @@ class DriverBankAccountData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['driver_id'] = this.driverId;
-    data['bank_name'] = this.bankName;
-    data['account_holder_name'] = this.accountHolderName;
-    data['account_number'] = this.accountNumber;
-    data['retype_account_number'] = this.retypeAccountNumber;
-    data['account_type'] = this.accountType;
-    data['ifsc_code'] = this.ifscCode;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['driver_id'] = driverId;
+    data['bank_name'] = bankName;
+    data['account_holder_name'] = accountHolderName;
+    data['account_number'] = accountNumber;
+    data['retype_account_number'] = retypeAccountNumber;
+    data['account_type'] = accountType;
+    data['ifsc_code'] = ifscCode;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
     return data;
   }
 }

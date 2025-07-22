@@ -4,6 +4,8 @@ class ForgotPasswordScreen extends StatelessWidget{
 
   final ForgotPasswordController controller = Get.put(ForgotPasswordController());
 
+   ForgotPasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

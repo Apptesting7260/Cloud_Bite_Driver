@@ -15,11 +15,11 @@ class DeliveryRatingModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['total_deliveries'] = this.totalDeliveries;
-    data['total_ratings'] = this.totalRatings;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['total_deliveries'] = totalDeliveries;
+    data['total_ratings'] = totalRatings;
+    data['status'] = status;
     return data;
   }
 }

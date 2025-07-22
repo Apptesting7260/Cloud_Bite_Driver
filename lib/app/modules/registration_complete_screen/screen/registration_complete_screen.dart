@@ -4,6 +4,8 @@ class RegistrationCompleteScreen extends StatelessWidget{
 
   final RegistrationCompleteController controller = Get.put(RegistrationCompleteController());
 
+   RegistrationCompleteScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

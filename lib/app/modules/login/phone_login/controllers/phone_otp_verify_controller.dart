@@ -7,7 +7,7 @@ class PhoneOtpVerifyController extends GetxController{
   final resendEnabled = false.obs;
   final remainingTime = 60.obs;
   Timer? _timer;
-  bool _isFormValid = false;
+  final bool _isFormValid = false;
   bool get isFormValid => _isFormValid;
   bool fromSignup = false;
 

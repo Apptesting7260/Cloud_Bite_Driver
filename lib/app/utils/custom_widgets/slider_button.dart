@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:slide_to_act/slide_to_act.dart';
 
 class SlideButtonExample extends StatelessWidget {
+  const SlideButtonExample({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -21,6 +23,8 @@ class SlideButtonExample extends StatelessWidget {
         // Custom gradient
         submittedIcon: Icon(Icons.check, color: Colors.white),
         onSubmit: () {
+          return null;
+        
 
         },
         // Add gradient by wrapping with Container

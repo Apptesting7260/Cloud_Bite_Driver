@@ -12,10 +12,10 @@ class LogoutModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['type'] = this.type;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['type'] = type;
+    data['status'] = status;
     return data;
   }
 }

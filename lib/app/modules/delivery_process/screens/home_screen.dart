@@ -8,6 +8,8 @@ import 'package:url_launcher/url_launcher.dart';
 class HomeScreen extends StatelessWidget {
   final HomeController controller = Get.put(HomeController());
 
+  HomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -308,7 +310,7 @@ class HomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "${order.restaurantName}",
+                      order.restaurantName,
                       style: AppFontStyle.text_20_500(
                         AppTheme.black,
                         fontFamily: AppFontFamily.generalSansMedium,
@@ -337,7 +339,7 @@ class HomeScreen extends StatelessWidget {
                         ),
                         WidgetDesigns.wBox(5),
                         Text(
-                          "${order.orderNumber}",
+                          order.orderNumber,
                           style: AppFontStyle.text_18_400(
                             AppTheme.grey,
                             fontFamily: AppFontFamily.generalSansRegular,
@@ -416,7 +418,7 @@ class HomeScreen extends StatelessWidget {
             WidgetDesigns.hBox(16),
             _buildLocationRow(
               title: "Pickup Location",
-              address: "${order.restaurantName}",
+              address: order.restaurantName,
               time: order.pickupDuration,
               pickUp:
                   controller
@@ -1139,6 +1141,7 @@ class HomeScreen extends StatelessWidget {
                       submittedIcon: Icon(Icons.check, color: Colors.white),
                       onSubmit: () {
                         controller.onSlideCompleted();
+                        return null;
                       },
                     ),
                   );
@@ -1285,6 +1288,7 @@ class HomeScreen extends StatelessWidget {
                     submittedIcon: Icon(Icons.check, color: Colors.white),
                     onSubmit: () {
                       controller.onSlideCompleted();
+                      return null;
                     },
                   ),
                 );
@@ -1296,7 +1300,7 @@ class HomeScreen extends StatelessWidget {
                     onTap: () {
                       controller.sendOtp();
                     },
-                    text: "Send Code",
+                    text: "Verify Code",
                   ),
                 );
               }
@@ -1481,35 +1485,35 @@ class HomeScreen extends StatelessWidget {
                       },
                       text: 'Verify',
                     ),
-                    WidgetDesigns.hBox(20.0),
-                    Obx(
-                          () => TextButton(
-                        onPressed: controller.resendEnabled.value
-                            ? () {
-                          // Reset timer and resend OTP
-                          controller.startResendTimer();
-                          controller.otpController.clear();
-                          controller.otpError.value = '';
-                          controller.sendOtp();
-                        }
-                            : null,
-                        child: Text(
-                          controller.resendEnabled.value
-                              ? 'Resend Code'
-                              : 'Resend Code in ${controller.remainingTimer.value}s',
-                          style: TextStyle(
-                            color: controller.resendEnabled.value
-                                ? AppTheme.primaryColor
-                                : Colors.grey,
-                            decoration: controller.resendEnabled.value
-                                ? TextDecoration.underline
-                                : null,
-                            decorationColor: AppTheme.primaryColor,
-                            decorationThickness: 2,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // WidgetDesigns.hBox(20.0),
+                    // Obx(
+                    //       () => TextButton(
+                    //     onPressed: controller.resendEnabled.value
+                    //         ? () {
+                    //       // Reset timer and resend OTP
+                    //       controller.startResendTimer();
+                    //       controller.otpController.clear();
+                    //       controller.otpError.value = '';
+                    //       controller.sendOtp();
+                    //     }
+                    //         : null,
+                    //     child: Text(
+                    //       controller.resendEnabled.value
+                    //           ? 'Resend Code'
+                    //           : 'Resend Code in ${controller.remainingTimer.value}s',
+                    //       style: TextStyle(
+                    //         color: controller.resendEnabled.value
+                    //             ? AppTheme.primaryColor
+                    //             : Colors.grey,
+                    //         decoration: controller.resendEnabled.value
+                    //             ? TextDecoration.underline
+                    //             : null,
+                    //         decorationColor: AppTheme.primaryColor,
+                    //         decorationThickness: 2,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ],

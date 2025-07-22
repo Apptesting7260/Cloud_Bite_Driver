@@ -13,7 +13,7 @@ class CustomImageView extends StatelessWidget {
   final Widget? errorWidget;
 
   const CustomImageView({
-    Key? key,
+    super.key,
     required this.imageUrl,
     this.fit,
     this.width,
@@ -22,7 +22,7 @@ class CustomImageView extends StatelessWidget {
     this.borderRadius,
     this.placeholder,
     this.errorWidget,
-  }) : super(key: key);
+  });
 
   ImageType _getImageType() {
     if (imageUrl.startsWith('http://') || imageUrl.startsWith('https://')) {

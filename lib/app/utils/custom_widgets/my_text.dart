@@ -7,7 +7,7 @@ class MyText extends StatelessWidget {
   Color ? tColor;
   bool ? isOverFlow;
   bool ? isUnderline;
-  MyText({required this.title,this.isUnderline,this.isOverFlow,this.tColor=AppTheme.paragraphTextColor,this.fWeight=FontWeight.w500,this.fSize=15});
+  MyText({super.key, required this.title,this.isUnderline,this.isOverFlow,this.tColor=AppTheme.paragraphTextColor,this.fWeight=FontWeight.w500,this.fSize=15});
   @override
   Widget build(BuildContext context) {
     return Text(title,style: Theme.of(context).textTheme.bodyMedium!.copyWith(

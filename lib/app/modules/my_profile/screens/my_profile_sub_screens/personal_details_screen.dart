@@ -5,6 +5,8 @@ class PersonalDetailsScreen extends StatelessWidget{
   final PersonalDetailsController controller = Get.put(PersonalDetailsController());
   final String imageBaseUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
 
+   PersonalDetailsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
    return Scaffold(
@@ -40,7 +42,7 @@ class PersonalDetailsScreen extends StatelessWidget{
                        else
                          ShimmerBox(width: 70, height: 70),
                        WidgetDesigns.hBox(30),
-                       personalInfo(ImageConstants.profileNameIcon, 'First and Last Name' , driverData == null ? buildShimmerOption() : "${driverData.firstName}"+" ""${driverData.lastName}"),
+                       personalInfo(ImageConstants.profileNameIcon, 'First and Last Name' , driverData == null ? buildShimmerOption() : "${driverData.firstName}"" ""${driverData.lastName}"),
                        WidgetDesigns.hBox(30),
                        personalInfo(ImageConstants.profileDobIcon, 'Date Of Birth' , driverData == null ? buildShimmerOption() : _formatDate(driverData.dateOfBirth)),
                        WidgetDesigns.hBox(30),

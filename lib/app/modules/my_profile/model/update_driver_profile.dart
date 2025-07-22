@@ -10,14 +10,14 @@ class UpdateProfileModel {
     message = json['message'].toString();
     type = json['type'].toString();
     status = json['status'];
-    data = json['data'] != null ? new DriverProfileData.fromJson(json['data']) : null;
+    data = json['data'] != null ? DriverProfileData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['type'] = this.type;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['type'] = type;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -60,16 +60,16 @@ class DriverProfileData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['location'] = this.location;
-    data['profile_photo'] = this.profilePhoto;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['password'] = this.password;
-    data['dob'] = this.dob;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['location'] = location;
+    data['profile_photo'] = profilePhoto;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['password'] = password;
+    data['dob'] = dob;
     return data;
   }
 }

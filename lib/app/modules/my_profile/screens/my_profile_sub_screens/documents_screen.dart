@@ -4,6 +4,8 @@ class DocumentsScreen extends StatelessWidget{
 
   final DocumentsController controller = Get.put(DocumentsController());
 
+   DocumentsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

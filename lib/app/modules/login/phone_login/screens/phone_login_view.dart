@@ -5,6 +5,8 @@ class PhoneLoginView extends StatelessWidget {
 
   final PhoneLoginController controller = Get.put(PhoneLoginController());
 
+   PhoneLoginView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

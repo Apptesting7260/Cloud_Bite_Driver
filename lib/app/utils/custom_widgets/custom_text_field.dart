@@ -13,7 +13,7 @@ class CustomTextField extends StatefulWidget {
   final Widget? suffixIcon;
 
   const CustomTextField({
-    Key? key,
+    super.key,
     this.isEnabled,
     required this.controller,
     required this.hintText,
@@ -24,7 +24,7 @@ class CustomTextField extends StatefulWidget {
     this.validator,
     this.validateOnChange = false,
     this.horizontalPadding = 20,
-  }) : super(key: key);
+  });
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();

@@ -4,6 +4,8 @@ class BankDetailsScreen extends StatelessWidget{
 
   final BankDetailController controller = Get.put(BankDetailController());
 
+   BankDetailsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,6 +56,7 @@ class BankDetailsScreen extends StatelessWidget{
                     if(controller.bankNameError.value.isNotEmpty || controller.bankNameError.value != ''){
                       return controller.bankNameError.value;
                     }
+                    return null;
                   },
                 );
               }
@@ -74,6 +77,7 @@ class BankDetailsScreen extends StatelessWidget{
                     if(controller.accountHolderNameError.value.isNotEmpty || controller.accountHolderNameError.value != ''){
                       return controller.accountHolderNameError.value;
                     }
+                    return null;
                   },
                 );
               }
@@ -98,6 +102,7 @@ class BankDetailsScreen extends StatelessWidget{
                     if(controller.acNumberError.value.isNotEmpty || controller.acNumberError.value != ''){
                       return controller.acNumberError.value;
                     }
+                    return null;
                   },
                 );
               }
@@ -122,6 +127,7 @@ class BankDetailsScreen extends StatelessWidget{
                     if(controller.reTypeACError.value.isNotEmpty || controller.reTypeACError.value != ''){
                       return controller.reTypeACError.value;
                     }
+                    return null;
                   },
                 );
               }
@@ -154,6 +160,7 @@ class BankDetailsScreen extends StatelessWidget{
                     if(controller.ifscError.value.isNotEmpty || controller.ifscError.value != ''){
                       return controller.ifscError.value;
                     }
+                    return null;
                   },
                 );
               }

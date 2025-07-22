@@ -16,12 +16,12 @@ class GetEmailOTPModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['otp'] = this.otp;
-    data['message'] = this.message;
-    data['status'] = this.status;
-    data['token'] = this.token;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['otp'] = otp;
+    data['message'] = message;
+    data['status'] = status;
+    data['token'] = token;
     return data;
   }
 }

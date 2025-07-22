@@ -4,6 +4,8 @@ class PrivacyPolicyScreen extends StatelessWidget{
 
   final PrivacyPolicyController controller = Get.put(PrivacyPolicyController());
 
+   PrivacyPolicyScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

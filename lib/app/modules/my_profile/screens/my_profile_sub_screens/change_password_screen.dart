@@ -4,6 +4,8 @@ class ChangePasswordScreen extends StatelessWidget{
 
   final ChangePasswordController controller = Get.put(ChangePasswordController());
 
+   ChangePasswordScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

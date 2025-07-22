@@ -4,6 +4,8 @@ class SplashScreen extends StatelessWidget{
 
   final SplashController controller = Get.put(SplashController());
 
+   SplashScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(

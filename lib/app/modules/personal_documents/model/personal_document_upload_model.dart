@@ -8,19 +8,19 @@ class PersonalDocumentUpload {
 
   PersonalDocumentUpload.fromJson(Map<String, dynamic> json) {
     message = json['message'];
-    data = json['data'] != null ? new DocumentUploadData.fromJson(json['data']) : null;
+    data = json['data'] != null ? DocumentUploadData.fromJson(json['data']) : null;
     status = json['status'];
     type = json['type'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['status'] = this.status;
-    data['type'] = this.type;
+    data['status'] = status;
+    data['type'] = type;
     return data;
   }
 }
@@ -48,12 +48,12 @@ class DocumentUploadData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['profile_photo'] = this.profilePhoto;
-    data['front_identity'] = this.frontIdentity;
-    data['back_identity'] = this.backIdentity;
-    data['front_license'] = this.frontLicense;
-    data['back_license'] = this.backLicense;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['profile_photo'] = profilePhoto;
+    data['front_identity'] = frontIdentity;
+    data['back_identity'] = backIdentity;
+    data['front_license'] = frontLicense;
+    data['back_license'] = backLicense;
     return data;
   }
 }

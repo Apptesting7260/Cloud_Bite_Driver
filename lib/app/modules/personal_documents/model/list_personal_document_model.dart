@@ -14,7 +14,7 @@ class ListPersonalDocumentModel {
     if (json['data'] != null) {
       data = <ListPersonalDocData>[];
       json['data'].forEach((v) {
-        data!.add(new ListPersonalDocData.fromJson(v));
+        data!.add(ListPersonalDocData.fromJson(v));
       });
     }
     status = json['status'];
@@ -22,14 +22,14 @@ class ListPersonalDocumentModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['type'] = type;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['status'] = this.status;
-    data['isComplete'] = this.isComplete;
+    data['status'] = status;
+    data['isComplete'] = isComplete;
     return data;
   }
 }
@@ -50,11 +50,11 @@ class ListPersonalDocData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['status'] = this.status;
-    data['isComplete'] = this.isComplete;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['status'] = status;
+    data['isComplete'] = isComplete;
     return data;
   }
 }

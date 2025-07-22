@@ -122,7 +122,7 @@ class SignUpController extends GetxController{
       final email = Get.arguments['email'] ?? "";
       final isVerified = Get.arguments['isVerified'] ?? false;
 
-      print("===================${email} && ${isVerified}=================");
+      print("===================$email && $isVerified=================");
 
       if (email != null && email != '') {
         emailController.text = email;
@@ -254,7 +254,7 @@ class SignUpController extends GetxController{
       final response = await _repository.getEmailOTPAPI(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
-        customOtpDialog("${emailController.text}", Get.context, "email");
+        customOtpDialog(emailController.text, Get.context, "email");
         print(response.message);
         // driverId = "${response.updatedUser?.id}";
         storageServices.saveDriverID("${response.updatedUser?.id}");

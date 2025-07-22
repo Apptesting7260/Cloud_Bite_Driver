@@ -4,6 +4,8 @@ class PhoneOtpVerifyScreen extends StatelessWidget{
 
   final PhoneOtpVerifyController controller = Get.put(PhoneOtpVerifyController());
 
+   PhoneOtpVerifyScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
       return Container(

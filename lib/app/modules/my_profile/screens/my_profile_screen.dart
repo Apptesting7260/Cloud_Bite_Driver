@@ -8,6 +8,8 @@ class MyProfileScreen extends StatelessWidget{
   StorageServices get storageServices => _storageService;
   final String imageBaseUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
 
+   MyProfileScreen({super.key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +58,7 @@ class MyProfileScreen extends StatelessWidget{
                               style: AppFontStyle.text_24_500(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
                             ),
                             Text(
-                              "${detailController.driverData.value.data?.data?.email ?? ''}",
+                              detailController.driverData.value.data?.data?.email ?? '',
                               style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
                             )
                           ],

@@ -5,7 +5,7 @@ import 'package:fl_chart/fl_chart.dart';
 class EarningsBarChart extends StatelessWidget {
   final List<double> values;
 
-  EarningsBarChart({required this.values});
+  const EarningsBarChart({super.key, required this.values});
 
   @override
   Widget build(BuildContext context) {

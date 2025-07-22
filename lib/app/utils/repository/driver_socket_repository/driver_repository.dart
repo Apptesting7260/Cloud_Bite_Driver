@@ -1,8 +1,5 @@
 import 'package:cloud_bites_driver/app/constants/socket_url.dart';
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
-import 'package:cloud_bites_driver/app/modules/delivery_process/model/otp_verification_model.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class DriverRepository {
   var socketService = Get.find<SocketController>();

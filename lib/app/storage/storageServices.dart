@@ -11,6 +11,7 @@ class StorageServices extends GetxService{
   }
 
   Future<bool> saveToken(String token) async {
+    WidgetDesigns.consoleLog(token, 'auth_token');
     return await _prefs.setString(_tokenKey, token);
   }
 

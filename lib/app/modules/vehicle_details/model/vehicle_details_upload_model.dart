@@ -9,18 +9,18 @@ class VehicleDetailsUploadModel {
   VehicleDetailsUploadModel.fromJson(Map<String, dynamic> json) {
     type = json['type'].toString();
     message = json['message'].toString();
-    data = json['data'] != null ? new VehicleDetailsData.fromJson(json['data']) : null;
+    data = json['data'] != null ? VehicleDetailsData.fromJson(json['data']) : null;
     status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['status'] = this.status;
+    data['status'] = status;
     return data;
   }
 }
@@ -63,17 +63,17 @@ class VehicleDetailsData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['driver_id'] = this.driverId;
-    data['vehicle_name'] = this.vehicleName;
-    data['brand'] = this.brand;
-    data['year_of_manufacture'] = this.yearOfManufacture;
-    data['registration_number'] = this.registrationNumber;
-    data['fuel_type'] = this.fuelType;
-    data['rc_front_image'] = this.rcFrontImage;
-    data['rc_back_image'] = this.rcBackImage;
-    data['created_at'] = this.createdAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['driver_id'] = driverId;
+    data['vehicle_name'] = vehicleName;
+    data['brand'] = brand;
+    data['year_of_manufacture'] = yearOfManufacture;
+    data['registration_number'] = registrationNumber;
+    data['fuel_type'] = fuelType;
+    data['rc_front_image'] = rcFrontImage;
+    data['rc_back_image'] = rcBackImage;
+    data['created_at'] = createdAt;
     return data;
   }
 }

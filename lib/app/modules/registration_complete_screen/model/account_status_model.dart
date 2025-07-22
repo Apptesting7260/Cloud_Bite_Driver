@@ -28,31 +28,31 @@ class AccountStatusModel {
     if (json['data'] != null) {
       data = <AccountData>[];
       json['data'].forEach((v) {
-        data!.add(new AccountData.fromJson(v));
+        data!.add(AccountData.fromJson(v));
       });
     }
     isComplete = json['isComplete'];
     stage = json['stage'].toString();
     statusText = json['statusText'].toString();
     allRemarks = json['all_remarks'] != null
-        ? new AllRemarks.fromJson(json['all_remarks'])
+        ? AllRemarks.fromJson(json['all_remarks'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['type'] = this.type;
-    data['statusMessage'] = this.statusMessage;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['type'] = type;
+    data['statusMessage'] = statusMessage;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['isComplete'] = this.isComplete;
-    data['stage'] = this.stage;
-    data['statusText'] = this.statusText;
-    if (this.allRemarks != null) {
-      data['all_remarks'] = this.allRemarks!.toJson();
+    data['isComplete'] = isComplete;
+    data['stage'] = stage;
+    data['statusText'] = statusText;
+    if (allRemarks != null) {
+      data['all_remarks'] = allRemarks!.toJson();
     }
     return data;
   }
@@ -70,9 +70,9 @@ class AccountData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['status'] = status;
     return data;
   }
 }
@@ -89,9 +89,9 @@ class AllRemarks {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['account_reject_remark'] = this.accountRejectRemark;
-    data['personal_reject_remark'] = this.personalRejectRemark;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['account_reject_remark'] = accountRejectRemark;
+    data['personal_reject_remark'] = personalRejectRemark;
     return data;
   }
 }

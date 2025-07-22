@@ -4,6 +4,8 @@ class TermsCondtion extends StatelessWidget{
 
   final TermsConditionController controller = Get.put(TermsConditionController());
 
+   TermsCondtion({super.key});
+
 
   @override
   Widget build(BuildContext context) {

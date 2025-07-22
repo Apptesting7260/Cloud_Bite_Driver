@@ -3,6 +3,8 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class DocumentVerificationScreen extends StatelessWidget{
 
   final DocumentVerificationController controller = Get.put(DocumentVerificationController());
+
+   DocumentVerificationScreen({super.key});
   //final RegistrationCompleteController registrationController = Get.put(RegistrationCompleteController());
 
   @override

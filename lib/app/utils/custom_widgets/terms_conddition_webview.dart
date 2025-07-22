@@ -3,7 +3,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class TermsConditionWebView extends StatefulWidget {
   final String url;
 
-  const TermsConditionWebView({Key? key, required this.url}) : super(key: key);
+  const TermsConditionWebView({super.key, required this.url});
 
   @override
   State<TermsConditionWebView> createState() => _TermsConditionWebView();

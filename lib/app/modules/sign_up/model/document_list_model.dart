@@ -20,7 +20,7 @@ class DocumentListModel {
     if (json['data'] != null) {
       data = <DocumentVerificationData>[];
       json['data'].forEach((v) {
-        data!.add(new DocumentVerificationData.fromJson(v));
+        data!.add(DocumentVerificationData.fromJson(v));
       });
     }
     status = json['status'];
@@ -29,15 +29,15 @@ class DocumentListModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['message'] = this.message;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['message'] = message;
+    data['type'] = type;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
-    data['status'] = this.status;
-    data['all_complete'] = this.allComplete;
-    data['stage'] = this.stage;
+    data['status'] = status;
+    data['all_complete'] = allComplete;
+    data['stage'] = stage;
     return data;
   }
 }
@@ -58,11 +58,11 @@ class DocumentVerificationData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['status'] = this.status;
-    data['isComleted'] = this.isCompleted;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['status'] = status;
+    data['isComleted'] = isCompleted;
     return data;
   }
 }

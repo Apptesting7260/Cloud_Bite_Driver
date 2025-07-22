@@ -4,6 +4,8 @@ class ChangePasswordProcessScreen extends StatelessWidget{
 
   final ChangePasswordProcessController controller = Get.put(ChangePasswordProcessController());
 
+   ChangePasswordProcessScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
    return Scaffold(

@@ -4,6 +4,8 @@ class MyWalletScreen extends StatelessWidget{
 
   final MyWalletController controller = Get.put(MyWalletController());
 
+   MyWalletScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

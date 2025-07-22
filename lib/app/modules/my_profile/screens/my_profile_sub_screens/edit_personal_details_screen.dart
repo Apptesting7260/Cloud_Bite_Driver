@@ -7,6 +7,8 @@ class EditPerosnalDetails extends StatelessWidget{
   final String imageBaseUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
 
   final StorageServices _storageService = Get.find<StorageServices>();
+
+   EditPerosnalDetails({super.key});
   StorageServices get storageServices => _storageService;
 
 

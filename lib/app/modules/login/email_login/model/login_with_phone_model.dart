@@ -10,14 +10,14 @@ class LoginWithPhoneModel {
     type = json['type'];
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? new LoginWithPhoneData.fromJson(json['data']) : null;
+    data = json['data'] != null ? LoginWithPhoneData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['status'] = this.status;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['status'] = status;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -43,12 +43,12 @@ class LoginWithPhoneData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['otp'] = this.otp;
-    data['email'] = this.email;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['stages'] = this.stages;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['otp'] = otp;
+    data['email'] = email;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['stages'] = stages;
     return data;
   }
 }

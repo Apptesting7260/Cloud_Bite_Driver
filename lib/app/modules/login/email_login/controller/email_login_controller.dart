@@ -31,10 +31,6 @@ class EmailLoginController extends GetxController{
   }
 
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
 
   Future<void> loginWithEmailAPI() async {
     updateEmailError('');

@@ -6,6 +6,8 @@ class VehicleDetailsScreen extends StatelessWidget{
 
   final VehicleDetailController controller = Get.put(VehicleDetailController());
 
+  VehicleDetailsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

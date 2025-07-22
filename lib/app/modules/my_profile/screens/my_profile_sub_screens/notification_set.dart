@@ -1,6 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/utils/custom_widgets/gradient_switch.dart';
-import 'package:flutter/material.dart';
 
 class NotificationSettingsScreen extends StatelessWidget {
   NotificationSettingsScreen({super.key});

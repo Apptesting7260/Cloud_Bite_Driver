@@ -230,7 +230,7 @@ class PhoneLoginController extends GetxController {
       final data = {
         "type": "phone",
         "phone": phoneController.text,
-        "country_code": "${countryString.value}",
+        "country_code": countryString.value,
         "otpType": "generate",
         "fcm_token": fcmToken ?? ''
       };

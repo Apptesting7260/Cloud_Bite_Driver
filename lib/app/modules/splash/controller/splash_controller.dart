@@ -15,7 +15,7 @@ class SplashController extends GetxController{
       await Future.delayed(const Duration(seconds: 2));
 
       final token = storageService.getToken();
-      if (token != null && token.isNotEmpty) {
+      if (token.isNotEmpty) {
         StageNavigator.navigateToStage(storageService.getStages().toString());
       } else {
         await Get.offAllNamed(Routes.onboarding);

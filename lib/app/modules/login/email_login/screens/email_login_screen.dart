@@ -4,6 +4,8 @@ class EmailLoginScreen extends StatelessWidget{
 
   final EmailLoginController controller = Get.put(EmailLoginController());
 
+   EmailLoginScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

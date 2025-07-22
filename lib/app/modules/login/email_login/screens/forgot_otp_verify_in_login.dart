@@ -4,6 +4,8 @@ class ForgotOtpVerifyInLogin extends StatelessWidget{
 
   final ForgoOtpVerifyInLoginController controller = Get.put(ForgoOtpVerifyInLoginController());
 
+   ForgotOtpVerifyInLogin({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

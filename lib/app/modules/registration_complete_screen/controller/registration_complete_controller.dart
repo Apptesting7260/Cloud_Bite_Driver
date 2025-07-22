@@ -1,5 +1,4 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
-import 'package:cloud_bites_driver/app/routes/stage_navigator.dart';
 
 class RegistrationCompleteController extends GetxController{
   var isLoading = true.obs;

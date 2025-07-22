@@ -306,7 +306,7 @@ class HomeController extends GetxController {
         destLat = order.vendordata?.latitude;
         destLng = order.vendordata?.longitude;
         destName = 'Vendor';
-        print("${destLat} ${destLng} this is $destName lat and longitude");
+        print("$destLat $destLng this is $destName lat and longitude");
 
         if (destLat != null && destLng != null) {
           vendorLocation.value = LatLng(destLat, destLng);
@@ -317,7 +317,7 @@ class HomeController extends GetxController {
         destLat = order.userAddressData?.latitude;
         destLng = order.userAddressData?.longitude;
         destName = 'User';
-        print("${destLat} ${destLng} this is $destName lat and longitude");
+        print("$destLat $destLng this is $destName lat and longitude");
 
         if (destLat != null && destLng != null) {
           userLocation.value = LatLng(destLat, destLng);
@@ -359,22 +359,13 @@ class HomeController extends GetxController {
   }) async {
     try {
       // 1. Validate coordinates
-      if (origin == null || destination == null) {
-        throw Exception('Origin or destination is null');
-      }
-
-      if (origin.latitude == null || origin.longitude == null ||
-          destination.latitude == null || destination.longitude == null) {
-        throw Exception('Invalid coordinates');
-      }
-
       print('📍 Origin: (${origin.latitude}, ${origin.longitude})');
       print('🏁 Destination: (${destination.latitude}, ${destination.longitude})');
 
       // 2. Make API call
       final response = await directionsApi.directionsWithLocation(
-        directions.Location(lat: origin.latitude!, lng: origin.longitude!),
-        directions.Location(lat: destination.latitude!, lng: destination.longitude!),
+        directions.Location(lat: origin.latitude, lng: origin.longitude),
+        directions.Location(lat: destination.latitude, lng: destination.longitude),
       ).timeout(Duration(seconds: 10)); // Add timeout
 
       // 3. Handle response
@@ -564,13 +555,11 @@ class HomeController extends GetxController {
 
   void sendOtp() {
     orderDetails.value = bottomSheetController.orderDetails.value;
-    if (orderDetails != null) {
-      driverRepo.sendOTP(
-        orderDetails.value?.data?.orderDetail?.orderdata?.id.toString() ?? '',
-      );
-      bottomSheetController.showSendOtpSheet();
+    // driverRepo.sendOTP(
+    //   orderDetails.value?.data?.orderDetail?.orderdata?.id.toString() ?? '',
+    // );
+    bottomSheetController.showSendOtpSheet();
     }
-  }
 
   void getCurrentOrderDetailsEvent() {
     final driverId = storageServices.getDriverID();
@@ -666,7 +655,7 @@ class HomeController extends GetxController {
         'driverid': driverId,
         'orderId': orderDetails.data?.orderDetail?.orderdata?.id.toString() ?? '',
         'action': 'verify',
-        'otp': '${otpController.text}',
+        'otp': otpController.text,
       });
 
       socketService.listenToEvent(SocketEvents.sendOTP, (data) {
@@ -680,7 +669,7 @@ class HomeController extends GetxController {
             bottomSheetController.showOrderPickedUp();
           }
         } else {
-          print("data ${data}");
+          print("data $data");
         }
         print('✅ Send Otp Received $data');
         CustomSnackBar.show(
@@ -694,7 +683,7 @@ class HomeController extends GetxController {
 
   void deliveryComplete(){
     socketService.listenToEvent(SocketEvents.deliveryComplete, (data){
-      print('${data}==========After Delivery Complete');
+      print('$data==========After Delivery Complete');
       isSlid.value = false;
       bottomSheetController.showOrderDelivered();
     });
@@ -735,7 +724,7 @@ class HomeController extends GetxController {
   void _initSocketListeners() {
     socketService.listenToEvent(SocketEvents.goOnline, (data) {
       isOnline.value = true;
-      print('✅ Received driverOnlineConfirmed, showing bottom sheet${data}');
+      print('✅ Received driverOnlineConfirmed, showing bottom sheet$data');
       print(
         '✅ Received driverOnlineConfirmed, showing bottom sheet${isOnline.value}',
       );

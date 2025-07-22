@@ -4,6 +4,8 @@ class ForgotPasswordOtpVerifyScreen extends StatelessWidget{
 
   final ForgotPasswordOtpVerifyController controller = Get.put(ForgotPasswordOtpVerifyController());
   final StorageServices _storageService = Get.find<StorageServices>();
+
+   ForgotPasswordOtpVerifyScreen({super.key});
   StorageServices get storageServices => _storageService;
 
   @override

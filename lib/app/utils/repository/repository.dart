@@ -1,8 +1,9 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_phone_verify_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/delivery_rating_model.dart';
-import 'package:cloud_bites_driver/app/modules/my_profile/model/faq_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/rating_model.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/model/specific_date_delivery_model.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/model/total_delivery_model.dart';
 
 class Repository {
 
@@ -93,6 +94,19 @@ class Repository {
     final token = storageService.getToken();
     dynamic response = await _apiService.postApi(data, AppUrls.bankDetailsUploadAPI, "Bearer $token");
     return DriverAccountDetailsModel.fromJson(response);
+  }
+
+  Future<TotalDeliveryModel> totalDeliveriesAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.driverTotalDeliveryAPI, "Bearer $token");
+    return TotalDeliveryModel.fromJson(response);
+  }
+
+  // Profile Photo Upload API
+ Future<SpecificDateDeliveryModel> specificDateDeliveriesAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.deliveriesOnSpecificDateAPI, "Bearer $token");
+    return SpecificDateDeliveryModel.fromJson(response);
   }
 
   // Profile Photo Upload API

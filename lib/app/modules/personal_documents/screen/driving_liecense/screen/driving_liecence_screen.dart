@@ -6,6 +6,8 @@ class DrivingLicenseScreen extends StatelessWidget{
 
   final DrivingLicenseController controller = Get.put(DrivingLicenseController());
 
+   DrivingLicenseScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

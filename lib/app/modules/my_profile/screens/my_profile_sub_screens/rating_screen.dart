@@ -191,6 +191,8 @@ class EarningsScreen extends StatelessWidget{
 class RatingScreen extends StatelessWidget {
   final RatingController controller = Get.put(RatingController());
 
+   RatingScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

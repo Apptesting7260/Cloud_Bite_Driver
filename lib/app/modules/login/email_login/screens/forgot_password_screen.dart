@@ -2,7 +2,9 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
 class ForgotPasswordScreenInLogin extends StatelessWidget{
 
-  final ForgotPasswordControllerInLogin controller = Get.put(ForgotPasswordControllerInLogin());
+  final ForgotPasswordControllerInLogin controller =Get.put(ForgotPasswordControllerInLogin());
+
+   ForgotPasswordScreenInLogin({super.key});
 
   @override
   Widget build(BuildContext context) {

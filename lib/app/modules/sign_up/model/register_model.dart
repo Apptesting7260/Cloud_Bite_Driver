@@ -12,19 +12,19 @@ class RegisterModel {
     status = json['status'];
     type = json['type'].toString();
     message = json['message'].toString();
-    data = json['data'] != null ? new RegisterData.fromJson(json['data']) : null;
+    data = json['data'] != null ? RegisterData.fromJson(json['data']) : null;
     loginToken = json['login_token'].toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['type'] = this.type;
-    data['message'] = this.message;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['type'] = type;
+    data['message'] = message;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['login_token'] = this.loginToken;
+    data['login_token'] = loginToken;
     return data;
   }
 }
@@ -151,45 +151,45 @@ class RegisterData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['country_code'] = this.countryCode;
-    data['password'] = this.password;
-    data['otp'] = this.otp;
-    data['otp_verified'] = this.otpVerified;
-    data['otp_expires_at'] = this.otpExpiresAt;
-    data['email_otp'] = this.emailOtp;
-    data['email_verified'] = this.emailVerified;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['stages'] = this.stages;
-    data['location'] = this.location;
-    data['fcm_token'] = this.fcmToken;
-    data['date_of_birth'] = this.dateOfBirth;
-    data['deliverymethod'] = this.deliverymethod;
-    data['profile_photo'] = this.profilePhoto;
-    data['front_identity'] = this.frontIdentity;
-    data['back_identity'] = this.backIdentity;
-    data['front_license'] = this.frontLicense;
-    data['back_license'] = this.backLicense;
-    data['account_status'] = this.accountStatus;
-    data['personal_docs_status'] = this.personalDocsStatus;
-    data['vehicle_status'] = this.vehicleStatus;
-    data['profile_complete'] = this.profileComplete;
-    data['address'] = this.address;
-    data['push_notification'] = this.pushNotification;
-    data['email_notification'] = this.emailNotification;
-    data['incoming_deliveries'] = this.incomingDeliveries;
-    data['delivery_completed'] = this.deliveryCompleted;
-    data['invoices_payments'] = this.invoicesPayments;
-    data['account_reject_remark'] = this.accountRejectRemark;
-    data['personal_reject_remark'] = this.personalRejectRemark;
-    data['vehicle_reject_remark'] = this.vehicleRejectRemark;
-    data['user_status'] = this.userStatus;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['country_code'] = countryCode;
+    data['password'] = password;
+    data['otp'] = otp;
+    data['otp_verified'] = otpVerified;
+    data['otp_expires_at'] = otpExpiresAt;
+    data['email_otp'] = emailOtp;
+    data['email_verified'] = emailVerified;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['stages'] = stages;
+    data['location'] = location;
+    data['fcm_token'] = fcmToken;
+    data['date_of_birth'] = dateOfBirth;
+    data['deliverymethod'] = deliverymethod;
+    data['profile_photo'] = profilePhoto;
+    data['front_identity'] = frontIdentity;
+    data['back_identity'] = backIdentity;
+    data['front_license'] = frontLicense;
+    data['back_license'] = backLicense;
+    data['account_status'] = accountStatus;
+    data['personal_docs_status'] = personalDocsStatus;
+    data['vehicle_status'] = vehicleStatus;
+    data['profile_complete'] = profileComplete;
+    data['address'] = address;
+    data['push_notification'] = pushNotification;
+    data['email_notification'] = emailNotification;
+    data['incoming_deliveries'] = incomingDeliveries;
+    data['delivery_completed'] = deliveryCompleted;
+    data['invoices_payments'] = invoicesPayments;
+    data['account_reject_remark'] = accountRejectRemark;
+    data['personal_reject_remark'] = personalRejectRemark;
+    data['vehicle_reject_remark'] = vehicleRejectRemark;
+    data['user_status'] = userStatus;
     return data;
   }
 }

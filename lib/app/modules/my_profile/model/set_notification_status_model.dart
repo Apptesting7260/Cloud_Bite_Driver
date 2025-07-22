@@ -8,19 +8,19 @@ class SetNotificationSetAPI {
 
   SetNotificationSetAPI.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    data = json['data'] != null ? new SetData.fromJson(json['data']) : null;
+    data = json['data'] != null ? SetData.fromJson(json['data']) : null;
     message = json['message'].toString();
     type = json['type'].toString();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['message'] = this.message;
-    data['type'] = this.type;
+    data['message'] = message;
+    data['type'] = type;
     return data;
   }
 }
@@ -48,12 +48,12 @@ class SetData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['push_notification'] = this.pushNotification;
-    data['email_notification'] = this.emailNotification;
-    data['incoming_deliveries'] = this.incomingDeliveries;
-    data['delivery_completed'] = this.deliveryCompleted;
-    data['invoices_payments'] = this.invoicesPayments;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['push_notification'] = pushNotification;
+    data['email_notification'] = emailNotification;
+    data['incoming_deliveries'] = incomingDeliveries;
+    data['delivery_completed'] = deliveryCompleted;
+    data['invoices_payments'] = invoicesPayments;
     return data;
   }
 }

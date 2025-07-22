@@ -10,14 +10,14 @@ class GetDriverDataModel {
     type = json['type'];
     message = json['message'];
     status = json['status'];
-    data = json['data'] != null ? new DriverData.fromJson(json['data']) : null;
+    data = json['data'] != null ? DriverData.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['type'] = this.type;
-    data['message'] = this.message;
-    data['status'] = this.status;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['type'] = type;
+    data['message'] = message;
+    data['status'] = status;
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
@@ -123,43 +123,43 @@ class DriverData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    data['country_code'] = this.countryCode;
-    data['password'] = this.password;
-    data['login_token'] = this.loginToken;
-    data['otp'] = this.otp;
-    data['otp_verified'] = this.otpVerified;
-    data['otp_expires_at'] = this.otpExpiresAt;
-    data['email_otp'] = this.emailOtp;
-    data['email_verified'] = this.emailVerified;
-    data['created_at'] = this.createdAt;
-    data['updated_at'] = this.updatedAt;
-    data['stages'] = this.stages;
-    data['location'] = this.location;
-    data['fcm_token'] = this.fcmToken;
-    data['date_of_birth'] = this.dateOfBirth;
-    data['deliverymethod'] = this.deliverymethod;
-    data['profile_photo'] = this.profilePhoto;
-    data['front_identity'] = this.frontIdentity;
-    data['back_identity'] = this.backIdentity;
-    data['front_license'] = this.frontLicense;
-    data['back_license'] = this.backLicense;
-    data['account_status'] = this.accountStatus;
-    data['personal_docs_status'] = this.personalDocsStatus;
-    data['vehicle_status'] = this.vehicleStatus;
-    data['profile_complete'] = this.profileComplete;
-    data['address'] = this.address;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['first_name'] = firstName;
+    data['last_name'] = lastName;
+    data['email'] = email;
+    data['phone'] = phone;
+    data['country_code'] = countryCode;
+    data['password'] = password;
+    data['login_token'] = loginToken;
+    data['otp'] = otp;
+    data['otp_verified'] = otpVerified;
+    data['otp_expires_at'] = otpExpiresAt;
+    data['email_otp'] = emailOtp;
+    data['email_verified'] = emailVerified;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    data['stages'] = stages;
+    data['location'] = location;
+    data['fcm_token'] = fcmToken;
+    data['date_of_birth'] = dateOfBirth;
+    data['deliverymethod'] = deliverymethod;
+    data['profile_photo'] = profilePhoto;
+    data['front_identity'] = frontIdentity;
+    data['back_identity'] = backIdentity;
+    data['front_license'] = frontLicense;
+    data['back_license'] = backLicense;
+    data['account_status'] = accountStatus;
+    data['personal_docs_status'] = personalDocsStatus;
+    data['vehicle_status'] = vehicleStatus;
+    data['profile_complete'] = profileComplete;
+    data['address'] = address;
     return data;
   }
 
 
   Map<String, String> forAPiSubmit() {
-    final Map<String, String> data = new Map<String, String>();
+    final Map<String, String> data = <String, String>{};
     // data['id'] = this.id;
     data['first_name'] = firstName!;
     data['last_name'] = lastName!;

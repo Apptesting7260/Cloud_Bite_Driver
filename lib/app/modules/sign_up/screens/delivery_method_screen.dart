@@ -3,6 +3,8 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class DeliveryMethodScreen extends StatelessWidget {
   final DeliveryMethodController controller = Get.put(DeliveryMethodController());
 
+   DeliveryMethodScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Container(

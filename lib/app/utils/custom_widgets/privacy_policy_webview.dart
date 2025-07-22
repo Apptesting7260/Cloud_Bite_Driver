@@ -3,7 +3,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class PrivacyPolicyWebView extends StatefulWidget {
   final String url;
 
-  const PrivacyPolicyWebView({Key? key, required this.url}) : super(key: key);
+  const PrivacyPolicyWebView({super.key, required this.url});
 
   @override
   State<PrivacyPolicyWebView> createState() => _PrivacyPolicyWebViewState();

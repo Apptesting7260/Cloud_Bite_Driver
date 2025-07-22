@@ -4,6 +4,8 @@ class ProfilePhotoScreen extends StatelessWidget{
 
   final ProfilePhotoController controller = Get.put(ProfilePhotoController());
 
+  ProfilePhotoScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
