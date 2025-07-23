@@ -38,9 +38,10 @@ class DeliveriesScreen extends StatelessWidget{
                  Row(
                    children: [
                      SizedBox(
-                        width: 130.w,
+                        width: 150.w,
                        child: SimpleCustomDropdown(
                          selectedValue: controller.selectedFilter.value,
+                         contentPadding: EdgeInsets.symmetric(horizontal: 8,vertical: 6),
                          items: ["All", "This Month", "This Year"],
                          onChanged: (p0) {
                            if(p0 != null){
