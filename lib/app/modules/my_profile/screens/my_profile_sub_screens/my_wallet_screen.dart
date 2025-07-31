@@ -3,6 +3,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 class MyWalletScreen extends StatelessWidget{
 
   final MyWalletController controller = Get.put(MyWalletController());
+  final String walletBalance = Get.arguments['walletBalance'];
 
    MyWalletScreen({super.key});
 
@@ -35,12 +36,12 @@ class MyWalletScreen extends StatelessWidget{
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Availble Balance',
+                        'Available Balance',
                         style: AppFontStyle.text_18_400(AppTheme.white,fontFamily: AppFontFamily.generalSansRegular),
                       ),
                       WidgetDesigns.hBox(5),
                       Text(
-                        'P400',
+                        'P$walletBalance',
                         style: AppFontStyle.text_40_500(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
                       ),
                       WidgetDesigns.hBox(15),
@@ -53,7 +54,9 @@ class MyWalletScreen extends StatelessWidget{
                               borderRadius: BorderRadius.circular(25)
                           ),
                           child: GestureDetector(
-                            onTap: () => Get.toNamed(Routes.withdrawScreen),
+                            onTap: () {
+                              Get.toNamed(Routes.withdrawScreen, arguments: {"walletBalance": walletBalance});
+                            },
                             child: Center(
                               child: Text(
                                 'Withdraw',

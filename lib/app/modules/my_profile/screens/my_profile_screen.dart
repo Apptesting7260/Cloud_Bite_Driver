@@ -6,7 +6,7 @@ class MyProfileScreen extends StatelessWidget{
   final PersonalDetailsController detailController = Get.put(PersonalDetailsController());
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageServices => _storageService;
-  final String imageBaseUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
+  // final String imageBaseUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
 
    MyProfileScreen({super.key});
 
@@ -40,7 +40,7 @@ class MyProfileScreen extends StatelessWidget{
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(35.0),
                           child: CachedNetworkImage(
-                            imageUrl: "$imageBaseUrl${storageServices.getProfile()}",
+                            imageUrl: "${AppUrls.imageUrl}${detailController.driverData.value.data?.data?.profilePhoto}",
                             placeholder: (context, url) => ShimmerBox(width: 70, height: 70),
                             errorWidget: (context, url, error) => Image.asset(ImageConstants.default_image),
                             fit: BoxFit.cover,
@@ -153,7 +153,7 @@ class MyProfileScreen extends StatelessWidget{
                       WidgetDesigns.hBox(20),
                       myProfileLists('Earnings', ImageConstants.earningsIcon, () => Get.toNamed(Routes.earnings)),
                       WidgetDesigns.hBox(20),
-                      myProfileLists('My Wallet', ImageConstants.walletIcon, () => Get.toNamed(Routes.myWalletScreen)),
+                      myProfileLists('My Wallet', ImageConstants.walletIcon, () => Get.toNamed(Routes.myWalletScreen, arguments: {"walletBalance": controller.walletBalance.value})),
                       WidgetDesigns.hBox(20),
                       Container(
                         padding: EdgeInsets.all(1.0),

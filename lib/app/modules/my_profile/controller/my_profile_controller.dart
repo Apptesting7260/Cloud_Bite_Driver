@@ -9,6 +9,7 @@ class MyProfileController extends GetxController{
   void onInit() {
     super.onInit();
     getDeliveryAndRatingData();
+    getWalletBalanceApi();
   }
 
   final Repository _repository = Repository();
@@ -68,4 +69,23 @@ class MyProfileController extends GetxController{
       isLoading.value = false;
     }
   }
+
+  RxString walletBalance = "".obs;
+
+  getWalletBalanceApi() async {
+
+    try{
+      final apiData = await _repository.walletBalanceAPI();
+      if(apiData.status == true){
+        walletBalance.value = apiData.data?.wallet ?? "";
+      } else{
+        WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get wallet balance", "error while get wallet balance");
+      }
+    }catch(e){
+      WidgetDesigns.consoleLog(e.toString(), "error while get wallet balance");
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+    }
+
+  }
+
 }

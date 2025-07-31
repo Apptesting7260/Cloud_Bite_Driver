@@ -4,6 +4,7 @@ import 'package:cloud_bites_driver/app/modules/my_profile/model/delivery_rating_
 import 'package:cloud_bites_driver/app/modules/my_profile/model/rating_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/specific_date_delivery_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/total_delivery_model.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/model/wallet_balance_model.dart';
 
 class Repository {
 
@@ -22,6 +23,12 @@ class Repository {
   Future<GetPhoneOtpVerify> verifyOTpForPhone(Map<String, dynamic> data) async {
     dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, "");
     return GetPhoneOtpVerify.fromJson(response);
+  }
+
+  Future<WalletBalanceModel> walletBalanceAPI() async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.getApi(AppUrls.getWalletDetailUrl, "Bearer $token");
+    return WalletBalanceModel.fromJson(response);
   }
 
   // Email Generate
