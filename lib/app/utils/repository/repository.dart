@@ -4,7 +4,11 @@ import 'package:cloud_bites_driver/app/modules/my_profile/model/delivery_rating_
 import 'package:cloud_bites_driver/app/modules/my_profile/model/rating_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/specific_date_delivery_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/total_delivery_model.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/model/transaction_history_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/wallet_balance_model.dart';
+import 'package:cloud_bites_driver/app/utils/common_respone_model/common_respone_model.dart';
+
+import '../../modules/my_profile/model/payment_method_model.dart';
 
 class Repository {
 
@@ -37,7 +41,12 @@ class Repository {
     return GetOtpEmailModel.fromJson(response);
   }
 
-  // Email Verify
+  Future<PaymentMethodModel> withdrawMethodAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.withdrawMethodsUrl, token);
+    return PaymentMethodModel.fromJson(response);
+  }
+
   Future<VerifyEmailOtpModel> verifyOTpForEmail(Map<String, dynamic> data) async {
     dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, "");
     return VerifyEmailOtpModel.fromJson(response);
@@ -55,6 +64,18 @@ class Repository {
     final token = storageService.getToken();
     dynamic response = await _apiService.postApi(data, AppUrls.resendOTPAPI, "Bearer $token");
     return ResendModel.fromJson(response);
+  }
+
+  Future<CommonResponseModel> driverWithdrawRequestAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.driverWithdrawRequestUrl, "Bearer $token");
+    return CommonResponseModel.fromJson(response);
+  }
+
+  Future<TransactionHistoryModel> driverWithdrawTransactionAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.driverWithdrawTransactionUrl, "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjE3LCJpYXQiOjE3NTQwNDkwODksImV4cCI6MTc1NDY1Mzg4OX0.5e8cndfHjIn5PoYLdqOrtR6Bz5RWdrb_GyJ0wwVyb1E");
+    return TransactionHistoryModel.fromJson(response);
   }
 
   // List Delivery Method API

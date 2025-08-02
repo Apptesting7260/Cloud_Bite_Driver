@@ -76,12 +76,30 @@ class WidgetDesigns{
 
 
   static String convertDateFormat(String input) {
-    final inputFormat = DateFormat('dd MMM, yyyy');
     final outputFormat = DateFormat('yyyy-MM-dd');
+    final normalizedInput = input.trim().toLowerCase();
 
+    if (normalizedInput == "yesterday") {
+      final yesterday = DateTime.now().subtract(const Duration(days: 1));
+      return outputFormat.format(yesterday);
+    }
+
+    if (normalizedInput == "today") {
+      final today = DateTime.now();
+      return outputFormat.format(today);
+    }
+
+    final inputFormat = DateFormat('dd MMM, yyyy');
     final date = inputFormat.parse(input);
     return outputFormat.format(date);
   }
 
+
+
+  static String formatDateString(String inputDate) {
+    DateTime parsedDate = DateTime.parse(inputDate).toLocal();
+    String formattedDate = DateFormat('EEE, dd MMM - hh:mm a').format(parsedDate);
+    return formattedDate;
+  }
 
 }

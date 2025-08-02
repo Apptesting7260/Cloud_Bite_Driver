@@ -145,18 +145,18 @@ class Orderdata {
         this.updatedAt});
 
   Orderdata.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
-    orderId = json['order_id'].toString();
-    status = json['status'].toString();
-    isDriver = json['is_driver'].toString();
-    quantity = json['quantity'].toString();
-    totalAmount = json['total_amount'].toString();
-    deliveryTime = json['delivery_time'].toString();
-    deliveryCharge = json['delivery_charge'].toString();
-    paymentStatus = json['payment_status'].toString();
-    paymentMethod = json['payment_method'].toString();
-    createdAt = json['created_at'].toString();
-    updatedAt = json['updated_at'].toString();
+    id = json['id']?.toString();
+    orderId = json['order_id']?.toString();
+    status = json['status']?.toString();
+    isDriver = json['is_driver']?.toString();
+    quantity = json['quantity']?.toString();
+    totalAmount = json['total_amount']?.toString();
+    deliveryTime = json['delivery_time']?.toString();
+    deliveryCharge = json['delivery_charge']?.toString();
+    paymentStatus = json['payment_status']?.toString();
+    paymentMethod = json['payment_method']?.toString();
+    createdAt = json['created_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
   }
 
   Map<String, dynamic> toJson() {

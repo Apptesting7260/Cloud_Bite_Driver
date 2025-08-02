@@ -16,13 +16,18 @@ class DeliveriesScreen extends StatelessWidget{
          padding: REdgeInsets.all(10.0),
          child: Obx(() {
            if (controller.totalDeliveriesResponse.value.status == ApiStatus.loading && controller.totalDeliveries.isEmpty) {
-             return const Center(child: CircularProgressIndicator());
+             return Center(child: Lottie.asset(
+               ImageConstants.loaderJson,
+               width: 180,
+               height: 180,
+               fit: BoxFit.contain,
+             ),);
            }
 
            if (controller.totalDeliveriesResponse.value.status == ApiStatus.error) {
              return Center(
                child: Text(
-                 controller.totalDeliveriesResponse.value.message ?? 'Error loading reviews',
+                 controller.totalDeliveriesResponse.value.message ?? 'Error loading data',
                  style: AppFontStyle.text_14_400(AppTheme.redText),
                ),
              );
@@ -74,8 +79,13 @@ class DeliveriesScreen extends StatelessWidget{
                              padding: REdgeInsets.all(16.0),
                              child: Center(
                                child: controller.isLoading.value
-                                   ? const CircularProgressIndicator()
-                                   : Container(),
+                               ? Lottie.asset(
+                                 ImageConstants.loaderJson,
+                                 width: 200,
+                                 height: 200,
+                                 fit: BoxFit.contain,
+                               )
+                               : Container(),
                              ),
                            );
                          }

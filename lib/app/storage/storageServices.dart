@@ -155,6 +155,7 @@ class StorageServices extends GetxService{
   }
 
   String getToken() {
+    WidgetDesigns.consoleLog(_prefs.getString(_tokenKey) ?? "" , "GET TOKEN");
     return _prefs.getString(_tokenKey) ?? '';
   }
 

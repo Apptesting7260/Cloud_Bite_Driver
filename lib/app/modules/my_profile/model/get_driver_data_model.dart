@@ -7,8 +7,8 @@ class GetDriverDataModel {
   GetDriverDataModel({this.type, this.message, this.status, this.data});
 
   GetDriverDataModel.fromJson(Map<String, dynamic> json) {
-    type = json['type'];
-    message = json['message'];
+    type = json['type']?.toString();
+    message = json['message']?.toString();
     status = json['status'];
     data = json['data'] != null ? DriverData.fromJson(json['data']) : null;
   }
@@ -90,36 +90,36 @@ class DriverData {
         this.address});
 
   DriverData.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
-    firstName = json['first_name'].toString();
-    lastName = json['last_name'].toString();
-    email = json['email'].toString();
-    phone = json['phone'].toString();
-    countryCode = json['country_code'].toString();
-    password = json['password'].toString();
-    loginToken = json['login_token'].toString();
-    otp = json['otp'].toString();
+    id = json['id']?.toString();
+    firstName = json['first_name']?.toString();
+    lastName = json['last_name']?.toString();
+    email = json['email']?.toString();
+    phone = json['phone']?.toString();
+    countryCode = json['country_code']?.toString();
+    password = json['password']?.toString();
+    loginToken = json['login_token']?.toString();
+    otp = json['otp']?.toString();
     otpVerified = json['otp_verified'];
-    otpExpiresAt = json['otp_expires_at'].toString();
-    emailOtp = json['email_otp'].toString();
+    otpExpiresAt = json['otp_expires_at']?.toString();
+    emailOtp = json['email_otp']?.toString();
     emailVerified = json['email_verified'];
-    createdAt = json['created_at'].toString();
-    updatedAt = json['updated_at'].toString();
-    stages = json['stages'].toString();
-    location = json['location'].toString();
-    fcmToken = json['fcm_token'].toString();
-    dateOfBirth = json['date_of_birth'].toString();
-    deliverymethod = json['deliverymethod'].toString();
-    profilePhoto = json['profile_photo'].toString();
-    frontIdentity = json['front_identity'].toString();
-    backIdentity = json['back_identity'].toString();
-    frontLicense = json['front_license'].toString();
-    backLicense = json['back_license'].toString();
-    accountStatus = json['account_status'].toString();
-    personalDocsStatus = json['personal_docs_status'].toString();
-    vehicleStatus = json['vehicle_status'].toString();
+    createdAt = json['created_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
+    stages = json['stages']?.toString();
+    location = json['location']?.toString();
+    fcmToken = json['fcm_token']?.toString();
+    dateOfBirth = json['date_of_birth']?.toString();
+    deliverymethod = json['deliverymethod']?.toString();
+    profilePhoto = json['profile_photo']?.toString();
+    frontIdentity = json['front_identity']?.toString();
+    backIdentity = json['back_identity']?.toString();
+    frontLicense = json['front_license']?.toString();
+    backLicense = json['back_license']?.toString();
+    accountStatus = json['account_status']?.toString();
+    personalDocsStatus = json['personal_docs_status']?.toString();
+    vehicleStatus = json['vehicle_status']?.toString();
     profileComplete = json['profile_complete'];
-    address = json['address'].toString();
+    address = json['address']?.toString();
   }
 
   Map<String, dynamic> toJson() {

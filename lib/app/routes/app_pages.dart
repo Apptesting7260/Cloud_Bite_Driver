@@ -6,6 +6,7 @@ import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub
 import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/rating_screen.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/support_screen.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/terms_conditions_screen.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/screens/wallet/choose_withdraw_method_screen.dart';
 import 'package:cloud_bites_driver/app/modules/no_internet_connection/bindings/no_internet_connection_binding.dart';
 import 'package:cloud_bites_driver/app/modules/no_internet_connection/views/no_internet_connection_view.dart';
 
@@ -55,9 +56,11 @@ class Routes {
   static const earnings = '/earnings';
   static const deliveriesScreen = '/deliveriesScreen';
   static const specificDateDeliveriesScreen = '/specificDateDeliveriesScreen';
+  static const chooseWithdrawMethodScreen = '/ChooseWithdrawMethodScreen';
 
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen(), binding: SplashBinding()),
+    GetPage(name: chooseWithdrawMethodScreen, page: () => ChooseWithdrawMethodScreen()),
     GetPage(
         name: onboarding,
         page: () => OnboardingScreen(),

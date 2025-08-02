@@ -69,8 +69,8 @@ export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub
 export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/change_password_screen.dart';
 export 'package:cloud_bites_driver/app/modules/delivery_process/screens/notification_screen.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/documents_screen.dart';
-export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/my_wallet_screen.dart';
-export 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/withdraw_screen.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/screens/wallet/my_wallet_screen.dart';
+export 'package:cloud_bites_driver/app/modules/my_profile/screens/wallet/withdraw_screen.dart';
 export 'package:cloud_bites_driver/app/modules/add_address/screen/add_addres_screen.dart';
 
 

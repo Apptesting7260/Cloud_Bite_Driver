@@ -361,7 +361,7 @@ class HomeScreen extends StatelessWidget {
                         SvgPicture.asset(ImageConstants.ellipseImage),
                         WidgetDesigns.wBox(5),
                         Text(
-                          "P${order.totalAmount}",
+                          "P${order.deliveryCharge}",
                           style: AppFontStyle.text_18_400(
                             AppTheme.red,
                             fontFamily: AppFontFamily.generalSansRegular,

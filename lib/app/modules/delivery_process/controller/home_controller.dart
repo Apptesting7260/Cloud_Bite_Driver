@@ -771,40 +771,22 @@ class HomeController extends GetxController {
           final orderModel = OrderModel(
             orderId: orderDetails.value?.data?.orderDetail?.orderdata?.id ?? "",
             vendorId: orderDetails.value?.data?.orderDetail?.vendordata?.id ?? "",
-            orderNumber:
-                orderDetails.value?.data?.orderDetail?.orderdata?.orderId ?? "",
+            orderNumber: orderDetails.value?.data?.orderDetail?.orderdata?.orderId ?? "",
             quantity: orderDetails.value?.data?.orderDetail?.orderdata?.quantity ?? "",
-            totalAmount:
-                orderDetails.value?.data?.orderDetail?.orderdata?.totalAmount ?? "",
-            deliveryTime:
-                orderDetails.value?.data?.orderDetail?.orderdata?.deliveryTime ?? '',
-            restaurantName:
-                orderDetails.value?.data?.orderDetail?.vendordata?.restaurantName ??
-                "",
-            vendorAddress:
-                orderDetails.value?.data?.orderDetail?.vendordata?.address ?? "",
-            vendorLatitude:
-                orderDetails.value?.data?.orderDetail?.vendordata?.latitude ?? 0.0,
-            vendorLongitude:
-                orderDetails.value?.data?.orderDetail?.vendordata?.longitude ?? 0.0,
-            userAddress:
-                orderDetails.value?.data
-                    ?.orderDetail
-                    ?.userAddressData
-                    ?.completeAddress ??
-                "",
-            userLatitude:
-                orderDetails.value?.data?.orderDetail?.userAddressData?.latitude ??
-                0.0,
-            userLongitude:
-                orderDetails.value?.data?.orderDetail?.userAddressData?.longitude ??
-                0.0,
+            totalAmount: orderDetails.value?.data?.orderDetail?.orderdata?.totalAmount ?? "",
+            deliveryTime: orderDetails.value?.data?.orderDetail?.orderdata?.deliveryTime ?? '',
+            restaurantName: orderDetails.value?.data?.orderDetail?.vendordata?.restaurantName ?? "",
+            vendorAddress: orderDetails.value?.data?.orderDetail?.vendordata?.address ?? "",
+            vendorLatitude: orderDetails.value?.data?.orderDetail?.vendordata?.latitude ?? 0.0,
+            vendorLongitude: orderDetails.value?.data?.orderDetail?.vendordata?.longitude ?? 0.0,
+            userAddress: orderDetails.value?.data?.orderDetail?.userAddressData?.completeAddress ?? "",
+            userLatitude: orderDetails.value?.data?.orderDetail?.userAddressData?.latitude ?? 0.0,
+            userLongitude: orderDetails.value?.data?.orderDetail?.userAddressData?.longitude ?? 0.0,
             pickupDistance: orderDetails.value?.data?.pickUpLocation?.distance ?? "",
             pickupDuration: orderDetails.value?.data?.pickUpLocation?.duration ?? "",
-            deliveryDistance:
-                orderDetails.value?.data?.deliveryLocation?.distance ?? "",
-            deliveryDuration:
-                orderDetails.value?.data?.deliveryLocation?.duration ?? "",
+            deliveryDistance: orderDetails.value?.data?.deliveryLocation?.distance ?? "",
+            deliveryCharge: orderDetails.value?.data?.orderDetail?.orderdata?.deliveryCharge ?? "",
+            deliveryDuration: orderDetails.value?.data?.deliveryLocation?.duration ?? "",
           );
           bottomSheetController.showNewOrder(orderModel);
         }

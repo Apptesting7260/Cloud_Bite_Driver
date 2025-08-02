@@ -5,6 +5,7 @@ class OrderModel {
   final String quantity;
   final String totalAmount;
   final String deliveryTime;
+  final String deliveryCharge;
   final String restaurantName;
   final String vendorAddress;
   final double vendorLatitude;
@@ -20,6 +21,7 @@ class OrderModel {
 
   OrderModel({
     required this.orderId,
+    required this.deliveryCharge,
     required this.vendorId,
     required this.orderNumber,
     required this.quantity,
@@ -41,6 +43,7 @@ class OrderModel {
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
+      deliveryCharge: json['data']['delivery_charge'].toString(),
       orderId: json['orderId'].toString(),
       vendorId: json['vendorId'].toString(),
       orderNumber: json['data']['order_id']?.toString() ?? '',

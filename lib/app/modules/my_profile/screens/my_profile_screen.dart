@@ -34,16 +34,18 @@ class MyProfileScreen extends StatelessWidget{
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       //Image.asset(ImageConstants.profile),
-                      SizedBox(
-                        width: 70,
-                        height: 70,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(35.0),
-                          child: CachedNetworkImage(
-                            imageUrl: "${AppUrls.imageUrl}${detailController.driverData.value.data?.data?.profilePhoto}",
-                            placeholder: (context, url) => ShimmerBox(width: 70, height: 70),
-                            errorWidget: (context, url, error) => Image.asset(ImageConstants.default_image),
-                            fit: BoxFit.cover,
+                      Obx(() =>
+                        SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(35.0),
+                            child: CachedNetworkImage(
+                              imageUrl: "${AppUrls.imageUrl}${detailController.driverData.value.data?.data?.profilePhoto}",
+                              placeholder: (context, url) => ShimmerBox(width: 70, height: 70),
+                              errorWidget: (context, url, error) => Image.asset(ImageConstants.default_image),
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),

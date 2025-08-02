@@ -6,5 +6,12 @@ class WithdrawController extends GetxController{
 
   RxString balanceString = "".obs;
 
+  RxString walletError = "".obs;
+
+  final List<List<String>> amountGroups = [
+    ['50', '100', '150'],
+    ['500', '1000', '1500'],
+  ];
+
 
 }

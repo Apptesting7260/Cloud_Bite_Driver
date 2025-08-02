@@ -49,4 +49,7 @@ class AppUrls{
   static const String faqUrlAPI = '$baseUrl/driver/faq';
   static const String allNotificationUrl = '$baseUrl/driver/getAllNotification';
   static const String getWalletDetailUrl = '$baseUrl/get-wallet-detail';
+  static const String withdrawMethodsUrl = '$baseUrl/withdraw-methods';
+  static const String driverWithdrawRequestUrl = '$baseUrl/driver-withdraw-request';
+  static const String driverWithdrawTransactionUrl = '$baseUrl/driver-withdraw-transaction';
 }
