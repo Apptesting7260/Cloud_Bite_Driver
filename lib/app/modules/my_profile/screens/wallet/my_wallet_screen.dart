@@ -9,112 +9,118 @@ class MyWalletScreen extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomBackButtonAppBar(backgroundColor: AppTheme.white ,title: 'My Wallet'),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          controller: controller.scrollController,
-          child: Padding(
-              padding: EdgeInsets.all(14.0),
-            child: Column(
-              children: [
-                Container(
-                  width: 380,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30.0),
-                    gradient: LinearGradient(
-                      colors: [
-                        Color.fromRGBO(182, 86, 142, 1),
-                        Color.fromRGBO(95, 182, 227, 1),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
+    return RefreshIndicator(
+      color: AppTheme.primaryColor,
+      onRefresh: () async{
+        await controller.refreshTopProducts();
+      },
+      child: Scaffold(
+        appBar: CustomBackButtonAppBar(backgroundColor: AppTheme.white ,title: 'My Wallet'),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            controller: controller.scrollController,
+            child: Padding(
+                padding: EdgeInsets.all(14.0),
+              child: Column(
+                children: [
+                  Container(
+                    width: 380,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(30.0),
+                      gradient: LinearGradient(
+                        colors: [
+                          Color.fromRGBO(182, 86, 142, 1),
+                          Color.fromRGBO(95, 182, 227, 1),
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
                     ),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Available Balance',
-                          style: AppFontStyle.text_18_400(AppTheme.white,fontFamily: AppFontFamily.generalSansRegular),
-                        ),
-                        WidgetDesigns.hBox(5),
-                        Text(
-                          'P$walletBalance',
-                          style: AppFontStyle.text_40_500(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
-                        ),
-                        WidgetDesigns.hBox(15),
-                        InkWell(
-                          focusColor: AppTheme.transparent,
-                          highlightColor: AppTheme.transparent,
-                          splashColor: AppTheme.transparent,
-                          hoverColor: AppTheme.transparent,
-                          onTap: () {
-                            Get.toNamed(Routes.withdrawScreen, arguments: {"walletBalance": walletBalance});
-                          },
-                          child: Container(
-                              width: 145,
-                              height: 50,
-                              padding: EdgeInsets.all(4.0),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(25)
-                              ),
-                              child: Center(
-                                child: Text(
-                                  'Withdraw',
-                                  style: AppFontStyle.text_16_500(AppTheme.pink,fontFamily: AppFontFamily.generalSansMedium),
-                                ),
-                              )
+                    child: Padding(
+                      padding: EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Available Balance',
+                            style: AppFontStyle.text_18_400(AppTheme.white,fontFamily: AppFontFamily.generalSansRegular),
                           ),
-                        )
-                      ],
+                          WidgetDesigns.hBox(5),
+                          Text(
+                            'P$walletBalance',
+                            style: AppFontStyle.text_40_500(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
+                          ),
+                          WidgetDesigns.hBox(15),
+                          InkWell(
+                            focusColor: AppTheme.transparent,
+                            highlightColor: AppTheme.transparent,
+                            splashColor: AppTheme.transparent,
+                            hoverColor: AppTheme.transparent,
+                            onTap: () {
+                              Get.toNamed(Routes.withdrawScreen, arguments: {"walletBalance": walletBalance});
+                            },
+                            child: Container(
+                                width: 145,
+                                height: 50,
+                                padding: EdgeInsets.all(4.0),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(25)
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    'Withdraw',
+                                    style: AppFontStyle.text_16_500(AppTheme.pink,fontFamily: AppFontFamily.generalSansMedium),
+                                  ),
+                                )
+                            ),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-                WidgetDesigns.hBox(20),
-                Row(
-                  children: [
-                    Text(
-                      'Transaction History',
-                      style: AppFontStyle.text_22_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
-                    ),
-                    const Spacer(),
-                    Row(
-                      children: [
-                        Text(
-                          'See All',
-                          style: AppFontStyle.text_16_500(AppTheme.pink, fontFamily: AppFontFamily.generalSansMedium),
-                        ),
-                        Icon(Icons.arrow_forward, color: AppTheme.pink, size: 16)
-                      ],
-                    )
-                  ],
-                ),
-                _buildRevenueList(),
-                // Obx(() => Expanded(
-                //   child: ListView.builder(
-                //     shrinkWrap: true,
-                //     physics: const AlwaysScrollableScrollPhysics(),
-                //     itemCount: controller.items.length,
-                //     itemBuilder: (context, index){
-                //       var item = controller.items[index];
-                //       return _transactionHistory(
-                //         context,
-                //         images: item['images'] as String,
-                //         name: item['name'] as String,
-                //         dateTime: item['dateTime'] as String,
-                //         count: item['count'] as String,
-                //         status: item['status'] as String,
-                //         countColor: item['countColor'] as Color
-                //       );
-                //     },
-                //   ),
-                // )),
-              ],
+                  WidgetDesigns.hBox(20),
+                  Row(
+                    children: [
+                      Text(
+                        'Transaction History',
+                        style: AppFontStyle.text_22_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
+                      ),
+                      const Spacer(),
+                      Row(
+                        children: [
+                          Text(
+                            'See All',
+                            style: AppFontStyle.text_16_500(AppTheme.pink, fontFamily: AppFontFamily.generalSansMedium),
+                          ),
+                          Icon(Icons.arrow_forward, color: AppTheme.pink, size: 16)
+                        ],
+                      )
+                    ],
+                  ),
+                  _buildRevenueList(),
+                  // Obx(() => Expanded(
+                  //   child: ListView.builder(
+                  //     shrinkWrap: true,
+                  //     physics: const AlwaysScrollableScrollPhysics(),
+                  //     itemCount: controller.items.length,
+                  //     itemBuilder: (context, index){
+                  //       var item = controller.items[index];
+                  //       return _transactionHistory(
+                  //         context,
+                  //         images: item['images'] as String,
+                  //         name: item['name'] as String,
+                  //         dateTime: item['dateTime'] as String,
+                  //         count: item['count'] as String,
+                  //         status: item['status'] as String,
+                  //         countColor: item['countColor'] as Color
+                  //       );
+                  //     },
+                  //   ),
+                  // )),
+                ],
+              ),
             ),
           ),
         ),

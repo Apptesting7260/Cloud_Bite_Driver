@@ -15,7 +15,6 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
     return Obx(() {
      switch(chooseWithdrawMethodController.withdrawMethodsData.value.status){
 
-
        case ApiStatus.loading:
          return Scaffold(
            appBar: CustomBackButtonAppBar(title: "Choose Withdraw Method",),

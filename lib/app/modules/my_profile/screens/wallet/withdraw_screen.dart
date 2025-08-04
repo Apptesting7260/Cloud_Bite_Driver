@@ -45,11 +45,14 @@ class WithdrawScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 CustomAnimatedButton(
                   onTap: () {
-                    if(withdrawController.balanceString.value.isNotEmpty && (int.tryParse(withdrawController.balanceString.value) ?? 0) <= 9500){
+                    if(withdrawController.balanceString.value.isNotEmpty && (int.tryParse(withdrawController.balanceString.value) ?? 0) <= 9500 && (int.tryParse(withdrawController.balanceString.value) ?? 0) < (double.tryParse(walletBalance) ?? 0)){
                       Get.toNamed(Routes.chooseWithdrawMethodScreen, arguments: {"withdrawAmount": withdrawController.balanceString.value});
                     }
                     else if((int.tryParse(withdrawController.balanceString.value) ?? 0) > 9500){
                       withdrawController.walletError.value = "Withdraw amount should be less than P9500";
+                    }
+                    else if((int.tryParse(withdrawController.balanceString.value) ?? 0) > (double.tryParse(walletBalance) ?? 0)){
+                      withdrawController.walletError.value = "Withdraw amount should be less than available balance";
                     }
                     else{
                       withdrawController.walletError.value = "Please enter withdraw amount";
