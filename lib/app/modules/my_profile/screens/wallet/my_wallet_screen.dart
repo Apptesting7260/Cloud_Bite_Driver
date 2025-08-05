@@ -81,24 +81,8 @@ class MyWalletScreen extends StatelessWidget{
                     ),
                   ),
                   WidgetDesigns.hBox(20),
-                  Row(
-                    children: [
-                      Text(
-                        'Transaction History',
-                        style: AppFontStyle.text_22_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
-                      ),
-                      const Spacer(),
-                      Row(
-                        children: [
-                          Text(
-                            'See All',
-                            style: AppFontStyle.text_16_500(AppTheme.pink, fontFamily: AppFontFamily.generalSansMedium),
-                          ),
-                          Icon(Icons.arrow_forward, color: AppTheme.pink, size: 16)
-                        ],
-                      )
-                    ],
-                  ),
+                  Text('Transaction History', style: AppFontStyle.text_22_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),),
+
                   _buildRevenueList(),
                   // Obx(() => Expanded(
                   //   child: ListView.builder(
@@ -228,13 +212,13 @@ class MyWalletScreen extends StatelessWidget{
         ...List.generate(controller.transactionApiData.length, (index) {
           final revenueApiData = controller.transactionApiData[index];
           return _transactionHistory(
-              Get.context!,
-              images: ImageConstants.supportIcon,
-              name: revenueApiData.withdrawMethodName ?? "",
-              dateTime: WidgetDesigns.formatDateString(revenueApiData.createdAt ?? ""),
-              count: "P${revenueApiData.totalWithdrawAmount}",
-              status: revenueApiData.status ?? "",
-              countColor: revenueApiData.status == "accepted" ? AppTheme.green : revenueApiData.status == "pending" ? AppTheme.yellow : AppTheme.redText,
+            Get.context!,
+            images: ImageConstants.supportIcon,
+            name: revenueApiData.withdrawMethodName ?? "",
+            dateTime: WidgetDesigns.formatDateString(revenueApiData.createdAt ?? ""),
+            count: "P${revenueApiData.totalWithdrawAmount}",
+            status: revenueApiData.status?.capitalizeFirst ?? "",
+            countColor: revenueApiData.status == "accepted" ? AppTheme.green : revenueApiData.status == "pending" ? AppTheme.yellow : AppTheme.redText,
           );
         }),
         if (controller.hasMore.value)

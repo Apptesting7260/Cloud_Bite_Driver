@@ -1061,8 +1061,8 @@ class HomeScreen extends StatelessWidget {
                           }
                           return _buildSimpleOrderItem(
                               "${item?.productImages?[0]}",
-                              "${item?.productTitle?[0]}",
-                              variantOrAddon ?? '0',
+                              "${item?.productTitle}",
+                              variantOrAddon,
                               "${item?.quantity}"
                           );
                         },
@@ -1085,7 +1085,7 @@ class HomeScreen extends StatelessWidget {
                                 fontFamily: AppFontFamily.generalSansRegular),
                           ),
                           Text(
-                            "${orderDetails.data?.orderDetail?.orderdata?.paymentStatus}",
+                            "${orderDetails.data?.orderDetail?.orderdata?.paymentStatus?.capitalizeFirst}",
                             style: AppFontStyle.text_18_500(
                               AppTheme.black,
                               fontFamily: AppFontFamily.generalSansMedium,
