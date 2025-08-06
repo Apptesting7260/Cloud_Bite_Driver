@@ -95,11 +95,67 @@ class WidgetDesigns{
   }
 
 
+  static String getDayOnly(String isoString) {
+    DateTime dateTime = DateTime.parse(isoString).toLocal();
+    return dateTime.day.toString();
+  }
+
 
   static String formatDateString(String inputDate) {
     DateTime parsedDate = DateTime.parse(inputDate).toLocal();
     String formattedDate = DateFormat('EEE, dd MMM - hh:mm a').format(parsedDate);
     return formattedDate;
+  }
+
+  static String dayMonth(String dateString) {
+    final DateTime date = DateTime.parse(dateString);
+    final DateFormat formatter = DateFormat('d MMM');
+    return formatter.format(date);
+  }
+
+  static Map<String, String> getWeekRange(int weekOffset) {
+    final now = DateTime.now();
+
+    // Calculate the Monday of the current week
+    final int currentWeekday = now.weekday; // Monday = 1
+    final DateTime startOfWeek = now.subtract(Duration(days: currentWeekday - 1));
+
+    // Apply the week offset
+    final DateTime start = startOfWeek.add(Duration(days: weekOffset * 7));
+    final DateTime end = start.add(const Duration(days: 6));
+
+    final formatter = DateFormat('yyyy-MM-dd');
+
+    consoleLog(formatter.format(start), "Start Date");
+    consoleLog(formatter.format(end), "End Date");
+
+    return {
+      'start': formatter.format(start),
+      'end': formatter.format(end),
+    };
+  }
+
+
+
+  static String getMonthNumber(DateTime date) => date.month.toString();
+
+  static Map<String, String> getMonthInfo(int monthOffset) {
+    final now = DateTime.now();
+
+    // Calculate the new date by shifting months
+    final shiftedDate = DateTime(now.year, now.month + monthOffset);
+
+    return {
+      'month': getMonthNumber(shiftedDate),
+      'year': shiftedDate.year.toString(),
+    };
+  }
+
+
+  static String getMonthName(String monthNumber) {
+    final int month = int.parse(monthNumber);
+    final DateTime date = DateTime(0, month);
+    return DateFormat.MMMM().format(date);
   }
 
 }

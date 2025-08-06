@@ -1,6 +1,7 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_phone_verify_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/delivery_rating_model.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/model/earning_chart_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/rating_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/specific_date_delivery_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/total_delivery_model.dart';
@@ -74,14 +75,19 @@ class Repository {
 
   Future<TransactionHistoryModel> driverWithdrawTransactionAPI(Map<String, dynamic> data) async {
     final token = storageService.getToken();
-    dynamic response = await _apiService.postApi(data, AppUrls.driverWithdrawTransactionUrl, "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NjE3LCJpYXQiOjE3NTQwNDkwODksImV4cCI6MTc1NDY1Mzg4OX0.5e8cndfHjIn5PoYLdqOrtR6Bz5RWdrb_GyJ0wwVyb1E");
+    dynamic response = await _apiService.postApi(data, AppUrls.driverWithdrawTransactionUrl, "Bearer $token");
     return TransactionHistoryModel.fromJson(response);
+  }
+
+  Future<EarningChartModel> earningAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.driverEarningsUrl, "Bearer $token");
+    return EarningChartModel.fromJson(response);
   }
 
   // List Delivery Method API
   Future<DeliveryMethodModel> listDeliveryMethodAPI() async {
     final token = storageService.getToken();
-    WidgetDesigns.consoleLog(storageService.getToken(), "Bearer Token");
     dynamic response = await _apiService.getApi(AppUrls.listDeliveryMethodAPI, "Bearer $token");
     return DeliveryMethodModel.fromJson(response);
   }
