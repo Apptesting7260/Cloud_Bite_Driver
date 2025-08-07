@@ -136,8 +136,14 @@ class EarningsScreen extends StatelessWidget {
                   controller.year.value = WidgetDesigns.getMonthInfo(controller.monthOffSet.value)["year"]!;
                   controller.getEarningApi();
                 },
-                child: Icon(Icons.arrow_back_ios, size: 20, color: AppTheme.grey),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.arrow_back_ios, size: 20, color: AppTheme.grey),
+                ),
               ),
+              Spacer(),
+              Obx(()=>Text(controller.earningAPIData.value.data?.data?.earningAmount == "" ?  "" : "P${controller.earningAPIData.value.data?.data?.earningAmount}", style: TextStyle(fontSize: 16))),
+              Spacer(),
               if((controller.selectedChartType.value.toLowerCase() == "weekly" && controller.weekOffSet.value < 0) ||
                   (controller.selectedChartType.value.toLowerCase() == "monthly" && controller.monthOffSet.value < 0))  ...[
                 InkWell(
@@ -154,17 +160,31 @@ class EarningsScreen extends StatelessWidget {
                   controller.year.value = WidgetDesigns.getMonthInfo(controller.monthOffSet.value)["year"]!;
                   controller.getEarningApi();
                 },
-                child: Icon(Icons.arrow_forward_ios, size: 20, color: AppTheme.grey),
-              ),]
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(Icons.arrow_forward_ios, size: 20, color: AppTheme.grey),
+                ),
+              ),] else ...[
+                SizedBox(width: 32,)
+              ]
             ],
           ),
           WidgetDesigns.hBox(20),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: EarningsBarChart(
-              values: controller.earningAPIData.value.data?.data?.earning?.map((e) => double.tryParse(e.totalDeliveryCharge ?? "0.0") ?? 0.0,).toList() ?? [],
-              bottomValues: controller.earningAPIData.value.data?.data?.earning?.map((e) => WidgetDesigns.getDayOnly(e.day.toString()),).toList() ?? [],
-              selectedChartType: controller.selectedChartType.value,
+          Obx(() =>
+            Padding(
+              padding: REdgeInsets.all(8),
+              child: controller.isLoading.value
+                ? SizedBox(
+                height: 220,
+                  child: Center(
+                    child: CircularProgressIndicator(color: AppTheme.primaryColor,),
+                  ),
+               )
+                : EarningsBarChart(
+                values: controller.earningAPIData.value.data?.data?.earning?.map((e) => double.tryParse(e.totalDeliveryCharge ?? "0.0") ?? 0.0,).toList() ?? [],
+                bottomValues: controller.earningAPIData.value.data?.data?.earning?.map((e) => WidgetDesigns.getDayOnly(e.day.toString()),).toList() ?? [],
+                selectedChartType: controller.selectedChartType.value,
+              ),
             ),
           ),
         ],
@@ -178,22 +198,36 @@ class EarningsScreen extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _sectionTitle('February 12, 2025'),
-          WidgetDesigns.hBox(10),
-          _infoRow(
-            title: 'Deliveries',
-            subtitle: '50 deliveries',
-            trailing: 'P500',
-            showArrow: true,
-          ),
-          _infoRow(title: 'Charges & Taxes', trailing: '-P50'),
-          _infoRow(title: 'Total KM', trailing: '49.4 km'),
-          _infoRow(
-            title: 'Balance',
-            trailing: 'P450',
-            trailingStyle: AppFontStyle.text_21_500(
-              AppTheme.primaryColor,
+          if(controller.selectedChartType.value.toLowerCase() == "weekly") ...[
+            Obx(()=>Text("${WidgetDesigns.dayMonth(controller.weekStartDate.value)} - ${WidgetDesigns.dayMonth(controller.weekEndDate.value)}", style: AppFontStyle.text_20_500(
+              AppTheme.black,
               fontFamily: AppFontFamily.generalSansMedium,
+            ),)),
+          ] else ...[
+            Obx(()=>Text("${WidgetDesigns.getMonthName(controller.monthNo.value)} - ${controller.year.value}", style: AppFontStyle.text_20_500(
+              AppTheme.black,
+              fontFamily: AppFontFamily.generalSansMedium,
+            ),)),
+
+          ],
+          WidgetDesigns.hBox(10),
+          Obx(() => _infoRow(
+              title: 'Deliveries',
+              subtitle: controller.earningAPIData.value.data?.data?.order == "" ?  "" : "${controller.earningAPIData.value.data?.data?.order} deliveries",
+              trailing: controller.earningAPIData.value.data?.data?.earningAmount == "" ?  "" : "P${controller.earningAPIData.value.data?.data?.earningAmount}",
+              showArrow: true,
+            ),
+          ),
+          // _infoRow(title: 'Charges & Taxes', trailing: '-P50'),
+          // _infoRow(title: 'Total KM', trailing: '49.4 km'),
+          Obx(() =>
+            _infoRow(
+              title: 'Balance',
+              trailing: controller.earningAPIData.value.data?.data?.earningAmount == "" ?  "" : "P${controller.earningAPIData.value.data?.data?.earningAmount}",
+              trailingStyle: AppFontStyle.text_21_500(
+                AppTheme.primaryColor,
+                fontFamily: AppFontFamily.generalSansMedium,
+              ),
             ),
           ),
         ],
@@ -212,16 +246,6 @@ class EarningsScreen extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(12.0),
         child: child,
-      ),
-    );
-  }
-
-  Widget _sectionTitle(String text) {
-    return Text(
-      text,
-      style: AppFontStyle.text_20_500(
-        AppTheme.black,
-        fontFamily: AppFontFamily.generalSansMedium,
       ),
     );
   }

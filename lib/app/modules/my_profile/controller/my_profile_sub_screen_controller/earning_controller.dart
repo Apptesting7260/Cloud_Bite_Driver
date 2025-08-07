@@ -27,16 +27,17 @@ class EarningsController extends GetxController{
   updateEarningData(ApiResponse<EarningChartModel> data){
     earningAPIData.value = data;
   }
+
+  RxBool isLoading = false.obs;
   
   getEarningApi() async {
     
     try {
-
+      isLoading.value = true;
       earningAPIData.value.data?.data?.earning = [];
       final apiData = await _repository.earningAPI(
-          selectedChartType.value.toLowerCase() == "weekly"
-          ?
-        {
+        selectedChartType.value.toLowerCase() == "weekly"
+        ? {
           "type": "weekly",
 
           "start_date": weekStartDate.value,
@@ -49,15 +50,18 @@ class EarningsController extends GetxController{
             "month": monthNo.value,
 
             "year": year.value,
-          }
+        }
       );
       if(apiData.status == true){
+        isLoading.value = false;
         updateEarningData(ApiResponse.completed(apiData));
       }else{
+        isLoading.value = false;
         WidgetDesigns.consoleLog(apiData.message.toString(), "else error while get earning");
         updateEarningData(ApiResponse.error(apiData.message.toString()));
       }
     } catch(e){
+      isLoading.value = false;
       updateEarningData(ApiResponse.error(e.toString()));
       WidgetDesigns.consoleLog(e.toString(), "catch error while get earning");
     }
