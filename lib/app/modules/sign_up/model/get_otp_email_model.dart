@@ -8,8 +8,8 @@ class GetOtpEmailModel {
 
   GetOtpEmailModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    type = json['type'];
-    message = json['message'];
+    type = json['type'].toString();
+    message = json['message'].toString();
     updatedUser = json['updatedUser'] != null
         ? GenerateOtpEmailData.fromJson(json['updatedUser'])
         : null;
@@ -129,7 +129,7 @@ class GenerateOtpEmailData {
     location = json['location'];
     fcmToken = json['fcm_token'].toString();
     dateOfBirth = json['date_of_birth'];
-    deliverymethod = json['deliverymethod'];
+    deliverymethod = json['deliverymethod']?.toString();
     profilePhoto = json['profile_photo'];
     frontIdentity = json['front_identity'];
     backIdentity = json['back_identity'];
