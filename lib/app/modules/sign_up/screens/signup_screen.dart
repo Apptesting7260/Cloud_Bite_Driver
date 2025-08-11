@@ -293,8 +293,6 @@ class SignUpScreen extends StatelessWidget{
                             }
                           },
                           initialSelection: 'BW',
-                          favorite: const ['+267','BW'],
-                          countryFilter: const ['BW'],
                         ),
                         Positioned(
                           right: -6,
