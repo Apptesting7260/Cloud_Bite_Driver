@@ -92,8 +92,21 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
                                            ],
                                          ),
                                        ),
-                                       if(chooseWithdrawMethodController.selectedMethod.value == chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId && chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId != "2") ...[
+                                       if(chooseWithdrawMethodController.selectedMethod.value == chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId) ...[
                                          WidgetDesigns.hBox(16),
+                                         if(chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId == '2')
+                                           Column(
+                                             crossAxisAlignment: CrossAxisAlignment.start,
+                                             children: [
+                                               _buildBankDetailRow("Bank Name", chooseWithdrawMethodController.withdrawMethodsData.value.data?.bankAccountDetail?.bankName  ?? ""),
+                                               WidgetDesigns.hBox(8),
+                                               _buildBankDetailRow("Account Number", chooseWithdrawMethodController.withdrawMethodsData.value.data?.bankAccountDetail?.accountNumber ?? ""),
+                                               WidgetDesigns.hBox(8),
+                                               _buildBankDetailRow("Account Type", chooseWithdrawMethodController.withdrawMethodsData.value.data?.bankAccountDetail?.accountType ?? ""),
+                                               WidgetDesigns.hBox(8),
+                                               _buildBankDetailRow("IFSC Code", chooseWithdrawMethodController.withdrawMethodsData.value.data?.bankAccountDetail?.ifscCode ?? ""),
+                                             ],
+                                           )else
                                          CustomTextFormField(
                                            controller: chooseWithdrawMethodController.idController,
                                            validator: (value) {
@@ -107,7 +120,7 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
                                      ],
                                    ),
                                  ),
-                                                    ),
+                               ),
                              ),
                          )
                        ),
@@ -144,6 +157,25 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
        );
      }
     }
+    );
+  }
+
+  Widget _buildBankDetailRow(String label, String value) {
+    return Padding(
+      padding: REdgeInsets.only(left: 53.w),
+      child: Row(
+        children: [
+          Text(
+            "$label: ",
+            style: AppFontStyle.text_14_500(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansRegular),
+          ),
+          WidgetDesigns.wBox(8),
+          Text(
+            value,
+            style: AppFontStyle.text_14_400(AppTheme.lightText, fontFamily: AppFontFamily.generalSansRegular),
+          ),
+        ],
+      ),
     );
   }
 }

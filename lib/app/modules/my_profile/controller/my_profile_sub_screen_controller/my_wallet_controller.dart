@@ -2,6 +2,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/transaction_history_model.dart';
 
 class MyWalletController extends GetxController{
+
   var items = List.generate(
     4,
         (index) {
@@ -61,6 +62,7 @@ class MyWalletController extends GetxController{
   void onInit() {
     initScrollListener();
     fetchTransactionHistory();
+    getWalletBalanceApi();
     super.onInit();
   }
 
@@ -134,8 +136,24 @@ class MyWalletController extends GetxController{
   }
 
 
+  RxString walletBalance = "".obs;
 
+  getWalletBalanceApi() async {
 
+    try{
+      final apiData = await _repository.walletBalanceAPI();
+      if(apiData.status == true){
+        walletBalance.value = apiData.data?.wallet ?? "";
+        WidgetDesigns.consoleLog("Wallet Balance Data get", apiData.data?.wallet ?? '');
+      } else{
+        WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get wallet balance", "error while get wallet balance");
+      }
+    }catch(e){
+      WidgetDesigns.consoleLog(e.toString(), "error while get wallet balance");
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+    }
+
+  }
 
 
 }

@@ -15,7 +15,27 @@ class ChooseWithdrawMethodController extends GetxController{
     final args = Get.arguments;
     withdrawAmount.value = args['withdrawAmount'];
     getWithdrawMethods();
+    getWalletBalanceApi();
     super.onInit();
+  }
+
+  RxString walletBalance = "".obs;
+
+  getWalletBalanceApi() async {
+
+    try{
+      final apiData = await repository.walletBalanceAPI();
+      if(apiData.status == true){
+        walletBalance.value = apiData.data?.wallet ?? "";
+        WidgetDesigns.consoleLog("Wallet Balance Data get", apiData.data?.wallet ?? '');
+      } else{
+        WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get wallet balance", "error while get wallet balance");
+      }
+    }catch(e){
+      WidgetDesigns.consoleLog(e.toString(), "error while get wallet balance");
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+    }
+
   }
 
   Rx<ApiResponse<PaymentMethodModel>> withdrawMethodsData = Rx<ApiResponse<PaymentMethodModel>>(ApiResponse.loading());
@@ -72,7 +92,7 @@ class ChooseWithdrawMethodController extends GetxController{
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: "Withdraw Request Sent Successfully",color: AppTheme.green);
         WidgetDesigns.consoleLog("withdraw methods fetched success", "withdraw");
-        Get.back();
+       Get.back();
       }else{
         LoadingOverlay().hideLoading();
         WidgetDesigns.consoleLog("withdraw methods fetched error>> ${response.message}", "withdraw else error");

@@ -87,7 +87,9 @@ class PhoneLoginView extends StatelessWidget {
                                                     }
                                                   },
                                                   // initialSelection: "+${controller.countryString}",
-                                                  initialSelection: controller.countryString.value,
+                                                  initialSelection: 'BW',
+                                                  favorite: const ['+267','BW'],
+                                                  countryFilter: const ['BW'],
                                                 ),
                                                 Positioned(
                                                   right: -6,

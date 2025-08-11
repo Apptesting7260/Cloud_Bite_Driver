@@ -78,6 +78,7 @@ class MyProfileController extends GetxController{
       final apiData = await _repository.walletBalanceAPI();
       if(apiData.status == true){
         walletBalance.value = apiData.data?.wallet ?? "";
+        WidgetDesigns.consoleLog("Wallet Balance Data get", apiData.data?.wallet ?? "");
       } else{
         WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get wallet balance", "error while get wallet balance");
       }

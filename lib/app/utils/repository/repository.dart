@@ -44,7 +44,7 @@ class Repository {
 
   Future<PaymentMethodModel> withdrawMethodAPI(Map<String, dynamic> data) async {
     final token = storageService.getToken();
-    dynamic response = await _apiService.postApi(data, AppUrls.withdrawMethodsUrl, token);
+    dynamic response = await _apiService.postApi(data, AppUrls.withdrawMethodsUrl, "Bearer $token");
     return PaymentMethodModel.fromJson(response);
   }
 

@@ -5,8 +5,8 @@ class AppUrls{
   // static const String baseUrl = 'http://15.207.201.245:8000'; // live url
   // static const String baseUrl = 'https://bpd5zg92-8000.inc1.devtunnels.ms'; // live url
   // static const String baseUrl = 'https://40234xtx-8000.inc1.devtunnels.ms'; // dj
-  static const String baseUrl = 'https://n86h3555-8000.inc1.devtunnels.ms'; // uttam sir
-  // static const String baseUrl = 'https://21qkztxl-8000.inc1.devtunnels.ms';
+  // static const String baseUrl = 'https://n86h3555-8000.inc1.devtunnels.ms'; // uttam sir
+  static const String baseUrl = 'https://21qkztxl-8000.inc1.devtunnels.ms';
   static const String imageUrl = "https://cloudbites.s3.af-south-1.amazonaws.com/";
 
   // Socket URL
@@ -15,8 +15,8 @@ class AppUrls{
   // static const String socketURl = 'https://bpd5zg92-8000.inc1.devtunnels.ms/'; // WFH
 
   // static const String socketURl = 'https://api.cloudbitesbw.com';
-  // static const String socketURl = 'https://21qkztxl-8000.inc1.devtunnels.ms/';
-  static const String socketURl = 'https://n86h3555-8000.inc1.devtunnels.ms/';
+  static const String socketURl = 'https://21qkztxl-8000.inc1.devtunnels.ms/';
+  // static const String socketURl = 'https://n86h3555-8000.inc1.devtunnels.ms/';
 
   static const String verifyUser = "$baseUrl/driver/verifyUser";
   static const String allAddressUrl = "$baseUrl/driver/user-address";

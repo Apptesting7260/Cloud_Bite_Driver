@@ -21,12 +21,12 @@ class SignUpScreen extends StatelessWidget{
             children: [
               WidgetDesigns.hBox(10),
               Text(
-                'Create New Account',
+                'Sign up to deliver food',
                 style: AppFontStyle.text_30_600(AppTheme.white, fontFamily: AppFontFamily.generalSansMedium),
               ),
               WidgetDesigns.hBox(20),
               Text(
-                'Lorem Ipsum is simply dummy text of the\nprinting and typesetting industry.',
+                'Earn on your schedule, and get paid fast with our\nDriver App',
                 style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
                 textAlign: TextAlign.center,
               ),
@@ -110,53 +110,130 @@ class SignUpScreen extends StatelessWidget{
           ),
           WidgetDesigns.hBox(16),
 
+          // GetBuilder<SignUpController>(
+          //   builder: (context) {
+          //     return CustomTextFormField(
+          //       controller: controller.dobController,
+          //       hintText: "Date Of Birth",
+          //       onChanged: (value) {
+          //         controller.updateDOBError('');
+          //       },
+          //       validator: (value) {
+          //         if(controller.dobController.text.isEmpty){
+          //           return 'DOB is required';
+          //         }
+          //         if(controller.dobError.value.isNotEmpty || controller.dobError.value != ''){
+          //           return controller.dobError.value;
+          //         }
+          //         return null;
+          //       },
+          //       suffix: GestureDetector(
+          //           onTap: () async {
+          //             DateTime? pickedDate = await showDatePicker(
+          //                 context: Get.context!,
+          //                 initialDate: DateTime.now().subtract(Duration(days: 365 * 18)),
+          //                 firstDate: DateTime(1900),
+          //                 lastDate: DateTime.now(),
+          //                 builder: (context, child) {
+          //                   return Theme(
+          //                     data: Theme.of(context).copyWith(
+          //                       colorScheme: ColorScheme.light(
+          //                         primary: AppTheme.primaryColor,
+          //                         onPrimary: AppTheme.white,
+          //                         onSurface: Colors.black,
+          //                       ),
+          //                       dialogBackgroundColor: Colors.white,
+          //                     ),
+          //                     child: child!,
+          //                   );
+          //                 }
+          //             );
+          //             if (pickedDate != null) {
+          //               String formattedDate = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+          //               controller.dobController.text = formattedDate;
+          //               controller.dobError.value = '';
+          //             }
+          //           },
+          //           child: Icon(Icons.calendar_month, color: AppTheme.primaryColor, size: 20)
+          //       ),
+          //     );
+          //   }
+          // ),
           GetBuilder<SignUpController>(
-            builder: (context) {
-              return CustomTextFormField(
-                controller: controller.dobController,
-                hintText: "Date Of Birth",
-                onChanged: (value) {
-                  controller.updateDOBError('');
-                },
-                validator: (value) {
-                  if(controller.dobController.text.isEmpty){
-                    return 'DOB is required';
-                  }
-                  if(controller.dobError.value.isNotEmpty || controller.dobError.value != ''){
-                    return controller.dobError.value;
-                  }
-                  return null;
-                },
-                suffix: GestureDetector(
-                    onTap: () async {
-                      DateTime? pickedDate = await showDatePicker(
-                          context: Get.context!,
-                          initialDate: DateTime.now().subtract(Duration(days: 365 * 18)),
-                          firstDate: DateTime(1900),
-                          lastDate: DateTime.now(),
-                          builder: (context, child) {
-                            return Theme(
-                              data: Theme.of(context).copyWith(
-                                colorScheme: ColorScheme.light(
-                                  primary: AppTheme.primaryColor,
-                                  onPrimary: AppTheme.white,
-                                  onSurface: Colors.black,
-                                ),
-                                dialogBackgroundColor: Colors.white,
-                              ),
-                              child: child!,
-                            );
-                          }
+              builder: (context) {
+                return CustomTextFormField(
+                  controller: controller.dobController,
+                  hintText: "Date Of Birth",
+                  onChanged: (value) {
+                    controller.updateDOBError('');
+                  },
+                  validator: (value) {
+                    if(controller.dobController.text.isEmpty) {
+                      return 'DOB is required';
+                    }
+
+                    try {
+                      final parts = controller.dobController.text.split('-');
+                      if (parts.length != 3) return 'Invalid date format';
+
+                      final selectedDate = DateTime(
+                        int.parse(parts[0]),
+                        int.parse(parts[1]),
+                        int.parse(parts[2]),
                       );
-                      if (pickedDate != null) {
-                        String formattedDate = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
-                        controller.dobController.text = formattedDate;
-                        controller.dobError.value = '';
+
+                      final today = DateTime.now();
+                      final minDate = DateTime(today.year - 18, today.month, today.day);
+                      final maxDate = DateTime(today.year - 100, today.month, today.day);
+
+                      if (selectedDate.isAfter(minDate)) {
+                        return 'You must be at least 18 years old';
                       }
-                    },
-                    child: Icon(Icons.calendar_month, color: AppTheme.primaryColor, size: 20)),
-              );
-            }
+
+                      if (selectedDate.isBefore(maxDate)) {
+                        return 'Please enter a valid date (max 100 years)';
+                      }
+                    } catch (e) {
+                      return 'Invalid date format';
+                    }
+
+                    if(controller.dobError.value.isNotEmpty || controller.dobError.value != '') {
+                      return controller.dobError.value;
+                    }
+
+                    return null;
+                  },
+                  suffix: GestureDetector(
+                      onTap: () async {
+                        DateTime? pickedDate = await showDatePicker(
+                            context: Get.context!,
+                            initialDate: DateTime.now().subtract(const Duration(days: 365 * 25)), // Default to 25 years old
+                            firstDate: DateTime.now().subtract(const Duration(days: 365 * 100)), // Max 100 years old
+                            lastDate: DateTime.now().subtract(const Duration(days: 365 * 18)), // Min 18 years old
+                            builder: (context, child) {
+                              return Theme(
+                                data: Theme.of(context).copyWith(
+                                  colorScheme: ColorScheme.light(
+                                    primary: AppTheme.primaryColor,
+                                    onPrimary: AppTheme.white,
+                                    onSurface: Colors.black,
+                                  ),
+                                  dialogBackgroundColor: Colors.white,
+                                ),
+                                child: child!,
+                              );
+                            }
+                        );
+                        if (pickedDate != null) {
+                          String formattedDate = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+                          controller.dobController.text = formattedDate;
+                          controller.dobError.value = '';
+                        }
+                      },
+                      child: Icon(Icons.calendar_month, color: AppTheme.primaryColor, size: 20)
+                  ),
+                );
+              }
           ),
           WidgetDesigns.hBox(16),
 
@@ -215,7 +292,9 @@ class SignUpScreen extends StatelessWidget{
                               controller.checkCountryLength.value = 10;
                             }
                           },
-                          initialSelection: controller.countryString.value,
+                          initialSelection: 'BW',
+                          favorite: const ['+267','BW'],
+                          countryFilter: const ['BW'],
                         ),
                         Positioned(
                           right: -6,

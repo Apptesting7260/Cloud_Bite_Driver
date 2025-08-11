@@ -4,63 +4,70 @@ import '../../controller/my_profile_sub_screen_controller/withdraw_controller.da
 class WithdrawScreen extends StatelessWidget {
   WithdrawScreen({super.key});
 
-  final String walletBalance = Get.arguments['walletBalance'];
   final WithdrawController withdrawController = Get.put(WithdrawController());
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomBackButtonAppBar(title: 'Withdraw'),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(14.0),
+        child: RefreshIndicator(
+          color: AppTheme.primaryColor,
+          onRefresh: () async{
+            await withdrawController.getWalletBalanceApi();
+          },
           child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                amountDisplayCard(walletBalance),
-                const SizedBox(height: 8),
-                Obx(() {
-                  if(withdrawController.walletError.value.isNotEmpty || withdrawController.walletError.value != "") {
-                    return Text(withdrawController.walletError.value, style: WidgetDesigns.errorTextStyle(),);
-                  } else {
-                    return SizedBox.shrink();
-                  }
-                }),
-                const SizedBox(height: 20),
-                ...withdrawController.amountGroups.map((group) => Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: group
-                          .map((amount) => Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 2.5),
-                        child: amountButton(amount),
-                      ))
-                          .toList(),
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Padding(
+              padding: const EdgeInsets.all(14.0),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    amountDisplayCard(withdrawController.walletBalance.value),
+                    const SizedBox(height: 8),
+                    Obx(() {
+                      if(withdrawController.walletError.value.isNotEmpty || withdrawController.walletError.value != "") {
+                        return Text(withdrawController.walletError.value, style: WidgetDesigns.errorTextStyle(),);
+                      } else {
+                        return SizedBox.shrink();
+                      }
+                    }),
+                    const SizedBox(height: 20),
+                    ...withdrawController.amountGroups.map((group) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: group
+                              .map((amount) => Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 2.5),
+                            child: amountButton(amount),
+                          ))
+                              .toList(),
+                        ),
+                      ),
                     ),
-                  ),
+                    const SizedBox(height: 20),
+                    CustomAnimatedButton(
+                      onTap: () {
+                        if(withdrawController.balanceString.value.isNotEmpty && (int.tryParse(withdrawController.balanceString.value) ?? 0) <= 9500 && (int.tryParse(withdrawController.balanceString.value) ?? 0) < (double.tryParse(withdrawController.walletBalance.value) ?? 0)){
+                          Get.toNamed(Routes.chooseWithdrawMethodScreen, arguments: {"withdrawAmount": withdrawController.balanceString.value});
+                        }
+                        else if((int.tryParse(withdrawController.balanceString.value) ?? 0) > 9500){
+                          withdrawController.walletError.value = "Withdraw amount should be less than P9500";
+                        }
+                        else if((int.tryParse(withdrawController.balanceString.value) ?? 0) > (double.tryParse(withdrawController.walletBalance.value) ?? 0)){
+                          withdrawController.walletError.value = "Withdraw amount should be less than available balance";
+                        }
+                        else{
+                          withdrawController.walletError.value = "Please enter withdraw amount";
+                        }
+                      },
+                      text: 'Continue',
+                    ),
+                  ],
                 ),
-                const SizedBox(height: 20),
-                CustomAnimatedButton(
-                  onTap: () {
-                    if(withdrawController.balanceString.value.isNotEmpty && (int.tryParse(withdrawController.balanceString.value) ?? 0) <= 9500 && (int.tryParse(withdrawController.balanceString.value) ?? 0) < (double.tryParse(walletBalance) ?? 0)){
-                      Get.toNamed(Routes.chooseWithdrawMethodScreen, arguments: {"withdrawAmount": withdrawController.balanceString.value});
-                    }
-                    else if((int.tryParse(withdrawController.balanceString.value) ?? 0) > 9500){
-                      withdrawController.walletError.value = "Withdraw amount should be less than P9500";
-                    }
-                    else if((int.tryParse(withdrawController.balanceString.value) ?? 0) > (double.tryParse(walletBalance) ?? 0)){
-                      withdrawController.walletError.value = "Withdraw amount should be less than available balance";
-                    }
-                    else{
-                      withdrawController.walletError.value = "Please enter withdraw amount";
-                    }
-                  },
-                  text: 'Continue',
-                ),
-              ],
+              ),
             ),
           ),
         ),
@@ -126,11 +133,13 @@ class WithdrawScreen extends StatelessWidget {
                   style: AppFontStyle.text_16_400(AppTheme.black,
                       fontFamily: AppFontFamily.generalSansRegular),
                 ),
-                Text(
-                  'P$walletBalance',
-                  style: AppFontStyle.text_16_400(AppTheme.pink,
-                      fontFamily: AppFontFamily.generalSansRegular),
-                ),
+                Obx((){
+                  return Text(
+                    'P${withdrawController.walletBalance.value}',
+                    style: AppFontStyle.text_16_400(AppTheme.pink,
+                        fontFamily: AppFontFamily.generalSansRegular),
+                  );
+                })
               ],
             ),
           ],

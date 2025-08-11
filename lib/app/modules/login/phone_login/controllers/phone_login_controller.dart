@@ -240,7 +240,6 @@ class PhoneLoginController extends GetxController {
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
-        CustomSnackBar.show(message: response.otp.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         Get.toNamed(Routes.phoneLoginOtpVerify, arguments: {"phone": phoneController.text.trim(), "otp": response.otp.toString(), "countryString": countryString.value});
       }
       else if(response.status == false && response.type == 'login'){

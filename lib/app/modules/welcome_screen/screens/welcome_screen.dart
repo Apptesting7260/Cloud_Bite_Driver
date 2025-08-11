@@ -19,7 +19,7 @@ class WelcomeScreen extends StatelessWidget{
           ],
         ).createShader(bounds);
       },
-      blendMode: BlendMode.darken,
+      blendMode: BlendMode.lighten,
       child: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
