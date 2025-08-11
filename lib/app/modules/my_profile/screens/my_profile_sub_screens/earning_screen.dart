@@ -285,18 +285,32 @@ class EarningsScreen extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            trailing,
-            style: trailingStyle ??
-                AppFontStyle.text_16_400(
-                  AppTheme.grey,
-                  fontFamily: AppFontFamily.generalSansRegular,
+          GestureDetector(
+            onTap: (){
+              Get.toNamed(Routes.deliveriesScreen, arguments: {
+                "date": controller.selectedChartType.value.toLowerCase() == "weekly"
+                    ? "${WidgetDesigns.dayMonth(controller.weekStartDate.value)} - ${WidgetDesigns.dayMonth(controller.weekEndDate.value)}"
+                    : "${WidgetDesigns.getMonthName(controller.monthNo.value)} - ${controller.year.value}",
+              });
+            },
+            child: Row(
+              children: [
+                Text(
+                  trailing,
+                  style: trailingStyle ??
+                      AppFontStyle.text_16_400(
+                        AppTheme.grey,
+                        fontFamily: AppFontFamily.generalSansRegular,
+                      ),
                 ),
-          ),
-          if (showArrow) ...[
-            WidgetDesigns.wBox(10),
-            Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppTheme.grey),
-          ],
+                WidgetDesigns.wBox(4),
+                if (showArrow) ...[
+                  WidgetDesigns.wBox(10),
+                  Icon(Icons.arrow_forward_ios_rounded, size: 12, color: AppTheme.grey),
+                ],
+              ],
+            ),
+          )
         ],
       ),
     );

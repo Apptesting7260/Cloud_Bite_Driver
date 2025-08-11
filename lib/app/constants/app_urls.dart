@@ -55,4 +55,5 @@ class AppUrls{
   static const String driverWithdrawRequestUrl = '$baseUrl/driver-withdraw-request';
   static const String driverWithdrawTransactionUrl = '$baseUrl/driver-withdraw-transaction';
   static const String driverEarningsUrl = '$baseUrl/driver-earning';
+  static const String totalDeliveriesUrl = '$baseUrl/driver-total-delivery';
 }

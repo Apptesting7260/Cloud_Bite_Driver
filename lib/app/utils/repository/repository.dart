@@ -4,6 +4,7 @@ import 'package:cloud_bites_driver/app/modules/my_profile/model/delivery_rating_
 import 'package:cloud_bites_driver/app/modules/my_profile/model/earning_chart_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/rating_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/specific_date_delivery_model.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/model/total_deliveries_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/total_delivery_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/transaction_history_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/wallet_balance_model.dart';
@@ -329,4 +330,11 @@ class Repository {
       throw Exception('Failed to load terms & conditions: $e');
     }
   }
+
+  Future<TotalDeliveriesModel> totalDeliveriesAPIModel(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.totalDeliveriesUrl, "Bearer $token");
+    return TotalDeliveriesModel.fromJson(response);
+  }
+
 }
