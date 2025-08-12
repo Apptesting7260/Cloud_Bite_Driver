@@ -27,7 +27,7 @@ class NotificationSettingsScreen extends StatelessWidget {
                   },
                 );
               }),
-            _buildNotificationSwitch(
+            /*_buildNotificationSwitch(
               title: 'Email notification',
               subtitle: 'Forward all account notifications to your email address',
               value: controller.emailNotifications.value,
@@ -62,7 +62,7 @@ class NotificationSettingsScreen extends StatelessWidget {
               controller.invoicesPayments.value = value;
               controller.updateNotificationSettings();
             },
-          ),
+          ),*/
             ],
           ),
         );

@@ -7,9 +7,9 @@ import '../../../core/app_exports.dart';
 
 class TotalDeliveryController extends GetxController {
 
-
-
   final Repository _repository = Repository();
+
+  final isFromEarnings = Get.arguments?['isFromEarnings'] ?? false;
 
   Rx<ApiResponse<TotalDeliveryModel>> totalDeliveriesResponse = Rx<ApiResponse<TotalDeliveryModel>>(ApiResponse.loading());
   RxList<TotalDeliveryData> totalDeliveries = <TotalDeliveryData>[].obs;
@@ -20,7 +20,12 @@ class TotalDeliveryController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchTopProducts();
+    if (isFromEarnings) {
+      fetchTotalDeliveryAPI();
+    } else {
+      fetchTopProducts();
+    }
+    //fetchTopProducts();
   }
 
   Future<void> fetchTopProducts({bool loadMore = false}) async {
@@ -72,10 +77,10 @@ class TotalDeliveryController extends GetxController {
 
       final response = await _repository.totalDeliveriesAPI(
           {
-            "start_date": "",
-            "end_date": "",
+            "start_date": Get.arguments?['startDate'] ?? '',
+            "end_date": Get.arguments?['endDate'] ?? '',
             "page": currentPage.value.toString(),
-            "length":"10",
+            "length": "10",
           }
       );
 

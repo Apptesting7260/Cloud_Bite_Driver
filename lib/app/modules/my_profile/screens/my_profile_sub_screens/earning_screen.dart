@@ -288,9 +288,9 @@ class EarningsScreen extends StatelessWidget {
           GestureDetector(
             onTap: (){
               Get.toNamed(Routes.deliveriesScreen, arguments: {
-                "date": controller.selectedChartType.value.toLowerCase() == "weekly"
-                    ? "${WidgetDesigns.dayMonth(controller.weekStartDate.value)} - ${WidgetDesigns.dayMonth(controller.weekEndDate.value)}"
-                    : "${WidgetDesigns.getMonthName(controller.monthNo.value)} - ${controller.year.value}",
+                "startDate": controller.earningAPIData.value.data?.data?.earning?.first.day ?? WidgetDesigns.getCurrentDate(),
+                "endDate": controller.earningAPIData.value.data?.data?.earning?.last.day ?? WidgetDesigns.getCurrentDate(),
+                "isFromEarnings": true,
               });
             },
             child: Row(
