@@ -725,9 +725,7 @@ class HomeController extends GetxController {
     socketService.listenToEvent(SocketEvents.goOnline, (data) {
       isOnline.value = true;
       print('✅ Received driverOnlineConfirmed, showing bottom sheet$data');
-      print(
-        '✅ Received driverOnlineConfirmed, showing bottom sheet${isOnline.value}',
-      );
+      print('✅ Received driverOnlineConfirmed, showing bottom sheet${isOnline.value}');
       bottomSheetController.showLookingForOrders();
     });
 

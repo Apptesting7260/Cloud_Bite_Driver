@@ -5,6 +5,8 @@ class DeliveriesScreen extends StatelessWidget{
 
   final TotalDeliveryController controller = Get.put(TotalDeliveryController());
 
+  final isFromEarnings = Get.arguments?['isFromEarnings'] ?? false;
+
   DeliveriesScreen({super.key});
 
   @override

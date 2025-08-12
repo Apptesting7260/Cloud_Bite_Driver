@@ -137,6 +137,7 @@ class SpecificDateDeliveriesScreen extends StatelessWidget{
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SvgPicture.asset(ImageConstants.location, height: 20.h, width: 20.w),
+                  WidgetDesigns.wBox(8),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,6 +166,7 @@ class SpecificDateDeliveriesScreen extends StatelessWidget{
               crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SvgPicture.asset(ImageConstants.location, height: 20.h, width: 20.w),
+                  WidgetDesigns.wBox(8),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

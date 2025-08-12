@@ -104,7 +104,12 @@ class TotalDeliveryController extends GetxController {
   RxString selectedFilter = 'All'.obs;
 
   Future<void> refreshTopProducts() async {
-    await fetchTopProducts();
+    // await fetchTopProducts();
+    if (isFromEarnings) {
+      await fetchTotalDeliveryAPI();
+    } else {
+      await fetchTopProducts();
+    }
   }
 
   Future<void> loadMoreTopProducts() async {

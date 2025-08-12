@@ -15,8 +15,8 @@ class AppUrls{
   // static const String socketURl = 'https://bpd5zg92-8000.inc1.devtunnels.ms/'; // WFH
 
   // static const String socketURl = 'https://api.cloudbitesbw.com';
-  static const String socketURl = 'https://21qkztxl-8000.inc1.devtunnels.ms/';
-  // static const String socketURl = 'https://n86h3555-8000.inc1.devtunnels.ms/';
+  // static const String socketURl = 'https://21qkztxl-8000.inc1.devtunnels.ms/';
+  static const String socketURl = 'https://n86h3555-8000.inc1.devtunnels.ms/';
 
   static const String verifyUser = "$baseUrl/driver/verifyUser";
   static const String allAddressUrl = "$baseUrl/driver/user-address";

@@ -29,7 +29,7 @@ class DriverRepository {
         'latitude': latitude,
         'longitude': longitude,
         'address': address,
-        'vehicle_type': storageServices.getDeliveryType()
+        'vehicle_type': storageServices.getDeliveryType() ?? vehicle_type,
       });
     } catch (e) {
       print('Failed to go online: $e');

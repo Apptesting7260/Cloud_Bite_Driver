@@ -9,24 +9,23 @@ class NotificationSettingsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomBackButtonAppBar(backgroundColor: AppTheme.white , title: "Notification"),
-      body: Obx((){
-        return Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              WidgetDesigns.hBox(20),
-              Obx((){
-                return  _buildNotificationSwitch(
-                  title: 'Push notification',
-                  subtitle: 'Allow the app to push notification in application',
-                  value: controller.pushNotifications.value,
-                  onChanged: (value) {
-                    controller.pushNotifications.value = value;
-                    controller.updateNotificationSettings();
-                  },
-                );
-              }),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            WidgetDesigns.hBox(20),
+            Obx((){
+              return  _buildNotificationSwitch(
+                title: 'Push notification',
+                subtitle: 'Allow the app to push notification in application',
+                value: controller.pushNotifications.value,
+                onChanged: (value) {
+                  controller.pushNotifications.value = value;
+                  controller.updateNotificationSettings();
+                },
+              );
+            }),
             /*_buildNotificationSwitch(
               title: 'Email notification',
               subtitle: 'Forward all account notifications to your email address',
@@ -63,10 +62,9 @@ class NotificationSettingsScreen extends StatelessWidget {
               controller.updateNotificationSettings();
             },
           ),*/
-            ],
-          ),
-        );
-      })
+          ],
+        ),
+      ),
     );
   }
 
