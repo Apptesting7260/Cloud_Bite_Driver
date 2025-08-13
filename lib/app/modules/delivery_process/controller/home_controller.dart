@@ -307,6 +307,7 @@ class HomeController extends GetxController {
       String? destName;
 
       if (isPickup) {
+        print("$isPickup-----------------");
         destLat = order.vendordata?.latitude;
         destLng = order.vendordata?.longitude;
         destName = 'Vendor';
@@ -318,6 +319,7 @@ class HomeController extends GetxController {
         }
 
       } else {
+        print("$isPickup-----------------");
         destLat = order.userAddressData?.latitude;
         destLng = order.userAddressData?.longitude;
         destName = 'User';
@@ -747,16 +749,11 @@ class HomeController extends GetxController {
     socketService.listenToEvent(SocketEvents.joinDriver, (data) {
       //isOnline.value = true;
       print('✅ Join Driver Received $data');
-      CustomSnackBar.show(
-        message: 'Joined Driver',
-        color: AppTheme.primaryColor,
-        tColor: AppTheme.white,
-      );
     });
 
     socketService.listenToEvent(SocketEvents.acceptedOrderScreen, (data) {
       print('✅ acceptedOrderScreen99000000 $data');
-      WidgetDesigns.consoleLog(" $data", "jjjjjjjjjjjjjjjjjjjjjjjjdevender sir");
+      WidgetDesigns.consoleLog(" $data", "jjjjjjjjjjjjjjjjjjjjjjData");
       try {
         orderDetails.value = AcceptedOrderModel.fromJson(data);
         bottomSheetController.orderDetails.value = orderDetails.value;
@@ -852,7 +849,7 @@ class HomeController extends GetxController {
           address: storageServices.getAddress(),
             vehicle_type: storageServices.getDeliveryType()
         );
-        /*driverRepo.listenForNewOrders();*/
+        // driverRepo.listenForNewOrders();
       }
     } catch (e) {
       print(e);

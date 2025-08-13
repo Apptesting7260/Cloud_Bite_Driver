@@ -19,7 +19,9 @@ class DriverRepository {
     required String address,
     required String vehicle_type
   }) async {
+    print("lonline wala");
     try {
+      print("online he h");
       final driverId = storageServices.getDriverID();
       socketService.sendMessage(SocketEvents.goOnline, {
         'driverId': driverId,
@@ -29,7 +31,7 @@ class DriverRepository {
         'latitude': latitude,
         'longitude': longitude,
         'address': address,
-        'vehicle_type': storageServices.getDeliveryType() ?? vehicle_type,
+        'vehicle_type': vehicle_type,
       });
     } catch (e) {
       print('Failed to go online: $e');
@@ -38,13 +40,14 @@ class DriverRepository {
         color: AppTheme.redText,
         tColor: AppTheme.white,
       );
-      rethrow;
     }
   }
 
   // 2. Go Offline Event
   Future<void> goOffline() async {
+    print("offlineeeeeeeeeeeeeeeee");
     try {
+      print("workkkkkkkkkkkkkkkkkkkkkkkkkkkk");
       final driverId = storageServices.getDriverID();
       print("DriverId for Go Offline event-----------");
       socketService.sendMessage(SocketEvents.goOffline, {

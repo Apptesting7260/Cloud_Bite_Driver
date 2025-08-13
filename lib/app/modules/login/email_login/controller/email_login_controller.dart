@@ -49,6 +49,7 @@ class EmailLoginController extends GetxController{
 
       if (response.status == true) {
         LoadingOverlay().hideLoading();
+        var selectedId = response.data?.deliverymethod ?? '';
         response.data?.loginToken != null ? storageServices.saveToken("${response.data?.loginToken}") : storageServices.saveDriverID("${response.data?.id}");
         storageServices.saveStages("${response.data?.stages}");
         storageServices.saveToken("${response.data?.loginToken}");
@@ -56,6 +57,14 @@ class EmailLoginController extends GetxController{
         storageServices.saveLastName("${response.data?.lastName}");
         storageServices.saveDriverID("${response.data?.id}");
         storageServices.saveAddress("${response.data?.address}");
+        storageServices.saveDeliveryID(selectedId);
+        if(selectedId == "1"){
+          storageServices.saveDeliveryType("car");
+        }else if(selectedId == "2"){
+          storageServices.saveDeliveryType("bike");
+        }else if(selectedId == "3"){
+          storageServices.saveDeliveryType("foot");
+        }
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         StageNavigator.navigateToStage("${response.data?.stages}");
       }

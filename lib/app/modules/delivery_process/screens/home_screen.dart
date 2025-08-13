@@ -164,6 +164,7 @@ class HomeScreen extends StatelessWidget {
               }
             }
           }),
+
         ],
       ),
     );
@@ -418,7 +419,7 @@ class HomeScreen extends StatelessWidget {
             WidgetDesigns.hBox(16),
             _buildLocationRow(
               title: "Pickup Location",
-              address: order.restaurantName,
+              address: order.vendorAddress,
               time: order.pickupDuration,
               pickUp:
                   controller
@@ -1046,13 +1047,19 @@ class HomeScreen extends StatelessWidget {
                           ],
                         ),
                       ),
-                      WidgetDesigns.hBox(16),
+                      WidgetDesigns.hBox(6),
                       ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
                         itemCount: orderDetails.data?.orderDetail?.orderItemsData?.length,
                         itemBuilder: (context, index) {
                           final item = orderDetails.data?.orderDetail?.orderItemsData?[index];
+                          /*String variantOrAddon = "";
+                          if (item?.variant != null && item!.variant!.isNotEmpty) {
+                            variantOrAddon = item.variant!.map((v) => v.datumName ?? "").join(", ");
+                          } else if (item?.addOns != null && item!.addOns!.isNotEmpty) {
+                            variantOrAddon = item.addOns!.map((a) => a.name ?? "").join(", ");
+                          }*/
                           String variantOrAddon = "";
                           if (item?.variant != null && item!.variant!.isNotEmpty) {
                             variantOrAddon = item.variant!.map((v) => v.datumName ?? "").join(", ");
@@ -1351,8 +1358,12 @@ class HomeScreen extends StatelessWidget {
                 fontFamily: AppFontFamily.generalSansMedium,
               ),
             ),
-            WidgetDesigns.hBox(4),
-            Text(size, style: TextStyle(color: Colors.grey)),
+            /*WidgetDesigns.hBox(4),
+            Text(size, style: TextStyle(color: Colors.grey)),*/
+            if (size.isNotEmpty) ...[
+              WidgetDesigns.hBox(4),
+              Text(size, style: TextStyle(color: Colors.grey)),
+            ],
             WidgetDesigns.hBox(4),
             Text("Qty $quantity", style: TextStyle(color: Colors.grey)),
           ],
