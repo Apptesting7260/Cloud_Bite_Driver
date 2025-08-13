@@ -292,11 +292,6 @@ class Repository {
     return DeliveryRatingModel.fromJson(response);
   }
 
-  /*Future<RatingModel> ratingAPI() async {
-    final token = storageService.getToken();
-    var response = await _apiService.getApi(AppUrls.ratingAPI, "Bearer $token");
-    return RatingModel.fromJson(response);
-  }*/
   Future<RatingModel> ratingAPI({int page = 1}) async {
     final token = storageService.getToken();
     var response = await _apiService.getApi(

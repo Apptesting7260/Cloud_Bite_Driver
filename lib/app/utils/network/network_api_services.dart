@@ -7,6 +7,10 @@ import 'package:http/http.dart' as http;
 
 
 class NetworkApiServices extends BaseApiServices {
+
+  final StorageServices _storageService = Get.find<StorageServices>();
+  StorageServices get storageServices => _storageService;
+
   Future<dynamic> getApiWithoutToken(String url) async {
     if (kDebugMode) {
       print(url);
@@ -208,6 +212,8 @@ class NetworkApiServices extends BaseApiServices {
         return responseJson;
       case 405:
         dynamic responseJson = jsonDecode(response.body);
+        storageServices.removeToken();
+        Get.offNamed(Routes.welcome);
         return responseJson;
       case 501:
         dynamic responseJson = jsonDecode(response.body);

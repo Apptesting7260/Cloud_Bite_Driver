@@ -4,11 +4,12 @@ import 'dart:math';
 import 'package:cloud_bites_driver/app/constants/image_constants.dart';
 import 'package:cloud_bites_driver/app/constants/socket_url.dart';
 import 'package:cloud_bites_driver/app/core/app_exports.dart'
- show AlertDialog, AppLifecycleState, Color, ExtensionDialog, FormState, Geolocator, GetNavigation, GlobalKey, ImageConfiguration, LocationSettings, Offset, Position, Size, Text, TextButton, TextEditingController, TextEditingControllerller, WidgetDesigns, WidgetsBinding;
+ show AlertDialog, AppLifecycleState, Color, ExtensionDialog, FormState, Geolocator, GetNavigation, GlobalKey, ImageConfiguration, LocationSettings, Offset, Position, Size, Text, TextButton, TextEditingController, TextEditingControllerller, WidgetDesigns, WidgetsBinding, ApiResponse, Repository;
 import 'package:cloud_bites_driver/app/modules/delivery_process/controller/bottom_sheet_controller.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart'
     show OrderModel;
+import 'package:cloud_bites_driver/app/modules/my_profile/model/get_driver_data_model.dart';
 import 'package:cloud_bites_driver/app/storage/storageServices.dart';
 import 'package:cloud_bites_driver/app/themes/app_theme.dart';
 import 'package:cloud_bites_driver/app/utils/custom_widgets/custom_snakbar.dart';
@@ -25,6 +26,8 @@ import 'package:google_maps_webservice2/directions.dart' as directions;
 import 'package:location/location.dart';
 
 class HomeController extends GetxController {
+
+  final Repository _repository = Repository();
 
   // For Location Tracking  Code
   final directions.GoogleMapsDirections directionsApi = directions.GoogleMapsDirections(
@@ -72,6 +75,7 @@ class HomeController extends GetxController {
     _initSocketListeners();
     _loadCustomMarker();
     startResendTimer();
+    getDriverData();
   }
 
   @override
@@ -881,6 +885,31 @@ class HomeController extends GetxController {
     }catch(e){
       print("====$e=========newwwwwwwww");
     }
-
   }
+
+  Rx<ApiResponse<GetDriverDataModel>> driverData = Rx<ApiResponse<GetDriverDataModel>>(ApiResponse.loading());
+  setDriverData(ApiResponse<GetDriverDataModel> value){
+    driverData.value = value;
+  }
+
+  getDriverData() async{
+    setDriverData(ApiResponse.loading());
+    try{
+      final apiData = await _repository.getDriverDataAPI();
+      if(apiData.status == true){
+        WidgetDesigns.consoleLog("Driver Data get", "get driver data");
+        setDriverData(ApiResponse.completed(apiData));
+      } else{
+        WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get driver data", "error while get driver data");
+        CustomSnackBar.show(message:apiData.message?.toString() ?? "Error while get driver data", color: AppTheme.redText, tColor: AppTheme.white);
+        setDriverData(ApiResponse.error(apiData.message?.toString() ?? "Error while get driver data"));
+      }
+
+    } catch(e){
+      setDriverData(ApiResponse.error(e.toString()));
+      WidgetDesigns.consoleLog(e.toString(), "error while get driver data");
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+    }
+  }
+
 }
