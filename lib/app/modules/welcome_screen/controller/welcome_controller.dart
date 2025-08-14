@@ -49,6 +49,7 @@ class WelcomeController extends GetxController{
       final response = await _repository.socialLoginAPI(data);
       String email = googleUser.email;
       if (response.status == true) {
+        LoadingOverlay().hideLoading();
         storageServices.saveToken("${response.data?.loginToken}");
         storageServices.saveDriverID("${response.data?.id}");
         storageServices.saveFirstName("${response.data?.firstName}");
@@ -63,7 +64,7 @@ class WelcomeController extends GetxController{
           if(response.data?.stages == "1"|| response.data?.stages == null){
             print(".........${response.data?.stages}........");
             storageServices.saveToken("${response.data?.loginToken}");
-            Get.offAllNamed(Routes.signUpScreen, arguments: {
+            Get.toNamed(Routes.signUpScreen, arguments: {
               'email': email,
               'isVerified': response.data?.emailVerified ?? false
             });
@@ -71,12 +72,13 @@ class WelcomeController extends GetxController{
             StageNavigator.navigateToStage(response.data!.stages.toString());
           }
         } else {
-          Get.offAllNamed(Routes.signUpScreen, arguments: {
+          Get.toNamed(Routes.signUpScreen, arguments: {
             'email': email,
             'isVerified': response.data?.emailVerified ?? false
           });
         }
       } else {
+        LoadingOverlay().hideLoading();
         CustomSnackBar.show(
           message: response.message ?? "Something went wrong!",
           tColor: AppTheme.white,

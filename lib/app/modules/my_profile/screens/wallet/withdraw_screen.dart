@@ -51,7 +51,7 @@ class WithdrawScreen extends StatelessWidget {
                     CustomAnimatedButton(
                       onTap: () {
                         if(withdrawController.balanceString.value.isNotEmpty && (int.tryParse(withdrawController.balanceString.value) ?? 0) <= 9500 && (int.tryParse(withdrawController.balanceString.value) ?? 0) < (double.tryParse(withdrawController.walletBalance.value) ?? 0)){
-                          Get.toNamed(Routes.chooseWithdrawMethodScreen, arguments: {"withdrawAmount": withdrawController.balanceString.value});
+                          Get.offNamed(Routes.chooseWithdrawMethodScreen, arguments: {"withdrawAmount": withdrawController.balanceString.value});
                         }
                         else if((int.tryParse(withdrawController.balanceString.value) ?? 0) > 9500){
                           withdrawController.walletError.value = "Withdraw amount should be less than P9500";

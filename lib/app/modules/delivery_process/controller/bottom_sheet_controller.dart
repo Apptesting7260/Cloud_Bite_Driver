@@ -39,7 +39,9 @@ class BottomSheetController extends GetxController {
     final order = currentOrder.value;
     if (order != null) {
       Get.find<HomeController>().rejectOrder(order.orderId.toString());
-      hideAllSheets();
+      // hideAllSheets();
+      currentSheet.value = BottomSheetState.none;
+      showLookingForOrders();
     }
   }
 

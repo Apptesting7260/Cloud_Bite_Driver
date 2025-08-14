@@ -5,6 +5,8 @@ import 'package:cloud_bites_driver/app/modules/my_profile/model/payment_method_m
 
 class ChooseWithdrawMethodController extends GetxController{
 
+  final MyWalletController myWalletController = Get.put(MyWalletController());
+
   RxString withdrawAmount = "0".obs;
   RxString selectedMethod = "".obs;
   TextEditingController idController = TextEditingController();
@@ -15,28 +17,10 @@ class ChooseWithdrawMethodController extends GetxController{
     final args = Get.arguments;
     withdrawAmount.value = args['withdrawAmount'];
     getWithdrawMethods();
-    getWalletBalanceApi();
     super.onInit();
   }
 
   RxString walletBalance = "".obs;
-
-  getWalletBalanceApi() async {
-
-    try{
-      final apiData = await repository.walletBalanceAPI();
-      if(apiData.status == true){
-        walletBalance.value = apiData.data?.wallet ?? "";
-        WidgetDesigns.consoleLog("Wallet Balance Data get", apiData.data?.wallet ?? '');
-      } else{
-        WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get wallet balance", "error while get wallet balance");
-      }
-    }catch(e){
-      WidgetDesigns.consoleLog(e.toString(), "error while get wallet balance");
-      CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
-    }
-
-  }
 
   Rx<ApiResponse<PaymentMethodModel>> withdrawMethodsData = Rx<ApiResponse<PaymentMethodModel>>(ApiResponse.loading());
 
@@ -90,6 +74,8 @@ class ChooseWithdrawMethodController extends GetxController{
       );
       if(response.status == true){
         LoadingOverlay().hideLoading();
+        myWalletController.getWalletBalanceApi();
+        myWalletController.refreshTopProducts();
         CustomSnackBar.show(message: "Withdraw Request Sent Successfully",color: AppTheme.green);
         WidgetDesigns.consoleLog("withdraw methods fetched success", "withdraw");
        Get.back();
