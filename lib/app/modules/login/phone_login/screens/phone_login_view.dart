@@ -85,6 +85,7 @@ class PhoneLoginView extends StatelessWidget {
                                                     } else {
                                                       controller.checkCountryLength.value = 10;
                                                     }
+                                                    controller.update();
                                                   },
                                                   // initialSelection: "+${controller.countryString}",
                                                   initialSelection: 'BW',

@@ -23,7 +23,7 @@ class PhoneLoginController extends GetxController {
 
   GlobalKey<FormState> phoneKey = GlobalKey<FormState>();
 
-  RxInt checkCountryLength = 10.obs;
+  RxInt checkCountryLength = 8.obs;
   RxString countryString = "91".obs;
   updateCountryString(String value){
     countryString.value = value;
