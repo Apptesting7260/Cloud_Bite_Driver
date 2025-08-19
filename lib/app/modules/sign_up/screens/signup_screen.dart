@@ -22,12 +22,12 @@ class SignUpScreen extends StatelessWidget{
               WidgetDesigns.hBox(10),
               Text(
                 'Sign up to deliver food',
-                style: AppFontStyle.text_30_600(AppTheme.white, fontFamily: AppFontFamily.generalSansMedium),
+                style: AppFontStyle.text_26_600(AppTheme.white, fontFamily: AppFontFamily.generalSansMedium),
               ),
               WidgetDesigns.hBox(20),
               Text(
                 'Earn on your schedule, and get paid fast with our\nDriver App',
-                style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
+                style: AppFontStyle.text_14_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
                 textAlign: TextAlign.center,
               ),
               WidgetDesigns.hBox(30),
@@ -291,6 +291,7 @@ class SignUpScreen extends StatelessWidget{
                             } else {
                               controller.checkCountryLength.value = 10;
                             }
+                            controller.update();
                           },
                           initialSelection: 'BW',
                         ),

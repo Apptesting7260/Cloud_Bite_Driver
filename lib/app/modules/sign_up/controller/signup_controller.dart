@@ -31,8 +31,9 @@ class SignUpController extends GetxController{
 
   var countryCode = "91".obs;
 
-  RxInt checkCountryLength = 10.obs;
+  RxInt checkCountryLength = 8.obs;
   RxString countryString = "+91".obs;
+
   updateCountryString(String value){
     countryString.value = value;
   }
