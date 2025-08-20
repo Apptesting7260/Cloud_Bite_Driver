@@ -28,7 +28,7 @@ class EarningsBarChart extends StatelessWidget {
                     showTitles: true,
                     interval: 100,
                     getTitlesWidget: (value, meta) {
-                      return Text('\$${value.toInt()}', style: TextStyle(fontSize: 7));
+                      return Text('P${value.toInt()}', style: TextStyle(fontSize: 7));
                     },
                   ),
                 ),

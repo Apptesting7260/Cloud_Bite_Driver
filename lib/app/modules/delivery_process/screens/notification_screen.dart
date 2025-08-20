@@ -130,9 +130,13 @@ class NotificationScreen extends StatelessWidget {
                     )),
                 WidgetDesigns.hBox(2),
                 Text(item.body ?? '',
-                    style: AppFontStyle.text_14_400(
-                      AppTheme.grey,
-                    )),
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: AppTheme.grey,
+                    fontFamily: AppFontFamily.generalSansRegular,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
                 WidgetDesigns.hBox(4),
               ],
             ),

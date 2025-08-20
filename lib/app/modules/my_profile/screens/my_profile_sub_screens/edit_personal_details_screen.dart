@@ -151,6 +151,31 @@ class EditPerosnalDetails extends StatelessWidget{
                         if(controller.dobController.text.isEmpty){
                           return 'Date of birth is required';
                         }
+
+                        try {
+                          final parts = controller.dobController.text.split('-');
+                          if (parts.length != 3) return 'Invalid date format';
+
+                          final selectedDate = DateTime(
+                            int.parse(parts[0]),
+                            int.parse(parts[1]),
+                            int.parse(parts[2]),
+                          );
+
+                          final today = DateTime.now();
+                          final minDate = DateTime(today.year - 18, today.month, today.day);
+                          final maxDate = DateTime(today.year - 100, today.month, today.day);
+
+                          if (selectedDate.isAfter(minDate)) {
+                            return 'You must be at least 18 years old';
+                          }
+
+                          if (selectedDate.isBefore(maxDate)) {
+                            return 'Please enter a valid date (max 100 years)';
+                          }
+                        } catch (e) {
+                          return 'Invalid date format';
+                        }
       
                         if(controller.dobError.value.isNotEmpty || controller.dobError.value != ''){
                           return controller.dobError.value;
@@ -161,9 +186,9 @@ class EditPerosnalDetails extends StatelessWidget{
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                                 context: Get.context!,
-                                initialDate: DateTime.now().subtract(Duration(days: 365 * 18)),
-                                firstDate: DateTime(1900),
-                                lastDate: DateTime.now(),
+                                initialDate: DateTime.now().subtract(const Duration(days: 365 * 25)), // Default to 25 years old
+                                firstDate: DateTime.now().subtract(const Duration(days: 365 * 100)), // Max 100 years old
+                                lastDate: DateTime.now().subtract(const Duration(days: 365 * 18)), // Min 18 years old
                                 builder: (context, child) {
                                   return Theme(
                                     data: Theme.of(context).copyWith(
