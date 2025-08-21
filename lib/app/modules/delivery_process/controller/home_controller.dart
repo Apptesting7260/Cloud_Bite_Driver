@@ -74,9 +74,9 @@ class HomeController extends GetxController {
     _initializeServices();
     _initSocketListeners();
     _loadCustomMarker();
-    startResendTimer();
     getDriverData();
   }
+
 
   @override
   void onClose() {
@@ -524,7 +524,7 @@ class HomeController extends GetxController {
   final int totalTime = 30;
   Timer? acceptanceTimer;
 
-  void startTimer() {
+  /*void startTimer() {
      remainingTime.value = totalTime;
      acceptanceTimer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (remainingTime.value > 0) {
@@ -538,9 +538,37 @@ class HomeController extends GetxController {
         bottomSheetController.timeoutOrder();
       }
     });
+  }*/
+
+  void startTimer() {
+    if (bottomSheetController.currentSheet.value == BottomSheetState.newOrderArrived &&
+        (acceptanceTimer == null || !acceptanceTimer!.isActive)) {
+      remainingTime.value = totalTime;
+      acceptanceTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+        if (bottomSheetController.currentSheet.value != BottomSheetState.newOrderArrived) {
+          stopAcceptanceTimer();
+          return;
+        }
+        if (remainingTime.value > 0) {
+          remainingTime.value--;
+        } else {
+          stopAcceptanceTimer();
+          if (bottomSheetController.currentSheet.value == BottomSheetState.newOrderArrived) {
+            final order = bottomSheetController.currentOrder.value;
+            if (order != null) {
+              timeoutOrder(order.orderId.toString());
+            }
+            // bottomSheetController.timeoutOrder();
+          }
+        }
+      });
+    }
   }
 
+
+
   void stopAcceptanceTimer() {
+    print('stopAcceptanceTimer CALLED-----dddddddddddddddddddddd');
     acceptanceTimer?.cancel();
     acceptanceTimer = null;
   }
@@ -561,9 +589,6 @@ class HomeController extends GetxController {
 
   void sendOtp() {
     orderDetails.value = bottomSheetController.orderDetails.value;
-    // driverRepo.sendOTP(
-    //   orderDetails.value?.data?.orderDetail?.orderdata?.id.toString() ?? '',
-    // );
     bottomSheetController.showSendOtpSheet();
     }
 
@@ -602,10 +627,23 @@ class HomeController extends GetxController {
 
   Future<void> timeoutOrder(String orderId) async {
     try {
-      final driverId = storageServices.getDriverID();
+      /*final driverId = storageServices.getDriverID();
       socketService.sendMessage(SocketEvents.orderNotAccepted, {
-        'driverId': driverId,
+        'driverId': '${driverId}----------------------',
         'orderId': orderId,
+      });*/
+      socketService.listenToEvent(SocketEvents.orderNotAccepted, (p0){
+        print("Order Not Accepted Event Received: $p0");
+        if (p0['status'] == true) {
+          bottomSheetController.hideAllSheets();
+          CustomSnackBar.show(
+            message: 'Order timed outttttttttttt',
+            color: AppTheme.redText,
+            tColor: AppTheme.white,
+          );
+        } else {
+          print("Order Not Accepted Event Failed: ${p0['message']}");
+        }
       });
       print('Order $orderId Timed Out - Not Accepted');
     } catch (e) {
@@ -636,6 +674,7 @@ class HomeController extends GetxController {
 
   Future<void> rejectOrder(String orderId) async {
     try {
+      stopAcceptanceTimer();
       final driverId = storageServices.getDriverID();
       socketService.sendMessage(SocketEvents.rejectOrder, {
         'driverId': driverId,
@@ -719,10 +758,6 @@ class HomeController extends GetxController {
         resendTime?.cancel();
       }
     });
-  }
-
-  void resendOtp() {
-    startResendTimer();
   }
 
   // Socket Code

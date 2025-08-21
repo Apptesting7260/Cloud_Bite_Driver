@@ -261,12 +261,12 @@ class HomeScreen extends StatelessWidget {
     final order = Get.find<BottomSheetController>().currentOrder.value;
     if (order == null) return SizedBox.shrink();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    /*WidgetsBinding.instance.addPostFrameCallback((_) {
       if (Get.find<BottomSheetController>().currentSheet.value ==
           BottomSheetState.newOrderArrived && (controller.remainingTime.value == controller.totalTime)) {
-        controller.startTimer();
+         controller.startTimer();
       }
-    });
+    });*/
 
     return Positioned(
       bottom: 0,
@@ -538,340 +538,6 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
- /* // Accepted Order sheet
-  Widget _acceptedOrderSheet() {
-    final orderDetails = Get.find<BottomSheetController>().orderDetails.value;
-    if (orderDetails == null) return SizedBox.shrink();
-    return DraggableScrollableSheet(
-      initialChildSize: 0.6,
-      minChildSize: 0.4,
-      maxChildSize: 0.95,
-      builder: (context, scrollController) {
-        return Container(
-          // margin: EdgeInsets.all(16),
-          padding: EdgeInsets.symmetric(horizontal: 20, vertical: 24),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(24),
-              topRight: Radius.circular(24),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                blurRadius: 10,
-                offset: Offset(0, -3),
-              ),
-            ],
-          ),
-          child: SingleChildScrollView(
-            controller: scrollController,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  margin: EdgeInsets.only(bottom: 12),
-                  alignment: Alignment.center,
-                  child: Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                ),
-                WidgetDesigns.hBox(20),
-                Text(
-                  "${orderDetails.data?.orderDetail?.vendordata?.restaurantName}",
-                  style: AppFontStyle.text_20_500(
-                    AppTheme.black,
-                    fontFamily: AppFontFamily.generalSansMedium,
-                  ),
-                ),
-                WidgetDesigns.hBox(8),
-                Text(
-                  "${orderDetails.data?.orderDetail?.orderdata?.orderId}",
-                  style: AppFontStyle.text_18_400(
-                    AppTheme.grey,
-                    fontFamily: AppFontFamily.generalSansRegular,
-                  ),
-                ),
-                WidgetDesigns.hBox(10),
-                Row(
-                  children: [
-                    Text(
-                      "${orderDetails.data?.orderDetail?.orderdata?.quantity} item",
-                      style: AppFontStyle.text_18_400(
-                        AppTheme.grey,
-                        fontFamily: AppFontFamily.generalSansRegular,
-                      ),
-                    ),
-                    WidgetDesigns.wBox(5),
-                    SvgPicture.asset(ImageConstants.ellipseImage),
-                    WidgetDesigns.wBox(5),
-                    Text(
-                      "P${orderDetails.data?.orderDetail?.orderdata?.deliveryCharge}",
-                      style: AppFontStyle.text_18_400(
-                        AppTheme.red,
-                        fontFamily: AppFontFamily.generalSansRegular,
-                      ),
-                    ),
-                  ],
-                ),
-                WidgetDesigns.hBox(24),
-                // Location info
-                _buildLocationRow(
-                  title: "Pickup Location",
-                  address:
-                      "${orderDetails.data?.orderDetail?.vendordata?.address}",
-                  time: "${orderDetails.data?.pickUpLocation?.distance}",
-                ),
-                WidgetDesigns.hBox(16),
-                _buildLocationRow(
-                  title: "Delivery Location",
-                  address:
-                      "${orderDetails.data?.orderDetail?.userAddressData?.completeAddress}",
-                  time: "${orderDetails.data?.deliveryLocation?.distance}",
-                ),
-                WidgetDesigns.hBox(16),
-                Text(
-                  'Payment Method',
-                  style: AppFontStyle.text_18_500(AppTheme.black, fontFamily: AppFontFamily.generalSansMedium),
-                ),
-                WidgetDesigns.hBox(10),
-                Row(
-                  children: [
-                    Icon(Icons.camera_alt, color: AppTheme.blueColor, size: 16),
-                    WidgetDesigns.wBox(5),
-                    Text(
-                      "${orderDetails.data?.orderDetail?.orderdata?.paymentMethod}",
-                      style: AppFontStyle.text_14_400(
-                        AppTheme.grey,
-                        fontFamily: AppFontFamily.generalSansRegular,
-                        overflow: TextOverflow.clip,
-                      ),
-                    ),
-                  ],
-                ),
-                WidgetDesigns.hBox(24),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(24),
-                    gradient: LinearGradient(
-                      colors: [Color(0xFFF8EEF4), Color(0xFFEFF7FC)],
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      children: [
-                        Container(
-                          height: 50,
-                          width: 50,
-                          decoration: BoxDecoration(shape: BoxShape.circle),
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl:
-                                  "${AppUrls.imageUrl}${orderDetails.data?.orderDetail?.userdata?.image}",
-                              placeholder:
-                                  (context, url) =>
-                                      ShimmerBox(width: 20, height: 20),
-                              errorWidget:
-                                  (context, url, error) => Icon(Icons.error),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        WidgetDesigns.wBox(12),
-                        Expanded(
-                          child: Text(
-                            "${orderDetails.data?.orderDetail?.userdata?.firstName} "
-                            " ${orderDetails.data?.orderDetail?.userdata?.lastName}",
-                            style: AppFontStyle.text_18_500(
-                              AppTheme.black,
-                              fontFamily: AppFontFamily.generalSansMedium,
-                            ),
-                          ),
-                        ),
-                        GestureDetector(
-                          onTap: () async {
-                            final phoneNumber = orderDetails.data?.orderDetail?.userdata?.phone ?? '';
-                            final url = 'tel:$phoneNumber';
-
-                            try {
-                              if (await canLaunchUrl(Uri.parse(url))) {
-                                await launchUrl(Uri.parse(url));
-                              } else {
-                                Get.snackbar('Error', 'Could not launch dialer');
-                              }
-                            } catch (e) {
-                              Get.snackbar('Error', 'Failed to make call: ${e.toString()}');
-                            }
-                          },
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              gradient: LinearGradient(
-                                colors: [Color(0xFFB6568E), Color(0xFF5FB6E3)],
-                              ),
-                            ),
-                            child: Icon(
-                              Icons.call,
-                              color: Colors.white,
-                              size: 18,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                WidgetDesigns.hBox(16),
-                ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount:
-                      orderDetails.data?.orderDetail?.orderItemsData?.length,
-                  itemBuilder: (context, index) {
-
-                    final item = orderDetails.data?.orderDetail?.orderItemsData?[index];
-                    String variantOrAddon = "";
-
-                    // Handle variants first
-                    if (item?.variant != null && item!.variant!.isNotEmpty) {
-                      variantOrAddon = item.variant!.map((v) => v.datumName ?? "").join(", ");
-                    }
-                    // Then handle add-ons if no variants
-                    else if (item?.addOns != null && item!.addOns!.isNotEmpty) {
-                      variantOrAddon = item.addOns!.map((a) => a.name ?? "").join(", ");
-                    }
-
-                    return _buildSimpleOrderItem(
-                      "${item?.productImages?[0]}",
-                      "${item?.productTitle?[0]}",
-                      variantOrAddon,
-                      "${item?.quantity}"
-                    );
-                  },
-                ),
-                WidgetDesigns.hBox(16),
-                // Payment details
-                Text(
-                  'Payment Details',
-                  style: AppFontStyle.text_20_500(
-                    AppTheme.black,
-                    fontFamily: AppFontFamily.generalSansMedium,
-                  ),
-                ),
-                WidgetDesigns.hBox(10),
-                Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Payment Status',
-                          style: AppFontStyle.text_18_400(
-                            AppTheme.grey,
-                            fontFamily: AppFontFamily.generalSansRegular,
-                          ),
-                        ),
-                        Text(
-                          "${orderDetails.data?.orderDetail?.orderdata?.paymentStatus}",
-                          style: AppFontStyle.text_18_500(
-                            AppTheme.black,
-                            fontFamily: AppFontFamily.generalSansMedium,
-                          ),
-                        ),
-                      ],
-                    ),
-                    WidgetDesigns.hBox(10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Total Amount',
-                          style: AppFontStyle.text_18_400(
-                            AppTheme.grey,
-                            fontFamily: AppFontFamily.generalSansRegular,
-                          ),
-                        ),
-                        Text(
-                          "P${orderDetails.data?.orderDetail?.orderdata?.totalAmount}",
-                          style: AppFontStyle.text_18_500(
-                            AppTheme.redText,
-                            fontFamily: AppFontFamily.generalSansMedium,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                WidgetDesigns.hBox(30),
-                CustomAnimatedButton(
-                  onTap: () {
-                    controller.sendOtp();
-                  },
-                  text: "Send Code",
-                ),
-                Obx(() {
-                  if (!controller.isSlid.value) {
-                    return Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(40),
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0xFFB6568E),
-                            Color(0xFF5FB6E3),
-                            Color(0xFFDAEAF4),
-                          ],
-                        ),
-                      ),
-                      child: SlideAction(
-                        text: 'Slide After Arrival',
-                        textStyle: TextStyle(color: Colors.white, fontSize: 16),
-                        outerColor: Colors.transparent,
-                        innerColor: Colors.transparent,
-                        sliderButtonIcon: Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
-                        ),
-                        elevation: 0,
-                        height: 56,
-                        borderRadius: 40,
-                        sliderRotate: false,
-                        submittedIcon: Icon(Icons.check, color: Colors.white),
-                        onSubmit: () {
-                          controller.onSlideCompleted();
-                        },
-                      ),
-                    );
-                  } else {
-                    return AnimatedSwitcher(
-                      duration: Duration(milliseconds: 500),
-                      child: CustomAnimatedButton(
-                        key: ValueKey("sendOtpBtn"),
-                        onTap: () {
-                          controller.sendOtp();
-                        },
-                        text: "Send Code",
-                      ),
-                    );
-                  }
-                }),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }*/
-
-
   Widget _acceptedOrderSheet() {
     final orderDetails = Get.find<BottomSheetController>().orderDetails.value;
     if (orderDetails == null) return SizedBox.shrink();
@@ -1054,12 +720,6 @@ class HomeScreen extends StatelessWidget {
                         itemCount: orderDetails.data?.orderDetail?.orderItemsData?.length,
                         itemBuilder: (context, index) {
                           final item = orderDetails.data?.orderDetail?.orderItemsData?[index];
-                          /*String variantOrAddon = "";
-                          if (item?.variant != null && item!.variant!.isNotEmpty) {
-                            variantOrAddon = item.variant!.map((v) => v.datumName ?? "").join(", ");
-                          } else if (item?.addOns != null && item!.addOns!.isNotEmpty) {
-                            variantOrAddon = item.addOns!.map((a) => a.name ?? "").join(", ");
-                          }*/
                           String variantOrAddon = "";
                           if (item?.variant != null && item!.variant!.isNotEmpty) {
                             variantOrAddon = item.variant!.map((v) => v.datumName ?? "").join(", ");
@@ -1260,12 +920,6 @@ class HomeScreen extends StatelessWidget {
               time: "${orderDetails.data?.deliveryLocation?.distance}",
             ),
             WidgetDesigns.hBox(20),
-            /*CustomAnimatedButton(
-              onTap: () {
-                controller.sendOtp();
-              },
-              text: "Send Code",
-            ),*/
             Obx(() {
               if (!controller.isSlid.value) {
                 return Container(
@@ -1374,11 +1028,6 @@ class HomeScreen extends StatelessWidget {
 
   // Send OTP Sheet
   Widget _sendOtpSheet() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (controller.resendEnabled.value) {
-        controller.startResendTimer();
-      }
-    });
     return Positioned(
       bottom: 0,
       left: 0,
@@ -1430,7 +1079,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     WidgetDesigns.hBox(10),
                     Text(
-                      'Please enter the verification code sent to',
+                      'Please enter the verification code sent',
                       style: AppFontStyle.text_16_400(
                         AppTheme.grey,
                         fontFamily: AppFontFamily.generalSansRegular,
@@ -1496,35 +1145,6 @@ class HomeScreen extends StatelessWidget {
                       },
                       text: 'Verify',
                     ),
-                    // WidgetDesigns.hBox(20.0),
-                    // Obx(
-                    //       () => TextButton(
-                    //     onPressed: controller.resendEnabled.value
-                    //         ? () {
-                    //       // Reset timer and resend OTP
-                    //       controller.startResendTimer();
-                    //       controller.otpController.clear();
-                    //       controller.otpError.value = '';
-                    //       controller.sendOtp();
-                    //     }
-                    //         : null,
-                    //     child: Text(
-                    //       controller.resendEnabled.value
-                    //           ? 'Resend Code'
-                    //           : 'Resend Code in ${controller.remainingTimer.value}s',
-                    //       style: TextStyle(
-                    //         color: controller.resendEnabled.value
-                    //             ? AppTheme.primaryColor
-                    //             : Colors.grey,
-                    //         decoration: controller.resendEnabled.value
-                    //             ? TextDecoration.underline
-                    //             : null,
-                    //         decorationColor: AppTheme.primaryColor,
-                    //         decorationThickness: 2,
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
                   ],
                 ),
               ],

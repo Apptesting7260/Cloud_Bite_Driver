@@ -22,9 +22,10 @@ class BottomSheetController extends GetxController {
   }
 
   void showNewOrder(OrderModel order) {
-    Get.find<HomeController>().resetAcceptanceTimer();
     currentOrder.value = order;
     currentSheet.value = BottomSheetState.newOrderArrived;
+
+    Get.find<HomeController>().startTimer();
   }
 
   void acceptOrder() {
@@ -47,26 +48,31 @@ class BottomSheetController extends GetxController {
 
   // After Accept the Order
   void showAcceptedOrderDetails(AcceptedOrderModel details) {
+    Get.find<HomeController>().stopAcceptanceTimer();
     orderDetails.value = details;
     currentSheet.value = BottomSheetState.acceptedOrderSheet;
   }
 
   void afterReadyForDeliveryBuild(){
+    Get.find<HomeController>().stopAcceptanceTimer();
     currentSheet.value = BottomSheetState.afterReadyForDeliveryBuild;
   }
 
   // Otp Sheet
   // In BottomSheetController
   void showSendOtpSheet() {
+    Get.find<HomeController>().stopAcceptanceTimer();
     currentSheet.value = BottomSheetState.sendOtpSheet;
   }
 
   // Verify Phone
   void showOrderPickedUp(){
+    Get.find<HomeController>().stopAcceptanceTimer();
     currentSheet.value = BottomSheetState.orderPickedSheet;
   }
 
   void showOrderDelivered(){
+    Get.find<HomeController>().stopAcceptanceTimer();
     currentSheet.value = BottomSheetState.orderDeliveredSheet;
   }
 
@@ -83,7 +89,7 @@ class BottomSheetController extends GetxController {
         currentOrder.value = null;
         currentSheet.value = BottomSheetState.lookingForOrders;
         CustomSnackBar.show(
-          message: 'Order timed out',
+          message: 'Order timed outyyyyyyyyyyyyyyyyyy',
           color: AppTheme.redText,
           tColor: AppTheme.white,
         );
