@@ -156,7 +156,7 @@ class SignUpController extends GetxController{
   Map<String, dynamic>? locationAddress;
 
   // Generate OTP for Phone
-  Future<void> generateOTPForPhone() async {
+  /*Future<void> generateOTPForPhone() async {
     updatePhoneError('');
     LoadingOverlay().showLoading();
     try {
@@ -197,7 +197,66 @@ class SignUpController extends GetxController{
     } finally {
       LoadingOverlay().hideLoading();
     }
+  }*/
+
+  Future<void> generateOTPForPhone() async {
+    updatePhoneError('');
+    LoadingOverlay().showLoading();
+    try {
+      String? storedPhone = storageServices.getMobile();
+      String? storedId = storageServices.getDriverID();
+      String idToSend = '';
+
+      // चेक करें कि storage में id और नंबर मौजूद हैं और नया नंबर अलग है तो id खाली भेजें
+      if (storedId != null && storedId.isNotEmpty && storedPhone != null && storedPhone.isNotEmpty) {
+        if (storedPhone == phoneController.text) {
+          idToSend = storedId;
+        } else {
+          idToSend = '';
+        }
+      }
+
+      // अगर storage में id मौजूद नहीं है तो id खाली भेजें
+      if (storedId == null || storedId.isEmpty) idToSend = '';
+
+      final data = {
+        "type": "phone",
+        "otpType": "generate",
+        "phone": phoneController.text,
+        "country_code": countryCode.value,
+        "id": idToSend
+      };
+
+      final response = await _repository.getPhoneOTPAPI(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        customOtpDialog("${countryString.value} ${phoneController.text}", Get.context, "phone");
+        print(response.message);
+        // नया नंबर और id storage में सेव करें
+        storageServices.saveMobile(phoneController.text);
+        storageServices.saveDriverID("${response.updatedUser?.id}");
+        driverId = "${response.updatedUser?.id}";
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      } else if (response.status == false && response.type == "phone") {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        updatePhoneError(response.message.toString());
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      } else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While Generate OTP');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      CustomSnackBar.show(message: e.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+      print(e);
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
   }
+
 
   // Verify OTP for Phone
   Future<void> verifyOTPForPhone() async {
@@ -257,7 +316,7 @@ class SignUpController extends GetxController{
         LoadingOverlay().hideLoading();
         customOtpDialog(emailController.text, Get.context, "email");
         print(response.message);
-        // driverId = "${response.updatedUser?.id}";
+        driverId = "${response.updatedUser?.id}";
         storageServices.saveDriverID("${response.updatedUser?.id}");
         storageServices.saveEmail(emailController.text.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
