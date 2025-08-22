@@ -2,8 +2,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/routes/stage_navigator.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import 'package:sign_in_with_apple/sign_in_with_apple.dart';
-
 
 class WelcomeController extends GetxController{
 
@@ -183,7 +181,7 @@ class WelcomeController extends GetxController{
   }
 
   //Apple Login
-  Future<void> signInWithApple(BuildContext context) async {
+  /*Future<void> signInWithApple(BuildContext context) async {
     try {
       LoadingOverlay().showLoading();
 
@@ -282,5 +280,5 @@ class WelcomeController extends GetxController{
       );
       print('Apple login error: $e');
     }
-  }
+  }*/
 }

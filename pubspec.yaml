@@ -73,7 +73,6 @@ dependencies:
   flutter_facebook_auth: ^7.1.2
   url_launcher: ^6.1.11
   fl_chart: ^0.64.0
-  sign_in_with_apple:
 
 dev_dependencies:
   flutter_test:

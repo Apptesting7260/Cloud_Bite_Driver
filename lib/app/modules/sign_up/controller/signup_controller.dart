@@ -32,7 +32,7 @@ class SignUpController extends GetxController{
   var countryCode = "91".obs;
 
   RxInt checkCountryLength = 8.obs;
-  RxString countryString = "+91".obs;
+  RxString countryString = "+267".obs;
 
   updateCountryString(String value){
     countryString.value = value;
@@ -275,7 +275,7 @@ class SignUpController extends GetxController{
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         isPhoneVerified.value = true;
-        verifiedPhone.value = "${countryString.value.replaceAll("+", "")}${phoneController.text}";
+        verifiedPhone.value = "${countryString.value}${phoneController.text}";
         if (Get.isDialogOpen == true) {
           Get.back();
         }
