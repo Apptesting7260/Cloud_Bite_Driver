@@ -1071,7 +1071,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     WidgetDesigns.hBox(20),
                     Text(
-                      'Verify Phone Number',
+                     'Verify Code',
                       style: AppFontStyle.text_24_500(
                         AppTheme.black,
                         fontFamily: AppFontFamily.generalSansMedium,
@@ -1079,7 +1079,7 @@ class HomeScreen extends StatelessWidget {
                     ),
                     WidgetDesigns.hBox(10),
                     Text(
-                      'Please enter the verification code sent',
+                     'Please enter the provided verification code',
                       style: AppFontStyle.text_16_400(
                         AppTheme.grey,
                         fontFamily: AppFontFamily.generalSansRegular,

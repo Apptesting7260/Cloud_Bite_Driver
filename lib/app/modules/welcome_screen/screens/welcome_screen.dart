@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
 class WelcomeScreen extends StatelessWidget{
@@ -93,6 +95,18 @@ class WelcomeScreen extends StatelessWidget{
                           onPressed: () async {
                             controller.signInWithGoogle(Get.context!);
                           }, url: ImageConstants.googleLoginImage),
+
+                      WidgetDesigns.wBox(5),
+
+                      if (Platform.isIOS) ...[
+                        _socialLoginButton(
+                            onPressed: () async {
+                              // controller.signInWithApple(Get.context!);
+                            },
+                            url: ImageConstants.appleLoginImage
+                        ),
+                        WidgetDesigns.wBox(5),
+                      ],
                     ],
                   ),
                   // const Spacer(),

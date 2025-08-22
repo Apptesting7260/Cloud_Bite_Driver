@@ -223,7 +223,7 @@ class SignUpController extends GetxController{
         "type": "phone",
         "otpType": "generate",
         "phone": phoneController.text,
-        "country_code": countryCode.value,
+        "country_code": countryString.value.replaceAll("+", ""),
         "id": idToSend
       };
 
@@ -268,14 +268,14 @@ class SignUpController extends GetxController{
         "otpType": "verify",
         "phone": phoneController.text,
         "otp": otpController.text,
-        "country_code": countryCode.value
+        "country_code": countryString.value.replaceAll("+", "")
       };
 
       final response = await _repository.verifyOTpForPhone(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         isPhoneVerified.value = true;
-        verifiedPhone.value = "${countryString.value}${phoneController.text}";
+        verifiedPhone.value = "${countryString.value.replaceAll("+", "")}${phoneController.text}";
         if (Get.isDialogOpen == true) {
           Get.back();
         }
