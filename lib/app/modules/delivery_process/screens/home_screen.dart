@@ -584,22 +584,75 @@ class HomeScreen extends StatelessWidget {
                         ),
                       ),
                       WidgetDesigns.hBox(20),
-                      Text(
-                        "${orderDetails.data?.orderDetail?.vendordata?.restaurantName}",
-                        style: AppFontStyle.text_20_500(
-                          AppTheme.black,
-                          fontFamily: AppFontFamily.generalSansMedium,
-                        ),
+                      Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${orderDetails.data?.orderDetail?.vendordata?.restaurantName}",
+                                style: AppFontStyle.text_20_500(
+                                  AppTheme.black,
+                                  fontFamily: AppFontFamily.generalSansMedium,
+                                ),
+                              ),
+                              WidgetDesigns.hBox(8),
+                              Text(
+                                "${orderDetails.data?.orderDetail?.orderdata?.orderId}",
+                                style: AppFontStyle.text_18_400(
+                                  AppTheme.grey,
+                                  fontFamily: AppFontFamily.generalSansRegular,
+                                ),
+                              ),
+                            ],
+                          ),
+                          Spacer(),
+                          GestureDetector(
+                            onTap: () async {
+                              final address = orderDetails.data?.orderDetail?.vendordata?.address ?? "";
+                              final url = "https://www.google.com/maps/search/?api=1&query=$address";
+                              if (await canLaunchUrl(Uri.parse(url))) {
+                                await launchUrl(Uri.parse(url));
+                              } else {
+                                Get.snackbar('Error', 'Could not launch Maps');
+                              }
+                            },
+                            child: Container(
+                              padding: EdgeInsets.all(1.5),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                    colors: [Color(0xFFB6568E), Color(0xFF5FB6E3)]
+                                ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                decoration: BoxDecoration(
+                                  color: Colors.white, // inner background
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      "Directions",
+                                      style: AppFontStyle.text_14_500(
+                                        AppTheme.primaryColor,
+                                        fontFamily: AppFontFamily.generalSansMedium,
+                                      ),
+                                    ),
+                                    WidgetDesigns.wBox(5),
+                                    Image.asset(
+                                      ImageConstants.directionImage,
+                                      height: 12,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      WidgetDesigns.hBox(8),
-                      Text(
-                        "${orderDetails.data?.orderDetail?.orderdata?.orderId}",
-                        style: AppFontStyle.text_18_400(
-                          AppTheme.grey,
-                          fontFamily: AppFontFamily.generalSansRegular,
-                        ),
-                      ),
-                      WidgetDesigns.hBox(10),
+                      WidgetDesigns.hBox(5),
                       Row(
                         children: [
                           Text(
@@ -875,22 +928,76 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             WidgetDesigns.hBox(20),
-            Text(
-              "${orderDetails.data?.orderDetail?.vendordata?.restaurantName}",
-              style: AppFontStyle.text_20_500(
-                AppTheme.black,
-                fontFamily: AppFontFamily.generalSansMedium,
-              ),
+
+            Row(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${orderDetails.data?.orderDetail?.vendordata?.restaurantName}",
+                      style: AppFontStyle.text_20_500(
+                        AppTheme.black,
+                        fontFamily: AppFontFamily.generalSansMedium,
+                      ),
+                    ),
+                    WidgetDesigns.hBox(8),
+                    Text(
+                      "Order ID : ${orderDetails.data?.orderDetail?.orderdata?.orderId}",
+                      style: AppFontStyle.text_18_400(
+                        AppTheme.grey,
+                        fontFamily: AppFontFamily.generalSansRegular,
+                      ),
+                    ),
+                  ],
+                ),
+                Spacer(),
+                GestureDetector(
+                  onTap: () async {
+                    final address = orderDetails.data?.orderDetail?.userAddressData?.completeAddress ?? "";
+                    final url = "https://www.google.com/maps/search/?api=1&query=$address";
+                    if (await canLaunchUrl(Uri.parse(url))) {
+                      await launchUrl(Uri.parse(url));
+                    } else {
+                      Get.snackbar('Error', 'Could not launch Maps');
+                    }
+                  },
+                  child: Container(
+                    padding: EdgeInsets.all(1.5),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                          colors: [Color(0xFFB6568E), Color(0xFF5FB6E3)]
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: Colors.white, // inner background
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Row(
+                        children: [
+                          Text(
+                            "Directions",
+                            style: AppFontStyle.text_14_500(
+                              AppTheme.primaryColor,
+                              fontFamily: AppFontFamily.generalSansMedium,
+                            ),
+                          ),
+                          WidgetDesigns.wBox(5),
+                          Image.asset(
+                            ImageConstants.directionImage,
+                            height: 12,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            WidgetDesigns.hBox(8),
-            Text(
-              "${orderDetails.data?.orderDetail?.orderdata?.orderId}",
-              style: AppFontStyle.text_18_400(
-                AppTheme.grey,
-                fontFamily: AppFontFamily.generalSansRegular,
-              ),
-            ),
-            WidgetDesigns.hBox(10),
+            WidgetDesigns.hBox(5),
             Row(
               children: [
                 Text(

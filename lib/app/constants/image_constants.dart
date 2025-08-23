@@ -59,6 +59,7 @@ class ImageConstants{
   static String driver_icon = '$imagePath/driver_icon.png';
   static String userLocIcon = "$imagePath/user_location_icon.png";
   static String locIcon = "$imagePath/location_icon_png.png";
+  static String directionImage = "$imagePath/directions_icon.png";
 
   // lottie anim
   static String loaderJson = '$jsonPath/cloudLoader.json';
