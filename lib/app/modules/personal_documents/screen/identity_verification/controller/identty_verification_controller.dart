@@ -12,16 +12,6 @@ class IdentityVerificationController extends GetxController{
 
   final Repository _repository = Repository();
 
-  /*Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
-    final XFile? pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (pickedImage != null) {
-      XFile? pickedFile = pickedImage;
-      cropImage(pickedFile, image, fillImageArray: fillImageArray);
-      update();
-    }
-  }*/
-
   Future<void> pickImage(Rx<File?> image, {bool fillImageArray = false}) async {
     final source = await Get.bottomSheet<ImageSource>(
       Container(
@@ -78,14 +68,14 @@ class IdentityVerificationController extends GetxController{
             toolbarTitle: 'Image Cropper',
             toolbarColor: AppTheme.primaryColor,
             toolbarWidgetColor: Colors.white,
-            initAspectRatio:CropAspectRatioPresetCustom2x2(),
+            initAspectRatio:CropAspectRatioPresetCustom9x6(),
             statusBarColor: AppTheme.primaryColor,
             lockAspectRatio: true,
-            aspectRatioPresets: [CropAspectRatioPresetCustom2x2()],
+            aspectRatioPresets: [CropAspectRatioPresetCustom9x6()],
           ),
           IOSUiSettings(
             title: 'Cropper',
-            aspectRatioPresets: [CropAspectRatioPresetCustom2x2()],
+            aspectRatioPresets: [CropAspectRatioPresetCustom9x6()],
           ),
           WebUiSettings(
             context: Get.context!,

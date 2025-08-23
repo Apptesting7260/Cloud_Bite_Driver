@@ -128,8 +128,8 @@ class VehicleDetailsScreen extends StatelessWidget{
                   controller: controller.registrationNumberController,
                   hintText: "Registration Number",
                   inputFormatters: [
-                    FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(10)
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                    LengthLimitingTextInputFormatter(12)
                   ],
                   onChanged: (value) {
                     controller.updateRegistrationNameError('');

@@ -118,14 +118,14 @@ class VehicleDetailController extends GetxController{
             toolbarTitle: 'Image Cropper',
             toolbarColor: AppTheme.primaryColor,
             toolbarWidgetColor: Colors.white,
-            initAspectRatio:CropAspectRatioPresetCustom2x2(),
+            initAspectRatio:CropAspectRatioPresetCustom9x6(),
             statusBarColor: AppTheme.primaryColor,
             lockAspectRatio: true,
-            aspectRatioPresets: [CropAspectRatioPresetCustom2x2()],
+            aspectRatioPresets: [CropAspectRatioPresetCustom9x6()],
           ),
           IOSUiSettings(
             title: 'Cropper',
-            aspectRatioPresets: [CropAspectRatioPresetCustom2x2()],
+            aspectRatioPresets: [CropAspectRatioPresetCustom9x6()],
           ),
           WebUiSettings(
             context: Get.context!,

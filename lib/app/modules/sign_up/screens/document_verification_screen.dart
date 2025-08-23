@@ -31,7 +31,7 @@ class DocumentVerificationScreen extends StatelessWidget{
                     ),
                     WidgetDesigns.hBox(20),
                     Text(
-                      'Just a few steps to complete and then you\ncan start earning with Us',
+                      'Just a few steps to complete and then you\ncan start earning with us',
                       style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
                       textAlign: TextAlign.center,
                     ),
