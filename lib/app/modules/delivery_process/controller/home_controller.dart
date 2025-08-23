@@ -97,7 +97,7 @@ class HomeController extends GetxController {
     driverRepo.listenForNewOrders();
 
     ever(driverRepo.currentOrder, (OrderModel? order) {
-      if (order != null) bottomSheetController.showNewOrder(order);
+      if (order != null) bottomSheetController.showNewOrder(order,"");
     });
 
     ever(driverRepo.orderDetails, (AcceptedOrderModel? details) {
@@ -520,8 +520,8 @@ class HomeController extends GetxController {
   }
 
     // For Remaining Time
-  final RxInt remainingTime = 30.obs;
-  final int totalTime = 30;
+  final RxInt remainingTime = 10.obs;
+  final int totalTime = 10;
   Timer? acceptanceTimer;
 
   /*void startTimer() {
@@ -553,11 +553,12 @@ class HomeController extends GetxController {
           remainingTime.value--;
         } else {
           stopAcceptanceTimer();
-          // bottomSheetController.hideAllSheets();s
-          bottomSheetController.currentSheet.value = BottomSheetState.none;
           if (bottomSheetController.currentSheet.value == BottomSheetState.newOrderArrived) {
+            bottomSheetController.currentSheet.value = BottomSheetState.none;
+            bottomSheetController.showLookingForOrders();
             final order = bottomSheetController.currentOrder.value;
             if (order != null) {
+              print("About to call timeoutOrder with orderId: ${order.orderId}");
               timeoutOrder(order.orderId.toString());
             }
             // bottomSheetController.timeoutOrder();
@@ -629,17 +630,12 @@ class HomeController extends GetxController {
 
   Future<void> timeoutOrder(String orderId) async {
     try {
-      /*final driverId = storageServices.getDriverID();
-      socketService.sendMessage(SocketEvents.orderNotAccepted, {
-        'driverId': '${driverId}----------------------',
-        'orderId': orderId,
-      });*/
       socketService.listenToEvent(SocketEvents.orderNotAccepted, (p0){
         print("Order Not Accepted Event Received: $p0");
         if (p0['status'] == true) {
           bottomSheetController.hideAllSheets();
           CustomSnackBar.show(
-            message: 'Order timed outttttttttttt',
+            message: 'Order timed out',
             color: AppTheme.redText,
             tColor: AppTheme.white,
           );
@@ -824,7 +820,7 @@ class HomeController extends GetxController {
             deliveryCharge: orderDetails.value?.data?.orderDetail?.orderdata?.deliveryCharge ?? "",
             deliveryDuration: orderDetails.value?.data?.deliveryLocation?.duration ?? "",
           );
-          bottomSheetController.showNewOrder(orderModel);
+          bottomSheetController.showNewOrder(orderModel,"accepted order");
         }
       } catch (e) {
         print('Error parsing order details: $e');
