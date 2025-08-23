@@ -553,6 +553,8 @@ class HomeController extends GetxController {
           remainingTime.value--;
         } else {
           stopAcceptanceTimer();
+          // bottomSheetController.hideAllSheets();s
+          bottomSheetController.currentSheet.value = BottomSheetState.none;
           if (bottomSheetController.currentSheet.value == BottomSheetState.newOrderArrived) {
             final order = bottomSheetController.currentOrder.value;
             if (order != null) {
