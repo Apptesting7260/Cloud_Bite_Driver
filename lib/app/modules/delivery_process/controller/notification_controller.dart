@@ -9,8 +9,7 @@ class NotificationController extends GetxController {
 
   final Repository repository = Repository();
 
-  Rx<ApiResponse<NotificationResponseModel>> notificationResponse =
-  Rx<ApiResponse<NotificationResponseModel>>(ApiResponse.loading());
+  Rx<ApiResponse<NotificationResponseModel>> notificationResponse = Rx<ApiResponse<NotificationResponseModel>>(ApiResponse.loading());
 
   RxInt currentPage = 1.obs;
   RxBool hasMorePages = true.obs;

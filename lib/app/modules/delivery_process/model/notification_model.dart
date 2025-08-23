@@ -1,5 +1,3 @@
-import 'package:collection/collection.dart';
-
 class NotificationItem {
   final String? id;
   final String? vendorId;
@@ -48,38 +46,18 @@ class NotificationResponseModel {
   });
 
   factory NotificationResponseModel.fromJson(Map<String, dynamic> json) {
-    final status = json['status'] is bool
-        ? json['status'] as bool
-        : (json['status'] as int?) == 1;
-
-    Map<String, List<NotificationItem>> parsedData = {};
-
-    if (json['data'] != null) {
-      if (json['data'] is List) {
-        // Handle array response - group by date
-        final items = (json['data'] as List)
-            .map((item) => NotificationItem.fromJson(item))
-            .toList();
-
-        // Group notifications by date
-        final grouped = groupBy(items, (item) => item.createdAt ?? 'No Date');
-        parsedData = grouped.map((key, value) => MapEntry(key, value));
-      } else if (json['data'] is Map<String, dynamic>) {
-        // Handle map response (if you still want to support this format)
-        final rawData = json['data'] as Map<String, dynamic>;
-        parsedData = rawData.map(
-              (key, value) => MapEntry(
-            key,
-            List<NotificationItem>.from(
-              (value as List).map((item) => NotificationItem.fromJson(item)),
-            ),
-          ),
-        );
-      }
-    }
+    final rawData = json['data'] as Map<String, dynamic>;
+    final parsedData = rawData.map(
+          (key, value) => MapEntry(
+        key,
+        List<NotificationItem>.from(
+          value.map((item) => NotificationItem.fromJson(item)),
+        ),
+      ),
+    );
 
     return NotificationResponseModel(
-      status: status,
+      status: json['status'],
       message: json['message']?.toString(),
       data: parsedData,
       currentPage: json['current_page']?.toString(),

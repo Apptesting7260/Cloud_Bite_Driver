@@ -30,23 +30,19 @@ class NotificationScreen extends StatelessWidget {
     final dataMap = controller.notificationResponse.value.data?.data;
 
     if (controller.notificationResponse.value.status == ApiStatus.loading) {
-      return Center(
-        child: Lottie.asset(
-          ImageConstants.loaderJson,
-          width: 200,
-          height: 200,
-          fit: BoxFit.contain,
-        ),
+      return ListView.separated(
+        separatorBuilder: (context, index) {
+          return const Divider();
+        },
+        itemCount: 10,
+        itemBuilder: (context, index) {
+          return notificationCardShimmer();
+        },
       );
     }
 
     if (dataMap?.isEmpty ?? true) {
-      return Center(child: Lottie.asset(
-        ImageConstants.noDataFoundJson,
-        width: 200,
-        height: 200,
-        fit: BoxFit.contain,
-      ));
+      return const Center(child: Text("No current notifications"));
     }
 
     final keys = dataMap!.keys.toList();
@@ -57,6 +53,13 @@ class NotificationScreen extends StatelessWidget {
       physics: const BouncingScrollPhysics(),
       itemCount: keys.length, // +1 for loader
       itemBuilder: (context, index) {
+        // if (controller.isLoadingMore) {
+        //   return Padding(
+        //     padding: REdgeInsets.all(16.0),
+        //     child: const Center(child: CircularProgressIndicator(color: Colors.red,)),
+        //   );
+        // }
+
         final dateKey = keys[index];
         final items = dataMap[dateKey]!;
 
@@ -83,8 +86,8 @@ class NotificationScreen extends StatelessWidget {
 
   Widget notificationItemCard(NotificationItem item) {
     return Container(
-      margin: REdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      padding: REdgeInsets.all(16),
+      margin: REdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: REdgeInsets.all(12),
       decoration: BoxDecoration(
         color: AppTheme.white,
         borderRadius: BorderRadius.only(
@@ -95,7 +98,7 @@ class NotificationScreen extends StatelessWidget {
         ),
         boxShadow: const [
           BoxShadow(
-            color: Colors.grey,
+            color: Color(0xFFC2C2C2),
             blurRadius: 1,
             spreadRadius: 0.8,
             offset: Offset(0, 0),
@@ -124,19 +127,17 @@ class NotificationScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(item.title ?? '',
+                    maxLines: 5,
                     style: AppFontStyle.text_16_500(
                       AppTheme.darkText,
                       fontFamily: AppFontFamily.generalSansMedium,
                     )),
                 WidgetDesigns.hBox(2),
                 Text(item.body ?? '',
-                  style: TextStyle(
-                    fontSize: 14.sp,
-                    color: AppTheme.grey,
-                    fontFamily: AppFontFamily.generalSansRegular,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
+                    maxLines: 10,
+                    style: AppFontStyle.text_14_400(
+                      AppTheme.grey,
+                    )),
                 WidgetDesigns.hBox(4),
               ],
             ),
@@ -147,6 +148,24 @@ class NotificationScreen extends StatelessWidget {
               AppTheme.grey,
             ),
           ),
+        ],
+      ),
+    );
+  }
+
+
+
+  Widget notificationCardShimmer() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const ShimmerBox(width: 150, height: 20),
+          const SizedBox(height: 10),
+          ShimmerBox(width: Get.width, height: 20),
+          const SizedBox(height: 10),
+          ShimmerBox(width: Get.width, height: 20),
         ],
       ),
     );
