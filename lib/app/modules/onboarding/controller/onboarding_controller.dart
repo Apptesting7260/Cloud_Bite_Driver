@@ -18,7 +18,7 @@ class OnboardingController extends GetxController{
   ];
 
   final List<String> onboardingTexts = [
-    'Order your favorite\nfood',
+    'Order your favorite\nproducts',
     'Easy and Secure\nPayments',
     'Track your orders in\nreal-time',
   ];

@@ -50,7 +50,7 @@ class WelcomeScreen extends StatelessWidget{
                   Center(
                     child: Text(
                         textAlign: TextAlign.center,
-                        'Your go-to app for sharing and ordering delicious meals from your favorite cooks, vendors and food spots in Botswana. ',
+                        'Your go-to app for sharing and ordering delicious cloud goodies from your favorite cooks, vendors and food spots in Botswana. ',
                          style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular,
                          overflow: TextOverflow.visible),
                     ),
