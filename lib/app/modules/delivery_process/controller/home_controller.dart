@@ -520,8 +520,8 @@ class HomeController extends GetxController {
   }
 
     // For Remaining Time
-  final RxInt remainingTime = 10.obs;
-  final int totalTime = 10;
+  final RxInt remainingTime = 30.obs;
+  final int totalTime = 30;
   Timer? acceptanceTimer;
 
   /*void startTimer() {
