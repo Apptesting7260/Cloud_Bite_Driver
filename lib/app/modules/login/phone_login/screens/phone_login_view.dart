@@ -1,10 +1,8 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
-
 class PhoneLoginView extends StatelessWidget {
 
   final PhoneLoginController controller = Get.put(PhoneLoginController());
-
    PhoneLoginView({super.key});
 
   @override
@@ -129,7 +127,11 @@ class PhoneLoginView extends StatelessWidget {
                                 CustomAnimatedButton(
                                   onTap: () {
                                     if(controller.formkey.currentState!.validate()) {
+                                      if(controller.countryString.value !="267"){
+                                        controller.loginWithPhoneAPI2();
+                                      }else{
                                       controller.loginWithPhoneAPI();
+                                      }
                                     }
                                   },
                                   text: 'Login',

@@ -251,6 +251,7 @@ class SignUpController extends GetxController{
       CustomSnackBar.show(message: e.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
       print(e);
     } finally {
+      update();
       LoadingOverlay().hideLoading();
     }
   }
@@ -295,6 +296,7 @@ class SignUpController extends GetxController{
       print(e);
     } finally {
       LoadingOverlay().hideLoading();
+      update();
     }
   }
 

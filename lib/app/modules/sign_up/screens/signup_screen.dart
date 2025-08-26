@@ -241,14 +241,29 @@ class SignUpScreen extends StatelessWidget{
             builder: (context) {
               return CustomTextFormField(
                 controller: controller.phoneController,
-                enabled: !controller.isPhoneVerified.value,
+                enabled: controller.isPhoneVerified.value && controller.countryString.value == "+267"? false : true,
                 textInputType: TextInputType.number,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(controller.checkCountryLength.value),
                 ],
                 onChanged: (value) {
+                  print(controller.isPhoneVerified.value && controller.countryString.value=="+267");
                   controller.updatePhoneError('');
+                  if(controller.countryString.value!="+267"){
+                    controller.verifiedPhone.value = controller.countryString.value+value;
+
+                    controller.isPhoneVerified.value=true;
+                    controller.update();
+                  }else{
+                    controller.verifiedPhone.value = '';
+
+                    controller.isPhoneVerified.value=false;
+                    controller.update();
+                  }
+                  print("verify ${controller.verifiedPhone.value}");
+                  print("phone controller  ${controller.phoneController.text}");
+
                 },
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -283,6 +298,7 @@ class SignUpScreen extends StatelessWidget{
                           onChanged: (CountryCode countryCode) {
                             WidgetDesigns.consoleLog("${countryCode.code}","country code --->>");
                             WidgetDesigns.consoleLog("${countryCode.dialCode}","country dialCode --->>");
+                            WidgetDesigns.consoleLog("${controller.verifiedPhone.value}","country string --->>");
 
                             controller.updateCountryString(countryCode.dialCode.toString());
 
@@ -291,6 +307,16 @@ class SignUpScreen extends StatelessWidget{
                             } else {
                               controller.checkCountryLength.value = 10;
                             }
+                            if(controller.countryString.value!="+267") {
+                              controller.verifiedPhone.value = controller.countryString.value+controller.phoneController.text;
+
+                              controller.isPhoneVerified.value = true;
+                            }else{
+                              controller.verifiedPhone.value = '';
+                              controller.isPhoneVerified.value = false;
+                            }
+
+
                             controller.update();
                           },
                           initialSelection: 'BW',
