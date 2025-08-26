@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import '../../../../routes/stage_navigator.dart';
 
 class PhoneLoginController extends GetxController {
   final TextEditingController phoneController = TextEditingController();
@@ -221,6 +222,54 @@ class PhoneLoginController extends GetxController {
     'ZM': 9, // Zambia
     'ZW': 9,
   };
+  Future<void> loginWithPhoneAPI2() async {
+    LoadingOverlay().showLoading();
+    try{
+      final data = {
+        "type": "phone",
+        "phone": phoneController.text,
+        "country_code": countryString.value,
+        "otpType": "verify"
+      };
+
+      final response = await _repository.phoneLoginVerifyAPI(data);
+
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        response.data?.loginToken != null ? storageServices.saveToken("${response.data?.loginToken}") : storageServices.saveDriverID("${response.data?.id}");
+        storageServices.saveToken("${response.data?.loginToken}");
+        storageServices.saveStages("${response.data?.stages}");
+        storageServices.saveFirstName("${response.data?.firstName}");
+        storageServices.saveLastName("${response.data?.lastName}");
+        storageServices.saveDriverID("${response.data?.id}");
+        storageServices.saveAddress("${response.data?.address}");
+        if(response.data?.stages == '1'){
+          if(response.data?.otpVerified == true){
+            Get.toNamed(Routes.signUpScreen, arguments: {
+              "phone": phoneController.text,
+              "country_code": countryString.value,
+              "isPhoneVerified": true,
+              "driverId": response.data?.id
+            });
+          }
+        }else{
+          StageNavigator.navigateToStage("${response.data?.stages}");
+        }
+      }
+
+      else {
+        LoadingOverlay().hideLoading();
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While login');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+
+    }
+    catch(e){
+      print("$e---------3333333");
+      LoadingOverlay().hideLoading();
+    }
+  }
 
   Future<void> loginWithPhoneAPI() async {
     updatePhoneError('');
