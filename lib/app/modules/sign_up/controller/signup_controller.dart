@@ -29,8 +29,6 @@ class SignUpController extends GetxController{
   RxString verifiedEmail = ''.obs;
   RxBool isEmailVerified = false.obs;
 
-  var countryCode = "91".obs;
-
   RxInt checkCountryLength = 8.obs;
   RxString countryString = "+267".obs;
 
