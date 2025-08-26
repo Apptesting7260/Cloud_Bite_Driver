@@ -101,7 +101,7 @@ class WelcomeScreen extends StatelessWidget{
                       if (Platform.isIOS) ...[
                         _socialLoginButton(
                             onPressed: () async {
-                              // controller.signInWithApple(Get.context!);
+                              controller.signInWithApple(Get.context!);
                             },
                             url: ImageConstants.appleLoginImage
                         ),

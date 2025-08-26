@@ -2,6 +2,38 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <!-- Google reversed client ID -->
+                <string>com.googleusercontent.apps.524176041811-sbsdf49l6hjvpad819a2al2f8r37s3vn</string>
+                <!-- Facebook URL scheme -->
+                <string>fbYOUR_FACEBOOK_APP_ID</string>
+            </array>
+        </dict>
+    </array>
+
+    <!-- ✅ Facebook SDK Setup
+    <key>FacebookAppID</key>
+    <string>YOUR_FACEBOOK_APP_ID</string>-->
+
+    <key>FacebookClientToken</key>
+    <string>d473cc0832bb2d9a99dea419160bbc5b</string>
+
+    <key>FacebookDisplayName</key>
+    <string>Cloud Bites Driver</string>
+
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
+    <key>CFBundleIconName</key>
+    <string>AppIcon</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
