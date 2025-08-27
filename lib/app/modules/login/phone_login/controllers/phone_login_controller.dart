@@ -223,13 +223,15 @@ class PhoneLoginController extends GetxController {
     'ZW': 9,
   };
   Future<void> loginWithPhoneAPI2() async {
+    String? fcmToken = await storageServices.returnFCMToken();
     LoadingOverlay().showLoading();
     try{
       final data = {
         "type": "phone",
         "phone": phoneController.text,
         "country_code": countryString.value,
-        "otpType": "verify"
+        "otpType": "verify",
+        "fcm_token": fcmToken ?? '',
       };
 
       final response = await _repository.phoneLoginVerifyAPI(data);

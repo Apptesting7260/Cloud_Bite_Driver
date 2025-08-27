@@ -63,6 +63,7 @@ class PhoneOtpVerifyController extends GetxController{
 
 
   Future<void> loginWithPhoneAPI() async {
+    String? fcmToken = await storageServices.returnFCMToken();
     updateOtpError('');
     LoadingOverlay().showLoading();
     try{
@@ -72,7 +73,8 @@ class PhoneOtpVerifyController extends GetxController{
         "country_code": countryString.value,
         "otpType": "verify",
         "otp": otpController.text,
-        "id": storageServices.getDriverID()
+        "id": storageServices.getDriverID(),
+        "fcm_token": fcmToken ?? ''
       };
 
       final response = await _repository.phoneLoginVerifyAPI(data);

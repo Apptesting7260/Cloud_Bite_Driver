@@ -205,6 +205,7 @@ class SignUpController extends GetxController{
   }*/
 
   Future<void> generateOTPForPhone() async {
+    String? fcmToken = await storageServices.returnFCMToken();
     updatePhoneError('');
     LoadingOverlay().showLoading();
     try {
@@ -229,7 +230,8 @@ class SignUpController extends GetxController{
         "otpType": "generate",
         "phone": phoneController.text,
         "country_code": countryString.value.replaceAll("+", ""),
-        "id": idToSend
+        "id": idToSend,
+        "fcm_token": fcmToken ?? '',
       };
 
       final response = await _repository.getPhoneOTPAPI(data);
@@ -312,6 +314,7 @@ class SignUpController extends GetxController{
 
   // Generate OTP for Email
   Future<void> generateOTPForEmail() async {
+    String? fcmToken = await storageServices.returnFCMToken();
     updateEmailError('');
     LoadingOverlay().showLoading();
     try {
@@ -319,7 +322,8 @@ class SignUpController extends GetxController{
         "type": "email",
         "otpType": "generate",
         "email": emailController.text,
-        "id": storageServices.getDriverID()
+        "id": storageServices.getDriverID(),
+        "fcm_token": fcmToken ?? '',
       };
       final response = await _repository.getEmailOTPAPI(data);
       if (response.status == true) {
