@@ -103,7 +103,6 @@ export 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_pho
 export 'package:cloud_bites_driver/app/modules/registration_complete_screen/model/final_stage_home_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/logout_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/support_model.dart';
-export 'package:cloud_bites_driver/app/modules/welcome_screen/model/social_login_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/notification_set_model.dart';
 export 'package:cloud_bites_driver/app/modules/my_profile/model/set_notification_status_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/verify_email_otp_model.dart';

@@ -10,7 +10,7 @@ class WelcomeController extends GetxController{
 
   final Repository _repository = Repository();
 
-  // Google SignIn
+  //Google SignIn
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
       LoadingOverlay().showLoading();
@@ -49,6 +49,7 @@ class WelcomeController extends GetxController{
       String email = googleUser.email;
       if (response.status == true) {
         LoadingOverlay().hideLoading();
+        storageServices.saveEmail(email);
         storageServices.saveToken("${response.data?.loginToken}");
         storageServices.saveDriverID("${response.data?.id}");
         storageServices.saveFirstName("${response.data?.firstName}");
@@ -60,12 +61,12 @@ class WelcomeController extends GetxController{
             storageServices.saveEmail(response.data?.email ?? '');
             storageServices.saveEmailVerified(true);
           }
-          if(response.data?.stages == "1"|| response.data?.stages == null){
-            print(".........${response.data?.stages}........");
+          if(response.data?.stages == "1" || response.data?.stages == null){
             storageServices.saveToken("${response.data?.loginToken}");
             Get.toNamed(Routes.signUpScreen, arguments: {
               'email': email,
-              'isVerified': response.data?.emailVerified ?? false
+              'isVerified': response.data?.emailVerified ?? false,
+              'loginType': 'google' // Add this line
             });
           }else{
             StageNavigator.navigateToStage(response.data!.stages.toString());
@@ -73,7 +74,8 @@ class WelcomeController extends GetxController{
         } else {
           Get.toNamed(Routes.signUpScreen, arguments: {
             'email': email,
-            'isVerified': response.data?.emailVerified ?? false
+            'isVerified': response.data?.emailVerified ?? false,
+            'loginType': 'google' // Add this line
           });
         }
       } else {
@@ -98,7 +100,7 @@ class WelcomeController extends GetxController{
     }
   }
 
-  // Facebook SignIn
+  //Facebook SignIn
   Future<void> signInWithFacebook(BuildContext context) async {
     try {
       LoadingOverlay().showLoading();

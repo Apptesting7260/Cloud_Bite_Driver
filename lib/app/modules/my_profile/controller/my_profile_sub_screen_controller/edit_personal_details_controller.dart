@@ -54,6 +54,16 @@ class EditPersonalDetailsController extends GetxController {
     lastNameController.text = storageServices.getLastName();
     dobController.text = _formatDate(storageServices.getDOB());
     locationController.text = storageServices.getAddress();
+
+    final driverData = Get.find<PersonalDetailsController>().driverData.value.data?.data;
+    if (driverData != null && driverData.dateOfBirth != null) {
+      try {
+        final date = DateTime.parse(driverData.dateOfBirth!);
+        dobController.text = "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+      } catch (e) {
+        dobController.text = "";
+      }
+    }
   }
 
   @override

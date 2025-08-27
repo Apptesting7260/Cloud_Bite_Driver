@@ -12,9 +12,9 @@ class OnboardingController extends GetxController{
   }
 
   final List onboardingImages = [
-    ImageConstants.onboarding1,
-    ImageConstants.onboarding2,
-    ImageConstants.onboarding3,
+    ImageConstants.onboarding_1,
+    ImageConstants.onboarding_2,
+    ImageConstants.onboarding_3,
   ];
 
   final List<String> onboardingTexts = [

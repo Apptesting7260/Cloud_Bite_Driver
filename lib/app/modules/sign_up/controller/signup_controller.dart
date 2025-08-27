@@ -95,6 +95,8 @@ class SignUpController extends GetxController{
   final remainingTime = 60.obs;
   Timer? _timer;
 
+  RxString loginType = ''.obs; // this line
+
 // Timer methods
   void startTimer() {
     resendEnabled.value = false;
@@ -120,8 +122,9 @@ class SignUpController extends GetxController{
     if (Get.arguments != null) {
       final email = Get.arguments['email'] ?? "";
       final isVerified = Get.arguments['isVerified'] ?? false;
+      final loginTypeArg = Get.arguments['loginType'] ?? ""; // Add this line
 
-      print("===================$email && $isVerified=================");
+      print("===================$email && $isVerified &&  $loginTypeArg=================");
 
       if (email != null && email != '') {
         emailController.text = email;
@@ -131,6 +134,10 @@ class SignUpController extends GetxController{
           isEmailVerified.value = true;
           verifiedEmail.value = email;
         }
+      }
+      // this line
+      if (loginTypeArg != null && loginTypeArg != '') {
+        loginType.value = loginTypeArg;
       }
     }
   }
@@ -260,6 +267,7 @@ class SignUpController extends GetxController{
 
   // Verify OTP for Phone
   Future<void> verifyOTPForPhone() async {
+    String? fcmToken = await storageServices.returnFCMToken();
     updateOTPError('');
     LoadingOverlay().showLoading();
     try {
@@ -268,7 +276,8 @@ class SignUpController extends GetxController{
         "otpType": "verify",
         "phone": phoneController.text,
         "otp": otpController.text,
-        "country_code": countryString.value.replaceAll("+", "")
+        "country_code": countryString.value.replaceAll("+", ""),
+        "fcm_token": fcmToken ?? '',
       };
 
       final response = await _repository.verifyOTpForPhone(data);
@@ -418,20 +427,31 @@ class SignUpController extends GetxController{
       return;
     }
 
+    if (loginType.value != 'google' && passwordController.text.isEmpty) {
+      updatePasswordError("Password is required");
+      return;
+    }
+
     LoadingOverlay().showLoading();
     String? fcmToken = await storageServices.returnFCMToken();
     try{
       final data = {
-        "id": driverId,
+        "id": storageServices.getDriverID(),
         "first_name": firstNameController.text,
         "last_name": lastNameController.text,
         "dob": dobController.text,
-        "password": passwordController.text,
         "latitude": locationAddress?['lat'].toString(),
         "longitude": locationAddress?['lng'].toString(),
         "address": locationController.text,
         "fcm_token": fcmToken ?? '',
+        "phone": phoneController.text,
+        "country_code": countryString.value
       };
+
+      // Only add password if loginType is not google
+      if (loginType.value != 'google') {
+        data["password"] = passwordController.text;
+      }
 
       final response = await _repository.registerDriverAPI(data);
       if (response.status == true) {
@@ -462,11 +482,11 @@ class SignUpController extends GetxController{
         updateDOBError(response.message.toString());
         print(response.message);
       }
-      else if(response.status == false && response.type == 'password'){
+      /*else if(response.status == false && response.type == 'password'){
         LoadingOverlay().hideLoading();
         updatePasswordError(response.message.toString());
         print(response.message);
-      }
+      }*/
       else if(response.status == false && response.type == 'address'){
         LoadingOverlay().hideLoading();
         updateAddressError(response.message.toString());

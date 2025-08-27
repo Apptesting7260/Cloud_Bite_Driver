@@ -8,6 +8,7 @@ import 'package:cloud_bites_driver/app/modules/my_profile/model/total_deliveries
 import 'package:cloud_bites_driver/app/modules/my_profile/model/total_delivery_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/transaction_history_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/wallet_balance_model.dart';
+import 'package:cloud_bites_driver/app/modules/welcome_screen/model/social_login_model.dart';
 import 'package:cloud_bites_driver/app/utils/common_respone_model/common_respone_model.dart';
 
 import '../../modules/my_profile/model/payment_method_model.dart';

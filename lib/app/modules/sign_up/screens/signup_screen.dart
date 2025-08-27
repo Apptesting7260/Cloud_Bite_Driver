@@ -41,7 +41,7 @@ class SignUpScreen extends StatelessWidget{
                       topRight: Radius.circular(30)
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.all(24.0),
                       child: SingleChildScrollView(
                           child: signUpFormFields()
                       )
@@ -386,6 +386,7 @@ class SignUpScreen extends StatelessWidget{
               return CustomTextFormField(
                   controller: controller.emailController,
                   hintText: "Email Address",
+                  textInputType: TextInputType.emailAddress,
                   onChanged: (value) {
                     if (!controller.disableEmailField.value) {
                       controller.updateEmailError('');
@@ -419,12 +420,19 @@ class SignUpScreen extends StatelessWidget{
                     return ValueListenableBuilder<TextEditingValue>(
                       valueListenable: controller.emailController,
                       builder: (context, value, child) {
+                        bool isValid = FormValidators.isValidEmail(value.text);
                         return Visibility(
                           visible: value.text.isNotEmpty,
                           child: Padding(
                             padding: const EdgeInsets.only(top: 16.0),
                             child: GestureDetector(
-                              onTap: () => controller.generateOTPForEmail(),
+                              onTap: () {
+                                if (isValid) {
+                                  controller.generateOTPForEmail();
+                                } else {
+                                  controller.updateEmailError("Please enter a valid email");
+                                }
+                              },
                               child: Text(
                                 "Verify",
                                 style: AppFontStyle.text_12_200(
@@ -441,35 +449,77 @@ class SignUpScreen extends StatelessWidget{
               );
             }
           ),
-          WidgetDesigns.hBox(16),
 
-          GetBuilder<SignUpController>(
-            builder: (context) {
-              return CustomTextFormField(
-                controller: controller.passwordController,
-                hintText: "Password",
-                obscureText: controller.obscurePassword.value,
-                onChanged: (value) {
-                  controller.updatePasswordError('');
-                },
-                validator: (value){
-                  if(controller.passwordController.text.isEmpty){
-                    return "Password is required";
-                  }
-                  return FormValidators.validatePassword(value!);
-                },
-                suffix: IconButton(
-                  icon: Icon(
-                    controller.obscurePassword.value ? Icons.visibility_off : Icons.visibility,
-                    color: Colors.grey,
+          /*Column(
+            children: [
+              WidgetDesigns.hBox(16),
+              GetBuilder<SignUpController>(
+                builder: (context) {
+                  return CustomTextFormField(
+                    controller: controller.passwordController,
+                    hintText: "Password",
+                    obscureText: controller.obscurePassword.value,
+                    onChanged: (value) {
+                      controller.updatePasswordError('');
+                    },
+                    validator: (value){
+                      if(controller.passwordController.text.isEmpty){
+                        return "Password is required";
+                      }
+                      return FormValidators.validatePassword(value!);
+                    },
+                    suffix: IconButton(
+                      icon: Icon(
+                        controller.obscurePassword.value ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                      ),
+                      onPressed: () {
+                        controller.togglePasswordVisibility();
+                      },
+                    ),
+                  );
+                }
+              ),
+            ],
+          ),*/
+          Obx(() {
+            if (controller.loginType.value != 'google') {
+              return Column(
+                children: [
+                  WidgetDesigns.hBox(16),
+                  GetBuilder<SignUpController>(
+                      builder: (context) {
+                        return CustomTextFormField(
+                          controller: controller.passwordController,
+                          hintText: "Password",
+                          obscureText: controller.obscurePassword.value,
+                          onChanged: (value) {
+                            controller.updatePasswordError('');
+                          },
+                          validator: (value){
+                            if(controller.passwordController.text.isEmpty){
+                              return "Password is required";
+                            }
+                            return FormValidators.validatePassword(value!);
+                          },
+                          suffix: IconButton(
+                            icon: Icon(
+                              controller.obscurePassword.value ? Icons.visibility_off : Icons.visibility,
+                              color: Colors.grey,
+                            ),
+                            onPressed: () {
+                              controller.togglePasswordVisibility();
+                            },
+                          ),
+                        );
+                      }
                   ),
-                  onPressed: () {
-                    controller.togglePasswordVisibility();
-                  },
-                ),
+                ],
               );
+            } else {
+              return SizedBox.shrink();
             }
-          ),
+          }),
           WidgetDesigns.hBox(16),
 
           GetBuilder<SignUpController>(

@@ -177,7 +177,10 @@ class EditPerosnalDetails extends StatelessWidget{
                           return 'Invalid date format';
                         }
       
-                        if(controller.dobError.value.isNotEmpty || controller.dobError.value != ''){
+                        /*if(controller.dobError.value.isNotEmpty || controller.dobError.value != ''){
+                          return controller.dobError.value;
+                        }*/
+                        if (controller.dobError.value.isNotEmpty) {
                           return controller.dobError.value;
                         }
                         return null;
@@ -186,9 +189,9 @@ class EditPerosnalDetails extends StatelessWidget{
                           onTap: () async {
                             DateTime? pickedDate = await showDatePicker(
                                 context: Get.context!,
-                                initialDate: DateTime.now().subtract(const Duration(days: 365 * 25)), // Default to 25 years old
-                                firstDate: DateTime.now().subtract(const Duration(days: 365 * 100)), // Max 100 years old
-                                lastDate: DateTime.now().subtract(const Duration(days: 365 * 18)), // Min 18 years old
+                                initialDate: DateTime.now().subtract(const Duration(days: 365 * 25)),
+                                firstDate: DateTime.now().subtract(const Duration(days: 365 * 100)),
+                                lastDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
                                 builder: (context, child) {
                                   return Theme(
                                     data: Theme.of(context).copyWith(
