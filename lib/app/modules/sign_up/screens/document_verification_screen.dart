@@ -49,20 +49,20 @@ class DocumentVerificationScreen extends StatelessWidget{
                         topRight: Radius.circular(30)
                     ),
                     child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Obx(() {
-                          if (controller.isLoading.value) {
-                            ListView.separated(
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: controller.documentListData.value.data?.data?.length ?? 0,
-                              shrinkWrap: true,
-                              separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
-                              itemBuilder: (context, index) => buildShimmerOption(),
-                            );
-                          }
-                          // Show actual data when loaded
-                          return pendingDocuments();
-                        }),
+                      padding: const EdgeInsets.all(20.0),
+                      child: Obx(() {
+                        if (controller.isLoading.value) {
+                          ListView.separated(
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: controller.documentListData.value.data?.data?.length ?? 0,
+                            shrinkWrap: true,
+                            separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+                            itemBuilder: (context, index) => buildShimmerOption(),
+                          );
+                        }
+                        // Show actual data when loaded
+                        return pendingDocuments();
+                      }),
                     ),
                   ),
                 ),

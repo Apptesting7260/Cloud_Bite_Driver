@@ -10,59 +10,84 @@ class RegistrationCompleteScreen extends StatelessWidget{
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(14.0),
-          child: Obx((){
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                WidgetDesigns.hBox(30),
-                Text(
-                  'Registration Complete',
-                  style: AppFontStyle.text_24_500(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
-                ),
-                WidgetDesigns.hBox(20),
-                Text(
-                  controller.accountStatusData.value.data?.statusMessage ?? '',
-                  style: AppFontStyle.text_16_400(AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular),
-                ),
-                WidgetDesigns.hBox(10),
-                Text(
-                  getStatusMessage('${controller.accountStatusData.value.data?.statusMessage}'),
-                  style: AppFontStyle.text_14_400(AppTheme.primaryColor, fontFamily: AppFontFamily.generalSansRegular),
-                ),
-                WidgetDesigns.hBox(30),
-                Obx(() {
-                  if (controller.isLoading.value) {
-                    return Expanded(
-                      child: ListView.separated(
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: 3,
-                        shrinkWrap: true,
-                        separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
-                        itemBuilder: (context, index) => buildShimmerOption(),
+        child: RefreshIndicator(
+          onRefresh: () async {
+            await controller.getAccountStatusData();
+            await controller.getHomeStage();
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(14.0),
+            child: Obx(() {
+              return SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    WidgetDesigns.hBox(30),
+                    Text(
+                      'Registration Complete',
+                      style: AppFontStyle.text_24_500(
+                        AppTheme.black,
+                        fontFamily: AppFontFamily.generalSansRegular,
                       ),
-                    );
-                  }
-                  return documentsOptions();
-                }),
-                WidgetDesigns.hBox(20),
-                CustomAnimatedButton(
-                    onTap: (){
-                      if(controller.accountStatusData.value.data?.isComplete == true){
-                        controller.getHomeStage();
-                      }else if(controller.accountStatusData.value.data?.statusText == "Rejected"){
-                        CustomSnackBar.show(message:'Your Application Is Rejected' , color: AppTheme.primaryColor, tColor: AppTheme.white);
+                    ),
+                    WidgetDesigns.hBox(20),
+                    Text(
+                      controller.accountStatusData.value.data?.statusMessage ?? '',
+                      style: AppFontStyle.text_16_400(
+                        AppTheme.black.withOpacity(0.5),
+                        fontFamily: AppFontFamily.generalSansRegular,
+                      ),
+                    ),
+                    WidgetDesigns.hBox(10),
+                    Text(
+                      getStatusMessage(
+                        '${controller.accountStatusData.value.data?.statusMessage}',
+                      ),
+                      style: AppFontStyle.text_14_400(
+                        AppTheme.primaryColor,
+                        fontFamily: AppFontFamily.generalSansRegular,
+                      ),
+                    ),
+                    WidgetDesigns.hBox(30),
+                    Obx(() {
+                      if (controller.isLoading.value) {
+                        return ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: 3,
+                          shrinkWrap: true,
+                          separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
+                          itemBuilder: (context, index) => buildShimmerOption(),
+                        );
                       }
-                      else{
-                        CustomSnackBar.show(message:'Your application is Under Verification' , color: AppTheme.primaryColor, tColor: AppTheme.white);
-                      }
-                    },
-                    text: 'Go To Home'
-                )
-              ],
-            );
-          })
+                      return documentsOptions();
+                    }),
+                    WidgetDesigns.hBox(20),
+                    CustomAnimatedButton(
+                      onTap: () {
+                        if (controller.accountStatusData.value.data?.isComplete == true) {
+                          controller.getHomeStage();
+                        } else if (controller.accountStatusData.value.data?.statusText == "Rejected") {
+                          CustomSnackBar.show(
+                            message: 'Your Application Is Rejected',
+                            color: AppTheme.primaryColor,
+                            tColor: AppTheme.white,
+                          );
+                        } else {
+                          CustomSnackBar.show(
+                            message: 'Your application is Under Verification',
+                            color: AppTheme.primaryColor,
+                            tColor: AppTheme.white,
+                          );
+                        }
+                      },
+                      text: 'Go To Home',
+                    )
+                  ],
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );
