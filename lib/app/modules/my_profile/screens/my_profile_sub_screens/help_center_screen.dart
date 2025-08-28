@@ -18,6 +18,29 @@ class HelpCenterScreen extends StatelessWidget{
               helpCenterOption(Routes.privacyPolicy,ImageConstants.supportIcon, 'Privacy Policy'),
               WidgetDesigns.hBox(20),
               helpCenterOption(Routes.termsCondition,ImageConstants.supportIcon, 'Terms & Conditions'),
+              WidgetDesigns.hBox(20),
+
+              Row(
+                children: [
+                  Flexible(
+                    child: Divider(
+                      color: Colors.grey.shade300,
+                      thickness: 1,
+                      height: 20,
+                    ),
+                  ),
+                  MyText(title: "  or  ", fSize: 18, tColor: Colors.grey),
+                  Flexible(
+                    child: Divider(
+
+                      color: Colors.grey.shade300,
+                      thickness: 1,
+                    ),
+                  )
+                ],
+              ).paddingOnly(bottom: 25),
+              MyText(title: "WhatsApp us on +267 75 393 230 or email us at businessdev@cloudbitesbw.com for support",fSize: 18,)
+
             ],
           ),
         ),

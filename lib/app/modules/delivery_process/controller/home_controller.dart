@@ -4,7 +4,30 @@ import 'dart:math';
 import 'package:cloud_bites_driver/app/constants/image_constants.dart';
 import 'package:cloud_bites_driver/app/constants/socket_url.dart';
 import 'package:cloud_bites_driver/app/core/app_exports.dart'
- show AlertDialog, AppLifecycleState, Color, ExtensionDialog, FormState, Geolocator, GetNavigation, GlobalKey, ImageConfiguration, LocationSettings, Offset, Position, Size, Text, TextButton, TextEditingController, TextEditingControllerller, WidgetDesigns, WidgetsBinding, ApiResponse, Repository;
+    show
+        AlertDialog,
+        ApiResponse,
+        AppLifecycleState,
+        Color,
+        ExtensionDialog,
+        FormState,
+        Geolocator,
+        GetNavigation,
+        GlobalKey,
+        ImageConfiguration,
+        LocationSettings,
+        Offset,
+        Placemark,
+        Position,
+        Repository,
+        Size,
+        Text,
+        TextButton,
+        TextEditingController,
+        TextEditingControllerller,
+        WidgetDesigns,
+        WidgetsBinding,
+        placemarkFromCoordinates;
 import 'package:cloud_bites_driver/app/modules/delivery_process/controller/bottom_sheet_controller.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/accepted_order_model.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/model/order_model.dart'
@@ -26,13 +49,13 @@ import 'package:google_maps_webservice2/directions.dart' as directions;
 import 'package:location/location.dart';
 
 class HomeController extends GetxController {
-
   final Repository _repository = Repository();
 
   // For Location Tracking  Code
-  final directions.GoogleMapsDirections directionsApi = directions.GoogleMapsDirections(
-    apiKey: 'AIzaSyDzQVQbsU8deMxfBC-0SPO2ixd8TGaTNBo',
-  );
+  final directions.GoogleMapsDirections directionsApi =
+      directions.GoogleMapsDirections(
+        apiKey: 'AIzaSyDzQVQbsU8deMxfBC-0SPO2ixd8TGaTNBo',
+      );
   RxSet<Polyline> polylines = <Polyline>{}.obs;
   RxSet<Marker> markers = <Marker>{}.obs;
   Rx<LatLng?> driverLocation = Rx<LatLng?>(null);
@@ -61,11 +84,10 @@ class HomeController extends GetxController {
 
   TextEditingController otpController = TextEditingController();
   var isSlid = false.obs;
-
+  Timer? changeLocationTimer;
   void onSlideCompleted() {
     isSlid.value = true;
   }
-
 
   @override
   void onInit() {
@@ -77,17 +99,15 @@ class HomeController extends GetxController {
     getDriverData();
   }
 
-
   @override
   void onClose() {
-     locationSubscription?.cancel();
-     stopAcceptanceTimer();
+    locationSubscription?.cancel();
+    stopAcceptanceTimer();
     resendTime?.cancel();
     socketService.off('driverOnlineConfirmed');
     socketService.off('driverOfflineConfirmed');
     super.onClose();
   }
-
 
   // Initialization Methods
   void _initializeServices() {
@@ -97,11 +117,12 @@ class HomeController extends GetxController {
     driverRepo.listenForNewOrders();
 
     ever(driverRepo.currentOrder, (OrderModel? order) {
-      if (order != null) bottomSheetController.showNewOrder(order,"");
+      if (order != null) bottomSheetController.showNewOrder(order, "");
     });
 
     ever(driverRepo.orderDetails, (AcceptedOrderModel? details) {
-      if (details != null) bottomSheetController.showAcceptedOrderDetails(details);
+      if (details != null)
+        bottomSheetController.showAcceptedOrderDetails(details);
     });
 
     ever(orderDetails, (details) {
@@ -117,7 +138,6 @@ class HomeController extends GetxController {
     driverIcon.value = icon;
   }
 
-
   Future<void> _initLocationService() async {
     bool serviceEnabled = await location.serviceEnabled();
     if (!serviceEnabled) {
@@ -132,16 +152,41 @@ class HomeController extends GetxController {
     }
   }
 
+  Future<String> getAddressFromLatLong(double lat, double long) async {
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(lat, long);
+
+      if (placemarks.isNotEmpty) {
+        Placemark place = placemarks.first;
+
+        String address =
+            "${place.street}, ${place.subLocality}, ${place.locality}, "
+            "${place.administrativeArea}, ${place.postalCode}, ${place.country}";
+
+        return address;
+      } else {
+        return "No address available";
+      }
+    } catch (e) {
+      print("Error: $e");
+      return "Failed to get address";
+    }
+  }
+
   Future<void> _getUserLocation() async {
     try {
       await _initLocationService();
       final locationData = await location.getLocation();
       if (locationData.latitude != null && locationData.longitude != null) {
-        driverLocation.value = LatLng(locationData.latitude!, locationData.longitude!);
+        driverLocation.value = LatLng(
+          locationData.latitude!,
+          locationData.longitude!,
+        );
         initialCameraPosition.value = CameraPosition(
           target: driverLocation.value!,
           zoom: 14.0,
         );
+
         _startLocationTracking();
       }
     } catch (e) {
@@ -153,65 +198,50 @@ class HomeController extends GetxController {
     }
   }
 
-
- /* void _startLocationTracking() {
-    locationSubscription?.cancel();
-    const LocationSettings locationSettings = LocationSettings(distanceFilter: 10);
-
-    locationSubscription = location.onLocationChanged.listen((LocationData currentLocation) async {
-      if (currentLocation.latitude != null && currentLocation.longitude != null) {
-        final newPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
-        driverLocation.value = newPosition;
-        _updateMapWithNewLocation(newPosition);
-
-        if (orderDetails.value != null) {
-          print("${orderDetails.value} valueeeee of currnt location");
-          _locationTimer = Timer.periodic(Duration(seconds: 10), (timer){
-            _sendLocationUpdate(orderDetails.value!.data!.orderDetail!.orderdata!.id.toString());
-          });
-        }
-      }
-    }, onError: (e) {
-      print("Location error: $e");
-      if (e.code == 'PERMISSION_DENIED') {
-        CustomSnackBar.show(
-          message: 'Location permissions required',
-          color: AppTheme.red,
-        );
-      }
-    });
-  }*/
   void _startLocationTracking() {
     locationSubscription?.cancel();
     _locationTimer?.cancel();
 
-    const LocationSettings locationSettings = LocationSettings(distanceFilter: 30);
+    const LocationSettings locationSettings = LocationSettings(
+      distanceFilter: 30,
+    );
 
-    locationSubscription = location.onLocationChanged.listen((LocationData currentLocation) async {
-      if (currentLocation.latitude != null && currentLocation.longitude != null) {
-        final newPosition = LatLng(currentLocation.latitude!, currentLocation.longitude!);
-        driverLocation.value = newPosition;
-        _updateMapWithNewLocation(newPosition);
+    locationSubscription = location.onLocationChanged.listen(
+      (LocationData currentLocation) async {
+        if (currentLocation.latitude != null &&
+            currentLocation.longitude != null) {
+          final newPosition = LatLng(
+            currentLocation.latitude!,
+            currentLocation.longitude!,
+          );
+          driverLocation.value = newPosition;
+          _updateMapWithNewLocation(newPosition);
 
-        if (_locationTimer == null || !_locationTimer!.isActive) {
-          if (orderDetails.value != null &&
-              orderDetails.value?.data?.orderDetail?.orderdata?.id != null) {
-            _locationTimer = Timer.periodic(Duration(seconds: 30), (timer) {
-              _sendLocationUpdate(orderDetails.value!.data!.orderDetail!.orderdata!.id.toString());
-            });
+          if (_locationTimer == null || !_locationTimer!.isActive) {
+            if (orderDetails.value != null &&
+                orderDetails.value?.data?.orderDetail?.orderdata?.id != null) {
+              _locationTimer = Timer.periodic(Duration(seconds: 30), (timer) {
+                _sendLocationUpdate(
+                  orderDetails.value!.data!.orderDetail!.orderdata!.id
+                      .toString(),
+                );
+              });
+            }
           }
         }
-      }
-    }, onError: (e) {
-      print("Location error: $e");
-      if (e.code == 'PERMISSION_DENIED') {
-        CustomSnackBar.show(
-          message: 'Location permissions required',
-          color: AppTheme.red,
-        );
-      }
-    });
+      },
+      onError: (e) {
+        print("Location error: $e");
+        if (e.code == 'PERMISSION_DENIED') {
+          CustomSnackBar.show(
+            message: 'Location permissions required',
+            color: AppTheme.red,
+          );
+        }
+      },
+    );
   }
+
   void _updateMapWithNewLocation(LatLng newLocation) {
     markers.removeWhere((marker) => marker.markerId.value == 'driver');
     markers.add(
@@ -226,9 +256,7 @@ class HomeController extends GetxController {
     );
 
     if (mapController != null) {
-      mapController!.animateCamera(
-        CameraUpdate.newLatLng(newLocation),
-      );
+      mapController!.animateCamera(CameraUpdate.newLatLng(newLocation));
     }
     updateMapWithDirections();
   }
@@ -242,7 +270,6 @@ class HomeController extends GetxController {
 
     return atan2(lngDiff, latDiff) * 180 / pi;
   }
-
 
   void _addVendorMarker(LatLng position) async {
     final vendorIcon = await BitmapDescriptor.fromAssetImage(
@@ -280,12 +307,9 @@ class HomeController extends GetxController {
     );
   }
 
-
-
-
   Future<void> updateMapWithDirections() async {
     print('update map direction calling');
-    print(driverLocation.value?.longitude??'null');
+    print(driverLocation.value?.longitude ?? 'null');
     try {
       if (driverLocation.value == null) {
         await _getUserLocation();
@@ -317,7 +341,6 @@ class HomeController extends GetxController {
           vendorLocation.value = LatLng(destLat, destLng);
           _addVendorMarker(vendorLocation.value!);
         }
-
       } else {
         print("$isPickup-----------------");
         destLat = order.userAddressData?.latitude;
@@ -350,12 +373,10 @@ class HomeController extends GetxController {
         polylineId: 'active_route',
         color: AppTheme.primaryColor,
       );
-
     } catch (e) {
       print(e);
     }
   }
-
 
   Future<void> _addDirectionPolyline({
     required LatLng origin,
@@ -366,13 +387,20 @@ class HomeController extends GetxController {
     try {
       // 1. Validate coordinates
       print('📍 Origin: (${origin.latitude}, ${origin.longitude})');
-      print('🏁 Destination: (${destination.latitude}, ${destination.longitude})');
+      print(
+        '🏁 Destination: (${destination.latitude}, ${destination.longitude})',
+      );
 
       // 2. Make API call
-      final response = await directionsApi.directionsWithLocation(
-        directions.Location(lat: origin.latitude, lng: origin.longitude),
-        directions.Location(lat: destination.latitude, lng: destination.longitude),
-      ).timeout(Duration(seconds: 10)); // Add timeout
+      final response = await directionsApi
+          .directionsWithLocation(
+            directions.Location(lat: origin.latitude, lng: origin.longitude),
+            directions.Location(
+              lat: destination.latitude,
+              lng: destination.longitude,
+            ),
+          )
+          .timeout(Duration(seconds: 10)); // Add timeout
 
       // 3. Handle response
       if (response.status != 'OK') {
@@ -388,9 +416,10 @@ class HomeController extends GetxController {
         response.routes.first.overviewPolyline.points,
       );
 
-      final polylineCoordinates = points.map(
-            (point) => LatLng(point.latitude, point.longitude),
-      ).toList();
+      final polylineCoordinates =
+          points
+              .map((point) => LatLng(point.latitude, point.longitude))
+              .toList();
 
       // 5. Add to map
       polylines.add(
@@ -404,11 +433,11 @@ class HomeController extends GetxController {
       );
 
       print('✅ Route calculated with ${polylineCoordinates.length} points');
-
     } catch (e) {
       print('❌ Route calculation failed: $e');
       CustomSnackBar.show(
-        message: 'Could not calculate route: ${e.toString().replaceAll('Exception: ', '')}',
+        message:
+            'Could not calculate route: ${e.toString().replaceAll('Exception: ', '')}',
         color: AppTheme.redText,
         tColor: AppTheme.white,
       );
@@ -424,10 +453,14 @@ class HomeController extends GetxController {
     if (userLocation.value != null) points.add(userLocation.value!);
 
     if (points.length < 2) {
-      mapController!.animateCamera(CameraUpdate.newLatLngZoom(driverLocation.value!, 16));
+      mapController!.animateCamera(
+        CameraUpdate.newLatLngZoom(driverLocation.value!, 16),
+      );
       return;
     }
-    mapController!.animateCamera(CameraUpdate.newLatLngBounds(_boundsFromLatLngList(points), 100));
+    mapController!.animateCamera(
+      CameraUpdate.newLatLngBounds(_boundsFromLatLngList(points), 100),
+    );
   }
 
   LatLngBounds _boundsFromLatLngList(List<LatLng> list) {
@@ -519,7 +552,7 @@ class HomeController extends GetxController {
     print('🗺️ Map fully cleared after delivery completion');
   }
 
-    // For Remaining Time
+  // For Remaining Time
   final RxInt remainingTime = 30.obs;
   final int totalTime = 30;
   Timer? acceptanceTimer;
@@ -541,11 +574,13 @@ class HomeController extends GetxController {
   }*/
 
   void startTimer() {
-    if (bottomSheetController.currentSheet.value == BottomSheetState.newOrderArrived &&
+    if (bottomSheetController.currentSheet.value ==
+            BottomSheetState.newOrderArrived &&
         (acceptanceTimer == null || !acceptanceTimer!.isActive)) {
       remainingTime.value = totalTime;
       acceptanceTimer = Timer.periodic(Duration(seconds: 1), (timer) {
-        if (bottomSheetController.currentSheet.value != BottomSheetState.newOrderArrived) {
+        if (bottomSheetController.currentSheet.value !=
+            BottomSheetState.newOrderArrived) {
           stopAcceptanceTimer();
           return;
         }
@@ -553,12 +588,15 @@ class HomeController extends GetxController {
           remainingTime.value--;
         } else {
           stopAcceptanceTimer();
-          if (bottomSheetController.currentSheet.value == BottomSheetState.newOrderArrived) {
+          if (bottomSheetController.currentSheet.value ==
+              BottomSheetState.newOrderArrived) {
             bottomSheetController.currentSheet.value = BottomSheetState.none;
             bottomSheetController.showLookingForOrders();
             final order = bottomSheetController.currentOrder.value;
             if (order != null) {
-              print("About to call timeoutOrder with orderId: ${order.orderId}");
+              print(
+                "About to call timeoutOrder with orderId: ${order.orderId}",
+              );
               timeoutOrder(order.orderId.toString());
             }
             // bottomSheetController.timeoutOrder();
@@ -567,8 +605,6 @@ class HomeController extends GetxController {
       });
     }
   }
-
-
 
   void stopAcceptanceTimer() {
     print('stopAcceptanceTimer CALLED-----dddddddddddddddddddddd');
@@ -593,7 +629,7 @@ class HomeController extends GetxController {
   void sendOtp() {
     orderDetails.value = bottomSheetController.orderDetails.value;
     bottomSheetController.showSendOtpSheet();
-    }
+  }
 
   void getCurrentOrderDetailsEvent() {
     final driverId = storageServices.getDriverID();
@@ -606,19 +642,20 @@ class HomeController extends GetxController {
       print("get current order detail------------- $p0");
       if (p0['status'] == true) {
         print("Condition is true=======for getCurrentOrderDetails");
-        bottomSheetController.showAcceptedOrderDetails(orderDetails.value ?? AcceptedOrderModel());}
+        bottomSheetController.showAcceptedOrderDetails(
+          orderDetails.value ?? AcceptedOrderModel(),
+        );
+      }
     });
   }
 
   void driverIsOnline() {
     final driverId = storageServices.getDriverID();
-    socketService.sendMessage(SocketEvents.isOnline, {
-      "driverId": driverId
-    });
+    socketService.sendMessage(SocketEvents.isOnline, {"driverId": driverId});
     socketService.listenToEvent(SocketEvents.isOnline, (p0) {
       print("Driver isOnline---------$p0");
-      if (p0['status'] == true){
-        if(p0["is_online"]== true){
+      if (p0['status'] == true) {
+        if (p0["is_online"] == true) {
           isOnline.value = true;
           getCurrentOrderDetailsEvent();
           _getUserLocation();
@@ -630,7 +667,7 @@ class HomeController extends GetxController {
 
   Future<void> timeoutOrder(String orderId) async {
     try {
-      socketService.listenToEvent(SocketEvents.orderNotAccepted, (p0){
+      socketService.listenToEvent(SocketEvents.orderNotAccepted, (p0) {
         print("Order Not Accepted Event Received: $p0");
         if (p0['status'] == true) {
           bottomSheetController.hideAllSheets();
@@ -696,7 +733,8 @@ class HomeController extends GetxController {
       final driverId = storageServices.getDriverID();
       socketService.sendMessage(SocketEvents.sendOTP, {
         'driverid': driverId,
-        'orderId': orderDetails.data?.orderDetail?.orderdata?.id.toString() ?? '',
+        'orderId':
+            orderDetails.data?.orderDetail?.orderdata?.id.toString() ?? '',
         'action': 'verify',
         'otp': otpController.text,
       });
@@ -706,7 +744,7 @@ class HomeController extends GetxController {
         socketService.off(SocketEvents.sendOTP);
         if (data['status']) {
           otpController.clear();
-          if (data["isCompleted"]==true) {
+          if (data["isCompleted"] == true) {
             deliveryComplete();
           } else {
             bottomSheetController.showOrderPickedUp();
@@ -724,8 +762,11 @@ class HomeController extends GetxController {
     }
   }
 
-  void deliveryComplete(){
-    socketService.listenToEvent(SocketEvents.deliveryComplete, (data){
+  void deliveryComplete() {
+    socketService.listenToEvent(SocketEvents.deliveryComplete, (data) {
+      socketService.off(SocketEvents.deliveryComplete);
+      bottomSheetController.currentOrder.value = null;
+      bottomSheetController.orderDetails.value = null;
       print('$data==========After Delivery Complete');
       isSlid.value = false;
       bottomSheetController.showOrderDelivered();
@@ -764,7 +805,9 @@ class HomeController extends GetxController {
     socketService.listenToEvent(SocketEvents.goOnline, (data) {
       isOnline.value = true;
       print('✅ Received driverOnlineConfirmed, showing bottom sheet$data');
-      print('✅ Received driverOnlineConfirmed, showing bottom sheet${isOnline.value}');
+      print(
+        '✅ Received driverOnlineConfirmed, showing bottom sheet${isOnline.value}',
+      );
       bottomSheetController.showLookingForOrders();
     });
 
@@ -791,8 +834,14 @@ class HomeController extends GetxController {
         orderDetails.value = AcceptedOrderModel.fromJson(data);
         bottomSheetController.orderDetails.value = orderDetails.value;
         bottomSheetController.orderDetails.refresh();
-        if(orderDetails.value?.data?.orderDetail?.vendordata?.latitude !=null && orderDetails.value?.data?.orderDetail?.vendordata?.longitude !=null){
-          driverLocation.value = LatLng(orderDetails.value?.data?.orderDetail?.vendordata?.latitude??0,orderDetails.value?.data?.orderDetail?.vendordata?.longitude??0);
+        if (orderDetails.value?.data?.orderDetail?.vendordata?.latitude !=
+                null &&
+            orderDetails.value?.data?.orderDetail?.vendordata?.longitude !=
+                null) {
+          driverLocation.value = LatLng(
+            orderDetails.value?.data?.orderDetail?.vendordata?.latitude ?? 0,
+            orderDetails.value?.data?.orderDetail?.vendordata?.longitude ?? 0,
+          );
         }
         updateMapWithDirections();
         if (orderDetails.value?.data?.pickUp == false) {
@@ -802,25 +851,83 @@ class HomeController extends GetxController {
           print("56");
           final orderModel = OrderModel(
             orderId: orderDetails.value?.data?.orderDetail?.orderdata?.id ?? "",
-            vendorId: orderDetails.value?.data?.orderDetail?.vendordata?.id ?? "",
-            orderNumber: orderDetails.value?.data?.orderDetail?.orderdata?.orderId ?? "",
-            quantity: orderDetails.value?.data?.orderDetail?.orderdata?.quantity ?? "",
-            totalAmount: orderDetails.value?.data?.orderDetail?.orderdata?.totalAmount ?? "",
-            deliveryTime: orderDetails.value?.data?.orderDetail?.orderdata?.deliveryTime ?? '',
-            restaurantName: orderDetails.value?.data?.orderDetail?.vendordata?.restaurantName ?? "",
-            vendorAddress: orderDetails.value?.data?.orderDetail?.vendordata?.address ?? "",
-            vendorLatitude: orderDetails.value?.data?.orderDetail?.vendordata?.latitude ?? 0.0,
-            vendorLongitude: orderDetails.value?.data?.orderDetail?.vendordata?.longitude ?? 0.0,
-            userAddress: orderDetails.value?.data?.orderDetail?.userAddressData?.completeAddress ?? "",
-            userLatitude: orderDetails.value?.data?.orderDetail?.userAddressData?.latitude ?? 0.0,
-            userLongitude: orderDetails.value?.data?.orderDetail?.userAddressData?.longitude ?? 0.0,
-            pickupDistance: orderDetails.value?.data?.pickUpLocation?.distance ?? "",
-            pickupDuration: orderDetails.value?.data?.pickUpLocation?.duration ?? "",
-            deliveryDistance: orderDetails.value?.data?.deliveryLocation?.distance ?? "",
-            deliveryCharge: orderDetails.value?.data?.orderDetail?.orderdata?.deliveryCharge ?? "",
-            deliveryDuration: orderDetails.value?.data?.deliveryLocation?.duration ?? "",
+            vendorId:
+                orderDetails.value?.data?.orderDetail?.vendordata?.id ?? "",
+            orderNumber:
+                orderDetails.value?.data?.orderDetail?.orderdata?.orderId ?? "",
+            quantity:
+                orderDetails.value?.data?.orderDetail?.orderdata?.quantity ??
+                "",
+            totalAmount:
+                orderDetails.value?.data?.orderDetail?.orderdata?.totalAmount ??
+                "",
+            deliveryTime:
+                orderDetails
+                    .value
+                    ?.data
+                    ?.orderDetail
+                    ?.orderdata
+                    ?.deliveryTime ??
+                '',
+            restaurantName:
+                orderDetails
+                    .value
+                    ?.data
+                    ?.orderDetail
+                    ?.vendordata
+                    ?.restaurantName ??
+                "",
+            vendorAddress:
+                orderDetails.value?.data?.orderDetail?.vendordata?.address ??
+                "",
+            vendorLatitude:
+                orderDetails.value?.data?.orderDetail?.vendordata?.latitude ??
+                0.0,
+            vendorLongitude:
+                orderDetails.value?.data?.orderDetail?.vendordata?.longitude ??
+                0.0,
+            userAddress:
+                orderDetails
+                    .value
+                    ?.data
+                    ?.orderDetail
+                    ?.userAddressData
+                    ?.completeAddress ??
+                "",
+            userLatitude:
+                orderDetails
+                    .value
+                    ?.data
+                    ?.orderDetail
+                    ?.userAddressData
+                    ?.latitude ??
+                0.0,
+            userLongitude:
+                orderDetails
+                    .value
+                    ?.data
+                    ?.orderDetail
+                    ?.userAddressData
+                    ?.longitude ??
+                0.0,
+            pickupDistance:
+                orderDetails.value?.data?.pickUpLocation?.distance ?? "",
+            pickupDuration:
+                orderDetails.value?.data?.pickUpLocation?.duration ?? "",
+            deliveryDistance:
+                orderDetails.value?.data?.deliveryLocation?.distance ?? "",
+            deliveryCharge:
+                orderDetails
+                    .value
+                    ?.data
+                    ?.orderDetail
+                    ?.orderdata
+                    ?.deliveryCharge ??
+                "",
+            deliveryDuration:
+                orderDetails.value?.data?.deliveryLocation?.duration ?? "",
           );
-          bottomSheetController.showNewOrder(orderModel,"accepted order");
+          bottomSheetController.showNewOrder(orderModel, "accepted order");
         }
       } catch (e) {
         print('Error parsing order details: $e');
@@ -841,11 +948,33 @@ class HomeController extends GetxController {
       print('Raw newOrder data: $data');
       if (data is Map<String, dynamic>) {
         driverRepo.currentOrder.value = OrderModel.fromJson(data);
-        print('New order received: ${driverRepo.currentOrder.value?.orderNumber}');
+        print(
+          'New order received: ${driverRepo.currentOrder.value?.orderNumber}',
+        );
       } else {
         print(
           'Invalid order data format - Expected Map but got ${data.runtimeType}',
         );
+      }
+    });
+
+    changeLocationTimer = Timer.periodic(Duration(minutes: 1), (Timer t) async {
+      if (bottomSheetController.orderDetails.value == null &&
+          bottomSheetController.currentOrder.value == null &&
+          isOnline.value == true) {
+        print("change driver location every one minute===================");
+        var address = await getAddressFromLatLong(
+          driverLocation.value?.latitude ?? 0.0,
+          driverLocation.value?.longitude ?? 0.0,
+        );
+        socketService.sendMessage(SocketEvents.changeDriverLocation, {
+          "driverId": storageServices.getDriverID(),
+          "latitude": driverLocation.value?.latitude ?? 0.0,
+          "longitude": driverLocation.value?.longitude ?? 0.0,
+          "address": address,
+        });
+      } else {
+        print("driver busy===================");
       }
     });
 
@@ -880,7 +1009,7 @@ class HomeController extends GetxController {
           latitude: currentLocation.latitude!,
           longitude: currentLocation.longitude!,
           address: storageServices.getAddress(),
-            vehicle_type: storageServices.getDeliveryType()
+          vehicle_type: storageServices.getDeliveryType(),
         );
         // driverRepo.listenForNewOrders();
       }
@@ -901,45 +1030,68 @@ class HomeController extends GetxController {
   void _sendLocationUpdate(String orderId) {
     if (driverLocation.value == null) return;
     print('📡 Sending location update at ${DateTime.now()}');
-    print('📍 Location: ${driverLocation.value!.latitude}, ${driverLocation.value!.longitude}');
-    try{
+    print(
+      '📍 Location: ${driverLocation.value!.latitude}, ${driverLocation.value!.longitude}',
+    );
+    try {
       print("track driver location in try block===========$orderId");
       socketService.sendMessage(SocketEvents.trackDriverLocation, {
         "driverId": storageServices.getDriverID(),
         "orderId": orderId,
         "latitude": driverLocation.value!.latitude,
         "longitude": driverLocation.value!.longitude,
-        "address": orderDetails.value?.data?.orderDetail?.userAddressData?.completeAddress,
-        "userId": orderDetails.value?.data?.orderDetail?.userdata?.id?.toString()
+        "address":
+            orderDetails
+                .value
+                ?.data
+                ?.orderDetail
+                ?.userAddressData
+                ?.completeAddress,
+        "userId":
+            orderDetails.value?.data?.orderDetail?.userdata?.id?.toString(),
       });
-    }catch(e){
+    } catch (e) {
       print("====$e=========newwwwwwwww");
     }
   }
 
-  Rx<ApiResponse<GetDriverDataModel>> driverData = Rx<ApiResponse<GetDriverDataModel>>(ApiResponse.loading());
-  setDriverData(ApiResponse<GetDriverDataModel> value){
+  Rx<ApiResponse<GetDriverDataModel>> driverData =
+      Rx<ApiResponse<GetDriverDataModel>>(ApiResponse.loading());
+  setDriverData(ApiResponse<GetDriverDataModel> value) {
     driverData.value = value;
   }
 
-  getDriverData() async{
+  getDriverData() async {
     setDriverData(ApiResponse.loading());
-    try{
+    try {
       final apiData = await _repository.getDriverDataAPI();
-      if(apiData.status == true){
+      if (apiData.status == true) {
         WidgetDesigns.consoleLog("Driver Data get", "get driver data");
         setDriverData(ApiResponse.completed(apiData));
-      } else{
-        WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get driver data", "error while get driver data");
-        CustomSnackBar.show(message:apiData.message?.toString() ?? "Error while get driver data", color: AppTheme.redText, tColor: AppTheme.white);
-        setDriverData(ApiResponse.error(apiData.message?.toString() ?? "Error while get driver data"));
+      } else {
+        WidgetDesigns.consoleLog(
+          apiData.message?.toString() ?? "Error while get driver data",
+          "error while get driver data",
+        );
+        CustomSnackBar.show(
+          message: apiData.message?.toString() ?? "Error while get driver data",
+          color: AppTheme.redText,
+          tColor: AppTheme.white,
+        );
+        setDriverData(
+          ApiResponse.error(
+            apiData.message?.toString() ?? "Error while get driver data",
+          ),
+        );
       }
-
-    } catch(e){
+    } catch (e) {
       setDriverData(ApiResponse.error(e.toString()));
       WidgetDesigns.consoleLog(e.toString(), "error while get driver data");
-      CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      CustomSnackBar.show(
+        message: e.toString(),
+        color: AppTheme.redText,
+        tColor: AppTheme.white,
+      );
     }
   }
-
 }

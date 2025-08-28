@@ -34,6 +34,8 @@ class SocketEvents {
 
   static const otpPhoneNo = 'otpPhoneNo';
 
+  static const changeDriverLocation = 'changeDriverLocation';
+
   static const getCurrentOrderDetails = 'getCurrentOrderDetails';
 
   static const readyForDelivery = 'readyForDelivery';
