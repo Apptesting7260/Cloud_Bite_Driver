@@ -1,5 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/delivery_process/controller/bottom_sheet_controller.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:slide_to_act/slide_to_act.dart';
@@ -136,10 +137,22 @@ class HomeScreen extends StatelessWidget {
                 left: 20,
                 right: 20,
                 child: CustomAnimatedButton(
-                  onTap: () {
+                  onTap: controller.isOnlineLoading.value ?(){}: () {
                     controller.toggleOnlineStatus();
                   },
                   text: 'Go Online',
+                  child: controller.isOnlineLoading.value
+                      ? SizedBox(
+                          height: 24,
+                          width: 24,
+                          child: CupertinoActivityIndicator(
+                            color: Colors.white,
+                             animating: true,
+
+                            // strokeWidth: 2,
+                          ),
+                        )
+                      : null,
                 ),
               );
             } else {

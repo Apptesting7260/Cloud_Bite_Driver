@@ -962,7 +962,6 @@ class HomeController extends GetxController {
       if (bottomSheetController.orderDetails.value == null &&
           bottomSheetController.currentOrder.value == null &&
           isOnline.value == true) {
-        print("change driver location every one minute===================");
         var address = await getAddressFromLatLong(
           driverLocation.value?.latitude ?? 0.0,
           driverLocation.value?.longitude ?? 0.0,
@@ -993,34 +992,41 @@ class HomeController extends GetxController {
       print("object");
     });
   }
-
+var isOnlineLoading = false.obs;
   Future<void> toggleOnlineStatus() async {
+    isOnlineLoading.value = true;
     try {
       if (isOnline.value) {
         // Emit offline request
-        await driverRepo.goOffline();
+         driverRepo.goOffline();
         // UI will update when socket confirms via `driverOfflineConfirmed`
       } else {
         final currentLocation = await location.getLocation();
-        await driverRepo.goOnline(
+        final address  = await getAddressFromLatLong(
+          currentLocation.latitude ?? 0.0,
+          currentLocation.longitude ?? 0.0,
+        );
+         driverRepo.goOnline(
           firstName: storageServices.getFirstName(),
           lastName: storageServices.getLastName(),
           fcmToken: storageServices.returnFCMToken(),
           latitude: currentLocation.latitude!,
           longitude: currentLocation.longitude!,
-          address: storageServices.getAddress(),
+          address: address,
           vehicle_type: storageServices.getDeliveryType(),
         );
         // driverRepo.listenForNewOrders();
       }
     } catch (e) {
       print(e);
+    }finally{
+      isOnlineLoading.value = false;
     }
   }
 
-  Future<void> joinDriverEvent() async {
+  void joinDriverEvent() {
     try {
-      await driverRepo.joinDriver();
+       driverRepo.joinDriver();
       print('-------Driver Joined--------');
     } catch (e) {
       print(e);

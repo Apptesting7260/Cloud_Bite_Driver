@@ -7,9 +7,11 @@ class CustomAnimatedButton extends StatefulWidget {
   final double width;
   final double height;
   final bool isEnabled;
+  final Widget ?child;
 
   const CustomAnimatedButton({
     super.key,
+    this.child,
     required this.onTap,
     required this.text,
     this.width = double.infinity,
@@ -104,7 +106,7 @@ class _CustomAnimatedButtonState extends State<CustomAnimatedButton>
             ],
           ),
           alignment: Alignment.center,
-          child: Text(
+          child:widget.child?? Text(
               widget.text,
               style: AppFontStyle.text_16_500(AppTheme.white, fontFamily: AppFontFamily.generalSansMedium)
           ),

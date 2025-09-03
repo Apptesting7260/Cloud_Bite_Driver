@@ -10,7 +10,7 @@ class DriverRepository {
   final RxBool isOtpVerified = false.obs;
 
   // 1. GO Online Event
-  Future<void> goOnline({
+  void goOnline({
     required String firstName,
     required String lastName,
     required String fcmToken,
@@ -22,6 +22,7 @@ class DriverRepository {
     print("lonline wala");
     try {
       print("online he h");
+
       final driverId = storageServices.getDriverID();
       socketService.sendMessage(SocketEvents.goOnline, {
         'driverId': driverId,
@@ -44,7 +45,7 @@ class DriverRepository {
   }
 
   // 2. Go Offline Event
-  Future<void> goOffline() async {
+  void goOffline()  {
     print("offlineeeeeeeeeeeeeeeee");
     try {
       print("workkkkkkkkkkkkkkkkkkkkkkkkkkkk");
@@ -65,7 +66,7 @@ class DriverRepository {
   }
 
   // 3. Join Driver Event
-  Future<void> joinDriver() async {
+  void joinDriver() {
     try{
       final driverId = storageServices.getDriverID();
       print("DriverId for join driver event-----------");
