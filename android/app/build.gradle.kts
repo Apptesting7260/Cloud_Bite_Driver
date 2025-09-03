@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.cloud_bites_driver"
+    namespace = "com.cloud_bites.cloud_bites_driver"
 //    compileSdk = flutter.compileSdkVersion
     compileSdk = 35
 //    ndkVersion = flutter.ndkVersion
@@ -25,7 +25,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.example.cloud_bites_driver"
+        applicationId = "com.cloud_bites.cloud_bites_driver"
 //        minSdk = flutter.minSdkVersion
         minSdk = 23
         targetSdk = flutter.targetSdkVersion
