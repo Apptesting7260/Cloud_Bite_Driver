@@ -1,6 +1,8 @@
 class AppUrls{
 
-  static const String baseUrl = 'https://api.cloudbitesbw.com';
+  // static const String baseUrl = 'https://api.cloudbitesbw.com';
+  static const String baseUrl = "https://qmt4f11v-8000.inc1.devtunnels.ms";
+
   // static const String baseUrl = 'http://15.207.201.245:8000'; // live url
   // static const String baseUrl = 'https://n86h3555-8000.inc1.devtunnels.ms'; // uttam sir
   // static const String baseUrl = 'https://21qkztxl-8000.inc1.devtunnels.ms';
@@ -9,7 +11,9 @@ class AppUrls{
   // Socket URL
   // static const String socketURl = 'http://15.207.201.245:8000/'; // live Socket URl
 
-  static const String socketURl = 'https://api.cloudbitesbw.com';
+  // static const String socketURl = 'https://api.cloudbitesbw.com';
+  static String socketURl = "https://qmt4f11v-8000.inc1.devtunnels.ms";
+
   // static const String socketURl = 'https://21qkztxl-8000.inc1.devtunnels.ms/';
   // static const String socketURl = 'https://n86h3555-8000.inc1.devtunnels.ms/';
 
