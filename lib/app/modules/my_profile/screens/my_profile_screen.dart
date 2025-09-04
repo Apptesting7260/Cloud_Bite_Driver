@@ -176,6 +176,8 @@ class MyProfileScreen extends StatelessWidget{
                       ),
                       WidgetDesigns.hBox(20),
                       myProfileLists('Logout', ImageConstants.logoutIcon, () => showLogoutDialog(Get.context!)),
+                      WidgetDesigns.hBox(20),
+                      myProfileLists2('Delete Account', ImageConstants.deleteIcon, () => Get.toNamed(Routes.DELETE_ACCOUNT)),
                       WidgetDesigns.hBox(50),
                     ],
                   ),
@@ -207,6 +209,37 @@ class MyProfileScreen extends StatelessWidget{
                 )
             ),
             child: SvgPicture.asset(iconPath),
+          ),
+          WidgetDesigns.wBox(10),
+          Text(
+            title,
+            style: AppFontStyle.text_18_500(AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
+          ),
+          const Spacer(),
+          Icon(Icons.arrow_forward_ios, size: 14)
+        ],
+      ),
+    );
+  }
+  Widget myProfileLists2( String title, String iconPath, VoidCallback? onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Row(
+        children: [
+          Container(
+            height:44,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(13.0),
+                gradient: LinearGradient(
+                  colors: [
+                    Color.fromRGBO(248, 238, 244, 1),
+                    Color.fromRGBO(239, 247, 252, 1)
+                  ],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                )
+            ),
+            child: SvgPicture.asset(iconPath).paddingAll(10),
           ),
           WidgetDesigns.wBox(10),
           Text(
