@@ -9,8 +9,7 @@
             <array>
                 <!-- Google reversed client ID -->
                 <string>com.googleusercontent.apps.524176041811-sbsdf49l6hjvpad819a2al2f8r37s3vn</string>
-                <!-- Facebook URL scheme -->
-                <string>fbYOUR_FACEBOOK_APP_ID</string>
+
             </array>
         </dict>
     </array>

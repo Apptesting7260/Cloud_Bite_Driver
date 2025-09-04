@@ -34,6 +34,7 @@ class SignUpScreen extends StatelessWidget{
                 flex: 2,
                 child: SizedBox(
                   width: double.infinity,
+                  height: double.infinity,
                   child: Material(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
