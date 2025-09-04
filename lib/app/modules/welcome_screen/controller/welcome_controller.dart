@@ -3,8 +3,7 @@ import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/routes/stage_navigator.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
-class WelcomeController extends GetxController{
-
+class WelcomeController extends GetxController {
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageServices => _storageService;
 
@@ -17,7 +16,7 @@ class WelcomeController extends GetxController{
 
       final GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: ['email', 'profile'],
-       );
+      );
 
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser == null) {
@@ -26,7 +25,7 @@ class WelcomeController extends GetxController{
       }
 
       final GoogleSignInAuthentication googleAuth =
-      await googleUser.authentication;
+          await googleUser.authentication;
 
       final AuthCredential credential = GoogleAuthProvider.credential(
         accessToken: googleAuth.accessToken,
@@ -42,60 +41,70 @@ class WelcomeController extends GetxController{
         "email": googleUser.email,
         "type": "google",
         "fcm_token": fcmToken ?? '',
-         "uuid": googleUser.id,
+        "uuid": googleUser.id,
       };
 
       final response = await _repository.socialLoginAPI(data);
       String email = googleUser.email;
       if (response.status == true) {
         LoadingOverlay().hideLoading();
-        storageServices.saveEmail(email);
-        storageServices.saveToken("${response.data?.loginToken}");
-        storageServices.saveDriverID("${response.data?.id}");
-        storageServices.saveFirstName("${response.data?.firstName}");
-        storageServices.saveLastName("${response.data?.lastName}");
-        storageServices.saveAddress("${response.data?.address}");
-        storageServices.saveDOB("${response.data?.dateOfBirth}");
+
         if (response.data != null) {
-          if(response.data!.emailVerified == true) {
+          if (response.data!.emailVerified == true) {
             storageServices.saveEmail(response.data?.email ?? '');
             storageServices.saveEmailVerified(true);
           }
-          if(response.data?.stages == "1" || response.data?.stages == null){
+          if (response.data?.stages == "1" || response.data?.stages == null) {
             storageServices.saveToken("${response.data?.loginToken}");
-            Get.toNamed(Routes.signUpScreen, arguments: {
-              'email': email,
-              'isVerified': response.data?.emailVerified ?? false,
-              'loginType': 'google' // Add this line
-            });
-          }else{
+            Get.toNamed(
+              Routes.signUpScreen,
+              arguments: {
+                'id': response.data?.id.toString(),
+
+                'email': email,
+                'isVerified': response.data?.emailVerified ?? false,
+                'loginType': 'google', // Add this line
+              },
+            );
+          } else {
+            storageServices.saveEmail(email);
+            storageServices.saveToken("${response.data?.loginToken}");
+            storageServices.saveDriverID("${response.data?.id}");
+            storageServices.saveFirstName("${response.data?.firstName}");
+            storageServices.saveLastName("${response.data?.lastName}");
+            storageServices.saveAddress("${response.data?.address}");
+            storageServices.saveDOB("${response.data?.dateOfBirth}");
             StageNavigator.navigateToStage(response.data!.stages.toString());
           }
         } else {
-          Get.toNamed(Routes.signUpScreen, arguments: {
-            'email': email,
-            'isVerified': response.data?.emailVerified ?? false,
-            'loginType': 'google' // Add this line
-          });
+          Get.toNamed(
+            Routes.signUpScreen,
+            arguments: {
+              'id': response.data?.id.toString(),
+
+              'email': email,
+              'isVerified': response.data?.emailVerified ?? false,
+              'loginType': 'google', // Add this line
+            },
+          );
         }
       } else {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(
           message: response.message ?? "Something went wrong!",
           tColor: AppTheme.white,
-          color: AppTheme.redText
+          color: AppTheme.redText,
         );
       }
-
     } on PlatformException catch (e) {
       // Get.back();
       print('Google Sign-In PlatformException: ${e.message}');
       CustomSnackBar.show(
         message: 'Google Sign-In failed. Please check your configuration.',
         color: AppTheme.redText,
-        tColor: AppTheme.white
+        tColor: AppTheme.white,
       );
-    }finally {
+    } finally {
       LoadingOverlay().hideLoading();
     }
   }
@@ -129,54 +138,62 @@ class WelcomeController extends GetxController{
         String email = userData['email'] ?? '';
 
         if (response.status == true) {
-          storageServices.saveToken("${response.data?.loginToken}");
-          storageServices.saveDriverID("${response.data?.id}");
-          storageServices.saveFirstName("${response.data?.firstName}");
-          storageServices.saveLastName("${response.data?.lastName}");
-          storageServices.saveAddress("${response.data?.address}");
-          storageServices.saveDOB("${response.data?.dateOfBirth}");
-
           if (response.data != null) {
-            if(response.data!.emailVerified == true) {
-              storageServices.saveEmail(response.data?.email ?? '');
-              storageServices.saveEmailVerified(true);
-            }
-            if(response.data?.stages == "1" || response.data?.stages == null){
+            if (response.data?.stages == "1" || response.data?.stages == null) {
               storageServices.saveToken("${response.data?.loginToken}");
-              Get.offAllNamed(Routes.signUpScreen, arguments: {
-                'email': email,
-                'isVerified': response.data?.emailVerified ?? false
-              });
+              Get.offAllNamed(
+                Routes.signUpScreen,
+                arguments: {
+                  'id': response.data?.id.toString(),
+                  'email': email,
+                  'isVerified': response.data?.emailVerified ?? false,
+                },
+              );
             } else {
+              storageServices.saveToken("${response.data?.loginToken}");
+              storageServices.saveDriverID("${response.data?.id}");
+              storageServices.saveFirstName("${response.data?.firstName}");
+              storageServices.saveLastName("${response.data?.lastName}");
+              storageServices.saveAddress("${response.data?.address}");
+              storageServices.saveDOB("${response.data?.dateOfBirth}");
+              if (response.data!.emailVerified == true) {
+                storageServices.saveEmail(response.data?.email ?? '');
+                storageServices.saveEmailVerified(true);
+              }
+
               StageNavigator.navigateToStage(response.data!.stages.toString());
             }
           } else {
-            Get.offAllNamed(Routes.signUpScreen, arguments: {
-              'email': email,
-              'isVerified': response.data?.emailVerified ?? false
-            });
+            Get.offAllNamed(
+              Routes.signUpScreen,
+              arguments: {
+                'id': response.data?.id.toString(),
+                'email': email,
+                'isVerified': response.data?.emailVerified ?? false,
+              },
+            );
           }
         } else {
           CustomSnackBar.show(
-              message: response.message ?? "Something went wrong!",
-              tColor: AppTheme.white,
-              color: AppTheme.redText
+            message: response.message ?? "Something went wrong!",
+            tColor: AppTheme.white,
+            color: AppTheme.redText,
           );
         }
       } else {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(
-            message: 'Facebook login cancelled',
-            color: AppTheme.redText,
-            tColor: AppTheme.white
+          message: 'Facebook login cancelled',
+          color: AppTheme.redText,
+          tColor: AppTheme.white,
         );
       }
     } catch (e) {
       LoadingOverlay().hideLoading();
       CustomSnackBar.show(
-          message: 'Facebook login failed: ${e.toString()}',
-          color: AppTheme.redText,
-          tColor: AppTheme.white
+        message: 'Facebook login failed: ${e.toString()}',
+        color: AppTheme.redText,
+        tColor: AppTheme.white,
       );
       print('Facebook login error: $e');
     }
@@ -195,12 +212,10 @@ class WelcomeController extends GetxController{
         ],
       );
 
-
-
       String? fcmToken = await storageServices.returnFCMToken();
 
       // Apple से email और name प्राप्त करना
-      String email = credential.email ??  '';
+      String email = credential.email ?? '';
       String firstName = credential.givenName ?? '';
       String lastName = credential.familyName ?? '';
       String appleUserId = credential.userIdentifier ?? '';
@@ -218,59 +233,69 @@ class WelcomeController extends GetxController{
 
       if (response.status == true) {
         LoadingOverlay().hideLoading();
-        storageServices.saveToken("${response.data?.loginToken}");
-        storageServices.saveDriverID("${response.data?.id}");
-        storageServices.saveFirstName("${response.data?.firstName}");
-        storageServices.saveLastName("${response.data?.lastName}");
-        storageServices.saveAddress("${response.data?.address}");
-        storageServices.saveDOB("${response.data?.dateOfBirth}");
+
 
         if (response.data != null) {
-          if(response.data!.emailVerified == true) {
-            storageServices.saveEmail(response.data?.email ?? '');
-            storageServices.saveEmailVerified(true);
-          }
-          if(response.data?.stages == "1"|| response.data?.stages == null){
+
+          if (response.data?.stages == "1" || response.data?.stages == null) {
             print(".........${response.data?.stages}........");
             storageServices.saveToken("${response.data?.loginToken}");
-            Get.toNamed(Routes.signUpScreen, arguments: {
-              'email': email,
-              'isVerified': response.data?.emailVerified ?? false
-            });
-          }else{
+            Get.toNamed(
+              Routes.signUpScreen,
+              arguments: {
+                'id': response.data?.id.toString(),
+                'email': email,
+                'isVerified': response.data?.emailVerified ?? false,
+              },
+            );
+          } else {
+            storageServices.saveToken("${response.data?.loginToken}");
+            storageServices.saveDriverID("${response.data?.id}");
+            storageServices.saveFirstName("${response.data?.firstName}");
+            storageServices.saveLastName("${response.data?.lastName}");
+            storageServices.saveAddress("${response.data?.address}");
+            storageServices.saveDOB("${response.data?.dateOfBirth}");
+            if (response.data!.emailVerified == true) {
+              storageServices.saveEmail(response.data?.email ?? '');
+              storageServices.saveEmailVerified(true);
+            }
             StageNavigator.navigateToStage(response.data!.stages.toString());
           }
         } else {
-          Get.toNamed(Routes.signUpScreen, arguments: {
-            'email': email,
-            'isVerified': response.data?.emailVerified ?? false
-          });
+          Get.toNamed(
+            Routes.signUpScreen,
+            arguments: {
+              'id': response.data?.id.toString(),
+
+              'email': email,
+              'isVerified': response.data?.emailVerified ?? false,
+            },
+          );
         }
       } else {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(
-            message: response.message ?? "Something went wrong!",
-            tColor: AppTheme.white,
-            color: AppTheme.redText
+          message: response.message ?? "Something went wrong!",
+          tColor: AppTheme.white,
+          color: AppTheme.redText,
         );
       }
-
     } on SignInWithAppleAuthorizationException catch (e) {
       // Apple Sign-In specific exceptions
       LoadingOverlay().hideLoading();
       if (e.code != AuthorizationErrorCode.canceled) {
         CustomSnackBar.show(
-            message: 'Apple Sign-In failed: ${e.message}',
-            color: AppTheme.redText,
-            tColor: AppTheme.white
+          message: 'Apple Sign-In failed: ${e.message}',
+          color: AppTheme.redText,
+          tColor: AppTheme.white,
         );
       }
     } catch (e) {
       LoadingOverlay().hideLoading();
       CustomSnackBar.show(
-          message: 'Apple Sign-In failed: ${e.toString()}',
-          color: AppTheme.redText,
-          tColor: AppTheme.white
+        message: 'Apple Sign-In failed: ${e.toString()}',
+        color: AppTheme.redText,
+        tColor: AppTheme.white,
       );
       print('Apple login error: $e');
     }

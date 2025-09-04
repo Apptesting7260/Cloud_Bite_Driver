@@ -73,6 +73,7 @@ class BankDetailController extends GetxController{
         "account_type": selectedAccountType.value,
         "ifsc_code": ifscNameController.text,
       };
+      print("request $data");
 
 
       final response = await _repository.uploadBankDetailsAPI(data);
@@ -100,6 +101,10 @@ class BankDetailController extends GetxController{
         LoadingOverlay().hideLoading();
         updateReTypeError(response.message.toString());
         WidgetDesigns.consoleLog(response.message.toString(), "Error when Uploading Bank Details");
+      } else if(response.status == false && response.type == 'Account'){
+        LoadingOverlay().hideLoading();
+        updateReTypeError(response.message.toString());
+        WidgetDesigns.consoleLog(response.message.toString(), "Error when Uploading Bank Details");
       }
       else if(response.status == false && response.type == 'ifsc_code'){
         LoadingOverlay().hideLoading();
@@ -113,9 +118,10 @@ class BankDetailController extends GetxController{
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
       }
 
-    }catch(e){
+    }catch(e,s){
       LoadingOverlay().hideLoading();
       print(e);
+      print(s);
     }
   }
 

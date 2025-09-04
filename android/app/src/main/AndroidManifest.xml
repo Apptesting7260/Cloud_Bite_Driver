@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <application
-        android:label="CloudBites Driver"
+        android:label="CloudBites D"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <meta-data
