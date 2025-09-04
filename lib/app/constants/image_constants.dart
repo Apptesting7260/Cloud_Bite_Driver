@@ -43,6 +43,8 @@ class ImageConstants{
 
   // PNG Images
   static String splashImage= "$imagePath/splash.png";
+  static String deleteIcon = "$imagePath/deleteIcon.svg";
+
   static String loginBackgroundImage= "$imagePath/login_background_image.png";
   static String facebookLoginImage= "$imagePath/fb.png";
   static String googleLoginImage= "$imagePath/google.png";

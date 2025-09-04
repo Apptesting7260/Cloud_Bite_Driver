@@ -1,7 +1,8 @@
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-import '../../../utils/MyUrl.dart';
+import '../../../constants/app_urls.dart';
+
 
 class DeleteAccountController extends GetxController {
   //TODO: Implement DeleteAccountController
@@ -16,7 +17,7 @@ class DeleteAccountController extends GetxController {
           ..setJavaScriptMode(JavaScriptMode.unrestricted)
           ..setNavigationDelegate(NavigationDelegate())
           ..loadRequest(
-            Uri.parse("${MyUrl.baseUrl}api/v2/delete/delete-account?type=user"),
+            Uri.parse("${AppUrls.baseUrl}/api/v2/delete/delete-account?type=driver"),
           );
   }
 

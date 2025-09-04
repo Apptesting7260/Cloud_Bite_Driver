@@ -129,6 +129,7 @@ class Repository {
   Future<DriverAccountDetailsModel> uploadBankDetailsAPI(Map<String, dynamic> data) async {
     final token = storageService.getToken();
     dynamic response = await _apiService.postApi(data, AppUrls.bankDetailsUploadAPI, "Bearer $token");
+    print(response);
     return DriverAccountDetailsModel.fromJson(response);
   }
 

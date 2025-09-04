@@ -10,6 +10,8 @@ import 'package:cloud_bites_driver/app/modules/my_profile/screens/wallet/choose_
 import 'package:cloud_bites_driver/app/modules/no_internet_connection/bindings/no_internet_connection_binding.dart';
 import 'package:cloud_bites_driver/app/modules/no_internet_connection/views/no_internet_connection_view.dart';
 
+import '../modules/delete_account/bindings/delete_account_binding.dart';
+import '../modules/delete_account/views/delete_account_view.dart';
 import '../modules/my_profile/screens/specific_date_deliveries_screen.dart';
 
 class Routes {
@@ -57,9 +59,14 @@ class Routes {
   static const deliveriesScreen = '/deliveriesScreen';
   static const specificDateDeliveriesScreen = '/specificDateDeliveriesScreen';
   static const chooseWithdrawMethodScreen = '/ChooseWithdrawMethodScreen';
-
+  static const DELETE_ACCOUNT = '/delete-account';
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen(), binding: SplashBinding()),
+    GetPage(
+      name:DELETE_ACCOUNT,
+      page: () => DeleteAccountView(),
+      binding: DeleteAccountBinding(),
+    ),
     GetPage(name: chooseWithdrawMethodScreen, page: () => ChooseWithdrawMethodScreen()),
     GetPage(
         name: onboarding,

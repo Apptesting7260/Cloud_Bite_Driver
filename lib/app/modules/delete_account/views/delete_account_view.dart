@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../utils/AppImages.dart';
-import '../../../utils/custom_widgets/MyText.dart';
+import '../../../constants/image_constants.dart';
+import '../../../utils/custom_widgets/my_text.dart';
 import '../controllers/delete_account_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -18,7 +18,7 @@ class DeleteAccountView extends GetView<DeleteAccountController> {
               backgroundColor: Colors.white,
               elevation: 0,
               leading: IconButton(
-                icon: Image.asset(AppImages.backIconImage),
+                icon: Image.asset(ImageConstants.backIconImage),
                 onPressed: () {
                   Get.back();
                 },
