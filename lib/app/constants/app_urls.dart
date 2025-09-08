@@ -9,7 +9,7 @@ class AppUrls{
   // Socket URL
   // static const String socketURl = 'http://15.207.201.245:8000/'; // live Socket URl
 
-  static const String socketURl = 'https://api.cloudbitesbw.com';
+  static const String socketURl =baseUrl;
   // static String socketURl = "https://qmt4f11v-8000.inc1.devtunnels.ms";
   // static const String socketURl = 'https://21qkztxl-8000.inc1.devtunnels.ms/';
   // static const String socketURl = 'https://n86h3555-8000.inc1.devtunnels.ms/';
