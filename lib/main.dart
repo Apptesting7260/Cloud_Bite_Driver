@@ -37,6 +37,14 @@ void main() async {
         initialRoute: Routes.splash,
         getPages: Routes.routes,
         theme: AppTheme.lightTheme,
+        builder: (context, child) {
+          final mediaQuery = MediaQuery.of(context);
+          return MediaQuery(
+            data: mediaQuery.copyWith(textScaler: const TextScaler.linear(1.0)),
+            child: child!,
+          );
+        },
+
       ),
     ),
   );

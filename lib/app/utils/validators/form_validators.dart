@@ -128,9 +128,9 @@ class FormValidators {
   }
 
 
-  static String? validateStrongPassword(String password) {
+  static String? validateStrongPassword(String password,) {
     String errorMessage = '';
-    if (password.length < 8) {
+    if (password.length < 8 ) {
       errorMessage += 'Password must be longer than 8 characters.\n';
     }
     if (!password.contains(RegExp(r'[A-Z]'))) {

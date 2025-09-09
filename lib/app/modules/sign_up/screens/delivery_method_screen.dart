@@ -29,7 +29,7 @@ class DeliveryMethodScreen extends StatelessWidget {
                     ),
                     WidgetDesigns.hBox(20),
                     Text(
-                      'Lorem Ipsum is simply dummy text of the\nprinting and typesetting industry.',
+                      'Please select a delivery method you will be using on CloudBites',
                       style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
                       textAlign: TextAlign.center,
                     ),

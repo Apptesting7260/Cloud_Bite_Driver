@@ -1316,7 +1316,7 @@ class HomeScreen extends StatelessWidget {
             SvgPicture.asset(ImageConstants.rightIcon),
             WidgetDesigns.hBox(10),
             Text(
-              'Order Pickup successfully!',
+              'Order Picked Up Successfully!',
               style: AppFontStyle.text_22_500(
                 AppTheme.black,
                 fontFamily: AppFontFamily.generalSansMedium,
@@ -1324,7 +1324,7 @@ class HomeScreen extends StatelessWidget {
             ),
             WidgetDesigns.hBox(10),
             Text(
-              'Lorem Ipsum is simply dummy text of the \nprinting and typesetting industry.',
+              'Lorem Ipsum Fis simply dummy text of the \nprinting and typesetting industry.',
               style: AppFontStyle.text_16_400(
                 AppTheme.grey,
                 fontFamily: AppFontFamily.generalSansRegular,

@@ -99,7 +99,7 @@ class EmailLoginScreen extends StatelessWidget{
                                         return controller.passwordError.value;
                                       }
 
-                                      return FormValidators.validateStrongPassword(value!);
+                                      return null;
                                     },
                                   );
                                 }

@@ -69,7 +69,7 @@ class SignUpScreen extends StatelessWidget {
           WidgetDesigns.hBox(10),
           GetBuilder<SignUpController>(
             builder: (context) {
-              return CustomTextFormField(
+              return controller.loginType.value =="google"?SizedBox.shrink(): CustomTextFormField(
                 controller: controller.firstNameController,
                 hintText: "First Name",
                 onChanged: (value) {
@@ -96,7 +96,7 @@ class SignUpScreen extends StatelessWidget {
 
           GetBuilder<SignUpController>(
             builder: (context) {
-              return CustomTextFormField(
+              return controller.loginType.value =="google"?SizedBox.shrink():  CustomTextFormField(
                 controller: controller.lastNameController,
                 hintText: "Last Name",
                 hintStyle: AppFontStyle.text_12_400(
@@ -401,7 +401,7 @@ class SignUpScreen extends StatelessWidget {
               print(
                 "llllllllllllll${controller.disableEmailField.value.toString()}",
               );
-              return CustomTextFormField(
+              return controller.loginType.value =="google"?SizedBox.shrink():  CustomTextFormField(
                 controller: controller.emailController,
                 hintText: "Email Address",
                 textInputType: TextInputType.emailAddress,

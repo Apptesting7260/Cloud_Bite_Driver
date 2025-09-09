@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 class SignUpController extends GetxController {
   var uid = "";
+  // var loginType = "".obs;
 
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final StorageServices _storageService = Get.find<StorageServices>();
@@ -122,7 +123,14 @@ class SignUpController extends GetxController {
       uid = Get.arguments['id'] ?? "";
       final email = Get.arguments['email'] ?? "";
       final isVerified = Get.arguments['isVerified'] ?? false;
-      final loginTypeArg = Get.arguments['loginType'] ?? ""; // Add this line
+      final loginTypeArg = Get.arguments['loginType'] ?? "";
+      var data = Get.arguments['data'] ?? UpdatedUser()  as UpdatedUser;
+      print("---------------------${data.toString()}");
+      if(data != null) {
+          firstNameController.text =data.firstName ?? '';
+          lastNameController.text = data.lastName ?? '';
+      }
+
 
       print(
         "===================$email && $isVerified &&  $loginTypeArg=================",
@@ -140,6 +148,7 @@ class SignUpController extends GetxController {
       // this line
       if (loginTypeArg != null && loginTypeArg != '') {
         loginType.value = loginTypeArg;
+        update();
       }
     }
   }

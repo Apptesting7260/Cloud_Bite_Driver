@@ -31,10 +31,21 @@ class WelcomeController extends GetxController {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
+      print("gogole data ---------${googleUser}");
+      print("gogole data ---------${googleAuth}");
+      print("gogole data ---------${credential}");
 
       final UserCredential userCredential = await FirebaseAuth.instance
           .signInWithCredential(credential);
+      String displayName = googleUser.displayName ?? '';
+      String firstName = '';
+      String lastName = '';
 
+      if (displayName.isNotEmpty) {
+        List<String> nameParts = displayName.split(' ');
+        firstName = nameParts.first;
+        lastName = nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
+      }
       String? fcmToken = await storageServices.returnFCMToken();
 
       var data = {
@@ -42,6 +53,8 @@ class WelcomeController extends GetxController {
         "type": "google",
         "fcm_token": fcmToken ?? '',
         "uuid": googleUser.id,
+        "first_name": firstName,
+        "last_name": lastName,
       };
 
       final response = await _repository.socialLoginAPI(data);
@@ -60,8 +73,8 @@ class WelcomeController extends GetxController {
               Routes.signUpScreen,
               arguments: {
                 'id': response.data?.id.toString(),
-
                 'email': email,
+                'data': response.data,
                 'isVerified': response.data?.emailVerified ?? false,
                 'loginType': 'google', // Add this line
               },
@@ -74,6 +87,7 @@ class WelcomeController extends GetxController {
             storageServices.saveLastName("${response.data?.lastName}");
             storageServices.saveAddress("${response.data?.address}");
             storageServices.saveDOB("${response.data?.dateOfBirth}");
+            storageServices.saveStages(response.data?.stages ?? "0");
             StageNavigator.navigateToStage(response.data!.stages.toString());
           }
         } else {
@@ -81,6 +95,7 @@ class WelcomeController extends GetxController {
             Routes.signUpScreen,
             arguments: {
               'id': response.data?.id.toString(),
+              'data': response.data,
 
               'email': email,
               'isVerified': response.data?.emailVerified ?? false,
@@ -146,6 +161,7 @@ class WelcomeController extends GetxController {
                 arguments: {
                   'id': response.data?.id.toString(),
                   'email': email,
+                  'data': response.data,
                   'isVerified': response.data?.emailVerified ?? false,
                 },
               );
@@ -156,6 +172,8 @@ class WelcomeController extends GetxController {
               storageServices.saveLastName("${response.data?.lastName}");
               storageServices.saveAddress("${response.data?.address}");
               storageServices.saveDOB("${response.data?.dateOfBirth}");
+              storageServices.saveStages(response.data?.stages ?? "0");
+
               if (response.data!.emailVerified == true) {
                 storageServices.saveEmail(response.data?.email ?? '');
                 storageServices.saveEmailVerified(true);
@@ -169,6 +187,8 @@ class WelcomeController extends GetxController {
               arguments: {
                 'id': response.data?.id.toString(),
                 'email': email,
+                'data': response.data,
+
                 'isVerified': response.data?.emailVerified ?? false,
               },
             );
@@ -234,9 +254,7 @@ class WelcomeController extends GetxController {
       if (response.status == true) {
         LoadingOverlay().hideLoading();
 
-
         if (response.data != null) {
-
           if (response.data?.stages == "1" || response.data?.stages == null) {
             print(".........${response.data?.stages}........");
             storageServices.saveToken("${response.data?.loginToken}");
@@ -245,6 +263,8 @@ class WelcomeController extends GetxController {
               arguments: {
                 'id': response.data?.id.toString(),
                 'email': email,
+                'data': response.data,
+
                 'isVerified': response.data?.emailVerified ?? false,
               },
             );
@@ -255,6 +275,8 @@ class WelcomeController extends GetxController {
             storageServices.saveLastName("${response.data?.lastName}");
             storageServices.saveAddress("${response.data?.address}");
             storageServices.saveDOB("${response.data?.dateOfBirth}");
+            storageServices.saveStages(response.data?.stages ?? "0");
+
             if (response.data!.emailVerified == true) {
               storageServices.saveEmail(response.data?.email ?? '');
               storageServices.saveEmailVerified(true);
@@ -266,8 +288,9 @@ class WelcomeController extends GetxController {
             Routes.signUpScreen,
             arguments: {
               'id': response.data?.id.toString(),
-
               'email': email,
+              'data': response.data,
+
               'isVerified': response.data?.emailVerified ?? false,
             },
           );
