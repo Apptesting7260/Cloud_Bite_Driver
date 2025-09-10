@@ -1324,7 +1324,7 @@ class HomeScreen extends StatelessWidget {
             ),
             WidgetDesigns.hBox(10),
             Text(
-              'Lorem Ipsum Fis simply dummy text of the \nprinting and typesetting industry.',
+              'Heading your way and thank you for ordering with us!',
               style: AppFontStyle.text_16_400(
                 AppTheme.grey,
                 fontFamily: AppFontFamily.generalSansRegular,
@@ -1385,7 +1385,7 @@ class HomeScreen extends StatelessWidget {
             SvgPicture.asset(ImageConstants.rightIcon),
             WidgetDesigns.hBox(10),
             Text(
-              'Order Delivered successfully!',
+              'Order Delivered Successfully!',
               style: AppFontStyle.text_22_500(
                 AppTheme.black,
                 fontFamily: AppFontFamily.generalSansMedium,
@@ -1393,7 +1393,7 @@ class HomeScreen extends StatelessWidget {
             ),
             WidgetDesigns.hBox(10),
             Text(
-              'Lorem Ipsum is simply dummy text of the \nprinting and typesetting industry.',
+              'Enjoy your order and thank you for\nsupporting local vendors',
               style: AppFontStyle.text_16_400(
                 AppTheme.grey,
                 fontFamily: AppFontFamily.generalSansRegular,

@@ -248,6 +248,61 @@ class _SupportScreen extends State<SupportScreen> {
                   }
               ),
               WidgetDesigns.hBox(35),
+              InkWell(
+                onTap: () {
+                  contactSupportController.launchWhatsApp("2677539323");
+
+                },
+                child: Container(
+                  height: 50,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: LinearGradient(
+                      colors: [
+                        AppTheme.primaryColor.withOpacity(0.2),
+                        AppTheme.blueColor.withOpacity(0.2),
+                      ],
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(ImageConstants.whatsappImage,height: 35,),
+                      SizedBox(width: 10,),
+                      MyText(title: "WhatsApp us on +267 75 393 23",tColor: Colors.black,),
+                    ],
+                  ),
+                ),
+              ).paddingOnly(bottom: 25),
+              InkWell(
+                onTap: () {
+                  contactSupportController.openEmail();
+                },
+                child: Container(
+                  height: 50,
+                  width: Get.width,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: LinearGradient(
+                      colors: [
+                        AppTheme.primaryColor.withOpacity(0.2),
+                        AppTheme.blueColor.withOpacity(0.2),
+                      ],
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(ImageConstants.emailImage,height: 35,),
+                      SizedBox(width: 10,),
+                      MyText(title: "Email us on support@cloudbitesbw",tColor: Colors.black,),
+                    ],
+                  ),
+                ),
+              ).paddingOnly(bottom: 25),
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SupportController extends GetxController{
   final TextEditingController _searchController = TextEditingController();
@@ -77,6 +78,47 @@ class SupportController extends GetxController{
     }
   }
 
+
+  Future<void> launchWhatsApp(String phone,) async {
+    final Uri url = Uri.parse("https://wa.me/$phone");
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch whatsApp';
+    }
+  }
+
+
+  Future<void> openEmail() async {
+    final Uri emailUri = Uri(
+      scheme: 'mailto',
+      path: 'businessdev@cloudbitesbw.com',
+      queryParameters: {
+        'subject': 'Support Request',
+        'body': '',
+      },
+    );
+
+    if (await canLaunchUrl(emailUri)) {
+      // Try launching default email app
+      await launchUrl(emailUri, mode: LaunchMode.platformDefault);
+    } else {
+      // Fallback → open Gmail in browser
+      final Uri gmailUri = Uri.parse(
+        "https://mail.google.com/mail/?view=cm&fs=1"
+            "&to=businessdev@cloudbitesbw.com"
+            "&su=Support%20Request"
+            "&body=Hi%2C%20I%20need%20help%20with...",
+      );
+
+      if (await canLaunchUrl(gmailUri)) {
+        await launchUrl(gmailUri, mode: LaunchMode.externalApplication);
+      } else {
+        print("No email client or Gmail available.");
+      }
+    }
+  }
 
   Rx<ApiResponse<FaqModel>> faqData = Rx<ApiResponse<FaqModel>>(ApiResponse.loading());
   setFaqData(ApiResponse<FaqModel> value){
