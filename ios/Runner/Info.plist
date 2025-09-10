@@ -46,7 +46,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>cloud_bites_driver</string>
+	<string>CB Driver</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -67,6 +67,16 @@
 	<string>Need photo library access to upload profile photo</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>LSApplicationQueriesSchemes</key>
+    <array>
+        <!-- If your app checks for email support -->
+        <string>mailto</string>
+
+        <!-- If your app checks for web links (http/https) -->
+        <string>http</string>
+        <string>https</string>
+        <string>whatsapp</string>
+    </array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
