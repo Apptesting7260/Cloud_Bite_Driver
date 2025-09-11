@@ -248,6 +248,27 @@ class _SupportScreen extends State<SupportScreen> {
                   }
               ),
               WidgetDesigns.hBox(35),
+              Row(
+                children: [
+                  Flexible(
+                    child: Divider(
+                      color: Colors.grey.shade300,
+                      thickness: 1,
+                      height: 20,
+                    ),
+                  ),
+                  MyText(title: "  or  "),
+                  Flexible(
+                    child: Divider(
+
+                      color: Colors.grey.shade300,
+                      thickness: 1,
+                    ),
+                  )
+                ],
+              ).paddingOnly(bottom: 25),
+
+              WidgetDesigns.hBox(10),
               InkWell(
                 onTap: () {
                   contactSupportController.launchWhatsApp("2677539323");

@@ -1,16 +1,16 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 
 class DeliveryMethodScreen extends StatelessWidget {
-  final DeliveryMethodController controller = Get.put(DeliveryMethodController());
+  final DeliveryMethodController controller = Get.put(
+    DeliveryMethodController(),
+  );
 
-   DeliveryMethodScreen({super.key});
+  DeliveryMethodScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        gradient: AppTheme.primaryGradientHorizontal
-      ),
+      decoration: BoxDecoration(gradient: AppTheme.primaryGradientHorizontal),
       child: SafeArea(
         bottom: false,
         child: Scaffold(
@@ -20,20 +20,29 @@ class DeliveryMethodScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Center(
-                child: Column(
-                  children: [
-                    WidgetDesigns.hBox(30),
-                    Text(
-                      'Delivery Method',
-                      style: AppFontStyle.text_30_600(AppTheme.white, fontFamily: AppFontFamily.generalSansMedium),
-                    ),
-                    WidgetDesigns.hBox(20),
-                    Text(
-                      'Please select a delivery method you will be using on CloudBites',
-                      style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansRegular),
-                      textAlign: TextAlign.center,
-                    ),
-                  ],
+                child: Expanded(
+                  child: Column(
+                    children: [
+                      WidgetDesigns.hBox(30),
+                      Text(
+                        'Delivery Method',
+                        style: AppFontStyle.text_30_600(
+                          AppTheme.white,
+                          fontFamily: AppFontFamily.generalSansMedium,
+                        ),
+                      ),
+                      WidgetDesigns.hBox(20),
+                      Text(
+                        'Please select a delivery method you will be using on CloudBites',
+                        style: AppFontStyle.text_16_400(
+                          AppTheme.white,
+                          fontFamily: AppFontFamily.generalSansRegular,
+                        ),
+                        textAlign: TextAlign.center,
+                        overflow: TextOverflow.visible,
+                      ).paddingOnly(left: 10, right: 10),
+                    ],
+                  ),
                 ),
               ),
               WidgetDesigns.hBox(30),
@@ -44,16 +53,16 @@ class DeliveryMethodScreen extends StatelessWidget {
                   child: Material(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30)
+                      topLeft: Radius.circular(30),
+                      topRight: Radius.circular(30),
                     ),
                     child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: deliveryOption()
+                      padding: const EdgeInsets.all(20.0),
+                      child: deliveryOption(),
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
         ),
@@ -61,58 +70,76 @@ class DeliveryMethodScreen extends StatelessWidget {
     );
   }
 
-  Widget deliveryOption(){
-    return Obx( () {
+  Widget deliveryOption() {
+    return Obx(() {
       bool isLoading = controller.deliveryMethodListData.value.data == null;
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Select Delivery Method",
-              style: AppFontStyle.text_16_400(
-                  AppTheme.black.withOpacity(0.5), fontFamily: AppFontFamily.generalSansRegular)
+          Text(
+            "Select Delivery Method",
+            style: AppFontStyle.text_16_400(
+              AppTheme.black.withOpacity(0.5),
+              fontFamily: AppFontFamily.generalSansRegular,
+            ),
           ),
           WidgetDesigns.hBox(20),
-          isLoading ? buildShimmerOption() :
-          deliveryOptionWidget(
-              title: controller.deliveryMethodListData.value.data?.data?[0].name.toString() ?? '',
-              index: controller.deliveryMethodListData.value.data?.data?[0].id ?? ''
-          ),
+          isLoading
+              ? buildShimmerOption()
+              : deliveryOptionWidget(
+                title:
+                    controller.deliveryMethodListData.value.data?.data?[0].name
+                        .toString() ??
+                    '',
+                index:
+                    controller.deliveryMethodListData.value.data?.data?[0].id ??
+                    '',
+              ),
           WidgetDesigns.hBox(20),
-          isLoading ? buildShimmerOption() :
-          deliveryOptionWidget(
-              title: controller.deliveryMethodListData.value.data?.data?[1].name.toString() ?? '',
-              index: controller.deliveryMethodListData.value.data?.data?[1].id ?? ''
-          ),
+          isLoading
+              ? buildShimmerOption()
+              : deliveryOptionWidget(
+                title:
+                    controller.deliveryMethodListData.value.data?.data?[1].name
+                        .toString() ??
+                    '',
+                index:
+                    controller.deliveryMethodListData.value.data?.data?[1].id ??
+                    '',
+              ),
           WidgetDesigns.hBox(20),
-          isLoading ? buildShimmerOption() :
-          deliveryOptionWidget(
-              title: controller.deliveryMethodListData.value.data?.data?[2].name.toString() ?? '',
-              index: controller.deliveryMethodListData.value.data?.data?[2].id ?? ''
-          ),
+          isLoading
+              ? buildShimmerOption()
+              : deliveryOptionWidget(
+                title:
+                    controller.deliveryMethodListData.value.data?.data?[2].name
+                        .toString() ??
+                    '',
+                index:
+                    controller.deliveryMethodListData.value.data?.data?[2].id ??
+                    '',
+              ),
           WidgetDesigns.hBox(20),
           CustomAnimatedButton(
-              onTap: () {
-                if (controller.selectedOptionIndex.value != "0") {
-                  controller.selectDeliveryMethodAPI();
-                } else {
-                  CustomSnackBar.show(
-                      message: "Please select a delivery method",
-                      color: AppTheme.redText,
-                      tColor: AppTheme.white
-                  );
-                }
-              },
-              text: "Continue"
-          )
+            onTap: () {
+              if (controller.selectedOptionIndex.value != "0") {
+                controller.selectDeliveryMethodAPI();
+              } else {
+                CustomSnackBar.show(
+                  message: "Please select a delivery method",
+                  color: AppTheme.redText,
+                  tColor: AppTheme.white,
+                );
+              }
+            },
+            text: "Continue",
+          ),
         ],
       );
     });
   }
 
-  Widget deliveryOptionWidget({
-    required String title,
-    required String index
-  }) {
+  Widget deliveryOptionWidget({required String title, required String index}) {
     bool isSelected = controller.selectedOptionIndex.value == index;
     return InkWell(
       borderRadius: BorderRadius.circular(30),
@@ -123,8 +150,11 @@ class DeliveryMethodScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(30),
           color: AppTheme.white,
           border: Border.all(
-            color: isSelected ? AppTheme.primaryColor : AppTheme.primaryColor.withOpacity(0.2)
-          )
+            color:
+                isSelected
+                    ? AppTheme.primaryColor
+                    : AppTheme.primaryColor.withOpacity(0.2),
+          ),
         ),
         child: InkWell(
           borderRadius: BorderRadius.circular(30),
@@ -132,7 +162,10 @@ class DeliveryMethodScreen extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             child: Text(
               title,
-              style: AppFontStyle.text_16_400(isSelected ? AppTheme.primaryColor : AppTheme.black, fontFamily: AppFontFamily.generalSansRegular),
+              style: AppFontStyle.text_16_400(
+                isSelected ? AppTheme.primaryColor : AppTheme.black,
+                fontFamily: AppFontFamily.generalSansRegular,
+              ),
               textAlign: TextAlign.center,
             ),
           ),
