@@ -83,8 +83,7 @@ class SignUpScreen extends StatelessWidget {
                   if (controller.firstNameController.text.isEmpty) {
                     return "First name is required";
                   }
-                  if (controller.firstNameError.value.isNotEmpty ||
-                      controller.emailError.value != '') {
+                  if (controller.firstNameError.value.isNotEmpty) {
                     return controller.firstNameError.value;
                   }
                   return null;

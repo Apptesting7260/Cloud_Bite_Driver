@@ -95,6 +95,7 @@ class BankDetailsScreen extends StatelessWidget{
                     FilteringTextInputFormatter.digitsOnly,
                     LengthLimitingTextInputFormatter(12)
                   ],
+                  textInputType: TextInputType.number,
                   validator: (value) {
                     if(controller.acNumberController.text.isEmpty){
                       return 'Account number is required';
@@ -111,6 +112,8 @@ class BankDetailsScreen extends StatelessWidget{
             GetBuilder<BankDetailController>(
               builder: (context) {
                 return CustomTextFormField(
+                  textInputType: TextInputType.number,
+
                   controller: controller.reTypeController,
                   hintText: "Retype Account No.",
                   inputFormatters: [
@@ -122,7 +125,7 @@ class BankDetailsScreen extends StatelessWidget{
                   },
                   validator: (value) {
                     if(controller.reTypeController.text.isEmpty){
-                      return 'Re_Type account number is required';
+                      return 'Enter account number is required';
                     }
                     if(controller.reTypeACError.value.isNotEmpty || controller.reTypeACError.value != ''){
                       return controller.reTypeACError.value;
