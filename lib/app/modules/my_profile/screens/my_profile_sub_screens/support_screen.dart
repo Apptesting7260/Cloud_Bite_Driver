@@ -262,7 +262,6 @@ class _SupportScreen extends State<SupportScreen> {
                   MyText(title: "  or  "),
                   Flexible(
                     child: Divider(
-
                       color: Colors.grey.shade300,
                       thickness: 1,
                     ),
@@ -274,7 +273,6 @@ class _SupportScreen extends State<SupportScreen> {
               InkWell(
                 onTap: () {
                   contactSupportController.launchWhatsApp("2677539323");
-
                 },
                 child: Container(
                   height: 50,
@@ -292,7 +290,7 @@ class _SupportScreen extends State<SupportScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset(ImageConstants.whatsappImage,height: 35,),
+                      Image.asset(ImageConstants.whatsappImage,height: 25),
                       SizedBox(width: 10,),
                       MyText(title: "WhatsApp us on +267 75 393 23",tColor: Colors.black,),
                     ],
@@ -319,7 +317,7 @@ class _SupportScreen extends State<SupportScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset(ImageConstants.emailImage,height: 35,),
+                      Image.asset(ImageConstants.emailImage,height: 25),
                       SizedBox(width: 10,),
                       MyText(title: "Email us on support@cloudbitesbw",tColor: Colors.black,),
                     ],

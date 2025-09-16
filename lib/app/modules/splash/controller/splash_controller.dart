@@ -18,11 +18,11 @@ class SplashController extends GetxController{
       if (token.isNotEmpty) {
         StageNavigator.navigateToStage(storageService.getStages().toString());
       } else {
-        await Get.offAllNamed(Routes.onboarding);
+        await Get.offAllNamed(Routes.welcome);
       }
     } catch (e) {
       print('Error during navigation: $e');
-      await Get.offAllNamed(Routes.onboarding);
+      await Get.offAllNamed(Routes.welcome);
     }
   }
 }
