@@ -25,6 +25,7 @@ class ChangePasswordProcessScreen extends StatelessWidget{
                          builder: (context) {
                            return CustomTextFormField(
                              controller: controller.oldPassword,
+                             readOnly: false,
                              hintText: "Old Password",
                              obscureText: controller.obscureOldPassword.value,
                              suffix: IconButton(
@@ -64,6 +65,7 @@ class ChangePasswordProcessScreen extends StatelessWidget{
                          return CustomTextFormField(
                            controller: controller.newPassword,
                            hintText: "New Password",
+                           readOnly: false,
                            obscureText: controller.obscureNewPassword.value,
                            suffix: IconButton(
                              icon: Icon(
@@ -92,6 +94,7 @@ class ChangePasswordProcessScreen extends StatelessWidget{
                          return CustomTextFormField(
                            controller: controller.confirmNewPassword,
                            hintText: "Confirm Password",
+                           readOnly: false,
                            obscureText: controller.obscureConfirmPassword.value,
                            suffix: IconButton(
                              icon: Icon(

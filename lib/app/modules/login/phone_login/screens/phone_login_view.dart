@@ -54,6 +54,7 @@ class PhoneLoginView extends StatelessWidget {
                                     builder: (controller) {
                                       return CustomTextFormField(
                                         alignLabelWithHint: false,
+                                        readOnly: false,
                                         controller: controller.phoneController,
                                         textInputType: TextInputType.number,
                                         inputFormatters: [

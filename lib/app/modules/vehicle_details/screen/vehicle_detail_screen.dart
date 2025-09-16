@@ -47,6 +47,7 @@ class VehicleDetailsScreen extends StatelessWidget{
             GetBuilder<VehicleDetailController>(
               builder: (context) {
                 return CustomTextFormField(
+                  readOnly: false,
                   controller: controller.vehicleNameController,
                   hintText: "Vehicle Name",
                   onChanged: (value) {
@@ -72,6 +73,7 @@ class VehicleDetailsScreen extends StatelessWidget{
               builder: (context) {
                 return CustomTextFormField(
                   controller: controller.brandNameController,
+                  readOnly: false,
                   hintText: "Brand",
                   onChanged: (value) {
                     controller.updateBrandNameError('');
@@ -96,6 +98,7 @@ class VehicleDetailsScreen extends StatelessWidget{
             GetBuilder<VehicleDetailController>(
               builder: (context) {
                 return CustomTextFormField(
+                  readOnly: false,
                   controller: controller.manufacturerYearController,
                   hintText: "Year Of Manufacture",
                   textInputType: TextInputType.number,
@@ -125,6 +128,7 @@ class VehicleDetailsScreen extends StatelessWidget{
             GetBuilder<VehicleDetailController>(
               builder: (context) {
                 return CustomTextFormField(
+                  readOnly: false,
                   controller: controller.registrationNumberController,
                   hintText: "Registration Number",
                   inputFormatters: [

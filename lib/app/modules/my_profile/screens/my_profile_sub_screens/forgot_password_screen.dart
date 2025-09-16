@@ -34,6 +34,7 @@ class ForgotPasswordScreen extends StatelessWidget{
                     return CustomTextFormField(
                       controller: controller.emailAddressController,
                       hintText: "Email Address",
+                      readOnly: false,
                       onChanged: (value) {
                         controller.emailError('');
                       },

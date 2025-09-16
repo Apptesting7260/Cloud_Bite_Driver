@@ -125,10 +125,32 @@ class SignUpController extends GetxController {
       final isVerified = Get.arguments['isVerified'] ?? false;
       final loginTypeArg = Get.arguments['loginType'] ?? "";
       var data = Get.arguments['data'] ?? UpdatedUser()  as UpdatedUser;
-      print("---------------------${data.toString()}");
+
+     /* print("---------------------${data.toString()}");
       if(data != null) {
           firstNameController.text =data.firstName ?? '';
           lastNameController.text = data.lastName ?? '';
+      }*/
+
+      final firstName = Get.arguments['firstName'] ?? '';
+      final lastName = Get.arguments['lastName'] ?? '';
+
+      print("---------------------${data.toString()}");
+
+      if (firstName.isNotEmpty) {
+        firstNameController.text = firstName;
+      }
+      if (lastName.isNotEmpty) {
+        lastNameController.text = lastName;
+      }
+
+      if (data != null) {
+        if (firstNameController.text.isEmpty && data.firstName != null) {
+          firstNameController.text = data.firstName ?? '';
+        }
+        if (lastNameController.text.isEmpty && data.lastName != null) {
+          lastNameController.text = data.lastName ?? '';
+        }
       }
 
 

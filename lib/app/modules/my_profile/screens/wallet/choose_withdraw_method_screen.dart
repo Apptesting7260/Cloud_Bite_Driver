@@ -109,6 +109,7 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
                                            )else
                                          CustomTextFormField(
                                            controller: chooseWithdrawMethodController.idController,
+                                           readOnly: false,
                                            validator: (value) {
                                              if(value == null || value.isEmpty || value == ""){
                                                return "Please enter Payment Number";

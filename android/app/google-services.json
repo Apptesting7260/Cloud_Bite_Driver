@@ -22,6 +22,14 @@
           }
         },
         {
+          "client_id": "524176041811-fu3h0ee4pn2iunllfa640fd6sdhhduf0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloudBites.cloudBitesVendor",
+            "certificate_hash": "e36cde214d6d6ae67453ddcbcc41753c6090c7ac"
+          }
+        },
+        {
           "client_id": "524176041811-ghjmkssjb67kahncv2v5pje0a822piqc.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -133,6 +141,14 @@
           "android_info": {
             "package_name": "com.cloud_bites.cloud_bites_driver",
             "certificate_hash": "45a98a2c276dd58d4d371b9d2dd6e5d20924ba66"
+          }
+        },
+        {
+          "client_id": "524176041811-tc72h78ss7qa6j0v1g7kef8q5biqdhef.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cloud_bites.cloud_bites_driver",
+            "certificate_hash": "08f433e93e91fa0b0524af7bbead5e072985e797"
           }
         },
         {

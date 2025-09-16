@@ -51,6 +51,7 @@ class EmailLoginScreen extends StatelessWidget{
                                   return CustomTextFormField(
                                     controller: controller.emailController,
                                     hintText: "Email Address",
+                                    readOnly: false,
                                     onChanged: (value) {
                                       controller.updateEmailError('');
                                     },
@@ -77,6 +78,7 @@ class EmailLoginScreen extends StatelessWidget{
                                   return CustomTextFormField(
                                     controller: controller.passwordController,
                                     hintText: "Password",
+                                    readOnly: false,
                                     obscureText: controller.obscurePassword.value,
                                     onChanged: (value) {
                                       controller.updatePasswordError('');

@@ -93,6 +93,7 @@ class EditPerosnalDetails extends StatelessWidget{
                     return CustomTextFormField(
                       controller: controller.firstNameController,
                       hintText: "First Name",
+                      readOnly: false,
                       onChanged: (value) {
                         controller.updateFirstNameError('');
                         controller.formKey.currentState?.validate();
@@ -118,6 +119,7 @@ class EditPerosnalDetails extends StatelessWidget{
                     return CustomTextFormField(
                       controller: controller.lastNameController,
                       hintText: "Last Name",
+                      readOnly: false,
                       onChanged: (value) {
                         controller.updateLastNameError('');
                         controller.formKey.currentState?.validate();
@@ -143,6 +145,7 @@ class EditPerosnalDetails extends StatelessWidget{
                     return CustomTextFormField(
                       controller: controller.dobController,
                       hintText: "Date Of Birth",
+                      readOnly: true,
                       onChanged: (value) {
                         controller.updateDOBError('');
                         controller.formKey.currentState?.validate();
@@ -191,7 +194,8 @@ class EditPerosnalDetails extends StatelessWidget{
                                 context: Get.context!,
                                 initialDate: DateTime.now().subtract(const Duration(days: 365 * 25)),
                                 firstDate: DateTime.now().subtract(const Duration(days: 365 * 100)),
-                                lastDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
+                                // lastDate: DateTime.now().subtract(const Duration(days: 365 * 18)),
+                                lastDate: DateTime.now(),
                                 builder: (context, child) {
                                   return Theme(
                                     data: Theme.of(context).copyWith(
@@ -224,6 +228,7 @@ class EditPerosnalDetails extends StatelessWidget{
                     return CustomTextFormField(
                       controller: controller.locationController,
                       hintText: "Address",
+                      readOnly: false,
                       onChanged: (value) {
                         controller.updateAddressError('');
                         controller.formKey.currentState?.validate();

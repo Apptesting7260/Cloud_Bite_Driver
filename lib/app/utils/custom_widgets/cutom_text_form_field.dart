@@ -36,7 +36,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onEditingComplete,
     this.onFieldSubmitted,
     this.labelText,
-    this.autoValidateMode, this.buildCounter, this.errorBorder, this.isLabel, this.alignLabelWithHint,
+    this.autoValidateMode, this.buildCounter, this.errorBorder, this.isLabel, this.alignLabelWithHint, this.readOnly = false,
     // this.errorTextStyle,
     // this.errorTextClr,
   });
@@ -105,6 +105,8 @@ class CustomTextFormField extends StatelessWidget {
 
   final bool? alignLabelWithHint;
 
+  final bool readOnly;
+
   final Function(String value)? onChanged;
 
   final TapRegionCallback? onTapOutside;
@@ -136,6 +138,7 @@ class CustomTextFormField extends StatelessWidget {
       buildCounter: buildCounter,
       // expands: true,
       onTap: onTap,
+      readOnly: readOnly,
       maxLength: maxLength,
       onTapOutside:onTapOutside ?? (event) {
         FocusManager.instance.primaryFocus?.unfocus();

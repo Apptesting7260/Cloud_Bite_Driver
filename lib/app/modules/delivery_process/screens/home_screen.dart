@@ -826,8 +826,8 @@ class HomeScreen extends StatelessWidget {
                           ),
                         ],
                       ),
-                      WidgetDesigns.hBox(10),
-                      Row(
+                      // WidgetDesigns.hBox(10),
+                      /*Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
@@ -843,7 +843,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                           ),
                         ],
-                      ),
+                      ),*/
                       WidgetDesigns.hBox(16),
                     ],
                   ),

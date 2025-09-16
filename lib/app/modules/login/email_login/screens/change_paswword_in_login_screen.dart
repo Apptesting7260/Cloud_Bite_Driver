@@ -54,6 +54,7 @@ class ChangePasswordInLoginScreen extends StatelessWidget{
                                 CustomTextFormField(
                                   controller: controller.newPassword,
                                   hintText: "Password",
+                                  readOnly: false,
                                   obscureText: controller.obscureNewPassword.value,
                                   onChanged: (value) {
                                     controller.updateNewPasswordError('');
@@ -78,6 +79,7 @@ class ChangePasswordInLoginScreen extends StatelessWidget{
                                 CustomTextFormField(
                                   controller: controller.confirmPasswordP,
                                   hintText: "Confirm Password",
+                                  readOnly: false,
                                   obscureText: controller.obscureConfirmPassword.value,
                                   onChanged: (value) {
                                     controller.updateConfirmPasswordError('');

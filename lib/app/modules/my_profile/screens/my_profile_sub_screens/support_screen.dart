@@ -71,6 +71,7 @@ class _SupportScreen extends State<SupportScreen> {
     return GetBuilder<SupportController>(
         builder: (context) {
           return CustomTextFormField(
+            readOnly: false,
             suffix:  contactSupportController.searchQuery != ""
                 ? IconButton(
               onPressed: (){
@@ -208,6 +209,7 @@ class _SupportScreen extends State<SupportScreen> {
                     return CustomTextFormField(
                       controller: contactSupportController.messageController,
                       hintText: "Message",
+                      readOnly: false,
                       minLines: 4,
                       maxLines: 4,
                       alignLabelWithHint: true,

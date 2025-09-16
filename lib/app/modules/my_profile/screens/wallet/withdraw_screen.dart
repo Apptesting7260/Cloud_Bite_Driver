@@ -107,6 +107,7 @@ class WithdrawScreen extends StatelessWidget {
                     CustomTextFormField(
                       controller: TextEditingController(text: withdrawController.walletController.value),
                       width: 120.w,
+                      readOnly: false,
                       borderDecoration: InputBorder.none,
                       errorBorder: InputBorder.none,
                       textInputType: TextInputType.phone,

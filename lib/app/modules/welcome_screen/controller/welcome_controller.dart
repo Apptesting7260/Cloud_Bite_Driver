@@ -16,6 +16,7 @@ class WelcomeController extends GetxController {
 
       final GoogleSignIn googleSignIn = GoogleSignIn(
         scopes: ['email', 'profile'],
+        signInOption: SignInOption.standard
       );
 
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
@@ -53,8 +54,8 @@ class WelcomeController extends GetxController {
         "type": "google",
         "fcm_token": fcmToken ?? '',
         "uuid": googleUser.id,
-        "first_name": firstName,
-        "last_name": lastName,
+        "first_name": firstName.isNotEmpty ? firstName : 'Google',
+        "last_name": lastName.isNotEmpty ? lastName : 'Google',
       };
 
       final response = await _repository.socialLoginAPI(data);
@@ -76,7 +77,9 @@ class WelcomeController extends GetxController {
                 'email': email,
                 'data': response.data,
                 'isVerified': response.data?.emailVerified ?? false,
-                'loginType': 'google', // Add this line
+                'loginType': 'google',
+                'firstName': firstName,
+                'lastName': lastName,
               },
             );
           } else {
@@ -96,10 +99,11 @@ class WelcomeController extends GetxController {
             arguments: {
               'id': response.data?.id.toString(),
               'data': response.data,
-
               'email': email,
               'isVerified': response.data?.emailVerified ?? false,
-              'loginType': 'google', // Add this line
+              'loginType': 'google',
+              'firstName': firstName,
+              'lastName': lastName,
             },
           );
         }
@@ -137,16 +141,35 @@ class WelcomeController extends GetxController {
       if (result.status == LoginStatus.success) {
         // Get the user data
         final userData = await FacebookAuth.instance.getUserData();
-
+        print('$userData---------------------------------------------33');
         String? fcmToken = await storageServices.returnFCMToken();
+
+        String fullName = userData['name'] ?? '';
+        String firstName = '';
+        String lastName = '';
+
+        if (fullName.isNotEmpty) {
+          List<String> nameParts = fullName.split(' ');
+          if (nameParts.isNotEmpty) {
+            firstName = nameParts.first;
+            if (nameParts.length > 1) {
+              lastName = nameParts.sublist(1).join(' ');
+            } else {
+              lastName = '';
+            }
+          }
+        }
+
+        if (firstName.isEmpty) firstName = 'Facebook';
+        if (lastName.isEmpty) lastName = 'User';
 
         var data = {
           "email": userData['email'] ?? '',
           "type": "facebook",
           "fcm_token": fcmToken ?? '',
           "uuid": userData['id'] ?? '',
-          "first_name": userData['first_name'] ?? '',
-          "last_name": userData['last_name'] ?? '',
+          "first_name": firstName,
+          "last_name": lastName,
         };
 
         final response = await _repository.socialLoginAPI(data);
@@ -163,6 +186,9 @@ class WelcomeController extends GetxController {
                   'email': email,
                   'data': response.data,
                   'isVerified': response.data?.emailVerified ?? false,
+                  'loginType': 'facebook',
+                  'firstName': firstName,
+                  'lastName': lastName,
                 },
               );
             } else {
@@ -188,8 +214,10 @@ class WelcomeController extends GetxController {
                 'id': response.data?.id.toString(),
                 'email': email,
                 'data': response.data,
-
                 'isVerified': response.data?.emailVerified ?? false,
+                'loginType': 'facebook',
+                'firstName': firstName,
+                'lastName': lastName,
               },
             );
           }
@@ -264,8 +292,10 @@ class WelcomeController extends GetxController {
                 'id': response.data?.id.toString(),
                 'email': email,
                 'data': response.data,
-
                 'isVerified': response.data?.emailVerified ?? false,
+                'loginType': 'apple',
+                'firstName': firstName,
+                'lastName': lastName,
               },
             );
           } else {
@@ -290,8 +320,10 @@ class WelcomeController extends GetxController {
               'id': response.data?.id.toString(),
               'email': email,
               'data': response.data,
-
               'isVerified': response.data?.emailVerified ?? false,
+              'loginType': 'apple',
+              'firstName': firstName,
+              'lastName': lastName,
             },
           );
         }

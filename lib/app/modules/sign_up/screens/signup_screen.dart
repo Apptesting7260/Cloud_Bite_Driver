@@ -49,7 +49,14 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(24.0),
-                      child: SingleChildScrollView(child: signUpFormFields()),
+                      child: SingleChildScrollView(
+                          child: Obx(() {
+                            if (controller.loginType.value.isEmpty) {
+                              return Center(child: CircularProgressIndicator());
+                            }
+                            return signUpFormFields();
+                          })
+                      ),
                     ),
                   ),
                 ),
@@ -69,9 +76,30 @@ class SignUpScreen extends StatelessWidget {
           WidgetDesigns.hBox(10),
           GetBuilder<SignUpController>(
             builder: (context) {
-              return controller.loginType.value =="google"?SizedBox.shrink(): CustomTextFormField(
+             /* return controller.loginType.value =="google"?SizedBox.shrink(): CustomTextFormField(
                 controller: controller.firstNameController,
                 hintText: "First Name",
+                onChanged: (value) {
+                  controller.updateFirstNameError('');
+                },
+                hintStyle: AppFontStyle.text_12_400(
+                  AppTheme.lightText,
+                  fontFamily: AppFontFamily.generalSansRegular,
+                ),
+                validator: (value) {
+                  if (controller.firstNameController.text.isEmpty) {
+                    return "First name is required";
+                  }
+                  if (controller.firstNameError.value.isNotEmpty) {
+                    return controller.firstNameError.value;
+                  }
+                  return null;
+                },
+              );*/
+              return CustomTextFormField(
+                controller: controller.firstNameController,
+                hintText: "First Name",
+                readOnly: false,
                 onChanged: (value) {
                   controller.updateFirstNameError('');
                 },
@@ -95,9 +123,31 @@ class SignUpScreen extends StatelessWidget {
 
           GetBuilder<SignUpController>(
             builder: (context) {
-              return controller.loginType.value =="google"?SizedBox.shrink():  CustomTextFormField(
+             /* return controller.loginType.value =="google"?SizedBox.shrink():  CustomTextFormField(
                 controller: controller.lastNameController,
                 hintText: "Last Name",
+                hintStyle: AppFontStyle.text_12_400(
+                  AppTheme.lightText,
+                  fontFamily: AppFontFamily.generalSansRegular,
+                ),
+                onChanged: (value) {
+                  controller.updateLastNameError('');
+                },
+                validator: (value) {
+                  if (controller.lastNameController.text.isEmpty) {
+                    return "Last name is required";
+                  }
+                  if (controller.lastNameError.value.isNotEmpty ||
+                      controller.lastNameError.value != '') {
+                    return controller.lastNameError.value;
+                  }
+                  return null;
+                },
+              );*/
+              return CustomTextFormField(
+                controller: controller.lastNameController,
+                hintText: "Last Name",
+                readOnly: false,
                 hintStyle: AppFontStyle.text_12_400(
                   AppTheme.lightText,
                   fontFamily: AppFontFamily.generalSansRegular,
@@ -125,6 +175,7 @@ class SignUpScreen extends StatelessWidget {
               return CustomTextFormField(
                 controller: controller.dobController,
                 hintText: "Date Of Birth",
+                readOnly: true,
                 onChanged: (value) {
                   controller.updateDOBError('');
                 },
@@ -166,8 +217,11 @@ class SignUpScreen extends StatelessWidget {
                     return 'Invalid date format';
                   }
 
-                  if (controller.dobError.value.isNotEmpty ||
+                 /* if (controller.dobError.value.isNotEmpty ||
                       controller.dobError.value != '') {
+                    return controller.dobError.value;
+                  }*/
+                  if (controller.dobError.value.trim().isNotEmpty) {
                     return controller.dobError.value;
                   }
 
@@ -183,9 +237,10 @@ class SignUpScreen extends StatelessWidget {
                       firstDate: DateTime.now().subtract(
                         const Duration(days: 365 * 100),
                       ), // Max 100 years old
-                      lastDate: DateTime.now().subtract(
+                     /* lastDate: DateTime.now().subtract(
                         const Duration(days: 365 * 18),
-                      ), // Min 18 years old
+                      ),*/
+                      lastDate: DateTime.now(),
                       builder: (context, child) {
                         return Theme(
                           data: Theme.of(context).copyWith(
@@ -222,6 +277,7 @@ class SignUpScreen extends StatelessWidget {
             builder: (context) {
               return CustomTextFormField(
                 controller: controller.phoneController,
+                readOnly: false,
                 enabled:
                     controller.isPhoneVerified.value &&
                             controller.countryString.value == "+267"
@@ -401,6 +457,7 @@ class SignUpScreen extends StatelessWidget {
                 "llllllllllllll${controller.disableEmailField.value.toString()}",
               );
               return controller.loginType.value =="google"?SizedBox.shrink():  CustomTextFormField(
+                readOnly: false,
                 controller: controller.emailController,
                 hintText: "Email Address",
                 textInputType: TextInputType.emailAddress,
@@ -479,6 +536,7 @@ class SignUpScreen extends StatelessWidget {
                   GetBuilder<SignUpController>(
                     builder: (context) {
                       return CustomTextFormField(
+                        readOnly: false,
                         controller: controller.passwordController,
                         hintText: "Password",
                         obscureText: controller.obscurePassword.value,
@@ -516,6 +574,7 @@ class SignUpScreen extends StatelessWidget {
           GetBuilder<SignUpController>(
             builder: (context) {
               return CustomTextFormField(
+                readOnly: false,
                 controller: controller.locationController,
                 hintText: "Address",
                 onChanged: (value) {

@@ -37,6 +37,7 @@ class SpecificDateDeliveriesScreen extends StatelessWidget{
                   Obx(() =>
                     CustomTextFormField(
                       hintText: "Search",
+                      readOnly: false,
                       controller: controller.searchController,
                       onChanged: (value) {
                         controller.searchQuery.value = value;

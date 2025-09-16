@@ -35,6 +35,7 @@ class ChangePasswordScreen extends StatelessWidget{
                         builder: (context) {
                           return CustomTextFormField(
                             controller: controller.newPassword,
+                            readOnly: false,
                             hintText: "Password",
                             obscureText: controller.obscureNewPassword.value,
                             suffix: IconButton(
@@ -64,6 +65,7 @@ class ChangePasswordScreen extends StatelessWidget{
                           return CustomTextFormField(
                             controller: controller.confirmPasswordP,
                             hintText: "Confirm Password",
+                            readOnly: false,
                             obscureText: controller.obscureConfirmPassword.value,
                             suffix: IconButton(
                               icon: Icon(

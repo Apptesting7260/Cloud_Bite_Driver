@@ -46,6 +46,7 @@ class BankDetailsScreen extends StatelessWidget{
                 return CustomTextFormField(
                   controller: controller.bankNameController,
                   hintText: "Bank Name",
+                  readOnly: false,
                   onChanged: (value) {
                     controller.updateBankNameError('');
                   },
@@ -67,6 +68,7 @@ class BankDetailsScreen extends StatelessWidget{
                 return CustomTextFormField(
                   controller: controller.acHolderNameController,
                   hintText: "Account Holder Name",
+                  readOnly: false,
                   onChanged: (value) {
                     controller.updateAcHolderNameError('');
                   },
@@ -88,6 +90,7 @@ class BankDetailsScreen extends StatelessWidget{
                 return CustomTextFormField(
                   controller: controller.acNumberController,
                   hintText: "Account No.",
+                  readOnly: false,
                   onChanged: (value) {
                     controller.updateACNumberError('');
                   },
@@ -112,6 +115,7 @@ class BankDetailsScreen extends StatelessWidget{
             GetBuilder<BankDetailController>(
               builder: (context) {
                 return CustomTextFormField(
+                  readOnly: false,
                   textInputType: TextInputType.number,
 
                   controller: controller.reTypeController,
@@ -151,6 +155,7 @@ class BankDetailsScreen extends StatelessWidget{
             GetBuilder<BankDetailController>(
               builder: (context) {
                 return CustomTextFormField(
+                  readOnly: false,
                   controller: controller.ifscNameController,
                   hintText: "Branch Code",
                   onChanged: (value) {
