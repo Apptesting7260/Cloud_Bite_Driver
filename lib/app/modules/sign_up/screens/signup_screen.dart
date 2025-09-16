@@ -52,7 +52,7 @@ class SignUpScreen extends StatelessWidget {
                       child: SingleChildScrollView(
                           child: Obx(() {
                             if (controller.loginType.value.isEmpty) {
-                              return Center(child: CircularProgressIndicator());
+                              // return Center(child: CircularProgressIndicator());
                             }
                             return signUpFormFields();
                           })
@@ -417,6 +417,12 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     );
                   }
+
+                  if (controller.isPhoneVerified.value) {
+                    return SizedBox.shrink();
+                  }
+
+
                   // Show verify button for unverified numbers
                   return ValueListenableBuilder<TextEditingValue>(
                     valueListenable: controller.phoneController,
@@ -456,7 +462,14 @@ class SignUpScreen extends StatelessWidget {
               print(
                 "llllllllllllll${controller.disableEmailField.value.toString()}",
               );
-              return controller.loginType.value =="google"?SizedBox.shrink():  CustomTextFormField(
+
+              if ((controller.loginType.value == "facebook" ||
+                  controller.loginType.value == "apple") &&
+                  controller.emailController.text.isEmpty) {
+                return SizedBox.shrink();
+              }
+
+              return CustomTextFormField(
                 readOnly: false,
                 controller: controller.emailController,
                 hintText: "Email Address",
@@ -493,6 +506,10 @@ class SignUpScreen extends StatelessWidget {
                       ),
                     );
                   }
+                  if (controller.isEmailVerified.value || controller.disableEmailField.value) {
+                    return SizedBox.shrink();
+                  }
+
                   return ValueListenableBuilder<TextEditingValue>(
                     valueListenable: controller.emailController,
                     builder: (context, value, child) {

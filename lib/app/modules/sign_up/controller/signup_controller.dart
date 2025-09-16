@@ -125,6 +125,7 @@ class SignUpController extends GetxController {
       final isVerified = Get.arguments['isVerified'] ?? false;
       final loginTypeArg = Get.arguments['loginType'] ?? "";
       var data = Get.arguments['data'] ?? UpdatedUser()  as UpdatedUser;
+      final hasEmail = Get.arguments['hasEmail'] ?? true;
 
      /* print("---------------------${data.toString()}");
       if(data != null) {
@@ -158,7 +159,7 @@ class SignUpController extends GetxController {
         "===================$email && $isVerified &&  $loginTypeArg=================",
       );
 
-      if (email != null && email != '') {
+     /* if (email != null && email != '') {
         emailController.text = email;
         disableEmailField.value = true;
 
@@ -166,6 +167,20 @@ class SignUpController extends GetxController {
           isEmailVerified.value = true;
           verifiedEmail.value = email;
         }
+      }*/
+
+      if (hasEmail && email != null && email != '') {
+        emailController.text = email;
+        disableEmailField.value = true;
+
+        if (isVerified) {
+          isEmailVerified.value = true;
+          verifiedEmail.value = email;
+        }
+      } else {
+        // If no email from social provider, allow user to enter email
+        disableEmailField.value = false;
+        isEmailVerified.value = false;
       }
       // this line
       if (loginTypeArg != null && loginTypeArg != '') {

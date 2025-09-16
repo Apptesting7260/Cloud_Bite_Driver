@@ -174,9 +174,18 @@ class WelcomeController extends GetxController {
 
         final response = await _repository.socialLoginAPI(data);
         String email = userData['email'] ?? '';
+        bool hasEmail = email.isNotEmpty;
 
         if (response.status == true) {
           if (response.data != null) {
+           /* if (response.data!.emailVerified == true) {
+              storageServices.saveEmail(response.data?.email ?? '');
+              storageServices.saveEmailVerified(true);
+            }*/
+            if (hasEmail) {
+              storageServices.saveEmail(response.data?.email ?? '');
+              storageServices.saveEmailVerified(true);
+            }
             if (response.data?.stages == "1" || response.data?.stages == null) {
               storageServices.saveToken("${response.data?.loginToken}");
               Get.offAllNamed(
@@ -185,7 +194,8 @@ class WelcomeController extends GetxController {
                   'id': response.data?.id.toString(),
                   'email': email,
                   'data': response.data,
-                  'isVerified': response.data?.emailVerified ?? false,
+                  'hasEmail': hasEmail,
+                  'isVerified': hasEmail,
                   'loginType': 'facebook',
                   'firstName': firstName,
                   'lastName': lastName,
@@ -214,7 +224,8 @@ class WelcomeController extends GetxController {
                 'id': response.data?.id.toString(),
                 'email': email,
                 'data': response.data,
-                'isVerified': response.data?.emailVerified ?? false,
+                'hasEmail': hasEmail,
+                'isVerified': hasEmail,
                 'loginType': 'facebook',
                 'firstName': firstName,
                 'lastName': lastName,
