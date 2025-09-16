@@ -257,7 +257,7 @@ class SignUpScreen extends StatelessWidget {
                   print("phone controller  ${controller.phoneController.text}");
                 },
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
+                  if (value == null || value.isEmpty  ) {
                     return 'Phone number is required!';
                   }
                   if (value.length != controller.checkCountryLength.value) {
