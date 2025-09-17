@@ -3,12 +3,14 @@ class LoginPhoneGenerateModel {
   bool? status;
   String? message;
   String? otp;
+  String? id;
 
-  LoginPhoneGenerateModel({this.type, this.status, this.message, this.otp});
+  LoginPhoneGenerateModel({this.type, this.status,this.id, this.message, this.otp});
 
   LoginPhoneGenerateModel.fromJson(Map<String, dynamic> json) {
     type = json['type']?.toString();
     status = json['status'];
+    id = json['id'].toString();
     message = json['message']?.toString();
     otp = json['otp']?.toString();
   }
@@ -19,6 +21,7 @@ class LoginPhoneGenerateModel {
     data['status'] = status;
     data['message'] = message;
     data['otp'] = otp;
+    data['id'] = id;
     return data;
   }
 }

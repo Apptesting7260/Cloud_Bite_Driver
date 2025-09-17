@@ -259,6 +259,9 @@ class DocumentVerificationScreen extends StatelessWidget {
 
   Widget pendingDocuments() {
     final pendingDocs = controller.getPendingDocsList();
+    print('${pendingDocs.length}------------------------------------------------------------------------');
+    final documentData = controller.documentListData.value.data?.data ?? [];
+    print('${documentData.length}--------------------------');
     return SingleChildScrollView(
       physics: AlwaysScrollableScrollPhysics(), // needed for pull-to-refresh
       child: Column(
@@ -270,13 +273,12 @@ class DocumentVerificationScreen extends StatelessWidget {
           WidgetDesigns.hBox(20),
           ListView.separated(
             physics: NeverScrollableScrollPhysics(),
-            itemCount: pendingDocs.length,
+            itemCount: documentData.length,
             shrinkWrap: true,
             separatorBuilder: (_, __) => WidgetDesigns.hBox(20),
             itemBuilder: (context, index) {
               final doc = pendingDocs[index];
-              final docData =
-              controller.documentListData.value.data?.data?[index];
+              final docData = documentData[index];
               return pendingDocumentsNames(
                 docData?.name.toString() ?? '',
                 doc["image"],
