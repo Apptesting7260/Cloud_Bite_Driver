@@ -26,6 +26,7 @@ class PhoneOtpVerifyController extends GetxController{
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   RxString phoneNo = "".obs;
+  RxString userId = "".obs;
   RxString otp = "".obs;
   RxString countryString = "".obs;
 
@@ -33,6 +34,7 @@ class PhoneOtpVerifyController extends GetxController{
   void onInit() {
     phoneNo.value = Get.arguments['phone'].toString();
     otp.value = Get.arguments['otp'].toString();
+    userId.value = Get.arguments['id'].toString();
     countryString.value = Get.arguments['countryString'].toString();
     super.onInit();
     startTimer();
@@ -73,7 +75,7 @@ class PhoneOtpVerifyController extends GetxController{
         "country_code": countryString.value,
         "otpType": "verify",
         "otp": otpController.text,
-        "id": storageServices.getDriverID(),
+        "id": userId.value ,
         "fcm_token": fcmToken ?? ''
       };
 

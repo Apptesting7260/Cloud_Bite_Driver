@@ -289,11 +289,16 @@ class WelcomeController extends GetxController {
       };
 
       final response = await _repository.socialLoginAPI(data);
+      bool hasEmail = email.isNotEmpty;
 
       if (response.status == true) {
         LoadingOverlay().hideLoading();
 
         if (response.data != null) {
+          if (hasEmail) {
+            storageServices.saveEmail(response.data?.email ?? '');
+            storageServices.saveEmailVerified(true);
+          }
           if (response.data?.stages == "1" || response.data?.stages == null) {
             print(".........${response.data?.stages}........");
             storageServices.saveToken("${response.data?.loginToken}");

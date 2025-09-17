@@ -19,6 +19,7 @@ class DocumentVerificationController extends GetxController{
 
   List<Map<String, dynamic>> getPendingDocsList() {
     final deliveryId = _storageService.getDeliveryID();
+    print("delivery-------eee-------${deliveryId}");
     final docs = [
       {
         "image": ImageConstants.personalDocImage,

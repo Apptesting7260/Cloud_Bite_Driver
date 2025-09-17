@@ -106,6 +106,7 @@ class HomeController extends GetxController {
     resendTime?.cancel();
     socketService.off('driverOnlineConfirmed');
     socketService.off('driverOfflineConfirmed');
+    cleanupResources();
     super.onClose();
   }
 
@@ -1100,4 +1101,65 @@ var isOnlineLoading = false.obs;
       );
     }
   }
+
+
+  // Add this method to your HomeController class
+  void cleanupResources() {
+    print('🧹 Cleaning up HomeController resources...');
+
+    // 1. Cancel all timers
+    _locationTimer?.cancel();
+    _locationTimer = null;
+
+    changeLocationTimer?.cancel();
+    changeLocationTimer = null;
+
+    acceptanceTimer?.cancel();
+    acceptanceTimer = null;
+
+    resendTime?.cancel();
+    resendTime = null;
+
+    // 2. Cancel location subscription
+    locationSubscription?.cancel();
+    locationSubscription = null;
+
+    // 3. Clear map resources
+    clearMapAfterDelivery();
+
+    // 4. Remove all socket listeners
+    socketService.off('driverOnlineConfirmed');
+    socketService.off('driverOfflineConfirmed');
+    socketService.off(SocketEvents.joinDriver);
+    socketService.off(SocketEvents.acceptedOrderScreen);
+    socketService.off(SocketEvents.otpPhoneNo);
+    socketService.off(SocketEvents.newOrder);
+    socketService.off(SocketEvents.orderNotAccepted);
+    socketService.off(SocketEvents.acceptOrder);
+    socketService.off(SocketEvents.rejectOrder);
+    socketService.off(SocketEvents.sendOTP);
+    socketService.off(SocketEvents.deliveryComplete);
+    socketService.off(SocketEvents.getCurrentOrderDetails);
+    socketService.off(SocketEvents.isOnline);
+    socketService.off(SocketEvents.readyForDelivery);
+    socketService.off(SocketEvents.trackDriverLocation);
+
+    // 5. Reset all state variables
+    isOnline.value = false;
+    orderDetails.value = null;
+    driverLocation.value = null;
+    vendorLocation.value = null;
+    userLocation.value = null;
+
+    // 6. Clear markers and polylines
+    markers.clear();
+    polylines.clear();
+
+    // 7. Dispose of map controller if exists
+    mapController?.dispose();
+    mapController = null;
+
+    print('✅ HomeController resources cleaned up successfully');
+  }
+
 }
