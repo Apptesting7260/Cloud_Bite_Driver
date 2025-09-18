@@ -229,7 +229,7 @@ class PhoneLoginController extends GetxController {
       final data = {
         "type": "phone",
         "phone": phoneController.text,
-        "country_code": countryString.value,
+        "country_code": countryString.value.replaceAll("+", ""),
         "otpType": "verify",
         "fcm_token": fcmToken ?? '',
       };
@@ -281,7 +281,7 @@ class PhoneLoginController extends GetxController {
       final data = {
         "type": "phone",
         "phone": phoneController.text,
-        "country_code": countryString.value,
+        "country_code": countryString.value.replaceAll("+", ""),
         "otpType": "generate",
         "fcm_token": fcmToken ?? ''
       };
