@@ -19,7 +19,8 @@ class StageNavigator{
         Get.offAllNamed(Routes.homeScreen);
         break;
       default:
-        Get.offAllNamed(Routes.onboarding);
+        // Get.offAllNamed(Routes.onboarding);
+        Get.offAllNamed(Routes.welcome);
     }
   }
 }

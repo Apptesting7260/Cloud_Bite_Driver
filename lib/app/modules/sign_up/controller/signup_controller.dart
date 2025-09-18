@@ -31,6 +31,12 @@ class SignUpController extends GetxController {
   RxBool isEmailVerified = false.obs;
 
   RxInt checkCountryLength = 8.obs;
+  updateCountryLength(int value){
+    checkCountryLength.value = value;
+    update();
+  }
+
+
   RxString countryString = "+267".obs;
 
   updateCountryString(String value) {
@@ -126,12 +132,14 @@ class SignUpController extends GetxController {
       final loginTypeArg = Get.arguments['loginType'] ?? "";
       var data = Get.arguments['data'] ?? UpdatedUser()  as UpdatedUser;
       final hasEmail = Get.arguments['hasEmail'] ?? true;
-
-     /* print("---------------------${data.toString()}");
-      if(data != null) {
-          firstNameController.text =data.firstName ?? '';
-          lastNameController.text = data.lastName ?? '';
-      }*/
+      final phone = Get.arguments['phone'] ?? "";
+      final country = Get.arguments['country_code'] ?? '';
+      print("phone ${phone}");
+      phoneController.text = phone;
+      countryString.value = country;
+      print("country code: ${countryString.value}");
+      isPhoneVerified.value = true;
+      verifiedPhone.value = "${countryString.value}${phoneController.text}";
 
       final firstName = Get.arguments['firstName'] ?? '';
       final lastName = Get.arguments['lastName'] ?? '';
@@ -200,7 +208,6 @@ class SignUpController extends GetxController {
 
       if (Get.arguments['driverId'] != null) {
         driverId = Get.arguments['driverId'];
-
       }
     }
   }

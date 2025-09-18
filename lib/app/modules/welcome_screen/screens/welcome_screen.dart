@@ -86,7 +86,7 @@ class WelcomeScreen extends StatelessWidget{
                     children: [
                       _socialLoginButton(
                           onPressed: () async {
-                            controller.signInWithFacebook(Get.context!);
+                            // controller.signInWithFacebook(Get.context!);
                           }, url: ImageConstants.facebookLoginImage),
 
                       WidgetDesigns.wBox(5),

@@ -193,10 +193,10 @@ class SocialLoginModel {
 
   SocialLoginModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    type = json['type'].toString();
-    message = json['message'].toString();
+    type = json['type']?.toString();
+    message = json['message']?.toString();
     data = json['updatedUser'] != null
-        ? new UpdatedUser.fromJson(json['updatedUser'])
+        ? UpdatedUser.fromJson(json['updatedUser'])
         : null;
   }
 
@@ -254,7 +254,7 @@ class UpdatedUser {
   bool? userStatus;
   String? googleId;
   String? facebookId;
-  Null? appleId;
+  String? appleId;
   String? xId;
   String? loginType;
   bool? isOnline;
@@ -317,55 +317,55 @@ class UpdatedUser {
         this.isBlocked});
 
   UpdatedUser.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
-    firstName = json['first_name'].toString();
-    lastName = json['last_name'].toString();
-    email = json['email'].toString();
-    phone = json['phone'].toString();
-    countryCode = json['country_code'].toString();
-    password = json['password'].toString();
-    loginToken = json['login_token'].toString();
-    otp = json['otp'].toString();
+    id = json['id']?.toString();
+    firstName = json['first_name']?.toString();
+    lastName = json['last_name']?.toString();
+    email = json['email']?.toString();
+    phone = json['phone']?.toString();
+    countryCode = json['country_code']?.toString();
+    password = json['password']?.toString();
+    loginToken = json['login_token']?.toString();
+    otp = json['otp']?.toString();
     otpVerified = json['otp_verified'];
     otpExpiresAt = json['otp_expires_at'];
-    emailOtp = json['email_otp'].toString();
+    emailOtp = json['email_otp']?.toString();
     emailVerified = json['email_verified'];
-    createdAt = json['created_at'].toString();
-    updatedAt = json['updated_at'].toString();
-    stages = json['stages'].toString();
-    location = json['location'].toString();
-    fcmToken = json['fcm_token'].toString();
-    dateOfBirth = json['date_of_birth'].toString();
-    deliverymethod = json['deliverymethod'].toString();
-    profilePhoto = json['profile_photo'].toString();
-    frontIdentity = json['front_identity'].toString();
-    backIdentity = json['back_identity'].toString();
-    frontLicense = json['front_license'].toString();
-    backLicense = json['back_license'].toString();
-    accountStatus = json['account_status'];
-    personalDocsStatus = json['personal_docs_status'];
-    vehicleStatus = json['vehicle_status'];
+    createdAt = json['created_at']?.toString();
+    updatedAt = json['updated_at']?.toString();
+    stages = json['stages']?.toString();
+    location = json['location']?.toString();
+    fcmToken = json['fcm_token']?.toString();
+    dateOfBirth = json['date_of_birth']?.toString();
+    deliverymethod = json['deliverymethod']?.toString();
+    profilePhoto = json['profile_photo']?.toString();
+    frontIdentity = json['front_identity']?.toString();
+    backIdentity = json['back_identity']?.toString();
+    frontLicense = json['front_license']?.toString();
+    backLicense = json['back_license']?.toString();
+    accountStatus = json['account_status']?.toString();
+    personalDocsStatus = json['personal_docs_status']?.toString();
+    vehicleStatus = json['vehicle_status']?.toString();
     profileComplete = json['profile_complete'];
-    address = json['address'];
+    address = json['address']?.toString();
     pushNotification = json['push_notification'];
     emailNotification = json['email_notification'];
     incomingDeliveries = json['incoming_deliveries'];
     deliveryCompleted = json['delivery_completed'];
     invoicesPayments = json['invoices_payments'];
-    accountRejectRemark = json['account_reject_remark'];
-    personalRejectRemark = json['personal_reject_remark'];
-    vehicleRejectRemark = json['vehicle_reject_remark'];
+    accountRejectRemark = json['account_reject_remark']?.toString();
+    personalRejectRemark = json['personal_reject_remark']?.toString();
+    vehicleRejectRemark = json['vehicle_reject_remark']?.toString();
     userStatus = json['user_status'];
-    googleId = json['google_id'];
-    facebookId = json['facebook_id'];
-    appleId = json['apple_id'];
-    xId = json['x_id'];
-    loginType = json['login_type'];
+    googleId = json['google_id']?.toString();
+    facebookId = json['facebook_id']?.toString();
+    appleId = json['apple_id']?.toString();
+    xId = json['x_id']?.toString();
+    loginType = json['login_type']?.toString();
     isOnline = json['is_online'];
-    driverStatus = json['driver_status'];
-    orderOtp = json['order_otp'];
-    orderOtpExpire = json['order_otp_expire'];
-    wallet = json['wallet'];
+    driverStatus = json['driver_status']?.toString();
+    orderOtp = json['order_otp']?.toString();
+    orderOtpExpire = json['order_otp_expire']?.toString();
+    wallet = json['wallet']?.toString();
     isBlocked = json['is_blocked'];
   }
 

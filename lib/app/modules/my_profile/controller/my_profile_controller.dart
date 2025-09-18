@@ -25,7 +25,7 @@ class MyProfileController extends GetxController{
         LoadingOverlay().hideLoading();
         WidgetDesigns.consoleLog("Account Logout Data get", "logout account data get");
         storageServices.removeToken();
-        Get.toNamed(Routes.welcome);
+        Get.offAllNamed(Routes.welcome);
       } else{
         LoadingOverlay().hideLoading();
         WidgetDesigns.consoleLog(apiData.message?.toString() ?? "Error while get logout account data", "error while logout account ");

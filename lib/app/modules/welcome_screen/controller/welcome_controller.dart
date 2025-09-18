@@ -68,7 +68,10 @@ class WelcomeController extends GetxController {
             storageServices.saveEmail(response.data?.email ?? '');
             storageServices.saveEmailVerified(true);
           }
-          if (response.data?.stages == "1" || response.data?.stages == null) {
+          print('driverrrrrr211');
+
+          if (response.data?.stages == "1" || response.data?.stages == null || response.data?.stages == "null" ) {
+            print('driverrrrrr');
             storageServices.saveToken("${response.data?.loginToken}");
             Get.toNamed(
               Routes.signUpScreen,
@@ -80,6 +83,8 @@ class WelcomeController extends GetxController {
                 'loginType': 'google',
                 'firstName': firstName,
                 'lastName': lastName,
+                'phone': response.data?.phone ?? '',
+                'country_code': response.data?.countryCode ?? ''
               },
             );
           } else {
@@ -91,6 +96,7 @@ class WelcomeController extends GetxController {
             storageServices.saveAddress("${response.data?.address}");
             storageServices.saveDOB("${response.data?.dateOfBirth}");
             storageServices.saveStages(response.data?.stages ?? "0");
+            storageServices.saveMobile(response.data?.phone ?? '');
             StageNavigator.navigateToStage(response.data!.stages.toString());
           }
         } else {
@@ -104,6 +110,8 @@ class WelcomeController extends GetxController {
               'loginType': 'google',
               'firstName': firstName,
               'lastName': lastName,
+              'phone': response.data?.phone ?? '',
+              'country_code': response.data?.countryCode ?? ''
             },
           );
         }
@@ -186,7 +194,7 @@ class WelcomeController extends GetxController {
               storageServices.saveEmail(response.data?.email ?? '');
               storageServices.saveEmailVerified(true);
             }
-            if (response.data?.stages == "1" || response.data?.stages == null) {
+            if (response.data?.stages == "1" || response.data?.stages == null || response.data?.stages == 'null') {
               storageServices.saveToken("${response.data?.loginToken}");
               Get.offAllNamed(
                 Routes.signUpScreen,
@@ -295,11 +303,11 @@ class WelcomeController extends GetxController {
         LoadingOverlay().hideLoading();
 
         if (response.data != null) {
-          if (hasEmail) {
+          if (response.data!.emailVerified == true) {
             storageServices.saveEmail(response.data?.email ?? '');
             storageServices.saveEmailVerified(true);
           }
-          if (response.data?.stages == "1" || response.data?.stages == null) {
+          if (response.data?.stages == "1" || response.data?.stages == null || response.data?.stages == 'null') {
             print(".........${response.data?.stages}........");
             storageServices.saveToken("${response.data?.loginToken}");
             Get.toNamed(

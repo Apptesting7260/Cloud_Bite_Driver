@@ -273,11 +273,10 @@ class SignUpScreen extends StatelessWidget {
           ),
           WidgetDesigns.hBox(16),
 
-          GetBuilder<SignUpController>(
+          /*GetBuilder<SignUpController>(
             builder: (context) {
               return CustomTextFormField(
                 controller: controller.phoneController,
-                readOnly: false,
                 enabled:
                     controller.isPhoneVerified.value &&
                             controller.countryString.value == "+267"
@@ -292,10 +291,7 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ],
                 onChanged: (value) {
-                  print(
-                    controller.isPhoneVerified.value &&
-                        controller.countryString.value == "+267",
-                  );
+                  print(controller.isPhoneVerified.value && controller.countryString.value == "+267",);
                   controller.updatePhoneError('');
                   if (controller.countryString.value != "+267") {
                     controller.verifiedPhone.value =
@@ -388,7 +384,11 @@ class SignUpScreen extends StatelessWidget {
 
                             controller.update();
                           },
-                          initialSelection: 'BW',
+                          // initialSelection: 'BW',
+                          initialSelection: controller.countryString.value.isNotEmpty
+                              ? controller.countryString.value
+                              : 'BW',
+
                         ),
                         Positioned(
                           right: -6,
@@ -422,7 +422,6 @@ class SignUpScreen extends StatelessWidget {
                     return SizedBox.shrink();
                   }
 
-
                   // Show verify button for unverified numbers
                   return ValueListenableBuilder<TextEditingValue>(
                     valueListenable: controller.phoneController,
@@ -453,11 +452,180 @@ class SignUpScreen extends StatelessWidget {
                 }),
               );
             },
+          ),*/
+          GetBuilder<SignUpController>(
+            builder: (context) {
+              return CustomTextFormField(
+                controller: controller.phoneController,
+                autoValidateMode: AutovalidateMode.onUnfocus,
+                enabled: !controller.isPhoneVerified.value, // Disable only when phone is verified
+                textInputType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(
+                    controller.checkCountryLength.value,
+                  ),
+                ],
+                onChanged: (value) {
+                  controller.updatePhoneError('');
+
+                  // Reset verification status if phone number changes
+                  if (controller.isPhoneVerified.value) {
+                    controller.isPhoneVerified.value = false;
+                    controller.verifiedPhone.value = '';
+                  }
+
+                  // Update verification status based on country code
+                  if (controller.countryString.value != "+267" && value.length == controller.checkCountryLength.value) {
+                    controller.verifiedPhone.value = controller.countryString.value + value;
+                    controller.isPhoneVerified.value = true;
+                  } else {
+                    controller.verifiedPhone.value = '';
+                    controller.isPhoneVerified.value = false;
+                  }
+
+                  controller.update();
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Phone number is required!';
+                  }
+                  if (value.length != controller.checkCountryLength.value) {
+                    return '${controller.checkCountryLength.value} digits required';
+                  }
+                  if (controller.phoneError.value != '' && controller.phoneError.value.isNotEmpty) {
+                    return controller.phoneError.value;
+                  }
+                  return null;
+                },
+                prefix: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Stack(
+                      clipBehavior: Clip.none,
+                      children: [
+                        CountryCodePicker(
+                          padding: EdgeInsets.zero,
+                          flagWidth: 40,
+                          margin: EdgeInsets.zero,
+                          flagDecoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                          ),
+                          boxDecoration: const BoxDecoration(
+                            color: AppTheme.boxBgColor,
+                          ),
+                          onChanged: (CountryCode countryCode) {
+                            // Reset verification when country code changes
+                            if (controller.isPhoneVerified.value) {
+                              controller.isPhoneVerified.value = false;
+                              controller.verifiedPhone.value = '';
+                            }
+
+                            WidgetDesigns.consoleLog(
+                              "${countryCode.code}",
+                              "country code --->>",
+                            );
+                            WidgetDesigns.consoleLog(
+                              "${countryCode.dialCode}",
+                              "country dialCode --->>",
+                            );
+
+                            controller.updateCountryString(
+                              countryCode.dialCode.toString(),
+                            );
+
+                            if (controller.countryPhoneDigits[int.parse(
+                              countryCode.dialCode.toString().replaceAll(
+                                "+",
+                                '',
+                              ),
+                            )] !=
+                                null) {
+                              controller.checkCountryLength.value =
+                              controller.countryPhoneDigits[int.parse(
+                                countryCode.dialCode.toString().replaceAll(
+                                  "+",
+                                  '',
+                                ),
+                              )]!;
+                            } else {
+                              controller.checkCountryLength.value = 10;
+                            }
+
+                            // Update phone number if it exists
+                            if (controller.phoneController.text.isNotEmpty) {
+                              controller.phoneController.text = '';
+                            }
+
+                            controller.update();
+                          },
+                          initialSelection: controller.countryString.value.isNotEmpty
+                              ? controller.countryString.value
+                              : 'BW',
+                        ),
+                        Positioned(
+                          right: -6,
+                          top: 2,
+                          bottom: 2,
+                          child: SvgPicture.asset(ImageConstants.downArrow),
+                        ),
+                      ],
+                    ),
+                    WidgetDesigns.wBox(15),
+                    Container(width: 1, height: 30, color: AppTheme.darkText14),
+                    WidgetDesigns.wBox(10),
+                  ],
+                ),
+                hintText: "Phone Number",
+                suffix: Obx(() {
+                  // Show green tick if phone is verified
+                  if (controller.isPhoneVerified.value) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Icon(
+                        Icons.verified_outlined,
+                        color: Colors.green,
+                        size: 20,
+                      ),
+                    );
+                  }
+
+                  // Show verify button for unverified numbers
+                  return ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: controller.phoneController,
+                    builder: (context, value, child) {
+                      return Visibility(
+                        visible: value.text.isNotEmpty && value.text.length == controller.checkCountryLength.value,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              if (controller.phoneController.text.length == controller.checkCountryLength.value) {
+                                controller.generateOTPForPhone();
+                              }
+                            },
+                            child: Text(
+                              "Verify",
+                              style: AppFontStyle.text_12_200(
+                                AppTheme.primaryColor,
+                                fontFamily: AppFontFamily.generalSansMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }),
+              );
+            },
           ),
 
           WidgetDesigns.hBox(16),
 
-          GetBuilder<SignUpController>(
+          /*GetBuilder<SignUpController>(
             builder: (context) {
               print(
                 "llllllllllllll${controller.disableEmailField.value.toString()}",
@@ -526,6 +694,101 @@ class SignUpScreen extends StatelessWidget {
                                 controller.updateEmailError(
                                   "Please enter a valid email",
                                 );
+                              }
+                            },
+                            child: Text(
+                              "Verify",
+                              style: AppFontStyle.text_12_200(
+                                AppTheme.primaryColor,
+                                fontFamily: AppFontFamily.generalSansMedium,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }),
+              );
+            },
+          ),*/
+          GetBuilder<SignUpController>(
+            builder: (context) {
+              print(
+                "llllllllllllll${controller.disableEmailField.value.toString()}",
+              );
+
+              if ((controller.loginType.value == "facebook" ||
+                  controller.loginType.value == "apple") &&
+                  controller.emailController.text.isEmpty) {
+                return SizedBox.shrink();
+              }
+
+              return CustomTextFormField(
+                readOnly: controller.isEmailVerified.value, // Email verified होने पर read-only
+                controller: controller.emailController,
+                autoValidateMode: AutovalidateMode.onUserInteraction,
+                hintText: "Email Address",
+                textInputType: TextInputType.emailAddress,
+                onChanged: (value) {
+                  if (!controller.disableEmailField.value) {
+                    controller.updateEmailError('');
+
+                    // Reset verification status if email changes
+                    if (controller.isEmailVerified.value) {
+                      controller.isEmailVerified.value = false;
+                      controller.verifiedEmail.value = '';
+                    }
+                  }
+                },
+                enabled: !controller.disableEmailField.value && !controller.isEmailVerified.value,
+                validator: (value) {
+                  if (controller.emailController.text.isEmpty) {
+                    return "Email is required";
+                  }
+                  if (!FormValidators.isValidEmail(value)) {
+                    return "Please enter a valid email";
+                  }
+                  if (controller.emailError.value.isNotEmpty &&
+                      controller.emailError.value != "") {
+                    return controller.emailError.value;
+                  }
+                  return null;
+                },
+                suffix: Obx(() {
+                  // Show green tick if email is verified
+                  if (controller.isEmailVerified.value &&
+                      controller.verifiedEmail.value == controller.emailController.text) {
+                    return Padding(
+                      padding: const EdgeInsets.only(top: 4.0),
+                      child: Icon(
+                        Icons.verified_outlined,
+                        color: Colors.green,
+                        size: 20,
+                      ),
+                    );
+                  }
+
+                  // Don't show verify button if email is already verified or field is disabled
+                  if (controller.isEmailVerified.value || controller.disableEmailField.value) {
+                    return SizedBox.shrink();
+                  }
+
+                  // Show verify button for unverified emails
+                  return ValueListenableBuilder<TextEditingValue>(
+                    valueListenable: controller.emailController,
+                    builder: (context, value, child) {
+                      bool isValid = FormValidators.isValidEmail(value.text);
+                      return Visibility(
+                        visible: value.text.isNotEmpty && isValid,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: GestureDetector(
+                            onTap: () {
+                              if (isValid) {
+                                controller.generateOTPForEmail();
+                              } else {
+                                controller.updateEmailError("Please enter a valid email");
                               }
                             },
                             child: Text(
