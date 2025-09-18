@@ -225,7 +225,7 @@ class SignUpController extends GetxController {
         "type": "phone",
         "otpType": "generate",
         "phone": phoneController.text,
-        "country_code": countryString.value.replaceAll("+", ""),
+        "country_code": countryString.value,
         // "id": idToSend,
         "fcm_token": fcmToken ?? '',
       };
@@ -298,7 +298,7 @@ class SignUpController extends GetxController {
         "otpType": "verify",
         "phone": phoneController.text,
         "otp": otpController.text,
-        "country_code": countryString.value.replaceAll("+", ""),
+        "country_code": countryString.value,
         "fcm_token": fcmToken ?? '',
       };
       data.addIf(uid != "", "id", uid);
