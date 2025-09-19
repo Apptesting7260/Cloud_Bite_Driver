@@ -284,7 +284,6 @@ class WelcomeController extends GetxController {
 
       String? fcmToken = await storageServices.returnFCMToken();
 
-      // Apple से email और name प्राप्त करना
       String email = credential.email ?? '';
       String firstName = credential.givenName ?? '';
       String lastName = credential.familyName ?? '';

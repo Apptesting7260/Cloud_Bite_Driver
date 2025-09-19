@@ -813,7 +813,8 @@ class SignUpScreen extends StatelessWidget {
           ),
 
           Obx(() {
-            if (controller.loginType.value != 'google') {
+            if (controller.loginType.value != 'google' && controller.loginType.value != 'facebook' &&
+            controller.loginType.value != 'apple') {
               return Column(
                 children: [
                   WidgetDesigns.hBox(16),
