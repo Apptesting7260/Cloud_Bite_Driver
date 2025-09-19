@@ -12,6 +12,9 @@ class WelcomeController extends GetxController {
   //Google SignIn
   Future<void> signInWithGoogle(BuildContext context) async {
     try {
+      await GoogleSignIn().signOut();
+
+      await FirebaseAuth.instance.signOut();
       LoadingOverlay().showLoading();
 
       final GoogleSignIn googleSignIn = GoogleSignIn(
@@ -84,7 +87,7 @@ class WelcomeController extends GetxController {
                 'firstName': firstName,
                 'lastName': lastName,
                 'phone': response.data?.phone ?? '',
-                'country_code': response.data?.countryCode ?? ''
+                'country_code': response.data?.countryCode ?? '+267'
               },
             );
           } else {

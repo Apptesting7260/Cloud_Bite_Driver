@@ -20,7 +20,7 @@ class SignUpScreen extends StatelessWidget {
             children: [
               WidgetDesigns.hBox(10),
               Text(
-                'Sign up to deliver food',
+                'Sign up to deliver goods',
                 style: AppFontStyle.text_26_600(
                   AppTheme.white,
                   fontFamily: AppFontFamily.generalSansMedium,
@@ -563,9 +563,10 @@ class SignUpScreen extends StatelessWidget {
 
                             controller.update();
                           },
-                          initialSelection: controller.countryString.value.isNotEmpty
-                              ? controller.countryString.value
-                              : 'BW',
+                          initialSelection: controller.countryString1.value,
+                          // controller.countryString.value.isNotEmpty
+                          //     ? controller.countryString.value
+                          //     : '+267',
                         ),
                         Positioned(
                           right: -6,
@@ -624,6 +625,7 @@ class SignUpScreen extends StatelessWidget {
               );
             },
           ),
+
 
           WidgetDesigns.hBox(16),
 

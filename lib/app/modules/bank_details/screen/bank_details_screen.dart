@@ -96,7 +96,7 @@ class BankDetailsScreen extends StatelessWidget{
                   },
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(12)
+                    // LengthLimitingTextInputFormatter(35)
                   ],
                   textInputType: TextInputType.number,
                   validator: (value) {
@@ -122,14 +122,14 @@ class BankDetailsScreen extends StatelessWidget{
                   hintText: "Retype Account No.",
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
-                    LengthLimitingTextInputFormatter(12)
+                    // LengthLimitingTextInputFormatter(35)
                   ],
                   onChanged: (value) {
                     controller.updateReTypeError('');
                   },
                   validator: (value) {
                     if(controller.reTypeController.text.isEmpty){
-                      return 'Enter account number is required';
+                      return 'Retype account number is required';
                     }
                     if(controller.reTypeACError.value.isNotEmpty || controller.reTypeACError.value != ''){
                       return controller.reTypeACError.value;
@@ -148,7 +148,7 @@ class BankDetailsScreen extends StatelessWidget{
               onChanged: (p0) {
                 controller.selectedAccountType.value = p0 ?? '';
               },
-              validator: (value) => value == null ? 'Select vehicle type' : null,
+              validator: (value) => value == null ? 'Select Account type' : null,
             ),
 
             WidgetDesigns.hBox(16),

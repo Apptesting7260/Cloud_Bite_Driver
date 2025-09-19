@@ -38,9 +38,14 @@ class SignUpController extends GetxController {
 
 
   RxString countryString = "+267".obs;
+  RxString countryString1 = "+267".obs;
 
   updateCountryString(String value) {
+    if (!value.startsWith("+")) {
+      value = "+$value";
+    }
     countryString.value = value;
+    countryString1.value = value;
   }
 
   var firstNameError = "".obs;
@@ -126,6 +131,7 @@ class SignUpController extends GetxController {
 
   void handleGoogleSignInArguments() {
     if (Get.arguments != null) {
+      print('${Get.arguments}---------------------------');
       uid = Get.arguments['id'] ?? "";
       final email = Get.arguments['email'] ?? "";
       final isVerified = Get.arguments['isVerified'] ?? false;
@@ -133,7 +139,8 @@ class SignUpController extends GetxController {
       var data = Get.arguments['data'] ?? UpdatedUser()  as UpdatedUser;
       final hasEmail = Get.arguments['hasEmail'] ?? true;
       final phone = Get.arguments['phone'] ?? "";
-      final country = Get.arguments['country_code'] ?? '';
+      final country = Get.arguments['country_code'] ?? '+267';
+      updateCountryString(country);
       print("phone ${phone}");
 
       print("country code: ${countryString.value}");
