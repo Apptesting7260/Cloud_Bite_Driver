@@ -135,11 +135,12 @@ class SignUpController extends GetxController {
       final phone = Get.arguments['phone'] ?? "";
       final country = Get.arguments['country_code'] ?? '';
       print("phone ${phone}");
-      phoneController.text = phone;
-      countryString.value = country;
+
       print("country code: ${countryString.value}");
       if(data.otpVerified==true){
         isPhoneVerified.value = true;
+        phoneController.text = phone;
+        countryString.value = country;
       }else{
         isPhoneVerified.value = false;
 
