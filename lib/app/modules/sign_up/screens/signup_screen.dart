@@ -722,14 +722,14 @@ class SignUpScreen extends StatelessWidget {
                 "llllllllllllll${controller.disableEmailField.value.toString()}",
               );
 
-              if ((controller.loginType.value == "facebook" ||
+             /* if ((controller.loginType.value == "facebook" ||
                   controller.loginType.value == "apple") &&
                   controller.emailController.text.isEmpty) {
                 return SizedBox.shrink();
-              }
+              }*/
 
               return CustomTextFormField(
-                readOnly: controller.isEmailVerified.value, // Email verified होने पर read-only
+                readOnly: controller.isEmailVerified.value,
                 controller: controller.emailController,
                 autoValidateMode: AutovalidateMode.onUserInteraction,
                 hintText: "Email Address",
