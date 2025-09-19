@@ -458,7 +458,9 @@ class SignUpScreen extends StatelessWidget {
               return CustomTextFormField(
                 controller: controller.phoneController,
                 autoValidateMode: AutovalidateMode.onUnfocus,
-                enabled: !controller.isPhoneVerified.value, // Disable only when phone is verified
+                // enabled: !controller.isPhoneVerified.value, // Disable only when phone is verified
+                enabled: !controller.isPhoneVerified.value ||
+                    controller.countryString.value != "+267",
                 textInputType: TextInputType.number,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
