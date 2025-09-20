@@ -316,7 +316,7 @@ class WelcomeController extends GetxController {
               Routes.signUpScreen,
               arguments: {
                 'id': response.data?.id.toString(),
-                'email': email,
+                'email': response.data?.email ?? '',
                 'data': response.data,
                 'phone': response.data?.phone ?? '',
                 'isVerified': response.data?.emailVerified ?? false,

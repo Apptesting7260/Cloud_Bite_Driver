@@ -505,7 +505,7 @@ class SignUpController extends GetxController {
       return;
     }
 
-    if (loginType.value != 'google' && passwordController.text.isEmpty) {
+    if (loginType.value != 'google' && loginType.value != 'apple' && loginType.value != 'facebook' && passwordController.text.isEmpty) {
       updatePasswordError("Password is required");
       return;
     }
@@ -528,7 +528,7 @@ class SignUpController extends GetxController {
 
 
       // Only add password if loginType is not google
-      if (loginType.value != 'google') {
+      if (loginType.value != 'google' && loginType.value != 'facebook' && loginType.value != 'apple') {
         data["password"] = passwordController.text;
       }
 
