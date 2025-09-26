@@ -16,10 +16,10 @@
 
     <!-- ✅ Facebook SDK Setup
     <key>FacebookAppID</key>
-    <string>YOUR_FACEBOOK_APP_ID</string>-->
+    <string>1499489804583670</string>-->
 
     <key>FacebookClientToken</key>
-    <string>d473cc0832bb2d9a99dea419160bbc5b</string>
+    <string>275966cf61f383db348c9ee278001001</string>
 
     <key>FacebookDisplayName</key>
     <string>CB Driver</string>
