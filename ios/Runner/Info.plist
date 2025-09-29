@@ -14,9 +14,9 @@
         </dict>
     </array>
 
-    <!-- ✅ Facebook SDK Setup
+    <!-- ✅ Facebook SDK Setup -->
     <key>FacebookAppID</key>
-    <string>1499489804583670</string>-->
+    <string>1499489804583670</string>
 
     <key>FacebookClientToken</key>
     <string>275966cf61f383db348c9ee278001001</string>
