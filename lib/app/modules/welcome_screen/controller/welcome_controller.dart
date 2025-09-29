@@ -210,6 +210,8 @@ class WelcomeController extends GetxController {
                   'loginType': 'facebook',
                   'firstName': firstName,
                   'lastName': lastName,
+                  'phone': response.data?.phone ?? '',
+                  'country_code': response.data?.countryCode ?? '+267'
                 },
               );
             } else {
@@ -240,6 +242,8 @@ class WelcomeController extends GetxController {
                 'loginType': 'facebook',
                 'firstName': firstName,
                 'lastName': lastName,
+                'phone': response.data?.phone ?? '',
+                'country_code': response.data?.countryCode ?? '+267'
               },
             );
           }
