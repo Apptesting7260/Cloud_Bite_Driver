@@ -2,6 +2,7 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+<!-- Google -->
     <key>CFBundleURLTypes</key>
     <array>
         <dict>
@@ -9,7 +10,6 @@
             <array>
                 <!-- Google reversed client ID -->
                 <string>com.googleusercontent.apps.524176041811-sbsdf49l6hjvpad819a2al2f8r37s3vn</string>
-
             </array>
         </dict>
     </array>
@@ -23,6 +23,18 @@
 
     <key>FacebookDisplayName</key>
     <string>CB Driver</string>
+
+<!-- Facebook -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb1499489804583670</string>
+            </array>
+        </dict>
+    </array>
+
 
     <key>LSApplicationQueriesSchemes</key>
     <array>

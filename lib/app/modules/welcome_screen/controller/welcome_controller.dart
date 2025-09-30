@@ -199,7 +199,7 @@ class WelcomeController extends GetxController {
             }
             if (response.data?.stages == "1" || response.data?.stages == null || response.data?.stages == 'null') {
               storageServices.saveToken("${response.data?.loginToken}");
-              Get.offAllNamed(
+              Get.toNamed(
                 Routes.signUpScreen,
                 arguments: {
                   'id': response.data?.id.toString(),
@@ -231,7 +231,7 @@ class WelcomeController extends GetxController {
               StageNavigator.navigateToStage(response.data!.stages.toString());
             }
           } else {
-            Get.offAllNamed(
+            Get.toNamed(
               Routes.signUpScreen,
               arguments: {
                 'id': response.data?.id.toString(),
