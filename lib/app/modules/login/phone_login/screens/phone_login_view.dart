@@ -129,10 +129,12 @@ class PhoneLoginView extends StatelessWidget {
                                 const SizedBox(height: 20),
                                 CustomAnimatedButton(
                                   onTap: () {
-                                    if(controller.countryString.value !="267"){
-                                      controller.loginWithPhoneAPI2();
-                                    }else{
-                                      controller.loginWithPhoneAPI();
+                                    if(controller.formkey.currentState!.validate()) {
+                                      if(controller.countryString.value !="267"){
+                                        controller.loginWithPhoneAPI2();
+                                      }else{
+                                        controller.loginWithPhoneAPI();
+                                      }
                                     }
                                   },
                                   text: 'Login',
