@@ -188,6 +188,7 @@ class WelcomeController extends GetxController {
         bool hasEmail = email.isNotEmpty;
 
         if (response.status == true) {
+          LoadingOverlay().hideLoading();
           if (response.data != null) {
            /* if (response.data!.emailVerified == true) {
               storageServices.saveEmail(response.data?.email ?? '');
