@@ -6,10 +6,13 @@
     <key>CFBundleURLTypes</key>
     <array>
         <dict>
+            <key>CFBundleTypeRole</key>
+            <string>Editor</string>
             <key>CFBundleURLSchemes</key>
             <array>
                 <!-- Google reversed client ID -->
-                <string>com.googleusercontent.apps.524176041811-sbsdf49l6hjvpad819a2al2f8r37s3vn</string>
+                <string>com.googleusercontent.apps.524176041811-qtt9qo4g2pv1fv6pp96k6t34q2an2f12</string>
+                <string>fb1499489804583670</string>
             </array>
         </dict>
     </array>
@@ -23,18 +26,6 @@
 
     <key>FacebookDisplayName</key>
     <string>CB Driver</string>
-
-<!-- Facebook -->
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb1499489804583670</string>
-            </array>
-        </dict>
-    </array>
-
 
     <key>LSApplicationQueriesSchemes</key>
     <array>
