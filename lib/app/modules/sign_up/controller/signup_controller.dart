@@ -90,6 +90,12 @@ class SignUpController extends GetxController {
     update();
   }
 
+  var confirmPasswordError = "".obs;
+  updateConfirmPasswordError(String value) {
+    confirmPasswordError.value = value;
+    update();
+  }
+
   var addressError = "".obs;
   updateAddressError(String value) {
     addressError.value = value;
@@ -102,22 +108,66 @@ class SignUpController extends GetxController {
     update();
   }
 
+  RxBool obscureConfirmPassword = true.obs;
+  void toggleConfirmPasswordVisibility() {
+    obscureConfirmPassword.value = !obscureConfirmPassword.value;
+    update();
+  }
+
   final resendEnabled = false.obs;
-  final remainingTime = 60.obs;
+  final remainingTime = 10.obs;
   Timer? _timer;
 
   RxString loginType = ''.obs; // this line
 
+
+  RxBool showContinueWithoutVerify = false.obs;
+  RxInt continueWithoutVerifyTime = 10.obs;
+  Timer? _continueWithoutVerifyTimer;
+
+  RxBool showDidNotReceiveText = false.obs;
+  RxInt didNotReceiveTime = 10.obs;
+  Timer? _didNotReceiveTimer;
+  RxBool isFirstTime = true.obs;
+  RxBool showResendCode = false.obs;
+
   // Timer methods
   void startTimer() {
     resendEnabled.value = false;
-    remainingTime.value = 60;
+    remainingTime.value = 10;
+    showDidNotReceiveText.value = false;
+    showContinueWithoutVerify.value = false;
+    showResendCode.value = false;
+
     _timer?.cancel();
+    _didNotReceiveTimer?.cancel();
+    _continueWithoutVerifyTimer?.cancel();
+
+    // First timer for "Resend Code in Xs"
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       if (remainingTime.value > 0) {
         remainingTime.value--;
       } else {
+        // First timer complete - show "Resend Code" button
         resendEnabled.value = true;
+        showResendCode.value = true;
+        timer.cancel();
+      }
+    });
+  }
+
+  void startDidNotReceiveTimer() {
+    showDidNotReceiveText.value = true;
+    didNotReceiveTime.value = 10;
+    showResendCode.value = false;
+
+    _didNotReceiveTimer = Timer.periodic(Duration(seconds: 1), (timer) {
+      if (didNotReceiveTime.value > 0) {
+        didNotReceiveTime.value--;
+      } else {
+        // "Didn't receive the text?" timer complete - show "Continue without verifying"
+        showDidNotReceiveText.value = false;
+        showContinueWithoutVerify.value = true;
         timer.cancel();
       }
     });
@@ -125,8 +175,15 @@ class SignUpController extends GetxController {
 
   void stopTimer() {
     resendEnabled.value = false;
+    showDidNotReceiveText.value = false;
+    showContinueWithoutVerify.value = false;
+    showResendCode.value = false;
     _timer?.cancel();
+    _didNotReceiveTimer?.cancel();
+    _continueWithoutVerifyTimer?.cancel();
     _timer = null;
+    _didNotReceiveTimer = null;
+    _continueWithoutVerifyTimer = null;
   }
 
   void handleGoogleSignInArguments() {
@@ -239,7 +296,6 @@ class SignUpController extends GetxController {
         "otpType": "generate",
         "phone": phoneController.text,
         "country_code": countryString.value.replaceAll("+", ""),
-        // "id": idToSend,
         "fcm_token": fcmToken ?? '',
       };
       data.addIf(uid != "", "id", uid);
@@ -249,6 +305,12 @@ class SignUpController extends GetxController {
       final response = await _repository.getPhoneOTPAPI(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
+        isFirstTime .value =  true;
+        if (response.updatedUser?.id != null && response.updatedUser!.id!.isNotEmpty) {
+          uid = response.updatedUser!.id!;
+          driverId = uid;
+          print("Updated uid from response: $uid");
+        }
         customOtpDialog(
           "${countryString.value} ${phoneController.text}",
           Get.context,
@@ -367,7 +429,6 @@ class SignUpController extends GetxController {
         "type": "email",
         "otpType": "generate",
         "email": emailController.text,
-        // "id": storageServices.getDriverID(),
         "fcm_token": fcmToken ?? '',
       };
       data.addIf(uid != "", "id", uid);
@@ -432,7 +493,6 @@ class SignUpController extends GetxController {
         "otpType": "verify",
         "email": emailController.text,
         "otp": otpController.text,
-        // "id": driverId,
       };
       data.addIf(uid != "", "id", uid);
 
@@ -484,6 +544,50 @@ class SignUpController extends GetxController {
     }
   }
 
+  Future<void> continueWithoutVerification() async {
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+         "id": uid
+      };
+      data.addIf(uid != "", "id", uid);
+      final response = await _repository.signupWithoutVerifyModel(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        isPhoneVerified.value = true;
+        stopTimer();
+        if (Get.isDialogOpen == true) {
+          Get.back();
+        }
+        CustomSnackBar.show(
+          message: "${response.message}",
+          color: AppTheme.primaryColor,
+          tColor: AppTheme.white,
+        );
+      } else {
+        LoadingOverlay().hideLoading();
+        CustomSnackBar.show(
+          message: response.message ?? "Failed to continue without verification",
+          color: AppTheme.redText,
+          tColor: AppTheme.white,
+        );
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      // Even if API fails, allow user to continue
+      isPhoneVerified.value = true;
+      stopTimer();
+      if (Get.isDialogOpen == true) {
+        Get.back();
+      }
+      CustomSnackBar.show(
+        message: "You can continue without phone verification",
+        color: AppTheme.primaryColor,
+        tColor: AppTheme.white,
+      );
+    }
+  }
+
   // Register API
   Future<void> registerDriverAPI() async {
     updateFirstNameError('');
@@ -494,6 +598,7 @@ class SignUpController extends GetxController {
     updateOTPError('');
     updateAddressError('');
     updatePasswordError('');
+    updateConfirmPasswordError('');
 
     if (isPhoneVerified.value == false) {
       phoneError.value = "Please verify phone no.";
@@ -507,6 +612,10 @@ class SignUpController extends GetxController {
 
     if (loginType.value != 'google' && loginType.value != 'apple' && loginType.value != 'facebook' && passwordController.text.isEmpty) {
       updatePasswordError("Password is required");
+      return;
+    }
+    if (loginType.value != 'google' && loginType.value != 'apple' && loginType.value != 'facebook' && confirmPasswordController.text.isEmpty) {
+      updatePasswordError("Confirm Password is required");
       return;
     }
 
@@ -530,6 +639,7 @@ class SignUpController extends GetxController {
       // Only add password if loginType is not google
       if (loginType.value != 'google' && loginType.value != 'facebook' && loginType.value != 'apple') {
         data["password"] = passwordController.text;
+        data["confirm_password"] = confirmPasswordController.text;
       }
 
       final response = await _repository.registerDriverAPI(data);
@@ -598,7 +708,7 @@ class SignUpController extends GetxController {
   }
 
   // Resend OTP For Phone
-  Future<void> resendOTPForPhone(String type, String title) async {
+  /*Future<void> resendOTPForPhone(String type, String title) async {
     LoadingOverlay().showLoading();
     try {
       final data = {"type": type, "otpType": title};
@@ -608,6 +718,58 @@ class SignUpController extends GetxController {
         print(response.message);
         CustomSnackBar.show(
           message: response.message.toString(),
+          color: AppTheme.primaryColor,
+          tColor: AppTheme.white,
+        );
+      } else if (response.status == false) {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        CustomSnackBar.show(
+          message: response.message.toString(),
+          color: AppTheme.primaryColor,
+          tColor: AppTheme.white,
+        );
+      } else {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+        WidgetDesigns.consoleLog(
+          response.message.toString(),
+          'Error While Generate OTP',
+        );
+        CustomSnackBar.show(
+          message: response.message.toString(),
+          color: AppTheme.redText,
+          tColor: AppTheme.white,
+        );
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+      CustomSnackBar.show(
+        message: e.toString(),
+        color: AppTheme.primaryColor,
+        tColor: AppTheme.white,
+      );
+      print(e);
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
+  }*/
+// Resend OTP method ko replace karen
+  Future<void> resendOTPForPhone(String type, String title) async {
+    LoadingOverlay().showLoading();
+    try {
+      final data = {"type": type, "otpType": title};
+      final response = await _repository.resendOTPAPI(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        print(response.message);
+
+        // Mark as not first time and start "Didn't receive the text?" timer
+        isFirstTime.value = false;
+        startDidNotReceiveTimer();
+
+        CustomSnackBar.show(
+          message: "OTP resent successfully",
           color: AppTheme.primaryColor,
           tColor: AppTheme.white,
         );
@@ -840,6 +1002,7 @@ class SignUpController extends GetxController {
     otpController.clear();
     otpError.value = '';
     startTimer();
+
     return Get.dialog(
       barrierDismissible: false,
       Dialog(
@@ -874,61 +1037,129 @@ class SignUpController extends GetxController {
                 onChanged: (value) {
                   updateOTPError('');
                 },
-                validator: (value) {
-                  if (otpController.text == "" || otpController.text.isEmpty) {
-                    return "Enter OTP";
-                  }
-                  if (otpController.text.length != 6) {
-                    return "Enter 6 digit OTP";
-                  }
-                  return null;
-                },
               ),
               Obx(() {
                 return otpError.value != ""
                     ? Text(
-                      otpError.value,
-                      style: AppFontStyle.text_12_200(
-                        AppTheme.red,
-                        fontFamily: AppFontFamily.generalSansRegular,
-                      ),
-                      textAlign: TextAlign.start,
-                    ).paddingOnly(top: 10)
+                  otpError.value,
+                  style: AppFontStyle.text_12_200(
+                    AppTheme.red,
+                    fontFamily: AppFontFamily.generalSansRegular,
+                  ),
+                  textAlign: TextAlign.start,
+                ).paddingOnly(top: 10)
                     : SizedBox();
               }),
-              Obx(
-                () => TextButton(
-                  onPressed:
-                      resendEnabled.value
-                          ? () {
-                            // Reset timer and resend OTP
-                            startTimer();
-                            if (type == "phone") {
-                              otpController.clear();
-                              otpError.value = '';
-                              resendOTPForPhone(type, title);
-                            } else {
-                              resendOTPForPhone(type, title);
-                            }
-                          }
-                          : null,
-                  child: Text(
-                    resendEnabled.value
-                        ? 'Resend Code'
-                        : 'Resend Code in ${remainingTime.value}s',
-                    style: TextStyle(
-                      color:
-                          resendEnabled.value
-                              ? AppTheme.primaryColor
-                              : Colors.grey,
-                      decoration:
-                          resendEnabled.value ? TextDecoration.underline : null,
-                      decorationColor: AppTheme.primaryColor,
-                      decorationThickness: 2,
+
+              // PHONE TYPE - COMPLEX FLOW
+              if (type == "phone") ...[
+                // STAGE 1: "Resend Code in Xs" (First 60 seconds)
+                Obx(() {
+                  return (!resendEnabled.value && !showResendCode.value)
+                      ? TextButton(
+                    onPressed: null,
+                    child: Text(
+                      'Resend Code in ${remainingTime.value}s',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
                     ),
-                  ),
-                ),
-              ),
+                  )
+                      : SizedBox();
+                }),
+
+                // STAGE 2: "Resend Code" Button (Clickable after first 60 seconds)
+                Obx(() {
+                  return (resendEnabled.value && showResendCode.value && isFirstTime.value)
+                      ? TextButton(
+                    onPressed: () {
+                      otpController.clear();
+                      otpError.value = '';
+                      resendOTPForPhone(type, title);
+                    },
+                    child: Text(
+                      'Resend Code',
+                      style: TextStyle(
+                        color: AppTheme.primaryColor,
+                        decoration: TextDecoration.underline,
+                        decorationColor: AppTheme.primaryColor,
+                        decorationThickness: 2,
+                      ),
+                    ),
+                  )
+                      : SizedBox();
+                }),
+
+                // STAGE 3: "Didn't receive the text? Xs" (After resend, 60 seconds)
+                Obx(() {
+                  return showDidNotReceiveText.value
+                      ? TextButton(
+                    onPressed: null,
+                    child: Text(
+                      'Didn\'t receive the text? ${didNotReceiveTime.value}s',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
+                      : SizedBox();
+                }),
+
+                // STAGE 4: "Continue without verifying" (Final option)
+                Obx(() {
+                  return showContinueWithoutVerify.value
+                      ? Column(
+                    children: [
+                      SizedBox(height: 10),
+                      GestureDetector(
+                        onTap: () {
+                          continueWithoutVerification();
+                        },
+                        child: Center(
+                          child: Text(
+                            "Continue without verifying",
+                            style: AppFontStyle.text_14_400(
+                              AppTheme.primaryColor,
+                              fontFamily: AppFontFamily.generalSansMedium,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
+                      : SizedBox();
+                }),
+              ] else if (type == "email") ...[
+                Obx(() {
+                  return !resendEnabled.value && !showResendCode.value
+                      ? TextButton(
+                    onPressed: null,
+                    child: Text(
+                      'Resend Code in ${remainingTime.value}s',
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
+                      : TextButton(
+                      onPressed: () {
+                        otpController.clear();
+                        otpError.value = '';
+                        resendOTPForPhone(type, title);
+                        startTimer();
+                      },
+                      child: Text(
+                        'Resend Code',
+                        style: TextStyle(
+                          color: AppTheme.primaryColor,
+                          decoration: TextDecoration.underline,
+                          decorationColor: AppTheme.primaryColor,
+                          decorationThickness: 2,
+                        ),
+                      )
+                  );
+                })
+              ],
 
               SizedBox(height: 30),
               Row(
@@ -952,7 +1183,7 @@ class SignUpController extends GetxController {
                           await verifyOTPForEmail();
                         }
                       },
-                      text: "Ok",
+                      text: "Verify",
                     ),
                   ),
                 ],
@@ -1009,7 +1240,7 @@ class SignUpController extends GetxController {
     handlePhoneVerificationArguments();
     handleGoogleSignInArguments();
     _handleLocationPermission(Get.context!);
-    startTimer();
+    // startTimer();
   }
 
   double? _latitude;

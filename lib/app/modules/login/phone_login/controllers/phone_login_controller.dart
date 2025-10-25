@@ -3,6 +3,7 @@ import '../../../../routes/stage_navigator.dart';
 
 class PhoneLoginController extends GetxController {
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
   String countryCode = "+91";
   bool fromSignup = false;
 
@@ -28,6 +29,19 @@ class PhoneLoginController extends GetxController {
   RxString countryString = "267".obs;
   updateCountryString(String value){
     countryString.value = value;
+  }
+
+  RxBool obscurePassword = true.obs;
+
+  void togglePasswordVisibility() {
+    obscurePassword.toggle();
+    update();
+  }
+
+  var passwordError = ''.obs;
+  updatePasswordError(String value) {
+    passwordError.value = value;
+    update();
   }
 
   final Map<String, int> countryPhoneDigits = {
@@ -222,7 +236,7 @@ class PhoneLoginController extends GetxController {
     'ZM': 9, // Zambia
     'ZW': 9,
   };
-  Future<void> loginWithPhoneAPI2() async {
+/*  Future<void> loginWithPhoneAPI2() async {
     String? fcmToken = await storageServices.returnFCMToken();
     LoadingOverlay().showLoading();
     try{
@@ -303,6 +317,52 @@ class PhoneLoginController extends GetxController {
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
       }
 
+    }
+    catch(e){
+      print("$e---------3333333");
+      LoadingOverlay().hideLoading();
+    }
+  }*/
+
+  Future<void> loginWithPhoneAPI() async {
+    String? fcmToken = await storageServices.returnFCMToken();
+    LoadingOverlay().showLoading();
+    try{
+      final data = {
+        "phone": phoneController.text,
+        "country_code": countryString.value.replaceAll("+", ""),
+        "password": passwordController.text,
+        "fcm_token": fcmToken ?? '',
+      };
+
+      final response = await _repository.phoneLoginAPI(data);
+
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        response.updatedUser?.loginToken != null ? storageServices.saveToken("${response.updatedUser?.loginToken}") : storageServices.saveDriverID("${response.updatedUser?.id}");
+        storageServices.saveToken("${response.updatedUser?.loginToken}");
+        storageServices.saveStages("${response.updatedUser?.stages}");
+        storageServices.saveFirstName("${response.updatedUser?.firstName}");
+        storageServices.saveLastName("${response.updatedUser?.lastName}");
+        storageServices.saveDriverID("${response.updatedUser?.id}");
+        storageServices.saveAddress("${response.updatedUser?.address}");
+        if(response.updatedUser?.stages == '1'){
+          Get.toNamed(Routes.signUpScreen, arguments: {
+            "phone": phoneController.text,
+            "country_code": countryString.value,
+            "isPhoneVerified": true,
+            "driverId": response.updatedUser?.id
+          });
+        }else{
+          StageNavigator.navigateToStage("${response.updatedUser?.stages}");
+        }
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While login');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
     }
     catch(e){
       print("$e---------3333333");

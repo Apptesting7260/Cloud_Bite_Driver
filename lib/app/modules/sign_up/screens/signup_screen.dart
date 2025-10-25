@@ -854,6 +854,52 @@ class SignUpScreen extends StatelessWidget {
               return SizedBox.shrink();
             }
           }),
+          Obx(() {
+            if (controller.loginType.value != 'google' && controller.loginType.value != 'facebook' &&
+                controller.loginType.value != 'apple') {
+              return Column(
+                children: [
+                  WidgetDesigns.hBox(16),
+                  GetBuilder<SignUpController>(
+                    builder: (context) {
+                      return CustomTextFormField(
+                        readOnly: false,
+                        controller: controller.confirmPasswordController,
+                        hintText: "Confirm Password",
+                        obscureText: controller.obscureConfirmPassword.value,
+                        onChanged: (value) {
+                          controller.updateConfirmPasswordError('');
+                        },
+                        validator: (value) {
+                          if (controller.confirmPasswordController.text.isEmpty) {
+                            return "Confirm Password is required";
+                          }
+                          if(controller.passwordController.text != controller.confirmPasswordController.text){
+                            return "Password and Confirm Password do not match";
+                          }
+
+                          return FormValidators.validatePassword(value!);
+                        },
+                        suffix: IconButton(
+                          icon: Icon(
+                            controller.obscureConfirmPassword.value
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            controller.toggleConfirmPasswordVisibility();
+                          },
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              );
+            } else {
+              return SizedBox.shrink();
+            }
+          }),
           WidgetDesigns.hBox(16),
 
           GetBuilder<SignUpController>(

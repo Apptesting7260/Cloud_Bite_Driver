@@ -1,5 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/login/phone_login/model/login_phone_verify_model.dart';
+import 'package:cloud_bites_driver/app/modules/login/phone_login/model/new_phone_login_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/delivery_rating_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/earning_chart_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/rating_model.dart';
@@ -8,6 +9,7 @@ import 'package:cloud_bites_driver/app/modules/my_profile/model/total_deliveries
 import 'package:cloud_bites_driver/app/modules/my_profile/model/total_delivery_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/transaction_history_model.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/model/wallet_balance_model.dart';
+import 'package:cloud_bites_driver/app/modules/sign_up/model/signup_without_verify_model.dart';
 import 'package:cloud_bites_driver/app/modules/welcome_screen/model/social_login_model.dart';
 import 'package:cloud_bites_driver/app/utils/common_respone_model/common_respone_model.dart';
 
@@ -334,4 +336,14 @@ class Repository {
     return TotalDeliveriesModel.fromJson(response);
   }
 
+  Future<SignupWithoutVerifyModel> signupWithoutVerifyModel(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.signupVerifyContinueWithoutOtp, "Bearer $token");
+    return SignupWithoutVerifyModel.fromJson(response);
+  }
+
+  Future<PhoneLoginModel> phoneLoginAPI(Map<String, dynamic> data) async {
+    dynamic response = await _apiService.postApi(data, AppUrls.phoneLoginAPI, '');
+    return PhoneLoginModel.fromJson(response);
+  }
 }

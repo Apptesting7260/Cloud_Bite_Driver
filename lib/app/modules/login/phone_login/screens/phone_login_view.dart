@@ -125,16 +125,53 @@ class PhoneLoginView extends StatelessWidget {
                                       );
                                     }
                                 ),
+                                const SizedBox(height: 16),
+                                GetBuilder<PhoneLoginController>(
+                                    builder: (context) {
+                                      return CustomTextFormField(
+                                        controller: controller.passwordController,
+                                        hintText: "Password",
+                                        readOnly: false,
+                                        obscureText: controller.obscurePassword.value,
+                                        onChanged: (value) {
+                                          controller.updatePasswordError('');
+                                        },
+                                        suffix: IconButton(
+                                          icon: Icon(
+                                            controller.obscurePassword.value ? Icons.visibility_off : Icons.visibility,
+                                            color: Colors.grey,
+                                          ),
+                                          onPressed: () {
+                                            controller.togglePasswordVisibility();
+                                          },
+                                        ),
+                                        validator: (value) {
+                                          if(controller.passwordController.text.isEmpty){
+                                            return 'Password is required';
+                                          }
+
+                                          if(controller.passwordError.value.isNotEmpty || controller.passwordError.value != ''){
+                                            return controller.passwordError.value;
+                                          }
+
+                                          return null;
+                                        },
+                                      );
+                                    }
+                                ),
 
                                 const SizedBox(height: 20),
                                 CustomAnimatedButton(
                                   onTap: () {
-                                    if(controller.formkey.currentState!.validate()) {
+                                  /*  if(controller.formkey.currentState!.validate()) {
                                       if(controller.countryString.value !="267"){
                                         controller.loginWithPhoneAPI2();
                                       }else{
                                         controller.loginWithPhoneAPI();
                                       }
+                                    }*/
+                                    if(controller.formkey.currentState!.validate()) {
+                                      controller.loginWithPhoneAPI();
                                     }
                                   },
                                   text: 'Login',

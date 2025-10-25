@@ -30,8 +30,6 @@ class EmailLoginController extends GetxController{
     update();
   }
 
-
-
   Future<void> loginWithEmailAPI() async {
     updateEmailError('');
     updatePasswordError('');
