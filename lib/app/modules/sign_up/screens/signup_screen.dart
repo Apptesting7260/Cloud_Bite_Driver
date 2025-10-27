@@ -907,7 +907,7 @@ class SignUpScreen extends StatelessWidget {
               return CustomTextFormField(
                 readOnly: false,
                 controller: controller.locationController,
-                hintText: "Address",
+                hintText: "Location",
                 onChanged: (value) {
                   controller.updateAddressError('');
                 },

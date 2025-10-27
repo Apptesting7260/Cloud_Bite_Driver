@@ -115,7 +115,7 @@ class AddNewAddress extends StatelessWidget {
                                         children: [
                                           MyText(
                                             title:
-                                            "Order will be delivered here",
+                                            "Driver is here",
                                             tColor: Colors.white,
                                             fWeight: FontWeight.w600,
                                           ),
@@ -177,7 +177,7 @@ class AddNewAddress extends StatelessWidget {
                           ),
                           Spacer(),
                           MyText(
-                            title: "Select Delivery Location",
+                            title: "Select Location",
                             tColor: Colors.black,
                             fSize: 18,
                           ),

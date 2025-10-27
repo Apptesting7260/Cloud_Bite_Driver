@@ -115,18 +115,18 @@ class SignUpController extends GetxController {
   }
 
   final resendEnabled = false.obs;
-  final remainingTime = 10.obs;
+  final remainingTime = 60.obs;
   Timer? _timer;
 
   RxString loginType = ''.obs; // this line
 
 
   RxBool showContinueWithoutVerify = false.obs;
-  RxInt continueWithoutVerifyTime = 10.obs;
+  RxInt continueWithoutVerifyTime = 60.obs;
   Timer? _continueWithoutVerifyTimer;
 
   RxBool showDidNotReceiveText = false.obs;
-  RxInt didNotReceiveTime = 10.obs;
+  RxInt didNotReceiveTime = 60.obs;
   Timer? _didNotReceiveTimer;
   RxBool isFirstTime = true.obs;
   RxBool showResendCode = false.obs;
@@ -134,7 +134,7 @@ class SignUpController extends GetxController {
   // Timer methods
   void startTimer() {
     resendEnabled.value = false;
-    remainingTime.value = 10;
+    remainingTime.value = 60;
     showDidNotReceiveText.value = false;
     showContinueWithoutVerify.value = false;
     showResendCode.value = false;
@@ -158,7 +158,7 @@ class SignUpController extends GetxController {
 
   void startDidNotReceiveTimer() {
     showDidNotReceiveText.value = true;
-    didNotReceiveTime.value = 10;
+    didNotReceiveTime.value = 60;
     showResendCode.value = false;
 
     _didNotReceiveTimer = Timer.periodic(Duration(seconds: 1), (timer) {

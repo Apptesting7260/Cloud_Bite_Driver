@@ -227,7 +227,7 @@ class EditPerosnalDetails extends StatelessWidget{
                   builder: (context) {
                     return CustomTextFormField(
                       controller: controller.locationController,
-                      hintText: "Address",
+                      hintText: "Location",
                       readOnly: false,
                       onChanged: (value) {
                         controller.updateAddressError('');
@@ -235,7 +235,7 @@ class EditPerosnalDetails extends StatelessWidget{
                       },
                       validator: (value){
                         if(controller.locationController.text.isEmpty){
-                          return "Please select address";
+                          return "Please select location";
                         }
       
                         if(controller.addressError.value.isNotEmpty || controller.addressError.value != ''){
