@@ -61,6 +61,7 @@ class AppUrls {
   static const String driverEarningsUrl = '$baseUrl/driver-earning';
   static const String totalDeliveriesUrl = '$baseUrl/driver-total-delivery';
 
-  static const String signupVerifyContinueWithoutOtp = '$baseUrl/driver-signup-without-verification';
+  static const String signupVerifyContinueWithoutOtp =
+      '$baseUrl/driver-signup-without-verification';
   static const String phoneLoginAPI = '$baseUrl/login-by-phone';
 }

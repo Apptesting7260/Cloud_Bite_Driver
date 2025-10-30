@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:http/http.dart' as http;
 
+import '../session_manager.dart';
+
 
 
 class NetworkApiServices extends BaseApiServices {
@@ -196,6 +198,12 @@ class NetworkApiServices extends BaseApiServices {
         return responseJson;
       case 401:
         dynamic responseJson = jsonDecode(response.body);
+        if (!SessionManager().isLoggingOut) {
+          print("logout called");
+          SessionManager().isLoggingOut = true;
+          storageServices.removeToken();
+          Get.offNamed(Routes.welcome);
+        }
         return responseJson;
       case 403:
         dynamic responseJson = jsonDecode(response.body);
