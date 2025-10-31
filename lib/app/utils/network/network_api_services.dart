@@ -198,11 +198,15 @@ class NetworkApiServices extends BaseApiServices {
         return responseJson;
       case 401:
         dynamic responseJson = jsonDecode(response.body);
+        if(responseJson['token']!=null){
+          StorageServices().saveToken(responseJson['token']);
+        }else{
         if (!SessionManager().isLoggingOut) {
           print("logout called");
           SessionManager().isLoggingOut = true;
           storageServices.removeToken();
           Get.offNamed(Routes.welcome);
+        }
         }
         return responseJson;
       case 403:
