@@ -185,6 +185,7 @@ class NetworkApiServices extends BaseApiServices {
 
   dynamic returnResponse(http.Response response, String url) {
     log("$url + ${response.statusCode}",name:  "From return response");
+    final storage = Get.find<StorageServices>();
 
     switch (response.statusCode) {
       case 200:
@@ -199,7 +200,7 @@ class NetworkApiServices extends BaseApiServices {
       case 401:
         dynamic responseJson = jsonDecode(response.body);
         if(responseJson['token']!=null){
-          StorageServices().saveToken(responseJson['token']);
+          storage.saveToken(responseJson['token']);
         }else{
         if (!SessionManager().isLoggingOut) {
           print("logout called");

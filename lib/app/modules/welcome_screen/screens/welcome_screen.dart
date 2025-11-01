@@ -68,7 +68,7 @@ class WelcomeScreen extends StatelessWidget{
                       onTap: () => Get.toNamed(Routes.phoneLogin),
                       child: Center(
                           child: Text(
-                            'Log In With Phone Number',
+                            'Login With Phone Number',
                             style: AppFontStyle.text_16_400(AppTheme.white, fontFamily: AppFontFamily.generalSansMedium),
                           ))),
                   const SizedBox(height: 16),
