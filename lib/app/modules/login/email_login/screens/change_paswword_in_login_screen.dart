@@ -107,7 +107,9 @@ class ChangePasswordInLoginScreen extends StatelessWidget{
                                 CustomAnimatedButton(
                                   onTap: () {
                                     if(controller.formKey.currentState!.validate() || controller.newPassword.text.trim() == controller.confirmPasswordP.text.trim()){
-                                      controller.setPasswordAPI();
+                                      controller.email.value != ""
+                                      ? controller.setPasswordAPI()
+                                      : controller.setPasswordPhoneAPI();
                                     }
                                   },
                                   text: 'Confirm',

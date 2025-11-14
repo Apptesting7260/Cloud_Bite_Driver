@@ -31,7 +31,7 @@ class ForgotOtpVerifyInLogin extends StatelessWidget{
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Obx(() =>
                       Text(
-                        'Please enter the verification code sent to ${controller.email.value}',
+                        'Please enter the verification code sent to ${controller.email.value != '' ? controller.email.value : "+${controller.countryCode.value} ""${controller.phone.value}"}',
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge!
@@ -88,7 +88,9 @@ class ForgotOtpVerifyInLogin extends StatelessWidget{
                                 CustomAnimatedButton(
                                   onTap: () {
                                     if(controller.formKey.currentState!.validate()){
-                                      controller.verifyOtp();
+                                      controller.email.value != ''?controller.verifyOtp()
+                                      : controller.verifyOtpPhone();
+
                                     }
                                   },
                                   text: 'Verify',
@@ -101,7 +103,9 @@ class ForgotOtpVerifyInLogin extends StatelessWidget{
                                     controller.startTimer();
                                     controller.otpController.clear();
                                     controller.otpError.value ='';
-                                    controller.resendOTPForEmail();
+                                    controller.email.value != ''
+                                    ? controller.resendOTPForEmail()
+                                    : controller.resendOTPForPhone();
                                   } : null,
                                   child: Text(
                                     controller.resendEnabled.value

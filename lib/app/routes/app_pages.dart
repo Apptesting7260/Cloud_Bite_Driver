@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/modules/login/phone_login/screens/forgot_password_screen_phone.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/deliveries_screen.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/earning_screen.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/screens/my_profile_sub_screens/notification_set.dart';
@@ -22,6 +23,7 @@ class Routes {
   static const phoneLoginOtpVerify = '/phoneLoginOtpVerify';
   static const emailLogin = '/emailLogin';
   static const forgotPasswordInLogin = '/forgotPasswordInLogin';
+  static const forgotPasswordPhoneScreenInLogin = '/forgotPasswordPhoneScreenInLogin';
   static const forgotOtpVerifyInLogin = '/forgotOtpVerifyInLogin';
   static const changePasswordInLogin = '/changePasswordInLogin';
   static const signUpScreen = '/signUpScreen';
@@ -81,6 +83,8 @@ class Routes {
     GetPage(name: emailLogin, page: () => EmailLoginScreen()),
     GetPage(
         name: forgotPasswordInLogin, page: () => ForgotPasswordScreenInLogin()),
+    GetPage(
+        name: forgotPasswordPhoneScreenInLogin, page: () => ForgotPasswordPhoneScreenInLogin()),
     GetPage(name: forgotOtpVerifyInLogin, page: () => ForgotOtpVerifyInLogin()),
     GetPage(
         name: changePasswordInLogin, page: () => ChangePasswordInLoginScreen()),
