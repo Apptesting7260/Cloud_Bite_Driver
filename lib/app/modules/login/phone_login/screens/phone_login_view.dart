@@ -187,32 +187,50 @@ class PhoneLoginView extends StatelessWidget {
                       child: Container(
                         padding: EdgeInsets.all(15),
                         color: Colors.white,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
+                        child: Column(
                           children: [
-                            Text(
-                              "Don't have an account?",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyMedium!
-                                  .copyWith(color: Colors.black),
-                            ),
                             TextButton(
-                              style: ButtonStyle(
-                                  padding:
-                                  WidgetStatePropertyAll(EdgeInsets.all(0))),
-                              onPressed: (){
-                                Get.toNamed(Routes.signUpScreen);
+                              onPressed: () {
+                                Get.toNamed(Routes.forgotPasswordPhoneScreenInLogin);
                               },
-                              child: Text(
-                                'Sign Up',
+                              child:
+                              Text(
+                                'Forgot Password?',
                                 style: TextStyle(
-                                    color: AppTheme.blueColor,
+                                    color: AppTheme.primaryColor,
                                     decoration: TextDecoration.underline,
-                                    decorationColor: AppTheme.blueColor,
-                                    decorationStyle: TextDecorationStyle.solid,
+                                    decorationColor: AppTheme.primaryColor,
                                     decorationThickness: 2),
                               ),
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Don't have an account?",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(color: Colors.black),
+                                ),
+                                TextButton(
+                                  style: ButtonStyle(
+                                      padding:
+                                      WidgetStatePropertyAll(EdgeInsets.all(0))),
+                                  onPressed: (){
+                                    Get.toNamed(Routes.signUpScreen);
+                                  },
+                                  child: Text(
+                                    'Sign Up',
+                                    style: TextStyle(
+                                        color: AppTheme.blueColor,
+                                        decoration: TextDecoration.underline,
+                                        decorationColor: AppTheme.blueColor,
+                                        decorationStyle: TextDecorationStyle.solid,
+                                        decorationThickness: 2),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),

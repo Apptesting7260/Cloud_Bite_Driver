@@ -37,9 +37,13 @@ class ChangePasswordInLoginController extends GetxController{
 
 
   RxString email = ''.obs;
+  RxString countryCode = ''.obs;
+  RxString phone = ''.obs;
   @override
   void onInit() {
-    email.value = Get.arguments['email'];
+    email.value = Get.arguments?['email'] ?? "";
+    countryCode.value = Get.arguments?['countryCode'] ?? "";
+    phone.value = Get.arguments?['phone'] ?? "";
     super.onInit();
   }
 
@@ -55,6 +59,41 @@ class ChangePasswordInLoginController extends GetxController{
       };
 
       final response = await _repository.setPasswordForgetAPI(data);
+      if (response.status == true) {
+        LoadingOverlay().hideLoading();
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
+        showPasswordChangedDialog(Get.context!);
+      }
+      else if(response.status == false && response.type == 'verifyAndReset'){
+        LoadingOverlay().hideLoading();
+        updateNewPasswordError(response.message.toString());
+        updateConfirmPasswordError(response.message.toString());
+      }
+      else {
+        LoadingOverlay().hideLoading();
+        WidgetDesigns.consoleLog(response.message.toString(), 'Error While set Password');
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }
+    } catch (e) {
+      LoadingOverlay().hideLoading();
+    } finally {
+      LoadingOverlay().hideLoading();
+    }
+  }
+
+  Future<void> setPasswordPhoneAPI() async {
+    updateNewPasswordError('');
+    updateConfirmPasswordError('');
+    LoadingOverlay().showLoading();
+    try {
+      final data = {
+        "type": "changePassword",
+        "phone": storageService.getMobile() != '' ? storageService.getMobile() : phone.value,
+        "country_code": countryCode.value,
+        "password": newPassword.text,
+      };
+
+      final response = await _repository.forgetPasswordPhoneAPI(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);

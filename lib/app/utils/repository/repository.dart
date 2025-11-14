@@ -203,6 +203,13 @@ class Repository {
     return ForgetPasswordModel.fromJson(response);
   }
 
+  // Send OTP For Forget Password phone
+  Future<ForgetPasswordModel> forgetPasswordPhoneAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.forgetPasswordPhoneUrl, token);
+    return ForgetPasswordModel.fromJson(response);
+  }
+
   // Verify OTP For Forget Password
   Future<VerifyForgetModel> verifyOTPForPassword(Map<String, dynamic> data) async {
     final token = storageService.getToken();
