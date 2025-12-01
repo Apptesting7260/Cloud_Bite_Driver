@@ -1,9 +1,6 @@
-
-
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-
 
 class LocationController extends GetxController {
   //TODO: Implement LocationController
@@ -18,7 +15,11 @@ class LocationController extends GetxController {
   static int selectedIndex = 0; // Only index 2 should be true
   var placeList =
       [
-        {'name': 'Home', 'value': 'home', 'image': ImageConstants.placeHomeImage},
+        {
+          'name': 'Home',
+          'value': 'home',
+          'image': ImageConstants.placeHomeImage,
+        },
         {
           'name': 'Office',
           'value': 'office',
@@ -61,11 +62,9 @@ class LocationController extends GetxController {
     super.onInit();
   }
 
-
-
   bool doesLocationTypeExist(String type) {
     return allLocationData.value.addresses!.any(
-          (place) => place.type.toString().toLowerCase() == type.toLowerCase(),
+      (place) => place.type.toString().toLowerCase() == type.toLowerCase(),
     );
   }
 
@@ -124,7 +123,6 @@ class LocationController extends GetxController {
 
   final Repository _repository = Repository();
 
-
   Future<void> updateAddress(LatLng latLng) async {
     try {
       final url = Uri.parse(
@@ -143,14 +141,14 @@ class LocationController extends GetxController {
           print("result ----$result");
           // Optional: extract named business/landmark (like "Next Big Technology")
           final placeName = components.firstWhere(
-                (c) =>
-            c['types'].contains('premise') ||
+            (c) =>
+                c['types'].contains('premise') ||
                 c['types'].contains('point_of_interest'),
             orElse: () => null,
           );
 
           titleAddress.value = components[1]['long_name'];
-          address.value = formattedAddress;
+          address.value = cleanAddress(formattedAddress);
         } else {
           address.value = "Address not found";
         }
@@ -160,6 +158,23 @@ class LocationController extends GetxController {
     } catch (e) {
       address.value = "Error: ${e.toString()}";
     }
+  }
+
+  String cleanAddress(String formattedAddress) {
+    print('Original Address: $formattedAddress');
+    // Regex: match Plus Code pattern anywhere, e.g. "XQ79+8H4,"
+    final regex = RegExp(r'\b[A-Z0-9]{4,}\+[A-Z0-9]{2,}\b,?\s*');
+    // Replace any Plus Code occurrences
+    final cleaned =
+        formattedAddress
+            .replaceAll(regex, '')
+            .replaceAll(RegExp(r',\s*,+'), ',')
+            .trim();
+    // Clean up extra commas/spaces if any
+    return cleaned
+        .replaceAll(RegExp(r'\s+,|\s{2,}'), ' ')
+        .replaceAll(RegExp(r',\s*,+'), ',')
+        .trim();
   }
 
   void setMapController(GoogleMapController controller) {
@@ -192,8 +207,8 @@ class LocationController extends GetxController {
   }
 
   void addLocation() async {
-    locationError.value ="";
-    if(type.value==""){
+    locationError.value = "";
+    if (type.value == "") {
       locationError.value = "Location type is required";
 
       return;

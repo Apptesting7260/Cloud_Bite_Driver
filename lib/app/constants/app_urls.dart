@@ -1,6 +1,6 @@
 class AppUrls {
-  // static const String baseUrl = 'https://api.cloudbitesbw.com';
-  static const String baseUrl = "https://qmt4f11v-8000.inc1.devtunnels.ms";
+  static const String baseUrl = 'https://api.cloudbitesbw.com';
+  // static const String baseUrl = "https://qmt4f11v-8000.inc1.devtunnels.ms";
   // static const String baseUrl = 'http://15.207.201.245:8000'; // live url
   // static const String baseUrl = 'https://n86h3555-8000.inc1.devtunnels.ms'; // uttam sir
   // static const String baseUrl = 'https://21qkztxl-8000.inc1.devtunnels.ms';
@@ -31,10 +31,12 @@ class AppUrls {
   static const String licensePhotoUploadAPI =
       '$baseUrl/driver/personalUploads/license';
   static const String bankDetailsUploadAPI = '$baseUrl/driver/driver-account';
+  static const String driverPaymentDetailsAPI = '$baseUrl/driver-add-payment-detail';
   static const String driverTotalDeliveryAPI = '$baseUrl/driver-total-delivery';
   static const String deliveriesOnSpecificDateAPI =
       '$baseUrl/deliveries-on-specific-date';
   static const String getDriverDataAPI = '$baseUrl/driver/fetchingDriver';
+  static const String getPaymentMethodAPI = '$baseUrl/driver-get-payment-method';
   static const String loginAPI = '$baseUrl/driver/login';
   static const String editProfile = '$baseUrl/driver/editProfile';
   static const String finalPhaseAPI = '$baseUrl/driver/finalPhase';

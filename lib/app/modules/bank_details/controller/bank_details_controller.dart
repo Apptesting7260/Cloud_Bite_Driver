@@ -1,4 +1,5 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
+import 'package:cloud_bites_driver/app/modules/bank_details/model/payment_detail_model.dart';
 
 class BankDetailController extends GetxController{
   TextEditingController bankNameController = TextEditingController();
@@ -6,10 +7,19 @@ class BankDetailController extends GetxController{
   TextEditingController acNumberController = TextEditingController();
   TextEditingController reTypeController = TextEditingController();
   TextEditingController ifscNameController = TextEditingController();
+  TextEditingController pay2cellNumberController = TextEditingController();
+  TextEditingController orangeMoneyController = TextEditingController();
 
+  var selectedPaymentMethod = RxInt(-1);
+  var methodId = "".obs;
+var paymentData = PaymentDetailsModel().obs;
   final DocumentVerificationController controller = Get.put(DocumentVerificationController());
 
-
+@override
+  void onInit() {
+    super.onInit();
+    getPaymentMethodApi();
+  }
   var bankNameError = ''.obs;
   updateBankNameError(String value) {
     bankNameError.value = value;
@@ -51,8 +61,26 @@ class BankDetailController extends GetxController{
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageServices => _storageService;
-
+  LoadingOverlay loadingOverlay = LoadingOverlay();
+var isLoading = false.obs;
   final Repository _repository = Repository();
+   getPaymentMethodApi()async{
+     isLoading.value = true;
+     // LoadingOverlay().showLoading();
+     try{
+  await   _repository.getPaymentMethodApi().then((value) {
+       if(value.status == true){
+       paymentData.value = value;
+       }else{
+         paymentData.value = PaymentDetailsModel();
+       }
+     });}catch (e){
+       print(e);
+     }finally{
+        isLoading.value = false;
+        // LoadingOverlay().hideLoading();
+     }
+   }
 
   Future<void> bankDetailsUploadAPI() async {
 
@@ -65,18 +93,29 @@ class BankDetailController extends GetxController{
     LoadingOverlay().showLoading();
     try{
 
-      final data = {
+      final data =methodId.value=="5"? {
+        "method_id": methodId.value,
         "bank_name": bankNameController.text,
         "account_holder_name": acHolderNameController.text,
         "account_number": acNumberController.text,
         "retype_account_number": reTypeController.text,
         "account_type": selectedAccountType.value,
         "ifsc_code": ifscNameController.text,
-      };
-      print("request $data");
+      }: methodId.value=="3"?{
+        "method_id": methodId.value,
+        "pay2cell_number": pay2cellNumberController.text,
+      }:
+    methodId.value=="4"?
+      {
+        "method_id": methodId.value,
+        "orangemoney_number": orangeMoneyController.text,
+      }:
+    {
+      "method_id": "",
+      "orangemoney_number": "",
+    };
 
-
-      final response = await _repository.uploadBankDetailsAPI(data);
+      final response = await _repository.driverAddPaymentDetailsAPI(data!);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
@@ -113,7 +152,6 @@ class BankDetailController extends GetxController{
       }
       else {
         LoadingOverlay().hideLoading();
-        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         WidgetDesigns.consoleLog(response.message.toString(), 'Error While Uploading Bank Details');
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
       }
@@ -124,6 +162,8 @@ class BankDetailController extends GetxController{
       print(s);
     }
   }
+
+
 
 
 }

@@ -12,16 +12,13 @@ import 'package:cloud_bites_driver/app/modules/my_profile/model/wallet_balance_m
 import 'package:cloud_bites_driver/app/modules/sign_up/model/signup_without_verify_model.dart';
 import 'package:cloud_bites_driver/app/modules/welcome_screen/model/social_login_model.dart';
 import 'package:cloud_bites_driver/app/utils/common_respone_model/common_respone_model.dart';
-
+import '../../modules/bank_details/model/payment_detail_model.dart';
 import '../../modules/my_profile/model/payment_method_model.dart';
 
 class Repository {
-
   final _apiService = NetworkApiServices();
-
   final StorageServices _storageService = Get.find<StorageServices>();
   StorageServices get storageService => _storageService;
-
   // Phone Number Generate
   Future<GetOtpModel > getPhoneOTPAPI(Map<String, dynamic> data) async {
     dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, '');
@@ -134,6 +131,13 @@ class Repository {
     print(response);
     return DriverAccountDetailsModel.fromJson(response);
   }
+  Future<DriverAccountDetailsModel> driverAddPaymentDetailsAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi(data, AppUrls.driverPaymentDetailsAPI, "Bearer $token");
+    print(response);
+    return DriverAccountDetailsModel.fromJson(response);
+  }
+
 
   Future<TotalDeliveryModel> totalDeliveriesAPI(Map<String, dynamic> data) async {
     final token = storageService.getToken();
@@ -174,6 +178,11 @@ class Repository {
     final token = storageService.getToken();
     dynamic response = await _apiService.getApi(AppUrls.getDriverDataAPI, "Bearer $token");
     return GetDriverDataModel.fromJson(response);
+  }
+  Future<PaymentDetailsModel> getPaymentMethodApi() async {
+    final token = storageService.getToken();
+    dynamic response = await _apiService.postApi({},AppUrls.getPaymentMethodAPI, "Bearer $token");
+    return PaymentDetailsModel.fromJson(response);
   }
 
   // Update Driver Profile API

@@ -1,2 +1,0 @@
-module cloud.bites.driver {
-}

@@ -35,7 +35,7 @@ class DocumentVerificationController extends GetxController{
       {
         "image": ImageConstants.vehicleDetailImage,
         "route": Routes.bankDetailsScreen,
-        "name": "Bank Details",
+        "name": "Payment Details",
       },
     ];
     return docs;
