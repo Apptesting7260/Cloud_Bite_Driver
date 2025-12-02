@@ -153,6 +153,8 @@ class MyProfileScreen extends StatelessWidget{
                         ),
                       ),
                       WidgetDesigns.hBox(20),
+                      myProfileLists('Payment Methods', ImageConstants.paymentIcon, () => Get.toNamed(Routes.earnings)),
+                      WidgetDesigns.hBox(20),
                       myProfileLists('Earnings', ImageConstants.earningsIcon, () => Get.toNamed(Routes.earnings)),
                       WidgetDesigns.hBox(20),
                       myProfileLists('My Wallet', ImageConstants.walletIcon, () => Get.toNamed(Routes.myWalletScreen, arguments: {"walletBalance": controller.walletBalance.value})),
@@ -195,21 +197,31 @@ class MyProfileScreen extends StatelessWidget{
       onTap: onTap,
       child: Row(
         children: [
-          Container(
-            height:44,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(13.0),
-                gradient: LinearGradient(
-                  colors: [
-                    Color.fromRGBO(248, 238, 244, 1),
-                    Color.fromRGBO(239, 247, 252, 1)
-                  ],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                )
-            ),
-            child: SvgPicture.asset(iconPath),
+        Container(
+        height: 44,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(13.0),
+          gradient: LinearGradient(
+            colors: [
+              Color.fromRGBO(248, 238, 244, 1),
+              Color.fromRGBO(239, 247, 252, 1),
+            ],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
           ),
+        ),
+        child: iconPath.toLowerCase().endsWith('.svg')
+            ? SvgPicture.asset(
+          iconPath,
+
+          fit: BoxFit.scaleDown,
+        )
+            : Image.asset(
+          iconPath,
+          width: 23,
+          height: 23,
+        ).paddingOnly(left: 10,right: 10,top: 10,bottom: 10),
+      ),
           WidgetDesigns.wBox(10),
           Text(
             title,

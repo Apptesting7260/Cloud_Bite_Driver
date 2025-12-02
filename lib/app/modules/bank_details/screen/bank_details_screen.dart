@@ -236,7 +236,6 @@ var isSelected = index == controller.selectedPaymentMethod.value;
                     return CustomTextFormField(
                       readOnly: false,
                       textInputType: TextInputType.number,
-
                       controller: controller.reTypeController,
                       hintText: "Retype Account No.",
                       inputFormatters: [
