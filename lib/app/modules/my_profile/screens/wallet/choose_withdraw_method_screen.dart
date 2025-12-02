@@ -55,7 +55,7 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
                                splashColor: AppTheme.transparent,
                                hoverColor: AppTheme.transparent,
                                onTap: (){
-                                 chooseWithdrawMethodController.selectedMethod.value = chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId ?? "";
+                                 chooseWithdrawMethodController.selectedMethod.value = "${chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId ?? ""}";
                                },
                                child: Container(
                                  height: chooseWithdrawMethodController.selectedMethod.value == chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId ? null : 100.h,

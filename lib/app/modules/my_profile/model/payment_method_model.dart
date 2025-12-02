@@ -1,150 +1,109 @@
-/*
+// To parse this JSON data, do
+//
+//     final paymentMethodModel = paymentMethodModelFromJson(jsonString);
+
+import 'dart:convert';
+
+PaymentMethodModel paymentMethodModelFromJson(String str) => PaymentMethodModel.fromJson(json.decode(str));
+
+String paymentMethodModelToJson(PaymentMethodModel data) => json.encode(data.toJson());
+
 class PaymentMethodModel {
   bool? status;
   String? message;
-  List<PaymentData>? data;
-
-  PaymentMethodModel({this.status, this.data});
-
-  PaymentMethodModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    message = json['message']?.toString();
-    if (json['data'] != null) {
-      data = <PaymentData>[];
-      json['data'].forEach((v) {
-        data!.add(PaymentData.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['status'] = status;
-    data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class PaymentData {
-  String? name;
-  String? charge;
-  String? paymentMethodId;
-
-  PaymentData({this.name, this.charge, this.paymentMethodId});
-
-  PaymentData.fromJson(Map<String, dynamic> json) {
-    name = json['name']?.toString();
-    charge = json['charge']?.toString();
-    paymentMethodId = json['payment_method_id']?.toString();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['name'] = name;
-    data['charge'] = charge;
-    data['payment_method_id'] = paymentMethodId;
-    return data;
-  }
-}
-*/
-class PaymentMethodModel {
-  bool? status;
-  List<Data>? data;
-  String? message;
+  List<Datum>? data;
   BankAccountDetail? bankAccountDetail;
 
-  PaymentMethodModel({this.status, this.data, this.bankAccountDetail});
+  PaymentMethodModel({
+    this.status,
+    this.message,
+    this.data,
+    this.bankAccountDetail,
+  });
 
-  PaymentMethodModel.fromJson(Map<String, dynamic> json) {
-    status = json['status'];
-    message = json['message']?.toString();
-    if (json['data'] != null) {
-      data = <Data>[];
-      json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
-      });
-    }
-    bankAccountDetail = json['bankAccountDetail'] != null
-        ? new BankAccountDetail.fromJson(json['bankAccountDetail'])
-        : null;
-  }
+  factory PaymentMethodModel.fromJson(Map<String, dynamic> json) => PaymentMethodModel(
+    status: json["status"],
+    message: json["message"],
+    data: json["data"] == null ? [] : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+    bankAccountDetail: json["bankAccountDetail"] == null ? null : BankAccountDetail.fromJson(json["bankAccountDetail"]),
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['message'] = message;
-    if (this.data != null) {
-      data['data'] = this.data!.map((v) => v.toJson()).toList();
-    }
-    if (this.bankAccountDetail != null) {
-      data['bankAccountDetail'] = this.bankAccountDetail!.toJson();
-    }
-    return data;
-  }
-}
-
-class Data {
-  String? name;
-  String? charge;
-  String? paymentMethodId;
-
-  Data({this.name, this.charge, this.paymentMethodId});
-
-  Data.fromJson(Map<String, dynamic> json) {
-    name = json['name'].toString();
-    charge = json['charge'].toString();
-    paymentMethodId = json['payment_method_id'].toString();
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['charge'] = this.charge;
-    data['payment_method_id'] = this.paymentMethodId;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "status": status,
+    "message": message,
+    "data": data == null ? [] : List<dynamic>.from(data!.map((x) => x.toJson())),
+    "bankAccountDetail": bankAccountDetail?.toJson(),
+  };
 }
 
 class BankAccountDetail {
-  String? id;
+  int? id;
   String? name;
   String? bankName;
   String? accountNumber;
   String? accountType;
   String? ifscCode;
   String? status;
+  String? pay2CellNumber;
+  String? orangemoneyNumber;
 
-  BankAccountDetail(
-      {this.id,
-        this.name,
-        this.bankName,
-        this.accountNumber,
-        this.accountType,
-        this.ifscCode,
-        this.status});
+  BankAccountDetail({
+    this.id,
+    this.name,
+    this.bankName,
+    this.accountNumber,
+    this.accountType,
+    this.ifscCode,
+    this.status,
+    this.pay2CellNumber,
+    this.orangemoneyNumber,
+  });
 
-  BankAccountDetail.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
-    name = json['name'].toString();
-    bankName = json['bank_name'].toString();
-    accountNumber = json['account_number'].toString();
-    accountType = json['account_type'].toString();
-    ifscCode = json['ifsc_code'].toString();
-    status = json['status'].toString();
-  }
+  factory BankAccountDetail.fromJson(Map<String, dynamic> json) => BankAccountDetail(
+    id: json["id"],
+    name: json["name"],
+    bankName: json["bank_name"],
+    accountNumber: json["account_number"],
+    accountType: json["account_type"],
+    ifscCode: json["ifsc_code"],
+    status: json["status"],
+    pay2CellNumber: json["pay2cell_number"],
+    orangemoneyNumber: json["orangemoney_number"],
+  );
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['bank_name'] = this.bankName;
-    data['account_number'] = this.accountNumber;
-    data['account_type'] = this.accountType;
-    data['ifsc_code'] = this.ifscCode;
-    data['status'] = this.status;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "name": name,
+    "bank_name": bankName,
+    "account_number": accountNumber,
+    "account_type": accountType,
+    "ifsc_code": ifscCode,
+    "status": status,
+    "pay2cell_number": pay2CellNumber,
+    "orangemoney_number": orangemoneyNumber,
+  };
+}
+
+class Datum {
+  String? name;
+  String? charge;
+  int? paymentMethodId;
+
+  Datum({
+    this.name,
+    this.charge,
+    this.paymentMethodId,
+  });
+
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+    name: json["name"],
+    charge: json["charge"],
+    paymentMethodId: json["payment_method_id"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "charge": charge,
+    "payment_method_id": paymentMethodId,
+  };
 }
