@@ -118,8 +118,9 @@ class PaymentMethodScreen extends GetView<PaymentMethodController> {
             ),
 
             SizedBox(height: 20),
-
-            (controller.fetchPaymentMethodData.value.data?.length ??0) >= 3?SizedBox(): CustomAnimatedButton(
+Obx((){
+  return
+            (controller.fetchPaymentMethodData.value.data?.length ??0 ) >= 3 || controller.isFetchPayments.value ==true?SizedBox(): CustomAnimatedButton(
               // isEnabled: true,
               height: 60,
               onTap: () {
@@ -128,7 +129,8 @@ class PaymentMethodScreen extends GetView<PaymentMethodController> {
                 // Get.to(()=>MapScreen());
               },
               text: "+ Add New Payment",
-            ),
+            );
+}),
             SizedBox(height: 20),
 
             CustomAnimatedButton(height: 60, onTap: () {}, text: "Apply"),
