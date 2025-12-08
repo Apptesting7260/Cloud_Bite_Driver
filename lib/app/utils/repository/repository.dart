@@ -42,6 +42,12 @@ class Repository {
     dynamic response = await _apiService.postApi(data, AppUrls.verifyUser, '');
     return GetOtpEmailModel.fromJson(response);
   }
+  Future<FetchPaymentMethodModel> getPaymentDetailAPI(Map<String, dynamic> data) async {
+    final token = storageService.getToken();
+
+    dynamic response = await _apiService.postApi(data, AppUrls.getPaymentDetailAPI, "Bearer $token");
+    return FetchPaymentMethodModel.fromJson(response);
+  }
 
   Future<PaymentMethodModel> withdrawMethodAPI(Map<String, dynamic> data) async {
     final token = storageService.getToken();

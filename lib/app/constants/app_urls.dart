@@ -67,4 +67,5 @@ class AppUrls {
   static const String signupVerifyContinueWithoutOtp =
       '$baseUrl/driver-signup-without-verification';
   static const String phoneLoginAPI = '$baseUrl/login-by-phone';
+  static const String getPaymentDetailAPI = '$baseUrl/get-payment-detail';
 }

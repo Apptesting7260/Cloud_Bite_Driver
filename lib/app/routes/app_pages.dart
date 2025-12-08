@@ -13,6 +13,8 @@ import 'package:cloud_bites_driver/app/modules/no_internet_connection/views/no_i
 
 import '../modules/delete_account/bindings/delete_account_binding.dart';
 import '../modules/delete_account/views/delete_account_view.dart';
+import '../modules/my_profile/bindings/payment_method_binding.dart';
+import '../modules/my_profile/screens/my_profile_sub_screens/payment_method_screen.dart';
 import '../modules/my_profile/screens/specific_date_deliveries_screen.dart';
 
 class Routes {
@@ -58,6 +60,7 @@ class Routes {
   static const termsCondition = '/termsCondition';
   static const ratings = '/ratings';
   static const earnings = '/earnings';
+  static const paymentMethod = '/earnings';
   static const deliveriesScreen = '/deliveriesScreen';
   static const specificDateDeliveriesScreen = '/specificDateDeliveriesScreen';
   static const chooseWithdrawMethodScreen = '/ChooseWithdrawMethodScreen';
@@ -92,6 +95,10 @@ class Routes {
         name: signUpScreen,
         page: () => SignUpScreen(),
         binding: SignupBinding()),
+    GetPage(
+        name:paymentMethod,
+        page: () => PaymentMethodScreen(),
+        binding: PaymentMethodBinding()),
     GetPage(name: deliveryMethodScreen, page: () => DeliveryMethodScreen()),
     GetPage(
         name: documentVerificationScreen,

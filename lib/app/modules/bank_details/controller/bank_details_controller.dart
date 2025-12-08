@@ -1,5 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/bank_details/model/payment_detail_model.dart';
+import 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/payment_method_controller.dart';
 
 class BankDetailController extends GetxController{
   TextEditingController bankNameController = TextEditingController();
@@ -12,11 +13,13 @@ class BankDetailController extends GetxController{
 
   var selectedPaymentMethod = RxInt(-1);
   var methodId = "".obs;
+  var ids;
 var paymentData = PaymentDetailsModel().obs;
   final DocumentVerificationController controller = Get.put(DocumentVerificationController());
 
 @override
   void onInit() {
+ids= Get.arguments['ids'] ?? [];
     super.onInit();
     getPaymentMethodApi();
   }
@@ -93,7 +96,7 @@ var isLoading = false.obs;
     LoadingOverlay().showLoading();
     try{
 
-      final data =methodId.value=="5"? {
+      final data =methodId.value=="2"? {
         "method_id": methodId.value,
         "bank_name": bankNameController.text,
         "account_holder_name": acHolderNameController.text,
@@ -101,11 +104,11 @@ var isLoading = false.obs;
         "retype_account_number": reTypeController.text,
         "account_type": selectedAccountType.value,
         "ifsc_code": ifscNameController.text,
-      }: methodId.value=="3"?{
+      }: methodId.value=="4"?{
         "method_id": methodId.value,
         "pay2cell_number": pay2cellNumberController.text,
       }:
-    methodId.value=="4"?
+    methodId.value=="1"?
       {
         "method_id": methodId.value,
         "orangemoney_number": orangeMoneyController.text,
@@ -120,8 +123,11 @@ var isLoading = false.obs;
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);
         Get.back();
-      }
-      else if(response.status == false && response.type == 'bank_name'){
+        if(Get.isRegistered<PaymentMethodController>()){
+          Get.find<PaymentMethodController>().fetchAllPaymentMethodApi();
+          Get.find<PaymentMethodController>().refresh();
+        }
+      } else if(response.status == false && response.type == 'bank_name'){
         LoadingOverlay().hideLoading();
         updateBankNameError(response.message.toString());
         WidgetDesigns.consoleLog(response.message.toString(), "Error when Uploading Bank Details");

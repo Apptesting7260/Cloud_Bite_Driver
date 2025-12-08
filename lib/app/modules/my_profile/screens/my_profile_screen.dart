@@ -153,7 +153,7 @@ class MyProfileScreen extends StatelessWidget{
                         ),
                       ),
                       WidgetDesigns.hBox(20),
-                      myProfileLists('Payment Methods', ImageConstants.paymentIcon, () => Get.toNamed(Routes.earnings)),
+                      myProfileLists('Payment Methods', ImageConstants.paymentIcon, () => Get.toNamed(Routes.paymentMethod)),
                       WidgetDesigns.hBox(20),
                       myProfileLists('Earnings', ImageConstants.earningsIcon, () => Get.toNamed(Routes.earnings)),
                       WidgetDesigns.hBox(20),

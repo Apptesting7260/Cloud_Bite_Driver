@@ -61,7 +61,7 @@ class EarningsScreen extends StatelessWidget {
           );
         default:
           return ErrorScreen(
-            message: controller.earningAPIDnoata.value.message.toString(),
+            message: controller.earningAPIData.value.message.toString(),
             buttonText: "Retry",
             onPressed: () async {
               await controller.getEarningApi();

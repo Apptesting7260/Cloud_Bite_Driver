@@ -81,6 +81,9 @@ export 'package:cloud_bites_driver/app/modules/add_address/models/location_respo
 export 'package:cloud_bites_driver/app/modules/add_address/models/search_place_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/get_email_otp_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/delivery_method_model.dart';
+
+export 'package:cloud_bites_driver/app/modules/my_profile/model/fetch_payment_methods_model.dart';
+
 export 'package:cloud_bites_driver/app/modules/sign_up/model/register_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/resend_model.dart';
 export 'package:cloud_bites_driver/app/modules/sign_up/model/select_delivery_method_model.dart';
