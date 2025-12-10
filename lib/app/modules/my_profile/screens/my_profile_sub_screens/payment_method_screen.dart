@@ -133,7 +133,7 @@ Obx((){
 }),
             SizedBox(height: 20),
 
-            CustomAnimatedButton(height: 60, onTap: () {}, text: "Apply"),
+            // CustomAnimatedButton(height: 60, onTap: () {}, text: "Apply"),
           ],
         ),
       ),
@@ -190,13 +190,13 @@ Obx((){
                     ),
                     const SizedBox(height: 8),
 
-                    MyText(title: subtitle, fWeight: FontWeight.w400),
+                    MyText(title: "${capitalizeFirstLetter(title)} number:${subtitle}", fWeight: FontWeight.w400),
                   ],
                 ),
               ),
               const SizedBox(width: 20),
 
-              Obx(() {
+              /*Obx(() {
                 return CustomRadio(
                   value: id,
                   groupValue: controller.selectedMethodType.value,
@@ -204,7 +204,7 @@ Obx((){
                     controller.selectedMethodType.value = value;
                   },
                 );
-              }),
+              }),*/
             ],
           ),
         ),

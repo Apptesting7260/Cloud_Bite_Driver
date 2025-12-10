@@ -61,7 +61,7 @@ class ChooseWithdrawMethodController extends GetxController{
     try{
       LoadingOverlay().showLoading();
       final response = await repository.driverWithdrawRequestAPI(
-          selectedMethod.value != "2"
+          selectedMethod.value == "3"
           ? {
             "amount": withdrawAmount.value,
             "withdrawMethodId": selectedMethod.value,

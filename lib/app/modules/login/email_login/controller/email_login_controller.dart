@@ -50,6 +50,7 @@ class EmailLoginController extends GetxController{
         var selectedId = response.data?.deliverymethod ?? '';
         response.data?.loginToken != null ? storageServices.saveToken("${response.data?.loginToken}") : storageServices.saveDriverID("${response.data?.id}");
         storageServices.saveStages("${response.data?.stages}");
+        storageServices.saveEmail("${response.data?.email}");
         storageServices.saveToken("${response.data?.loginToken}");
         storageServices.saveFirstName("${response.data?.firstName}");
         storageServices.saveLastName("${response.data?.lastName}");

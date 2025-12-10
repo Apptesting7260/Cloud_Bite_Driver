@@ -55,15 +55,23 @@ class ChangePasswordProcessController extends GetxController{
       final response = await _repository.changePasswordForgetAPI(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
-        showPasswordChangedDialog(Get.context!);
+
+        // showPasswordChangedDialog(Get.context!);
       } else if(response.status == false && response.type == 'changePassword') {
         LoadingOverlay().hideLoading();
+
         updateOldPasswordError(response.message.toString());
         updateNewPasswordError(response.message.toString());
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.redText, tColor: AppTheme.white);
+      }else if (response.status == false && response.type == 'old-password') {
+        LoadingOverlay().hideLoading();
+
+        updateOldPasswordError(response.message.toString());
+
       }
     } catch (e) {
       LoadingOverlay().hideLoading();
+
       CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
       WidgetDesigns.consoleLog(e.toString(), 'Error While Change Password');
     } finally {
@@ -107,7 +115,9 @@ class ChangePasswordProcessController extends GetxController{
                       width: double.infinity,
                       child: CustomAnimatedButton(
                           onTap: () {
-                            Get.offAllNamed(Routes.welcome);
+                            Get.back();
+                            Get.back();
+                            // Get.offAllNamed(Routes.welcome);
                           },
                           text: 'Close'
                       )

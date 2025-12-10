@@ -25,7 +25,8 @@ class Routes {
   static const phoneLoginOtpVerify = '/phoneLoginOtpVerify';
   static const emailLogin = '/emailLogin';
   static const forgotPasswordInLogin = '/forgotPasswordInLogin';
-  static const forgotPasswordPhoneScreenInLogin = '/forgotPasswordPhoneScreenInLogin';
+  static const forgotPasswordPhoneScreenInLogin =
+      '/forgotPasswordPhoneScreenInLogin';
   static const forgotOtpVerifyInLogin = '/forgotOtpVerifyInLogin';
   static const changePasswordInLogin = '/changePasswordInLogin';
   static const signUpScreen = '/signUpScreen';
@@ -60,7 +61,7 @@ class Routes {
   static const termsCondition = '/termsCondition';
   static const ratings = '/ratings';
   static const earnings = '/earnings';
-  static const paymentMethod = '/earnings';
+  static const paymentMethod = '/paymentMethodScreen';
   static const deliveriesScreen = '/deliveriesScreen';
   static const specificDateDeliveriesScreen = '/specificDateDeliveriesScreen';
   static const chooseWithdrawMethodScreen = '/ChooseWithdrawMethodScreen';
@@ -68,53 +69,71 @@ class Routes {
   static final routes = [
     GetPage(name: splash, page: () => SplashScreen(), binding: SplashBinding()),
     GetPage(
-      name:DELETE_ACCOUNT,
+      name: DELETE_ACCOUNT,
       page: () => DeleteAccountView(),
       binding: DeleteAccountBinding(),
     ),
-    GetPage(name: chooseWithdrawMethodScreen, page: () => ChooseWithdrawMethodScreen()),
     GetPage(
-        name: onboarding,
-        page: () => OnboardingScreen(),
-        binding: OnboardingBinding()),
+      name: chooseWithdrawMethodScreen,
+      page: () => ChooseWithdrawMethodScreen(),
+    ),
     GetPage(
-        name: welcome,
-        page: () => WelcomeScreen(),
-        binding: WelcomeScreenBinding()),
+      name: onboarding,
+      page: () => OnboardingScreen(),
+      binding: OnboardingBinding(),
+    ),
+    GetPage(
+      name: welcome,
+      page: () => WelcomeScreen(),
+      binding: WelcomeScreenBinding(),
+    ),
     GetPage(name: phoneLogin, page: () => PhoneLoginView()),
     GetPage(name: phoneLoginOtpVerify, page: () => PhoneOtpVerifyScreen()),
     GetPage(name: emailLogin, page: () => EmailLoginScreen()),
     GetPage(
-        name: forgotPasswordInLogin, page: () => ForgotPasswordScreenInLogin()),
+      name: forgotPasswordInLogin,
+      page: () => ForgotPasswordScreenInLogin(),
+    ),
     GetPage(
-        name: forgotPasswordPhoneScreenInLogin, page: () => ForgotPasswordPhoneScreenInLogin()),
+      name: forgotPasswordPhoneScreenInLogin,
+      page: () => ForgotPasswordPhoneScreenInLogin(),
+    ),
     GetPage(name: forgotOtpVerifyInLogin, page: () => ForgotOtpVerifyInLogin()),
     GetPage(
-        name: changePasswordInLogin, page: () => ChangePasswordInLoginScreen()),
+      name: changePasswordInLogin,
+      page: () => ChangePasswordInLoginScreen(),
+    ),
     GetPage(
-        name: signUpScreen,
-        page: () => SignUpScreen(),
-        binding: SignupBinding()),
+      name: signUpScreen,
+      page: () => SignUpScreen(),
+      binding: SignupBinding(),
+    ),
     GetPage(
-        name:paymentMethod,
-        page: () => PaymentMethodScreen(),
-        binding: PaymentMethodBinding()),
+      name: paymentMethod,
+      page: () => PaymentMethodScreen(),
+      binding: PaymentMethodBinding(),
+    ),
     GetPage(name: deliveryMethodScreen, page: () => DeliveryMethodScreen()),
     GetPage(
-        name: documentVerificationScreen,
-        page: () => DocumentVerificationScreen()),
+      name: documentVerificationScreen,
+      page: () => DocumentVerificationScreen(),
+    ),
     GetPage(
-        name: personalDocumentsScreen, page: () => PersonalDocumentScreen()),
+      name: personalDocumentsScreen,
+      page: () => PersonalDocumentScreen(),
+    ),
     GetPage(name: vehicleDetailsScreen, page: () => VehicleDetailsScreen()),
     GetPage(name: bankDetailsScreen, page: () => BankDetailsScreen()),
     GetPage(name: profilePhotoScreen, page: () => ProfilePhotoScreen()),
     GetPage(
-        name: identityVerificationScreen,
-        page: () => IdentityVerificationScreen()),
+      name: identityVerificationScreen,
+      page: () => IdentityVerificationScreen(),
+    ),
     GetPage(name: drivingLicenseScreen, page: () => DrivingLicenseScreen()),
     GetPage(
-        name: registrationCompleteScreen,
-        page: () => RegistrationCompleteScreen()),
+      name: registrationCompleteScreen,
+      page: () => RegistrationCompleteScreen(),
+    ),
     GetPage(name: homeScreen, page: () => HomeScreen()),
     GetPage(name: myProfileScreen, page: () => MyProfileScreen()),
     GetPage(name: personalDetailsScreen, page: () => PersonalDetailsScreen()),
@@ -122,12 +141,14 @@ class Routes {
     GetPage(name: settingsScreen, page: () => SettingsScreen()),
     GetPage(name: helpCenterScreen, page: () => HelpCenterScreen()),
     GetPage(
-        name: changePasswordProcessScreen,
-        page: () => ChangePasswordProcessScreen()),
+      name: changePasswordProcessScreen,
+      page: () => ChangePasswordProcessScreen(),
+    ),
     GetPage(name: forgotPasswordScreen, page: () => ForgotPasswordScreen()),
     GetPage(
-        name: forgotPasswordOtpVerifyScreen,
-        page: () => ForgotPasswordOtpVerifyScreen()),
+      name: forgotPasswordOtpVerifyScreen,
+      page: () => ForgotPasswordOtpVerifyScreen(),
+    ),
     GetPage(name: changePasswordScreen, page: () => ChangePasswordScreen()),
     GetPage(name: notificationScreen, page: () => NotificationScreen()),
     GetPage(name: documentsScreen, page: () => DocumentsScreen()),
@@ -146,6 +167,9 @@ class Routes {
     GetPage(name: Routes.ratings, page: () => RatingScreen()),
     GetPage(name: Routes.earnings, page: () => EarningsScreen()),
     GetPage(name: Routes.deliveriesScreen, page: () => DeliveriesScreen()),
-    GetPage(name: Routes.specificDateDeliveriesScreen, page: () => SpecificDateDeliveriesScreen()),
+    GetPage(
+      name: Routes.specificDateDeliveriesScreen,
+      page: () => SpecificDateDeliveriesScreen(),
+    ),
   ];
 }

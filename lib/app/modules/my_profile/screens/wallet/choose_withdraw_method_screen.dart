@@ -58,7 +58,7 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
                                  chooseWithdrawMethodController.selectedMethod.value = "${chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId ?? ""}";
                                },
                                child: Container(
-                                 height: chooseWithdrawMethodController.selectedMethod.value == chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId ? null : 100.h,
+                                 height: chooseWithdrawMethodController.selectedMethod.value == "${chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId}" ? null : 100.h,
                                  width: double.infinity,
                                  decoration: BoxDecoration(
                                  color: AppTheme.white,
@@ -77,7 +77,7 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
                                            WidgetDesigns.wBox(8),
                                            Expanded(child: Text(chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].name ?? "", style: AppFontStyle.text_18_500(AppTheme.black,fontFamily: AppFontFamily.generalSansMedium),)),
                                            Obx(() => CustomGradientToggle(
-                                             isSelected: chooseWithdrawMethodController.selectedMethod.value == chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId,
+                                             isSelected: chooseWithdrawMethodController.selectedMethod.value == "${chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId}",
                                            )),
                                          ],
                                        ),
@@ -92,9 +92,9 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
                                            ],
                                          ),
                                        ),
-                                       if(chooseWithdrawMethodController.selectedMethod.value == chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId) ...[
+                                       if(chooseWithdrawMethodController.selectedMethod.value == "${chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId}") ...[
                                          WidgetDesigns.hBox(16),
-                                         if(chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId == '2')
+                                         if(chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId == 2)
                                            Column(
                                              crossAxisAlignment: CrossAxisAlignment.start,
                                              children: [
@@ -106,7 +106,7 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
                                                WidgetDesigns.hBox(8),
                                                _buildBankDetailRow("IFSC Code", chooseWithdrawMethodController.withdrawMethodsData.value.data?.bankAccountDetail?.ifscCode ?? ""),
                                              ],
-                                           )else
+                                           ) else if(chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId == 3)
                                          CustomTextFormField(
                                            controller: chooseWithdrawMethodController.idController,
                                            readOnly: false,
@@ -116,7 +116,21 @@ class ChooseWithdrawMethodScreen extends StatelessWidget {
                                              }
                                              return null;
                                            },
-                                         ),
+                                         ) else  if(chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId == 4)
+                                             Column(
+                                               crossAxisAlignment: CrossAxisAlignment.start,
+                                               children: [
+                                                 _buildBankDetailRow("Pay2Cell Number", chooseWithdrawMethodController.withdrawMethodsData.value.data?.bankAccountDetail?.pay2CellNumber  ?? ""),
+                                                 WidgetDesigns.hBox(8),
+                                               ],
+                                             )else  if(chooseWithdrawMethodController.withdrawMethodsData.value.data?.data?[index].paymentMethodId == 1)
+                                             Column(
+                                               crossAxisAlignment: CrossAxisAlignment.start,
+                                               children: [
+                                                 _buildBankDetailRow("Orange Money Number", chooseWithdrawMethodController.withdrawMethodsData.value.data?.bankAccountDetail?.orangemoneyNumber  ?? ""),
+                                                 WidgetDesigns.hBox(8),
+                                               ],
+                                             )
                                        ]
                                      ],
                                    ),

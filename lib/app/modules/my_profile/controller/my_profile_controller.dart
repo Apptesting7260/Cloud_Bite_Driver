@@ -24,6 +24,7 @@ class MyProfileController extends GetxController{
       if(apiData.status == true){
         LoadingOverlay().hideLoading();
         WidgetDesigns.consoleLog("Account Logout Data get", "logout account data get");
+        storageServices.clearAll();
         storageServices.removeToken();
         Get.offAllNamed(Routes.welcome);
       } else{
