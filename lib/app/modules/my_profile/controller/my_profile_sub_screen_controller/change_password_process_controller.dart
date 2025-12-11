@@ -56,6 +56,9 @@ class ChangePasswordProcessController extends GetxController{
       if (response.status == true) {
         LoadingOverlay().hideLoading();
 
+        Get.back();
+        CustomSnackBar.show(message: response.message.toString(), color: AppTheme.green, tColor: AppTheme.white);
+
         // showPasswordChangedDialog(Get.context!);
       } else if(response.status == false && response.type == 'changePassword') {
         LoadingOverlay().hideLoading();

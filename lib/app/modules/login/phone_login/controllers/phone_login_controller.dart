@@ -346,6 +346,7 @@ class PhoneLoginController extends GetxController {
         storageServices.saveFirstName("${response.updatedUser?.firstName}");
         storageServices.saveLastName("${response.updatedUser?.lastName}");
         storageServices.saveDriverID("${response.updatedUser?.id}");
+        storageServices.saveEmail("${response.updatedUser?.email}");
         storageServices.saveAddress("${response.updatedUser?.address}");
         if(response.updatedUser?.stages == '1'){
           Get.toNamed(Routes.signUpScreen, arguments: {
