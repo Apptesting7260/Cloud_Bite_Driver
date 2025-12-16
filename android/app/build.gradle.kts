@@ -60,6 +60,26 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    flavorDimensions += "env"
+
+    productFlavors {
+        create("staging") {
+            dimension = "env"
+            applicationIdSuffix = ".staging"
+            versionNameSuffix = "-staging"
+
+            resValue("string", "app_name", "CB Driver Staging")
+            resValue("string", "facebook_app_id", "")
+        }
+
+        create("prod") {
+            dimension = "env"
+            resValue("string", "facebook_app_id", "1499489804583670")
+            resValue("string", "app_name", "CB Driver")
+        }
+    }
+
 }
 
 flutter {
