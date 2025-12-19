@@ -6,7 +6,9 @@ import 'firebase_options.dart';
 void main() async {
   await dotenv.load(fileName: "assets/.env");
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.firebaseOptions(flavor: FlavorService().flavor));
+  await Firebase.initializeApp(
+      name: "cloudbitesbw-staging",
+      options: DefaultFirebaseOptions.firebaseOptions(flavor: FlavorService().flavor));
 
   await Get.putAsync(() => FlavorService().init());
   await Get.putAsync(() => NetworkService().init());
