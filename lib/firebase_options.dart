@@ -204,7 +204,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions iosStaging = FirebaseOptions(
     apiKey: 'AIzaSyD6Y1d1Pad9skaz7JuiYFUrIlDNxBSl4OI',
-    appId: '1:24115167748:android:510f6cdb458810e04aeb51',  // replace with staging App ID
+    appId: '1:24115167748:ios:6062b2bee5162f2d4aeb51',  // replace with staging App ID
     messagingSenderId: '24115167748',
     projectId: 'cloudbitesbw-staging',
     storageBucket: 'cloudbitesbw-staging.firebasestorage.app',

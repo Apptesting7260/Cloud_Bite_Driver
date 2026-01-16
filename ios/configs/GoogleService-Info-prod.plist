@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>524176041811-qtt9qo4g2pv1fv6pp96k6t34q2an2f12.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.524176041811-qtt9qo4g2pv1fv6pp96k6t34q2an2f12</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>524176041811-2vq7hpf091cc9mb83hnoul8tupbsse15.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyD6Y1d1Pad9skaz7JuiYFUrIlDNxBSl4OI</string>
+	<key>GCM_SENDER_ID</key>
+	<string>524176041811</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.cloudBitesDriver</string>
+	<key>PROJECT_ID</key>
+	<string>cloudbitesbw-51508</string>
+	<key>STORAGE_BUCKET</key>
+	<string>cloudbitesbw-51508.firebasestorage.app</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:524176041811:ios:f86f72f0209101397123a6</string>
+</dict>
+</plist>
