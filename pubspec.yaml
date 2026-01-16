@@ -54,6 +54,7 @@ dependencies:
   url_launcher: ^6.1.11
   fl_chart: ^0.64.0
   sign_in_with_apple: ^7.0.1
+  firebase_analytics: ^11.6.0
 
 dev_dependencies:
   flutter_test:

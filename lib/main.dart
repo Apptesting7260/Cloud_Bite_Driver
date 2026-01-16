@@ -1,12 +1,15 @@
 import 'package:cloud_bites_driver/app/utils/flavor_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'app/core/app_exports.dart';
+import 'app/utils/service/analytics_observer.dart';
 import 'firebase_options.dart';
 
 void main() async {
-  await dotenv.load(fileName: "assets/.env");
+  await dotenv.load(fileName: ".env");
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.firebaseOptions(flavor: FlavorService().flavor));
+  await Firebase.initializeApp(
+    name: "cloudbitesbw-staging",
+      options: DefaultFirebaseOptions.firebaseOptions(flavor: FlavorService().flavor));
 
   await Get.putAsync(() => FlavorService().init());
   await Get.putAsync(() => NetworkService().init());
@@ -26,6 +29,7 @@ void main() async {
       minTextAdapt: true,
       splitScreenMode: true,
       child: GetMaterialApp(
+        navigatorObservers: [AnalyticsObserver()],
         debugShowCheckedModeBanner: false,
         title: "Cloud Bites Driver",
         initialRoute: Routes.splash,
