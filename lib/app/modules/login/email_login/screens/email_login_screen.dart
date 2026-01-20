@@ -110,6 +110,8 @@ class EmailLoginScreen extends StatelessWidget{
                               const SizedBox(height: 30),
                               CustomAnimatedButton(
                                 onTap: () {
+                                  print("heaf");
+
                                   if(controller.formkey.currentState!.validate()) {
                                     controller.loginWithEmailAPI();
                                   }

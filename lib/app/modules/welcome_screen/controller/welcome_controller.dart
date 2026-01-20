@@ -35,9 +35,9 @@ class WelcomeController extends GetxController {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      print("gogole data ---------${googleUser}");
-      print("gogole data ---------${googleAuth}");
-      print("gogole data ---------${credential}");
+      print("gogole data ---------$googleUser");
+      print("gogole data ---------$googleAuth");
+      print("gogole data ---------$credential");
 
       final UserCredential userCredential = await FirebaseAuth.instance
           .signInWithCredential(credential);
@@ -64,6 +64,9 @@ class WelcomeController extends GetxController {
       final response = await _repository.socialLoginAPI(data);
       String email = googleUser.email;
       if (response.status == true) {
+        if (Get.find<SocketController>().socket.connected == false) {
+          Get.find<SocketController>().onInit();
+        }
         LoadingOverlay().hideLoading();
 
         if (response.data != null) {
@@ -188,6 +191,9 @@ class WelcomeController extends GetxController {
         bool hasEmail = email.isNotEmpty;
 
         if (response.status == true) {
+          if (Get.find<SocketController>().socket.connected == false) {
+            Get.find<SocketController>().onInit();
+          }
           LoadingOverlay().hideLoading();
           if (response.data != null) {
            /* if (response.data!.emailVerified == true) {
@@ -307,6 +313,9 @@ class WelcomeController extends GetxController {
       bool hasEmail = email.isNotEmpty;
 
       if (response.status == true) {
+        if (Get.find<SocketController>().socket.connected == false) {
+          Get.find<SocketController>().onInit();
+        }
         LoadingOverlay().hideLoading();
 
         if (response.data != null) {

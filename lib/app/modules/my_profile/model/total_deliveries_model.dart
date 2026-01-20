@@ -26,19 +26,19 @@ class TotalDeliveriesModel {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['totalDeliveries'] = this.totalDeliveries;
-    data['totalCharge'] = this.totalCharge;
-    data['page'] = this.page;
-    data['limit'] = this.limit;
-    data['currentPage'] = this.currentPage;
-    data['totalPages'] = this.totalPages;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['totalDeliveries'] = totalDeliveries;
+    data['totalCharge'] = totalCharge;
+    data['page'] = page;
+    data['limit'] = limit;
+    data['currentPage'] = currentPage;
+    data['totalPages'] = totalPages;
     if (this.data != null) {
       data['data'] = this.data!.map((v) => v.toJson()).toList();
     }
@@ -60,10 +60,10 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['date'] = this.date;
-    data['deliveries'] = this.deliveries;
-    data['total_charge'] = this.totalCharge;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['date'] = date;
+    data['deliveries'] = deliveries;
+    data['total_charge'] = totalCharge;
     return data;
   }
 }
