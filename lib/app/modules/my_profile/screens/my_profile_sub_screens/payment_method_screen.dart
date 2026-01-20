@@ -1,7 +1,6 @@
 import 'package:cloud_bites_driver/app/core/app_exports.dart';
 import 'package:cloud_bites_driver/app/modules/my_profile/controller/my_profile_sub_screen_controller/payment_method_controller.dart';
 
-import '../../../../utils/custom_widgets/custom_radio.dart';
 
 class PaymentMethodScreen extends GetView<PaymentMethodController> {
   const PaymentMethodScreen({super.key});
@@ -190,7 +189,7 @@ Obx((){
                     ),
                     const SizedBox(height: 8),
 
-                    MyText(title: "${capitalizeFirstLetter(title)} number:${subtitle}", fWeight: FontWeight.w400),
+                    MyText(title: "${capitalizeFirstLetter(title)} number:$subtitle", fWeight: FontWeight.w400),
                   ],
                 ),
               ),

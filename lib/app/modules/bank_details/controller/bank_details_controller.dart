@@ -124,7 +124,7 @@ var isLoading = false.obs;
       "orangemoney_number": "",
     };
 
-      final response = await _repository.driverAddPaymentDetailsAPI(data!);
+      final response = await _repository.driverAddPaymentDetailsAPI(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);

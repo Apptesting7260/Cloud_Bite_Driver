@@ -85,3 +85,6 @@ android {
 flutter {
     source = "../.."
 }
+dependencies {
+    implementation("com.google.j2objc:j2objc-annotations:2.8")
+}
