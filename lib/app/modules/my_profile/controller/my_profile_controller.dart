@@ -26,6 +26,7 @@ class MyProfileController extends GetxController{
         WidgetDesigns.consoleLog("Account Logout Data get", "logout account data get");
         storageServices.clearAll();
         storageServices.removeToken();
+        removeController();
         Get.offAllNamed(Routes.welcome);
       } else{
         LoadingOverlay().hideLoading();
@@ -38,6 +39,13 @@ class MyProfileController extends GetxController{
       CustomSnackBar.show(message: e.toString(), color: AppTheme.redText, tColor: AppTheme.white);
     }
   }
+
+  void removeController()async{
+      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
+      Get.find<SocketController>().socket.disconnect();
+
+}
 
   Rx<ApiResponse<DeliveryRatingModel>> deliveryAndRatingData = Rx<ApiResponse<DeliveryRatingModel>>(ApiResponse.loading());
   setDeliveryAndRatingData(ApiResponse<DeliveryRatingModel> value){

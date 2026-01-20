@@ -6,6 +6,8 @@ import '../controllers/delete_account_controller.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class DeleteAccountView extends GetView<DeleteAccountController> {
+  const DeleteAccountView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

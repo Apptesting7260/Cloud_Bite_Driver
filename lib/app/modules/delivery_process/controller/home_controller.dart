@@ -122,8 +122,9 @@ class HomeController extends GetxController {
     });
 
     ever(driverRepo.orderDetails, (AcceptedOrderModel? details) {
-      if (details != null)
+      if (details != null) {
         bottomSheetController.showAcceptedOrderDetails(details);
+      }
     });
 
     ever(orderDetails, (details) {
@@ -554,8 +555,8 @@ class HomeController extends GetxController {
   }
 
   // For Remaining Time
-  final RxInt remainingTime = 30.obs;
-  final int totalTime = 30;
+   RxInt remainingTime = 30.obs;
+   int totalTime = 30;
   Timer? acceptanceTimer;
 
   /*void startTimer() {
@@ -851,7 +852,10 @@ class HomeController extends GetxController {
         } else {
           print("56");
           final orderModel = OrderModel(
+            // remainingSec: ,
+            expiryTime: "",
             orderId: orderDetails.value?.data?.orderDetail?.orderdata?.id ?? "",
+            remainingSec: "30",
             vendorId:
                 orderDetails.value?.data?.orderDetail?.vendordata?.id ?? "",
             orderNumber:

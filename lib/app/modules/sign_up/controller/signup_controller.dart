@@ -193,12 +193,12 @@ class SignUpController extends GetxController {
       final email = Get.arguments['email'] ?? "";
       final isVerified = Get.arguments['isVerified'] ?? false;
       final loginTypeArg = Get.arguments['loginType'] ?? "";
-      var data = Get.arguments['data'] ?? UpdatedUser()  as UpdatedUser;
+      var data = Get.arguments['data'] ?? UpdatedUser();
       final hasEmail = Get.arguments['hasEmail'] ?? true;
       final phone = Get.arguments['phone'] ?? "";
       final country = Get.arguments['country_code'] ?? '+267';
       updateCountryString(country);
-      print("phone ${phone}");
+      print("phone $phone");
 
       print("country code: ${countryString.value}");
       if(data.otpVerified==true){

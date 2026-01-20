@@ -104,9 +104,9 @@ class DocumentVerificationScreen extends StatelessWidget {
               final doc = pendingDocs[index];
               final docData = documentData[index];
               return pendingDocumentsNames(
-                docData?.name.toString() ?? '',
+                docData.name.toString() ?? '',
                 doc["image"],
-                docData?.isCompleted ?? false,
+                docData.isCompleted ?? false,
                     () => Get.toNamed(doc["route"])?.whenComplete(() {
                   controller.getDocumentListData();
                 }),

@@ -13,7 +13,7 @@ class EarningsBarChart extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Container(
+      child: SizedBox(
         height: 220,
         width: selectedChartType.toLowerCase() == "weekly" ? Get.width *0.82 : 700,
         child: Padding(

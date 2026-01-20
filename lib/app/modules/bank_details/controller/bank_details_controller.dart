@@ -13,13 +13,19 @@ class BankDetailController extends GetxController{
 
   var selectedPaymentMethod = RxInt(-1);
   var methodId = "".obs;
-  var ids;
+  var ids=[];
 var paymentData = PaymentDetailsModel().obs;
   final DocumentVerificationController controller = Get.put(DocumentVerificationController());
 
 @override
   void onInit() {
-ids= Get.arguments['ids'] ?? [];
+  final args = Get.arguments;
+
+  if (args != null && args is Map && args.containsKey('ids')) {
+    ids = args['ids'];
+  } else {
+    ids = [];
+  }
     super.onInit();
     getPaymentMethodApi();
   }
@@ -118,7 +124,7 @@ var isLoading = false.obs;
       "orangemoney_number": "",
     };
 
-      final response = await _repository.driverAddPaymentDetailsAPI(data!);
+      final response = await _repository.driverAddPaymentDetailsAPI(data);
       if (response.status == true) {
         LoadingOverlay().hideLoading();
         CustomSnackBar.show(message: response.message.toString(), color: AppTheme.primaryColor, tColor: AppTheme.white);

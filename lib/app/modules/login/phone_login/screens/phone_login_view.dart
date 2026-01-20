@@ -170,6 +170,7 @@ class PhoneLoginView extends StatelessWidget {
                                         controller.loginWithPhoneAPI();
                                       }
                                     }*/
+                                    print("dfas");
                                     if(controller.formkey.currentState!.validate()) {
                                       controller.loginWithPhoneAPI();
                                     }

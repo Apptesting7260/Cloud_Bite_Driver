@@ -1,5 +1,7 @@
 class OrderModel {
   final String orderId;
+  final String remainingSec;
+  final String expiryTime;
   final String vendorId;
   final String orderNumber;
   final String quantity;
@@ -21,6 +23,8 @@ class OrderModel {
 
   OrderModel({
     required this.orderId,
+    required this.expiryTime,
+    required this.remainingSec,
     required this.deliveryCharge,
     required this.vendorId,
     required this.orderNumber,
@@ -45,6 +49,8 @@ class OrderModel {
     return OrderModel(
       deliveryCharge: json['data']['delivery_charge'].toString(),
       orderId: json['orderId'].toString(),
+      expiryTime: json['expiryTime'].toString(),
+      remainingSec: json['remainingSec'].toString(),
       vendorId: json['vendorId'].toString(),
       orderNumber: json['data']['order_id']?.toString() ?? '',
       quantity: json['data']['quantity']?.toString() ?? '0',

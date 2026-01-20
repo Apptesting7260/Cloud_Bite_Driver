@@ -2,46 +2,39 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-<!-- Google -->
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <!-- Google reversed client ID -->
-                <string>com.googleusercontent.apps.524176041811-qtt9qo4g2pv1fv6pp96k6t34q2an2f12</string>
-                <string>fb1499489804583670</string>
-            </array>
-        </dict>
-    </array>
-
-    <!-- ✅ Facebook SDK Setup -->
-    <key>FacebookAppID</key>
-    <string>1499489804583670</string>
-
-    <key>FacebookClientToken</key>
-    <string>275966cf61f383db348c9ee278001001</string>
-
-    <key>FacebookDisplayName</key>
-    <string>CB Driver</string>
-
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-share-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
-    <key>CFBundleIconName</key>
-    <string>AppIcon</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.524176041811-qtt9qo4g2pv1fv6pp96k6t34q2an2f12</string>
+				<string>fb1499489804583670</string>
+			</array>
+		</dict>
+	</array>
+	<key>FacebookAppID</key>
+	<string>1499489804583670</string>
+	<key>FacebookClientToken</key>
+	<string>275966cf61f383db348c9ee278001001</string>
+	<key>FacebookDisplayName</key>
+	<string>CB Driver</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+		<string>http</string>
+		<string>https</string>
+		<string>whatsapp</string>
+	</array>
+	<key>CFBundleIconName</key>
+	<string>AppIcon</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>CB Driver</string>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -61,7 +54,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-    <string>We use your location to generate delivery routes and guide you to the customer’s address with real-time navigation.</string>
+	<string>We use your location to generate delivery routes and guide you to the customer’s address with real-time navigation.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Need camera access to take profile photo</string>
 	<key>NSMicrophoneUsageDescription</key>
@@ -70,16 +63,6 @@
 	<string>Need photo library access to upload profile photo</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>LSApplicationQueriesSchemes</key>
-    <array>
-        <!-- If your app checks for email support -->
-        <string>mailto</string>
-
-        <!-- If your app checks for web links (http/https) -->
-        <string>http</string>
-        <string>https</string>
-        <string>whatsapp</string>
-    </array>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

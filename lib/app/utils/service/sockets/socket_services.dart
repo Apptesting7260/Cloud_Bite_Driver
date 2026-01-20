@@ -24,10 +24,10 @@ class SocketController extends GetxController {
 
     socket.onConnect((_) {
       print(socket.id);
+      print('🔌 Socket connected');
       if(Get.isRegistered<HomeController>()){
         var homeController = Get.find<HomeController>();
       }
-      print('🔌 Socket connected');
     });
 
     socket.onDisconnect((_) {

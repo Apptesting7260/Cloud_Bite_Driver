@@ -25,7 +25,36 @@ class BottomSheetController extends GetxController {
     currentOrder.value = order;
     currentSheet.value = BottomSheetState.newOrderArrived;
     if(path==""){
+      Get.find<HomeController>().totalTime = getRemainingSeconds(order.expiryTime);
+      Get.find<HomeController>().remainingTime.value = getRemainingSeconds(order.expiryTime);
       Get.find<HomeController>().startTimer();
+    }
+  }
+  int getRemainingSeconds(String utcTimeString) {
+    try {
+      // Parse UTC time and convert to local
+      DateTime targetLocal =
+      DateTime.parse(utcTimeString).toLocal();
+
+      DateTime now = DateTime.now();
+
+      int remainingSeconds =
+          targetLocal.difference(now).inSeconds;
+
+      // If expired or negative
+      if (remainingSeconds <= 0) {
+        return 0;
+      }
+
+      // If more than 30 seconds
+      if (remainingSeconds > 30) {
+        return 30;
+      }
+print("remail seconds -----------${remainingSeconds}");
+      return remainingSeconds;
+    } catch (e) {
+      // In case of invalid date string
+      return 30;
     }
   }
 

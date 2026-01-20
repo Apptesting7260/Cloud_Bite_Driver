@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "24115167748",
+    "project_id": "cloudbitesbw-staging",
+    "storage_bucket": "cloudbitesbw-staging.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24115167748:android:6d055a9c337879524aeb51",
+        "android_client_info": {
+          "package_name": "com.cloudBites.cloudBitesVendor.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24115167748-vg2f3bka7tgj3tiqaab4k0gb8dia2e4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpCwEyOPBVLWqf9pQSuB4Bu0fGL9_d7jQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24115167748-vg2f3bka7tgj3tiqaab4k0gb8dia2e4s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "24115167748-2cj0ginjpb080p10nq85fmk85pkdgjbs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cloudBites.cloudBitesVendor.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24115167748:android:510f6cdb458810e04aeb51",
+        "android_client_info": {
+          "package_name": "com.cloudBites.user.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24115167748-vg2f3bka7tgj3tiqaab4k0gb8dia2e4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpCwEyOPBVLWqf9pQSuB4Bu0fGL9_d7jQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24115167748-vg2f3bka7tgj3tiqaab4k0gb8dia2e4s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "24115167748-2cj0ginjpb080p10nq85fmk85pkdgjbs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cloudBites.cloudBitesVendor.staging"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:24115167748:android:668d5486b963f4014aeb51",
+        "android_client_info": {
+          "package_name": "com.cloud_bites.cloud_bites_driver.staging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "24115167748-vg2f3bka7tgj3tiqaab4k0gb8dia2e4s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpCwEyOPBVLWqf9pQSuB4Bu0fGL9_d7jQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "24115167748-vg2f3bka7tgj3tiqaab4k0gb8dia2e4s.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "24115167748-2cj0ginjpb080p10nq85fmk85pkdgjbs.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.cloudBites.cloudBitesVendor.staging"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

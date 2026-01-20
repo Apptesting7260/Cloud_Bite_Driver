@@ -22,7 +22,6 @@ class PaymentMethodController extends GetxController {
           fetchPaymentMethodData.value = FetchPaymentMethodModel();
         }
       });
-    } catch (e, s) {
     } finally {
       isFetchPayments.value = false;
     }

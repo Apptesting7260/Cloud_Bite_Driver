@@ -46,6 +46,9 @@ class EmailLoginController extends GetxController{
       final response = await _repository.emailLoginAPI(data);
 
       if (response.status == true) {
+        if (Get.find<SocketController>().socket.connected == false) {
+          Get.find<SocketController>().onInit();
+        }
         LoadingOverlay().hideLoading();
         var selectedId = response.data?.deliverymethod ?? '';
         response.data?.loginToken != null ? storageServices.saveToken("${response.data?.loginToken}") : storageServices.saveDriverID("${response.data?.id}");
